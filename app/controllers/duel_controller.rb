@@ -16,6 +16,7 @@ class DuelController < ApplicationController
     @hand2 = Hand.new({ entity: @entity1, player: @player2 })
 
     @battlefield1 = Battlefield.new({ entity: @entity1, player: @player1 })
+    @battlefield2 = Battlefield.new({ entity: @entity1, player: @player2 })
 
     @player1.save
     @player2.save
@@ -26,6 +27,13 @@ class DuelController < ApplicationController
     @hand1.save
     @hand2.save
     @battlefield1.save
+    @battlefield2.save
+
+    @action1 = Action.new({ entity: @entity1, entity_action: 0, player: @player2, duel: @duel })
+    @action_target1 = ActionTarget.new({ entity: @entity1, action: @action1 })
+
+    @action1.save
+    @action_target1.save
 
   end
 end

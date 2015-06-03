@@ -11,7 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603001822) do
+ActiveRecord::Schema.define(version: 20150603010334) do
+
+  create_table "action_targets", force: :cascade do |t|
+    t.integer  "entity_id"
+    t.integer  "action_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "action_targets", ["action_id"], name: "index_action_targets_on_action_id"
+  add_index "action_targets", ["entity_id"], name: "index_action_targets_on_entity_id"
+
+  create_table "actions", force: :cascade do |t|
+    t.integer  "entity_id"
+    t.integer  "entity_action"
+    t.integer  "player_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "duel_id"
+  end
+
+  add_index "actions", ["duel_id"], name: "index_actions_on_duel_id"
+  add_index "actions", ["entity_id"], name: "index_actions_on_entity_id"
+  add_index "actions", ["player_id"], name: "index_actions_on_player_id"
 
   create_table "battlefields", force: :cascade do |t|
     t.integer  "player_id"

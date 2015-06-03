@@ -18,3 +18,16 @@
   %ul
     - player.battlefield.each do |battlefield|
       %li= battlefield.entity.to_text
+
+%h2 Action Log
+
+%ul
+  - @duel.actions.each do |action|
+    %li
+      = action.player.name
+      used action
+      = action.entity_action
+      of
+      = action.entity.to_text
+      on
+      = action.targets.map { |target| target.entity.to_text }.join(", ")
