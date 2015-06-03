@@ -1,8 +1,13 @@
 %h1 Duel
 
-%h4 Current player #{@duel.current_player}, phase #{@duel.phase}
+= link_to "Start new duel", new_duel_path
 
-- [ @player1, @player2 ].each do |player|
+= form_tag(pass_duel_url(@duel)) do |f|
+  = submit_tag 'Pass'
+
+%h4 Turn #{@duel.turn}: Current player #{@duel.current_player}, phase #{@duel.phase}, priority player #{@duel.priority_player}
+
+- [ @duel.player1, @duel.player2 ].each do |player|
   %h2 Player #{player.name} ( #{player.life} life )
 
   %h3 Deck ( #{player.deck.count} cards ), graveyard ( #{player.graveyard.count} cards )

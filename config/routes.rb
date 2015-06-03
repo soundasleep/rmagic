@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  get 'duel/show'
+  resources :duel, only: [ :show, :new ] do
+    member do
+      post 'pass'
+    end
+  end
+
+  # get 'duel/show/:id' => "duel#show"
+  # get 'duel/create'
+  # post 'duel/pass'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
