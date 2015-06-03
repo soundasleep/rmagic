@@ -30,7 +30,7 @@ class DuelController < ApplicationController
     @battlefield2.save
 
     @action1 = Action.new({ entity: @entity1, entity_action: 0, player: @player2, duel: @duel })
-    @action_target1 = ActionTarget.new({ entity: @entity1, action: @action1 })
+    @action_target1 = ActionTarget.new({ entity: @entity1, action: @action1, damage: 1 })
 
     @action1.save
     @action_target1.save

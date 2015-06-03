@@ -6,4 +6,8 @@ class Action < ActiveRecord::Base
   def targets
     ActionTarget.where({action: self})
   end
+
+  def action_text
+    entity.action_text entity_action
+  end
 end
