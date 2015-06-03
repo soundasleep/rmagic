@@ -1,5 +1,7 @@
 %h1 Duel
 
+%h4 Current player #{@duel.current_player}, phase #{@duel.phase}
+
 - [ @player1, @player2 ].each do |player|
   %h2 Player #{player.name} ( #{player.life} life )
 
