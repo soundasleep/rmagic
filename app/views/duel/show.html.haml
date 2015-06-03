@@ -1,0 +1,18 @@
+%h1 Duel
+
+- [ @player1, @player2 ].each do |player|
+  %h2 Player #{player.name} ( #{player.life} life )
+
+  %h3 Deck ( #{player.deck.count} cards ), graveyard ( #{player.graveyard.count} cards )
+
+  %h3 Hand ( #{player.hand.count} cards )
+
+  %ul
+    - player.hand.each do |hand|
+      %li= hand.entity.to_text
+
+  %h3 Battlefield ( #{player.battlefield.count} cards )
+
+  %ul
+    - player.battlefield.each do |battlefield|
+      %li= battlefield.entity.to_text

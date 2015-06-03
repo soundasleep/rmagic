@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player1_id: 
+  player2_id: 
+  current_player: 1
+  phase: 1
+
+two:
+  player1_id: 
+  player2_id: 
+  current_player: 1
+  phase: 1
