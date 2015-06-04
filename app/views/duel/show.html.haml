@@ -30,10 +30,9 @@
   - @duel.actions.each do |action|
     %li
       [#{@duel.id}.#{action.id}]
-      = action.player.name
-      used action
+      - if action.player
+        = action.player.name
       = action.action_text
-      of
-      = action.entity.to_text
-      on
-      = action.targets.map { |target| target.effect_string }.join(", ")
+      - if action.targets.any?
+        on
+        = action.targets.map { |target| target.effect_string }.join(", ")

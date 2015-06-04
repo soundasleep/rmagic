@@ -12,7 +12,7 @@ class Duel < ActiveRecord::Base
   end
 
   def actions
-    Action.where(duel: self)
+    Action.where(duel: self).order(created_at: :desc).first(5)
   end
 
   def players
@@ -24,8 +24,15 @@ class Duel < ActiveRecord::Base
     4
   end
 
+  def active_player
+    players[self.priority_player - 1]
+  end
+
   # The current player has passed the turn; move the priority to the next player if necessary
   def pass
+    # add to action log
+    Action.pass_action(self, active_player).save
+
     self.priority_player = (self.priority_player % players.count) + 1
     if self.priority_player == self.current_player
       # priority has returned to the current player
@@ -41,8 +48,15 @@ class Duel < ActiveRecord::Base
         if self.current_player == self.first_player
           # next turn
           self.turn += 1
+
+          Action.new_turn_action(self).save
         end
       end
+    end
+
+    # do the AI if necessary
+    if self.priority_player == 2
+      SimpleAI.new.do_turn(self)
     end
   end
 end

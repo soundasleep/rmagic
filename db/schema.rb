@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603023858) do
+ActiveRecord::Schema.define(version: 20150604013801) do
 
   create_table "action_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20150603023858) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "duel_id"
+    t.string   "global_action"
+    t.integer  "argument"
   end
 
   add_index "actions", ["duel_id"], name: "index_actions_on_duel_id"
