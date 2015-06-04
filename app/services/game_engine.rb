@@ -5,9 +5,13 @@ class GameEngine
 
   # list all available actions
   def available_actions
-    {
-      play: playable_cards
+    actions = {
+      play: []
     }
+    if @duel.phase == 2
+      actions[:play] += playable_cards
+    end
+    actions
   end
 
   def playable_cards
@@ -24,5 +28,37 @@ class GameEngine
     # action
     Action.play_card_action(@duel, hand.player, hand.entity)
   end
+
+  def draw_card(player)
+    # remove from deck
+    card = player.deck.first!
+    card.destroy
+
+    # add it to the hand
+    Hand.create!( player: player, entity: card.entity )
+
+    # action
+    Action.draw_card_action(@duel, player)
+  end
+
+  # TODO maybe put into a phase manager service?
+
+  def draw_phase
+    # the current player draws a card
+    draw_card(@duel.active_player) if @duel.current_player == @duel.priority_player
+  end
+
+  def play_phase
+    # empty
+  end
+
+  def attack_phase
+    # empty
+  end
+
+  def cleanup_phase
+    # empty
+  end
+
 
 end

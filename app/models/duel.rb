@@ -59,13 +59,13 @@ class Duel < ActiveRecord::Base
     # perform phase actions
     case phase
     when 1
-      draw_phase
+      game_engine.draw_phase
     when 2
-      play_phase
+      game_engine.play_phase
     when 3
-      attack_phase
+      game_engine.attack_phase
     when 4
-      cleanup_phase
+      game_engine.cleanup_phase
     end
 
     # do the AI if necessary
@@ -74,18 +74,8 @@ class Duel < ActiveRecord::Base
     end
   end
 
-  def draw_phase
-    # the current player draws a card
-    active_player.draw_card(self) if current_player == priority_player
-  end
-
-  def play_phase
-  end
-
-  def attack_phase
-  end
-
-  def cleanup_phase
+  def game_engine
+    GameEngine.new(self)
   end
 
 end
