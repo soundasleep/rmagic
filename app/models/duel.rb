@@ -54,9 +54,40 @@ class Duel < ActiveRecord::Base
       end
     end
 
+    # perform phase actions
+    case phase
+    when 1
+      draw_phase
+    when 2
+      play_phase
+    when 3
+      attack_phase
+    when 4
+      cleanup_phase
+    end
+
     # do the AI if necessary
-    if self.priority_player == 2
+    if active_player.is_ai?
       SimpleAI.new.do_turn(self)
     end
   end
+
+  def draw_phase
+    # the current player draws a card
+    active_player.draw_card(self) if current_player == priority_player
+  end
+
+  def play_phase
+  end
+
+  def attack_phase
+  end
+
+  def cleanup_phase
+  end
+
+  def self.load_file(yml)
+    Duel.create(YAML.load_file(yml))
+  end
+
 end

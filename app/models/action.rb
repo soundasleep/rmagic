@@ -13,6 +13,8 @@ class Action < ActiveRecord::Base
       return "passes"
     when "turn"
       return "Turn #{argument} started"
+    when "draw"
+      return "draws a card"
     when nil
     else
       fail "Unknown action #{global_action}"
@@ -28,5 +30,9 @@ class Action < ActiveRecord::Base
 
   def self.new_turn_action(duel)
     Action.new({ duel: duel, global_action: "turn", argument: duel.turn })
+  end
+
+  def self.draw_card_action(duel, player)
+    Action.new({ player: player, duel: duel, global_action: "draw" })
   end
 end
