@@ -29,7 +29,7 @@ class Duel < ActiveRecord::Base
     self.priority_player = (self.priority_player % players.count) + 1
     if self.priority_player == self.current_player
       # priority has returned to the current player
-      self.priority_player = self.first_player
+      self.priority_player = self.current_player
       self.phase = ((self.phase - 1) % total_phases) + 2
 
       if self.phase > total_phases
