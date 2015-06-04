@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :duel, only: [ :show, :new ] do
     member do
       post 'pass'
+      post 'play'
     end
   end
 

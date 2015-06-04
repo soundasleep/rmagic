@@ -31,7 +31,7 @@ class Duel < ActiveRecord::Base
   # The current player has passed the turn; move the priority to the next player if necessary
   def pass
     # add to action log
-    Action.pass_action(self, active_player).save
+    Action.pass_action(self, active_player)
 
     self.priority_player = (self.priority_player % players.count) + 1
     if self.priority_player == self.current_player
@@ -49,10 +49,12 @@ class Duel < ActiveRecord::Base
           # next turn
           self.turn += 1
 
-          Action.new_turn_action(self).save
+          Action.new_turn_action(self)
         end
       end
     end
+
+    self.save
 
     # perform phase actions
     case phase
@@ -84,10 +86,6 @@ class Duel < ActiveRecord::Base
   end
 
   def cleanup_phase
-  end
-
-  def self.load_file(yml)
-    Duel.create(YAML.load_file(yml))
   end
 
 end

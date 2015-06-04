@@ -7,6 +7,7 @@ class GameTest < ActiveSupport::TestCase
 
     player1 = Player.create!(name: "Player", life: 20, is_ai: false)
     player2 = Player.create!(name: "Player", life: 20, is_ai: false)
+
     @duel = Duel.create!(player1: player1, player2: player2)
 
     entity = Entity.create!( metaverse_id: 1 )

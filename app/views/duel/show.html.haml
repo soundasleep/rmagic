@@ -3,7 +3,13 @@
 = link_to "Start new duel", new_duel_path
 
 = form_tag(pass_duel_url(@duel)) do |f|
-  = submit_tag 'Pass'
+  = submit_tag "Pass"
+
+/ possible actions
+- available_actions[:play].each do |hand|
+  = form_tag(play_duel_url(@duel)) do |f|
+    = hidden_field_tag "hand", hand.id
+    = submit_tag "Play #{hand.entity.to_text}"
 
 %h4 Turn #{@duel.turn}: Current player #{@duel.current_player}, phase #{@duel.phase}, priority player #{@duel.priority_player}
 

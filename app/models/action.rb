@@ -15,6 +15,8 @@ class Action < ActiveRecord::Base
       return "Turn #{argument} started"
     when "draw"
       return "draws a card"
+    when "play"
+      return "plays #{entity.to_text}"
     when nil
     else
       fail "Unknown action #{global_action}"
@@ -25,14 +27,18 @@ class Action < ActiveRecord::Base
 
   # helper methods
   def self.pass_action(duel, player)
-    Action.new({ player: player, duel: duel, global_action: "pass" })
+    Action.create( player: player, duel: duel, global_action: "pass" )
   end
 
   def self.new_turn_action(duel)
-    Action.new({ duel: duel, global_action: "turn", argument: duel.turn })
+    Action.create( duel: duel, global_action: "turn", argument: duel.turn )
   end
 
   def self.draw_card_action(duel, player)
-    Action.new({ player: player, duel: duel, global_action: "draw" })
+    Action.create( player: player, duel: duel, global_action: "draw" )
+  end
+
+  def self.play_card_action(duel, player, entity)
+    Action.create( player: player, duel: duel, entity: entity, global_action: "play")
   end
 end

@@ -31,14 +31,34 @@ class DuelController < ApplicationController
     redirect_to duel_path @duel
   end
 
+  def duel
+    Duel.find(params[:id])
+  end
+
   def show
-    @duel = Duel.find(params[:id])
+    @duel = duel
   end
 
   def pass
-    @duel = Duel.find(params[:id])
-    @duel.pass
-    @duel.save!
-    redirect_to duel_path @duel
+    duel.pass
+    duel.save!
+    redirect_to duel_path duel
   end
+
+  def play
+    @hand = Hand.find(params[:hand])
+    game_engine.play @hand
+    redirect_to duel_path duel
+  end
+
+  helper_method :available_actions
+
+  def available_actions
+    game_engine.available_actions
+  end
+
+  def game_engine
+    GameEngine.new(duel)
+  end
+
 end
