@@ -28,12 +28,18 @@ class Duel < ActiveRecord::Base
   def pass
     self.priority_player = (self.priority_player % players.count) + 1
     if self.priority_player == self.current_player
+      # priority has returned to the current player
       self.priority_player = self.first_player
-      self.phase = (self.phase % total_phases) + 1
-      if self.phase == total_phases + 1
+      self.phase = ((self.phase - 1) % total_phases) + 2
+
+      if self.phase > total_phases
+        # next player
         self.phase = 1
         self.current_player = (self.current_player % players.count) + 1
-        if (self.current_player == self.first_player)
+        self.priority_player = self.current_player
+
+        if self.current_player == self.first_player
+          # next turn
           self.turn += 1
         end
       end

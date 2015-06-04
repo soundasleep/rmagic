@@ -4,7 +4,7 @@ class DuelController < ApplicationController
     @player1 = Player.new({ name: "Jevon", life: 20, is_ai: false })
     @player2 = Player.new({ name: "AI", life: 15, is_ai: true })
 
-    @duel = Duel.new({ player1: @player1, player2: @player2, current_player: 1, phase: 1, priority_player: 1 })
+    @duel = Duel.new({ player1: @player1, player2: @player2 })
 
     @entity1 = Entity.new({ metaverse_id: 1 })
 
