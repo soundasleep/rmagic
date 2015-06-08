@@ -11,7 +11,8 @@ class GameEngine
   def available_actions(player)
     actions = {
       play: [],
-      tap: []
+      tap: [],
+      defend: []
     }
     if @duel.phase == Duel.playing_phase and @duel.current_player_player == player and @duel.active_player == player
       actions[:play] += playable_cards(player)
@@ -19,16 +20,10 @@ class GameEngine
     if @duel.phase == Duel.playing_phase
       actions[:tap] += tappable_cards(player)
     end
-    actions
-  end
-
-  # list all entities which can attack
-  def available_attackers
-    if @duel.phase == Duel.attacking_phase
-      # TODO summoning sickness
-      return @duel.active_player.battlefield.select { |b| b.entity.find_card!.is_creature? }
+    if @duel.phase == Duel.attacking_phase and @duel.active_player == player and @duel.priority_player != @duel.current_player
+      actions[:defend] += defendable_cards(player)
     end
-    []
+    actions
   end
 
   def playable_cards(player)
@@ -42,6 +37,33 @@ class GameEngine
     # all cards which can be tapped
     player.battlefield.select do |b|
       !b.entity.is_tapped? and b.entity.find_card!.is_land?
+    end
+  end
+
+  def defendable_cards(player)
+    # all cards on the battlefield that are not tapped
+    player.battlefield.select{ |b| !b.entity.is_tapped? and b.entity.find_card!.is_creature? }.map do |b|
+      @duel.declared_attackers.map do |a|
+        {
+          entity: b.entity,
+          target: a.entity
+        }
+      end
+    end.flatten(1)
+  end
+
+  # list all entities which can attack
+  def available_attackers
+    if @duel.phase == Duel.attacking_phase
+      # TODO summoning sickness
+      return @duel.active_player.battlefield.select { |b| b.entity.find_card!.is_creature? }
+    end
+    []
+  end
+
+  def declare_attackers(cards)
+    cards.each do |card|
+      DeclaredAttacker.create!({duel: @duel, entity: card.entity})
     end
   end
 
@@ -84,9 +106,15 @@ class GameEngine
     player.save!
   end
 
+  def pass
+    @duel.pass
+  end
+
   # TODO maybe put into a phase manager service?
 
   def draw_phase
+    # TODO untap all tapped cards
+
     # the current player draws a card
     draw_card(@duel.active_player) if @duel.current_player == @duel.priority_player
   end
@@ -100,8 +128,9 @@ class GameEngine
   end
 
   def cleanup_phase
-    # empty
+    # remove attackers
+    DeclaredAttacker.destroy_all(duel: @duel)
+    @duel.reload
   end
-
 
 end
