@@ -2,7 +2,7 @@ class Entity < ActiveRecord::Base
   after_initialize :init
 
   def init
-    is_tapped ||= false
+    self.is_tapped ||= false
   end
 
   def find_card

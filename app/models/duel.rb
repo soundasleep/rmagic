@@ -2,13 +2,14 @@ class Duel < ActiveRecord::Base
   belongs_to :player1, class_name: "Player"
   belongs_to :player2, class_name: "Player"
 
-  def initialize(attr = {})
-    attr[:turn] ||= 1
-    attr[:first_player] ||= 1
-    attr[:current_player] ||= 1
-    attr[:priority_player] ||= 1
-    attr[:phase] ||= 1
-    super(attr)
+  after_initialize :init
+
+  def init
+    self.turn ||= 1
+    self.first_player ||= 1
+    self.current_player ||= 1
+    self.priority_player ||= 1
+    self.phase ||= 1
   end
 
   def actions
@@ -25,7 +26,7 @@ class Duel < ActiveRecord::Base
   end
 
   def active_player
-    players[self.priority_player - 1]
+    players[priority_player - 1]
   end
 
   # The current player has passed the turn; move the priority to the next player if necessary
@@ -33,19 +34,19 @@ class Duel < ActiveRecord::Base
     # add to action log
     Action.pass_action(self, active_player)
 
-    self.priority_player = (self.priority_player % players.count) + 1
-    if self.priority_player == self.current_player
+    self.priority_player = (priority_player % players.count) + 1
+    if priority_player == current_player
       # priority has returned to the current player
-      self.priority_player = self.current_player
-      self.phase = ((self.phase - 1) % total_phases) + 2
+      self.priority_player = current_player
+      self.phase = ((phase - 1) % total_phases) + 2
 
-      if self.phase > total_phases
+      if phase > total_phases
         # next player
         self.phase = 1
-        self.current_player = (self.current_player % players.count) + 1
-        self.priority_player = self.current_player
+        self.current_player = (current_player % players.count) + 1
+        self.priority_player = current_player
 
-        if self.current_player == self.first_player
+        if current_player == first_player
           # next turn
           self.turn += 1
 
@@ -54,7 +55,7 @@ class Duel < ActiveRecord::Base
       end
     end
 
-    self.save
+    save!
 
     # perform phase actions
     case phase

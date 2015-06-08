@@ -9,6 +9,8 @@ class PlayableTest < GameTest
 
   test "without tapping, we can't play anything" do
     @duel.phase = Duel.playing_phase
+    @duel.save!
+
     Hand.create!( player: @duel.player1, entity: first_deck_entity(@duel.player1) )
 
     assert_equal [], game_engine.available_actions[:play]
@@ -16,6 +18,8 @@ class PlayableTest < GameTest
 
   test "with tapping, we can play a creature" do
     @duel.phase = Duel.playing_phase
+    @duel.save!
+
     hand = Hand.create!( player: @duel.player1, entity: first_deck_entity(@duel.player1) )
 
     # tap all battlefield lands

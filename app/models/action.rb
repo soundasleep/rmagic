@@ -3,6 +3,14 @@ class Action < ActiveRecord::Base
   belongs_to :player
   belongs_to :duel
 
+  validate :global_action_or_entity
+
+  def global_action_or_entity
+    if !global_action and !entity
+      errors.add(:entity, "No entity defined for a non-global action")
+    end
+  end
+
   def targets
     ActionTarget.where({action: self})
   end
@@ -21,6 +29,8 @@ class Action < ActiveRecord::Base
     else
       fail "Unknown action #{global_action}"
     end
+
+    fail "No entity for action" unless entity
 
     return "used #{entity.action_text entity_action} of #{entity.to_text}"
   end

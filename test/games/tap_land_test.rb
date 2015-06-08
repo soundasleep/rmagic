@@ -55,4 +55,11 @@ class TapLandTest < GameTest
     assert entity.is_tapped?
   end
 
+  test "tapping does not modify duel phase" do
+    @duel.phase = Duel.playing_phase
+    @duel.save!
+    game_engine.card_action(untapped_land, "tap")
+    assert_equal Duel.playing_phase, @duel.phase
+  end
+
 end
