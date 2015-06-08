@@ -80,11 +80,22 @@ class TapLandTest < GameTest
     assert_equal card.entity, action.entity
   end
 
-  test "tapped lands untap in the next player turn" do
+  test "tapped lands untap in the next turn" do
     tap_all_lands
     assert_equal [], untapped_lands
 
     pass_until_next_turn
+    assert_not_equal [], untapped_lands
+  end
+
+  test "tapped lands do not untap in the next players current turn" do
+    tap_all_lands
+    assert_equal [], untapped_lands
+
+    pass_until_next_player
+    assert_equal [], untapped_lands
+
+    pass_until_next_player
     assert_not_equal [], untapped_lands
   end
 

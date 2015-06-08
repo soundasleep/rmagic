@@ -65,4 +65,15 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
+  def pass_until_next_player
+    c = @duel.current_player
+    i = 0
+
+    while @duel.current_player == c do
+      i += 1
+      assert_operator i, :<, 100, "it took too long to get to the next turn"
+      game_engine.pass
+    end
+  end
+
 end

@@ -71,4 +71,13 @@ class AttackingTest < GameTest
     assert_equal [], @duel.declared_attackers
   end
 
+  test "after declaring attackers, when we get to the next player the attackers will be cleared" do
+    game_engine.declare_attackers game_engine.available_attackers
+    assert_not_equal [], @duel.declared_attackers
+
+    pass_until_next_player
+
+    assert_equal [], @duel.declared_attackers
+  end
+
 end
