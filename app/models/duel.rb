@@ -99,4 +99,17 @@ class Duel < ActiveRecord::Base
     4
   end
 
+  def phase_text
+    case phase
+      when Duel.drawing_phase
+        "drawing phase: draw cards"
+      when Duel.playing_phase
+        "playing phase: play cards, cast creatures"
+      when Duel.attack_phase
+        "attack phase: declare attackers"
+      when Duel.cleanup_phase
+        "cleanup phase: cleanup destroyed cards"
+    end
+  end
+
 end
