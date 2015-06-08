@@ -1,6 +1,10 @@
 class CardType
   def to_text
-    "Card #{name} (#{power} / #{toughness})"
+    if is_creature?
+      "#{name} (#{power} / #{toughness})"
+    else
+      "#{name}"
+    end
   end
 
   def action_text(id)
@@ -10,5 +14,21 @@ class CardType
     else
       "(unknown action #{id})"
     end
+  end
+
+  def is_creature?
+    false
+  end
+
+  def is_land?
+    false
+  end
+
+  def actions
+    []
+  end
+
+  def do_action(game_engine, card, index)
+    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
   end
 end

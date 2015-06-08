@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604013801) do
+ActiveRecord::Schema.define(version: 20150604040744) do
 
   create_table "action_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20150604013801) do
     t.integer  "effect_type"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "is_tapped"
   end
 
   create_table "graveyards", force: :cascade do |t|
@@ -108,8 +109,14 @@ ActiveRecord::Schema.define(version: 20150604013801) do
     t.string   "name"
     t.boolean  "is_ai"
     t.integer  "life"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "mana_blue"
+    t.integer  "mana_green"
+    t.integer  "mana_red"
+    t.integer  "mana_white"
+    t.integer  "mana_black"
+    t.integer  "mana_colourless"
   end
 
 end

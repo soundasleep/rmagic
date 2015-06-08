@@ -3,6 +3,10 @@ class GameEngine
     @duel = duel
   end
 
+  def duel
+    @duel
+  end
+
   # list all available actions
   def available_actions
     actions = {
@@ -39,6 +43,15 @@ class GameEngine
 
     # action
     Action.draw_card_action(@duel, player)
+  end
+
+  def card_action(card, action_index)
+    fail "No card specified" unless card
+
+    card.entity.find_card.do_action self, card, action_index
+
+    # clear any other references
+    @duel.reload
   end
 
   # TODO maybe put into a phase manager service?

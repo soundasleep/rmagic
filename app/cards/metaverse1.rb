@@ -3,6 +3,10 @@ class Metaverse1 < CardType
     "Basic creature"
   end
 
+  def is_creature?
+    true
+  end
+
   def power
     2
   end

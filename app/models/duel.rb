@@ -58,14 +58,14 @@ class Duel < ActiveRecord::Base
 
     # perform phase actions
     case phase
-    when 1
-      game_engine.draw_phase
-    when 2
-      game_engine.play_phase
-    when 3
-      game_engine.attack_phase
-    when 4
-      game_engine.cleanup_phase
+      when Duel.drawing_phase
+        game_engine.draw_phase
+      when Duel.playing_phase
+        game_engine.play_phase
+      when Duel.attack_phase
+        game_engine.attack_phase
+      when Duel.cleanup_phase
+        game_engine.cleanup_phase
     end
 
     # do the AI if necessary
@@ -76,6 +76,22 @@ class Duel < ActiveRecord::Base
 
   def game_engine
     GameEngine.new(self)
+  end
+
+  def self.drawing_phase
+    1
+  end
+
+  def self.playing_phase
+    2
+  end
+
+  def self.attack_phase
+    3
+  end
+
+  def self.cleanup_phase
+    4
   end
 
 end
