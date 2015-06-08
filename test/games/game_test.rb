@@ -32,6 +32,17 @@ class GameTest < ActiveSupport::TestCase
 
   end
 
+  def create_creatures!
+    1.times do
+      creature = Entity.create!( metaverse_id: 1 )
+      Battlefield.create!( entity: creature, player: @duel.player1 )
+    end
+    1.times do
+      creature = Entity.create!( metaverse_id: 1 )
+      Battlefield.create!( entity: creature, player: @duel.player2 )
+    end
+  end
+
   def game_engine
     GameEngine.new(@duel)
   end

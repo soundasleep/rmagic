@@ -10,10 +10,14 @@ class GameEngine
   # list all available actions
   def available_actions
     actions = {
-      play: []
+      play: [],
+      tap: []
     }
     if @duel.phase == 2
       actions[:play] += playable_cards
+    end
+    if @duel.phase == 2
+      actions[:tap] += tappable_cards
     end
     actions
   end
@@ -22,6 +26,13 @@ class GameEngine
     # all cards where we have enough mana
     @duel.active_player.hand.select do |hand|
       @duel.active_player.has_mana? hand.entity.find_card!.mana_cost
+    end
+  end
+
+  def tappable_cards
+    # all cards which can be tapped
+    @duel.active_player.battlefield.select do |b|
+      !b.entity.is_tapped? and b.entity.find_card!.is_land?
     end
   end
 
@@ -57,7 +68,6 @@ class GameEngine
     @duel.reload
   end
 
-  # TODO this doesn't count e.g. green mana is also colourless mana
   def use_mana!(player, hand)
     card = hand.entity.find_card!
 

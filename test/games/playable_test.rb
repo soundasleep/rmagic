@@ -69,4 +69,23 @@ class PlayableTest < GameTest
     assert_equal [card.entity], battlefield_creatures
   end
 
+  def battlefield_can_be_tapped
+    game_engine.available_actions[:tap].map{ |b| b.entity }
+  end
+
+  test "lands can be tapped" do
+    assert_equal @duel.player1.battlefield.map{ |b| b.entity }, battlefield_can_be_tapped
+  end
+
+  test "after lands are tapped, lands cannot be retapped" do
+    tap_all_lands
+    assert_equal [], battlefield_can_be_tapped
+  end
+
+  test "creatures cannot be tapped" do
+    tap_all_lands
+    create_creatures!
+    assert_equal [], battlefield_can_be_tapped
+  end
+
 end

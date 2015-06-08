@@ -76,6 +76,12 @@ class DuelController < ApplicationController
     redirect_to duel_path duel
   end
 
+  def tap
+    @battlefield = Battlefield.find(params[:battlefield])
+    game_engine.card_action @battlefield, "tap"
+    redirect_to duel_path duel
+  end
+
   helper_method :available_actions
 
   def available_actions

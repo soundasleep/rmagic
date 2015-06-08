@@ -11,6 +11,11 @@
     = hidden_field_tag "hand", hand.id
     = submit_tag "Play #{hand.entity.to_text}"
 
+- available_actions[:tap].each do |battlefield|
+  = form_tag(tap_duel_url(@duel)) do |f|
+    = hidden_field_tag "battlefield", battlefield.id
+    = submit_tag "Tap #{battlefield.entity.to_text}"
+
 %h4 Turn #{@duel.turn}: Current player #{@duel.current_player}, phase #{@duel.phase}, priority player #{@duel.priority_player}
 
 - [ @duel.player1, @duel.player2 ].each do |player|
