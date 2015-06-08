@@ -36,7 +36,10 @@
 
   %ul
     - player.battlefield.each do |battlefield|
-      %li= battlefield.entity.to_text
+      %li
+        = battlefield.entity.to_text
+        - if battlefield.entity.is_tapped?
+          %i (tapped)
 
 %h2 Action Log
 

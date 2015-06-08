@@ -10,10 +10,14 @@ class TapLandTest < GameTest
   end
 
   def untapped_land
-    result = @duel.player1.battlefield.select { |b| !b.entity.is_tapped? && b.entity.find_card.is_land? }
+    result = untapped_lands
 
     fail "No untapped land found: #{result}" unless result.first and result.first != nil
     return result.first
+  end
+
+  def untapped_lands
+    @duel.player1.battlefield.select { |b| !b.entity.is_tapped? && b.entity.find_card.is_land? }
   end
 
   test "we can tap forests to get green mana" do
@@ -74,6 +78,14 @@ class TapLandTest < GameTest
 
     action = Action.where(duel: @duel).first!
     assert_equal card.entity, action.entity
+  end
+
+  test "tapped lands untap in the next player turn" do
+    tap_all_lands
+    assert_equal [], untapped_lands
+
+    pass_until_next_turn
+    assert_not_equal [], untapped_lands
   end
 
 end
