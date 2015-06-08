@@ -26,13 +26,6 @@ class PlayableTest < GameTest
     assert_equal [], available_actions[:play]
   end
 
-  def tap_all_lands
-    # tap all battlefield lands
-    @duel.player1.battlefield.select { |b| b.entity.find_card.is_land? }.each do |b|
-      game_engine.card_action(b, "tap")
-    end
-  end
-
   test "we have three green lands to tap" do
     tap_all_lands
     assert_equal 3, @duel.player1.mana_green
@@ -88,7 +81,7 @@ class PlayableTest < GameTest
 
   test "creatures cannot be tapped" do
     tap_all_lands
-    create_creatures!
+    create_creatures
     assert_equal [], battlefield_can_be_tapped
   end
 

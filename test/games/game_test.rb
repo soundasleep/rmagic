@@ -32,12 +32,12 @@ class GameTest < ActiveSupport::TestCase
 
   end
 
-  def create_creatures!
-    1.times do
+  def create_creatures
+    3.times do
       creature = Entity.create!( metaverse_id: 1 )
       Battlefield.create!( entity: creature, player: @duel.player1 )
     end
-    1.times do
+    2.times do
       creature = Entity.create!( metaverse_id: 1 )
       Battlefield.create!( entity: creature, player: @duel.player2 )
     end
@@ -45,6 +45,13 @@ class GameTest < ActiveSupport::TestCase
 
   def game_engine
     GameEngine.new(@duel)
+  end
+
+  def tap_all_lands
+    # tap all battlefield lands
+    @duel.player1.battlefield.select { |b| b.entity.find_card.is_land? }.each do |b|
+      game_engine.card_action(b, "tap")
+    end
   end
 
 end

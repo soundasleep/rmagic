@@ -67,8 +67,8 @@ class Duel < ActiveRecord::Base
         game_engine.draw_phase
       when Duel.playing_phase
         game_engine.play_phase
-      when Duel.attack_phase
-        game_engine.attack_phase
+      when Duel.attacking_phase
+        game_engine.attacking_phase
       when Duel.cleanup_phase
         game_engine.cleanup_phase
     end
@@ -91,7 +91,7 @@ class Duel < ActiveRecord::Base
     2
   end
 
-  def self.attack_phase
+  def self.attacking_phase
     3
   end
 
@@ -105,8 +105,8 @@ class Duel < ActiveRecord::Base
         "drawing phase: draw cards"
       when Duel.playing_phase
         "playing phase: play cards, cast creatures"
-      when Duel.attack_phase
-        "attack phase: declare attackers"
+      when Duel.attacking_phase
+        "attack phase: declare attackers and defenders"
       when Duel.cleanup_phase
         "cleanup phase: cleanup destroyed cards"
     end

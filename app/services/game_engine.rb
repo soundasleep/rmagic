@@ -13,13 +13,22 @@ class GameEngine
       play: [],
       tap: []
     }
-    if @duel.phase == 2 and @duel.current_player_player == player and @duel.active_player == player
+    if @duel.phase == Duel.playing_phase and @duel.current_player_player == player and @duel.active_player == player
       actions[:play] += playable_cards(player)
     end
-    if @duel.phase == 2
+    if @duel.phase == Duel.playing_phase
       actions[:tap] += tappable_cards(player)
     end
     actions
+  end
+
+  # list all entities which can attack
+  def available_attackers
+    if @duel.phase == Duel.attacking_phase
+      # TODO summoning sickness
+      return @duel.active_player.battlefield.select { |b| b.entity.find_card!.is_creature? }
+    end
+    []
   end
 
   def playable_cards(player)
@@ -86,7 +95,7 @@ class GameEngine
     # empty
   end
 
-  def attack_phase
+  def attacking_phase
     # empty
   end
 
