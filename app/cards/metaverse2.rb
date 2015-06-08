@@ -15,6 +15,8 @@ class Metaverse2 < CardType
     case index
       when "tap"
         return do_tap(game_engine, card)
+      when "play"
+        return do_play(game_engine, card)
     end
     super
   end
@@ -26,4 +28,5 @@ class Metaverse2 < CardType
     card.player.save!
     card.entity.tap_card!
   end
+
 end

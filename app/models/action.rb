@@ -48,11 +48,7 @@ class Action < ActiveRecord::Base
     Action.create( player: player, duel: duel, global_action: "draw" )
   end
 
-  def self.play_card_action(duel, player, entity)
-    Action.create( player: player, duel: duel, entity: entity, global_action: "play")
-  end
-
-  def self.tap_card_action(duel, player, entity)
-    Action.create( player: player, duel: duel, entity: entity, global_action: "tap")
+  def self.card_action(duel, player, entity, key)
+    Action.create( player: player, duel: duel, entity: entity, entity_action: key)
   end
 end

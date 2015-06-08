@@ -8,12 +8,8 @@ class CardType
   end
 
   def action_text(id)
-    case id
-    when 0
-      "attacks"
-    else
-      "(unknown action #{id})"
-    end
+    # just use the key for now
+    return "[#{id}]"
   end
 
   def is_creature?

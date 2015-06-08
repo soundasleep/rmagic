@@ -26,11 +26,8 @@ class GameEngine
     # remove from hand
     hand.destroy!
 
-    # add to the battlefield
-    Battlefield.create!( player: hand.player, entity: hand.entity )
-
-    # action
-    Action.play_card_action(@duel, hand.player, hand.entity)
+    # do 'play' action
+    card_action hand, "play"
   end
 
   def draw_card(player)
@@ -45,13 +42,13 @@ class GameEngine
     Action.draw_card_action(@duel, player)
   end
 
-  def card_action(card, action_index)
+  def card_action(card, key)
     fail "No card specified" unless card
 
-    card.entity.find_card.do_action self, card, action_index
+    card.entity.find_card.do_action self, card, key
 
     # action
-    Action.tap_card_action(@duel, card.player, card.entity)
+    Action.card_action(@duel, card.player, card.entity, key)
 
     # clear any other references
     @duel.reload
