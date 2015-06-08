@@ -3,6 +3,7 @@ class Duel < ActiveRecord::Base
   belongs_to :player2, class_name: "Player"
 
   has_many :declared_attackers, dependent: :destroy
+  has_many :actions, dependent: :destroy
 
   after_initialize :init
 
@@ -14,9 +15,8 @@ class Duel < ActiveRecord::Base
     self.phase ||= 1
   end
 
-  # TODO replace with has_many :actions, dependent: :destroy; move order/first outside
-  def actions
-    Action.where(duel: self).order(created_at: :desc).first(5)
+  def last_actions
+    actions.order(created_at: :desc)
   end
 
   def players
