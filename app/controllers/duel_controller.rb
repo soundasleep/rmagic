@@ -17,11 +17,23 @@ class DuelController < ApplicationController
     @entity1 = Entity.create!( metaverse_id: 1 )
     @forest = Entity.create!( metaverse_id: 2 )
 
-    10.times { Deck.create!( entity: @entity1, player: @player1 ) }
-    10.times { Deck.create!( entity: @entity1, player: @player2 ) }
+    10.times do
+      creature = Entity.create!( metaverse_id: 1 )
+      Deck.create!( entity: creature, player: @player1 )
+    end
+    10.times do
+      creature = Entity.create!( metaverse_id: 1 )
+      Deck.create!( entity: creature, player: @player2 )
+    end
 
-    3.times { Battlefield.create!( entity: @forest, player: @player1 )}
-    3.times { Battlefield.create!( entity: @forest, player: @player2 )}
+    3.times do
+      forest = Entity.create!( metaverse_id: 2 )
+      Deck.create!( entity: forest, player: @player1 )
+    end
+    3.times do
+      forest = Entity.create!( metaverse_id: 2 )
+      Deck.create!( entity: forest, player: @player2 )
+    end
 
     Hand.create!( entity: @entity1, player: @player1 )
     Hand.create!( entity: @entity1, player: @player2 )
