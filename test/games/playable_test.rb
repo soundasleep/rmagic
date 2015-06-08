@@ -8,12 +8,14 @@ class PlayableTest < GameTest
     @duel.phase = Duel.playing_phase
     @duel.save!
 
-    @hand = Hand.create!( player: @duel.player1, entity: first_deck_entity(@duel.player1) )
+    assert_equal [], @duel.player1.hand
+
+    creature = Entity.create!( metaverse_id: 1 )
+    Hand.create!( player: @duel.player1, entity: creature )
   end
 
-  def first_deck_entity(player)
-    fail "no entity found" unless player.deck.first.entity
-    player.deck.first.entity
+  def hand
+    Hand.where(player: @duel.player1)
   end
 
   test "without tapping, we can't play anything" do
@@ -25,24 +27,29 @@ class PlayableTest < GameTest
     @duel.player1.battlefield.select { |b| b.entity.find_card.is_land? }.each do |b|
       game_engine.card_action(b, "tap")
     end
+  end
 
+  test "we have three green lands to tap" do
+    tap_all_lands
+    assert_equal 3, @duel.player1.mana_green
   end
 
   test "with tapping, we can play a creature" do
     tap_all_lands
 
     assert_equal [
-      @hand.entity
+      hand.first!.entity
     ], game_engine.available_actions[:play].map { |h| h.entity }
   end
 
   test "playing a creature creates an action" do
     tap_all_lands
 
-    game_engine.play(@hand)
+    card = hand.first!
+    game_engine.play(card)
 
     action = Action.where(duel: @duel).last
-    assert_equal @hand.entity, action.entity
+    assert_equal card.entity, action.entity
     assert_equal "play", action.entity_action
   end
 
@@ -55,9 +62,11 @@ class PlayableTest < GameTest
 
     assert_equal [], battlefield_creatures
 
-    game_engine.play(@hand)
+    assert_equal 3, @duel.player1.mana_green
+    card = hand.first!
+    game_engine.play(card)
 
-    assert_equal [@hand.entity], battlefield_creatures
+    assert_equal [card.entity], battlefield_creatures
   end
 
 end

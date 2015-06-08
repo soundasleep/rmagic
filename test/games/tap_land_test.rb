@@ -18,13 +18,20 @@ class TapLandTest < GameTest
 
   test "we can tap forests to get green mana" do
     assert_equal 0, @duel.player1.mana_green
-    assert_equal @duel.player1, untapped_land.player, @duel.player1.mana
+    assert_equal @duel.player1, untapped_land.player
 
     game_engine.card_action(untapped_land, "tap")
-    assert_equal 1, @duel.player1.mana_green, @duel.player1.mana
+    assert_equal 1, @duel.player1.mana_green
 
     game_engine.card_action(untapped_land, "tap")
-    assert_equal 2, @duel.player1.mana_green, @duel.player1.mana
+    assert_equal 2, @duel.player1.mana_green
+  end
+
+  test "updated mana is synchronised" do
+    land = untapped_land
+    game_engine.card_action(land, "tap")
+    assert_equal 1, @duel.player1.mana_green
+    assert_equal 1, land.player.mana_green
   end
 
   test "we can tap cards" do

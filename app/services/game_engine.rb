@@ -19,7 +19,10 @@ class GameEngine
   end
 
   def playable_cards
-    @duel.active_player.hand
+    # all cards where we have enough mana
+    @duel.active_player.hand.select do |hand|
+      @duel.active_player.has_mana? hand.entity.find_card!.mana_cost
+    end
   end
 
   def play(hand)
@@ -45,13 +48,21 @@ class GameEngine
   def card_action(card, key)
     fail "No card specified" unless card
 
-    card.entity.find_card.do_action self, card, key
+    card.entity.find_card!.do_action self, card, key
 
     # action
     Action.card_action(@duel, card.player, card.entity, key)
 
     # clear any other references
     @duel.reload
+  end
+
+  # TODO this doesn't count e.g. green mana is also colourless mana
+  def use_mana!(player, hand)
+    card = hand.entity.find_card!
+
+    player.use_mana card.mana_cost
+    player.save!
   end
 
   # TODO maybe put into a phase manager service?

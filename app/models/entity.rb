@@ -9,6 +9,10 @@ class Entity < ActiveRecord::Base
     CardUniverse.new.find_metaverse(metaverse_id) if metaverse_id
   end
 
+  def find_card!
+    find_card or fail "Could not find card #{metaverse_id}"
+  end
+
   def to_text
     return find_card.to_text if find_card
 

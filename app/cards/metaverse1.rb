@@ -15,6 +15,13 @@ class Metaverse1 < CardType
     3
   end
 
+  def mana_cost
+    {
+      green: 1,
+      colourless: 1
+    }
+  end
+
   def do_action(game_engine, card, index)
     case index
       when "play"
@@ -24,6 +31,9 @@ class Metaverse1 < CardType
   end
 
   def do_play(game_engine, card)
+    # use mana
+    game_engine.use_mana!(card.player, card)
+
     # add to the battlefield
     Battlefield.create!( player: card.player, entity: card.entity )
   end
