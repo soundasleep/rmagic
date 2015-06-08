@@ -18,8 +18,12 @@ class PlayableTest < GameTest
     Hand.where(player: @duel.player1)
   end
 
+  def available_actions
+    game_engine.available_actions(@duel.player1)
+  end
+
   test "without tapping, we can't play anything" do
-    assert_equal [], game_engine.available_actions[:play]
+    assert_equal [], available_actions[:play]
   end
 
   def tap_all_lands
@@ -39,7 +43,7 @@ class PlayableTest < GameTest
 
     assert_equal [
       hand.first!.entity
-    ], game_engine.available_actions[:play].map { |h| h.entity }
+    ], available_actions[:play].map { |h| h.entity }
   end
 
   test "playing a creature creates an action" do
@@ -70,7 +74,7 @@ class PlayableTest < GameTest
   end
 
   def battlefield_can_be_tapped
-    game_engine.available_actions[:tap].map{ |b| b.entity }
+    available_actions[:tap].map{ |b| b.entity }
   end
 
   test "lands can be tapped" do
@@ -86,6 +90,31 @@ class PlayableTest < GameTest
     tap_all_lands
     create_creatures!
     assert_equal [], battlefield_can_be_tapped
+  end
+
+  test "we can't play a creature if it's not our turn" do
+    @duel.current_player = 2
+    @duel.save!
+
+    assert_equal [], available_actions[:play].map { |h| h.entity }
+  end
+
+  test "we can't play a creature if it's not our priority, even with tapping" do
+    @duel.priority_player = 2
+    @duel.save!
+
+    tap_all_lands
+
+    assert_equal [], available_actions[:play].map { |h| h.entity }
+  end
+
+  test "we can't play a creature if it's not our turn, even with tapping" do
+    @duel.current_player = 2
+    @duel.save!
+
+    tap_all_lands
+
+    assert_equal [], available_actions[:play].map { |h| h.entity }
   end
 
 end

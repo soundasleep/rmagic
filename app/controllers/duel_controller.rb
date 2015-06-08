@@ -85,7 +85,7 @@ class DuelController < ApplicationController
   helper_method :available_actions
 
   def available_actions
-    game_engine.available_actions
+    game_engine.available_actions duel.player1
   end
 
   def game_engine

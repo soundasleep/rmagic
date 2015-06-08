@@ -7,31 +7,31 @@ class GameEngine
     @duel
   end
 
-  # list all available actions
-  def available_actions
+  # list all available actions for the given player
+  def available_actions(player)
     actions = {
       play: [],
       tap: []
     }
-    if @duel.phase == 2
-      actions[:play] += playable_cards
+    if @duel.phase == 2 and @duel.current_player_player == player and @duel.active_player == player
+      actions[:play] += playable_cards(player)
     end
     if @duel.phase == 2
-      actions[:tap] += tappable_cards
+      actions[:tap] += tappable_cards(player)
     end
     actions
   end
 
-  def playable_cards
+  def playable_cards(player)
     # all cards where we have enough mana
-    @duel.active_player.hand.select do |hand|
-      @duel.active_player.has_mana? hand.entity.find_card!.mana_cost
+    player.hand.select do |hand|
+      player.has_mana? hand.entity.find_card!.mana_cost
     end
   end
 
-  def tappable_cards
+  def tappable_cards(player)
     # all cards which can be tapped
-    @duel.active_player.battlefield.select do |b|
+    player.battlefield.select do |b|
       !b.entity.is_tapped? and b.entity.find_card!.is_land?
     end
   end

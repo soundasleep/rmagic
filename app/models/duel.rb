@@ -29,6 +29,10 @@ class Duel < ActiveRecord::Base
     players[priority_player - 1]
   end
 
+  def current_player_player
+    players[current_player - 1]
+  end
+
   # The current player has passed the turn; move the priority to the next player if necessary
   def pass
     # add to action log
