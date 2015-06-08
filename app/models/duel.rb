@@ -12,6 +12,7 @@ class Duel < ActiveRecord::Base
     self.phase ||= 1
   end
 
+  # TODO replace with has_many :actions, dependent: :destroy; move order/first outside
   def actions
     Action.where(duel: self).order(created_at: :desc).first(5)
   end
@@ -25,15 +26,18 @@ class Duel < ActiveRecord::Base
     4
   end
 
+  # TODO rename to priority_player, priority_player_number
   def active_player
     players[priority_player - 1]
   end
 
+  # TODO rename to current_player_number
   def current_player_player
     players[current_player - 1]
   end
 
   # The current player has passed the turn; move the priority to the next player if necessary
+  # TODO move into game_engine?
   def pass
     # add to action log
     Action.pass_action(self, active_player)
@@ -83,6 +87,7 @@ class Duel < ActiveRecord::Base
     GameEngine.new(self)
   end
 
+  # TODO consider replacing with symbols
   def self.drawing_phase
     1
   end
