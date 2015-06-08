@@ -51,4 +51,8 @@ class Action < ActiveRecord::Base
   def self.play_card_action(duel, player, entity)
     Action.create( player: player, duel: duel, entity: entity, global_action: "play")
   end
+
+  def self.tap_card_action(duel, player, entity)
+    Action.create( player: player, duel: duel, entity: entity, global_action: "tap")
+  end
 end

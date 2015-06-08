@@ -2,6 +2,13 @@ require_relative "game_test"
 
 class TapLandTest < GameTest
 
+  def setup
+    super
+
+    @duel.phase = Duel.playing_phase
+    @duel.save!
+  end
+
   def untapped_land
     result = @duel.player1.battlefield.select { |b| !b.entity.is_tapped? && b.entity.find_card.is_land? }
 
@@ -10,8 +17,6 @@ class TapLandTest < GameTest
   end
 
   test "we can tap forests to get green mana" do
-    @duel.phase = Duel.playing_phase
-
     assert_equal 0, @duel.player1.mana_green
     assert_equal @duel.player1, untapped_land.player, @duel.player1.mana
 
@@ -23,8 +28,6 @@ class TapLandTest < GameTest
   end
 
   test "we can tap cards" do
-    @duel.phase = Duel.playing_phase
-
     card = untapped_land
     assert !card.entity.is_tapped?
     game_engine.card_action(card, "tap")
@@ -38,8 +41,6 @@ class TapLandTest < GameTest
   end
 
   test "we can tap cards directly" do
-    @duel.phase = Duel.playing_phase
-
     card = untapped_land
     assert !card.entity.is_tapped?
     card.entity.tap_card!
@@ -47,8 +48,6 @@ class TapLandTest < GameTest
   end
 
   test "we can tap cards directly through entity" do
-    @duel.phase = Duel.playing_phase
-
     entity = untapped_land.entity
     assert !entity.is_tapped?
     entity.tap_card!
@@ -56,10 +55,18 @@ class TapLandTest < GameTest
   end
 
   test "tapping does not modify duel phase" do
-    @duel.phase = Duel.playing_phase
-    @duel.save!
     game_engine.card_action(untapped_land, "tap")
     assert_equal Duel.playing_phase, @duel.phase
+  end
+
+  test "tapping creates an action" do
+    assert_equal [], Action.where(duel: @duel)
+
+    card = untapped_land
+    game_engine.card_action(card, "tap")
+
+    action = Action.where(duel: @duel).first!
+    assert_equal card.entity, action.entity
   end
 
 end

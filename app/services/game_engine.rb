@@ -50,6 +50,9 @@ class GameEngine
 
     card.entity.find_card.do_action self, card, action_index
 
+    # action
+    Action.tap_card_action(@duel, card.player, card.entity)
+
     # clear any other references
     @duel.reload
   end
