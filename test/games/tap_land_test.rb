@@ -91,12 +91,15 @@ class TapLandTest < GameTest
   test "tapped lands do not untap in the next players current turn" do
     tap_all_lands
     assert_equal [], untapped_lands
+    turn = @duel.turn
 
     pass_until_next_player
     assert_equal [], untapped_lands
+    assert_equal turn, @duel.turn
 
     pass_until_next_player
     assert_not_equal [], untapped_lands
+    assert_not_equal turn, @duel.turn
   end
 
 end

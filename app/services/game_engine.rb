@@ -113,13 +113,16 @@ class GameEngine
   # TODO maybe put into a phase manager service?
 
   def draw_phase
+    # for the current player
     # untap all tapped cards for the current player
-    @duel.active_player.battlefield.select { |card| card.entity.is_tapped? }.each do |card|
-      card_action(card, "untap")
-    end
+    if @duel.current_player == @duel.priority_player
+      @duel.active_player.battlefield.select { |card| card.entity.is_tapped? }.each do |card|
+        card_action(card, "untap")
+      end
 
-    # the current player draws a card
-    draw_card(@duel.active_player) if @duel.current_player == @duel.priority_player
+      # the current player draws a card
+      draw_card(@duel.active_player)
+    end
   end
 
   def play_phase
