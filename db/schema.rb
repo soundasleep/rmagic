@@ -84,6 +84,18 @@ ActiveRecord::Schema.define(version: 20150609031142) do
   add_index "declared_defenders", ["source_id"], name: "index_declared_defenders_on_source_id"
   add_index "declared_defenders", ["target_id"], name: "index_declared_defenders_on_target_id"
 
+  create_table "declared_defenders", force: :cascade do |t|
+    t.integer  "duel_id"
+    t.integer  "source_id"
+    t.integer  "target_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "declared_defenders", ["duel_id"], name: "index_declared_defenders_on_duel_id"
+  add_index "declared_defenders", ["source_id"], name: "index_declared_defenders_on_source_id"
+  add_index "declared_defenders", ["target_id"], name: "index_declared_defenders_on_target_id"
+
   create_table "duels", force: :cascade do |t|
     t.integer  "player1_id"
     t.integer  "player2_id"
