@@ -42,4 +42,13 @@ class Entity < ActiveRecord::Base
   def remaining_health
     find_card!.toughness - damage
   end
+
+  def is_destroyed?
+    find_card!.is_creature? and remaining_health <= 0
+  end
+
+  def damage!(n)
+    self.damage += n
+    save!
+  end
 end

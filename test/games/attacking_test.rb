@@ -94,10 +94,6 @@ class AttackingTest < GameTest
     Action.where(duel: @duel, entity_action: "declare", entity: card.entity)
   end
 
-  def defending_actions(card)
-    Action.where(duel: @duel, entity_action: "defend", entity: card.entity)
-  end
-
   test "declaring an attacker creates an action" do
     card = game_engine.available_attackers.first
     assert_equal 0, attacking_actions(card).count
@@ -201,22 +197,6 @@ class AttackingTest < GameTest
 
     pass_until_next_player
     assert_equal 0, @duel.declared_defenders.count
-  end
-
-  test "actions are created when attacks are defended" do
-    card = game_engine.available_attackers.first
-    game_engine.declare_attackers [card]
-    game_engine.pass
-
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-
-    game_engine.declare_defender defends.first
-
-    assert_equal 0, attacking_actions(card).count
-
-    pass_until_next_turn
-
-    assert_equal 1, attacking_actions(card).count
   end
 
   test "attacking actions include a reference to defending creatures" do

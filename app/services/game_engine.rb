@@ -164,6 +164,21 @@ class GameEngine
     end
   end
 
+  def move_destroyed_creatures_to_graveyard
+    @duel.players.each do |player|
+      player.battlefield.each do |b|
+        if b.entity.is_destroyed?
+          b.destroy!
+
+          # move to graveyard
+          Graveyard.create!( player: b.player, entity: b.entity )
+
+          Action.card_action(@duel, b.player, b.entity, "graveyard")
+        end
+      end
+    end
+  end
+
   # TODO maybe put into a phase manager service?
 
   def clear_mana
@@ -208,6 +223,8 @@ class GameEngine
 
     # remove defenders
     DeclaredDefender.destroy_all(duel: @duel)
+
+    move_destroyed_creatures_to_graveyard
 
     # reset damage
     reset_damage
