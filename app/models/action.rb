@@ -3,6 +3,8 @@ class Action < ActiveRecord::Base
   belongs_to :player
   belongs_to :duel
 
+  has_many :targets, class_name: "ActionTarget"
+
   validate :global_action_or_entity
 
   def global_action_or_entity

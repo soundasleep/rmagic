@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609031142) do
+ActiveRecord::Schema.define(version: 20150609231109) do
 
   create_table "action_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -66,23 +66,13 @@ ActiveRecord::Schema.define(version: 20150609031142) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.integer  "target_player_id"
+    t.integer  "player_id"
   end
 
   add_index "declared_attackers", ["duel_id"], name: "index_declared_attackers_on_duel_id"
   add_index "declared_attackers", ["entity_id"], name: "index_declared_attackers_on_entity_id"
+  add_index "declared_attackers", ["player_id"], name: "index_declared_attackers_on_player_id"
   add_index "declared_attackers", ["target_player_id"], name: "index_declared_attackers_on_target_player_id"
-
-  create_table "declared_defenders", force: :cascade do |t|
-    t.integer  "duel_id"
-    t.integer  "source_id"
-    t.integer  "target_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "declared_defenders", ["duel_id"], name: "index_declared_defenders_on_duel_id"
-  add_index "declared_defenders", ["source_id"], name: "index_declared_defenders_on_source_id"
-  add_index "declared_defenders", ["target_id"], name: "index_declared_defenders_on_target_id"
 
   create_table "declared_defenders", force: :cascade do |t|
     t.integer  "duel_id"

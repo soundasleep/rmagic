@@ -91,16 +91,16 @@ class AttackingTest < GameTest
   end
 
   def attacking_actions(card)
-    Action.where(duel: @duel, entity_action: "declare", entity: card.entity)
+    Action.where(duel: @duel, entity_action: "attack", entity: card.entity)
   end
 
   test "declaring an attacker creates an action" do
     card = game_engine.available_attackers.first
-    assert_equal 0, attacking_actions(card).count
+    assert_equal 0, declaring_actions(card).count
 
     game_engine.declare_attackers [card]
 
-    assert_equal 1, attacking_actions(card).count
+    assert_equal 1, declaring_actions(card).count
   end
 
   test "declared attackers do not persist into the next turn" do
@@ -113,6 +113,12 @@ class AttackingTest < GameTest
 
     pass_until_next_player
     assert_equal 0, @duel.declared_attackers.count
+  end
+
+  test "an attacker stores which player is attacking" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    assert_equal @duel.player1, @duel.declared_attackers.first.player
   end
 
   test "an attacker stores which player its attacking" do
@@ -199,19 +205,61 @@ class AttackingTest < GameTest
     assert_equal 0, @duel.declared_defenders.count
   end
 
-  test "attacking actions include a reference to defending creatures" do
+  test "attacking actions are created when there are defenders and the attack resolves" do
     card = game_engine.available_attackers.first
     game_engine.declare_attackers [card]
     game_engine.pass
 
     defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
 
+    assert_equal 0, attacking_actions(card).count
+
+    pass_until_next_turn
+
+    assert_equal 1, attacking_actions(card).count
+  end
+
+  test "attacking actions references the attacked defender" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    assert_equal 0, attacking_actions(card).count
+
+    pass_until_next_turn
+
+    action = attacking_actions(card).first
+    assert_equal defends.first[:source].entity, action.targets.first.entity
+  end
+
+  test "attacking actions include a reference to defending creatures after the attack resolves" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    defends = game_engine.available_actions(@duel.player2)[:defend]
     game_engine.declare_defender defends.first
 
     pass_until_next_turn
 
     action = attacking_actions(card).first
     assert_equal defends.first[:target].entity, action.entity
+  end
+
+  test "attacking actions are created when there are no defenders and the attack resolves" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    assert_equal 0, attacking_actions(card).count
+
+    pass_until_next_turn
+
+    assert_equal 1, attacking_actions(card).count
   end
 
 end

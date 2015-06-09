@@ -64,7 +64,7 @@ class GameEngine
   def declare_attackers(cards)
     cards.each do |card|
       # this assumes we are always attacking the other player
-      DeclaredAttacker.create!({duel: @duel, entity: card.entity, target_player: @duel.other_player})
+      DeclaredAttacker.create!({duel: @duel, entity: card.entity, player: card.player, target_player: @duel.other_player})
       Action.card_action(@duel, card.player, card.entity, "declare")
     end
   end
@@ -141,6 +141,8 @@ class GameEngine
     # TODO allow attacker to specify order of damage
     remaining_damage = attacker.entity.find_card!.power
 
+    action = Action.card_action(@duel, attacker.player, attacker.entity, "attack") unless action
+
     @duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
       if remaining_damage > 0
         if remaining_damage > d.source.entity.remaining_health
@@ -152,15 +154,14 @@ class GameEngine
           remaining_damage = 0
         end
 
-        # TODO create an 'attack' action
+        # link the defender
+        ActionTarget.create!( action: action, entity: d.source.entity )
       end
     end
 
     if remaining_damage > 0
       attacker.target_player.life -= remaining_damage
       attacker.target_player.save!
-
-      # TODO create an 'attack' action
     end
   end
 

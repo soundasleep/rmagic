@@ -3,9 +3,11 @@ class DeclaredAttacker < ActiveRecord::Base
   belongs_to :entity
 
   belongs_to :target_player, class_name: "Player"
+  belongs_to :player, class_name: "Player"
 
   validates :duel, presence: true
   validates :entity, presence: true
   validates :target_player, presence: true
+  validates :player, presence: true
 
 end
