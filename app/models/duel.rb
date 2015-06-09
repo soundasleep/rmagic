@@ -3,6 +3,7 @@ class Duel < ActiveRecord::Base
   belongs_to :player2, class_name: "Player"
 
   has_many :declared_attackers, dependent: :destroy
+  has_many :declared_defenders, dependent: :destroy
   has_many :actions, dependent: :destroy
 
   after_initialize :init

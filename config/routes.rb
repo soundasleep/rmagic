@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       post 'pass'
       post 'play'
       post 'tap'
+      post 'declare_attackers'
     end
   end
 

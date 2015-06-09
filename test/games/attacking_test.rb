@@ -34,8 +34,10 @@ class AttackingTest < GameTest
 
     defends = game_engine.available_actions(@duel.player2)[:defend]
     defends.each do |d|
-      assert_not_nil d[:entity], "#{d} had no :entity"
+      assert_not_nil d[:source], "#{d} had no :source"
       assert_not_nil d[:target], "#{d} had no :target"
+      assert_not_nil d[:source].entity, "#{d} had no :source.entity"
+      assert_not_nil d[:target].entity, "#{d} had no :target.entity"
     end
   end
 
@@ -81,16 +83,94 @@ class AttackingTest < GameTest
   end
 
   def attacking_actions(card)
-    Action.where(duel: @duel, entity_action: "attack", entity: card.entity)
+    Action.where(duel: @duel, entity_action: "declare", entity: card.entity)
+  end
+
+  def defending_actions(card)
+    Action.where(duel: @duel, entity_action: "defend", entity: card.entity)
   end
 
   test "declaring an attacker creates an action" do
-    attacker = game_engine.available_attackers.first
-    assert_equal 0, attacking_actions(attacker).count
+    card = game_engine.available_attackers.first
+    assert_equal 0, attacking_actions(card).count
 
-    game_engine.declare_attackers [attacker]
+    game_engine.declare_attackers [card]
 
-    assert_equal 1, attacking_actions(attacker).count
+    assert_equal 1, attacking_actions(card).count
+  end
+
+  test "declared attackers do not persist into the next turn" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    assert_equal 1, attacking_actions(card).count
+
+    pass_until_next_player
+    assert_equal 0, attacking_actions(card).count
+  end
+
+  test "if no defenders are declared, then attacks hit the player" do
+    assert_equal 20, @duel.player2.life
+
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    pass_until_next_turn
+
+    assert_equal (20 - 3), @duel.player2.life
+  end
+
+  test "a player can't defend when they're still attacking" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+
+    assert_equal [], game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.pass
+
+    # but the next player can
+    assert_not_equal [], game_engine.available_actions(@duel.player2)[:defend]
+  end
+
+  test "a defender can be declared and blocks damage" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+
+    game_engine.declare_defender defends.first
+
+    pass_until_next_turn
+
+    assert_equal 20, @duel.player2.life
+  end
+
+  test "a declared defender creates an action" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    card = defends.first
+
+    assert_equal 0, defending_actions(card[:source]).count
+    game_engine.declare_defender card
+
+    assert_equal 1, defending_actions(card[:source]).count
+  end
+
+  test "declared defenders do not persist into the next turn" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    card = defends.first
+    game_engine.declare_defender card
+    assert_equal 1, defending_actions(card[:source]).count
+
+    pass_until_next_player
+    assert_equal 0, attacking_actions(card[:source]).count
   end
 
 end
