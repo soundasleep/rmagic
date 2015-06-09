@@ -231,72 +231,7 @@ class AttackingTest < GameTest
     pass_until_next_turn
 
     action = attacking_actions(card).first
-    assert_equal defends.first[:source].entity, action.entity
-  end
-
-  test "if no defenders are declared, then attacks hit the player" do
-    assert_equal 20, @duel.player2.life
-
-    card = game_engine.available_attackers.first
-    game_engine.declare_attackers [card]
-    game_engine.pass
-
-    pass_until_next_turn
-
-    assert_equal (20 - 3), @duel.player2.life
-  end
-
-  test "a player can't defend when they're still attacking" do
-    card = game_engine.available_attackers.first
-    game_engine.declare_attackers [card]
-
-    assert_equal [], game_engine.available_actions(@duel.player2)[:defend]
-    game_engine.pass
-
-    # but the next player can
-    assert_not_equal [], game_engine.available_actions(@duel.player2)[:defend]
-  end
-
-  test "a defender can be declared and blocks damage" do
-    card = game_engine.available_attackers.first
-    game_engine.declare_attackers [card]
-    game_engine.pass
-
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-
-    game_engine.declare_defender defends.first
-
-    pass_until_next_turn
-
-    assert_equal 20, @duel.player2.life
-  end
-
-  test "a declared defender creates an action" do
-    card = game_engine.available_attackers.first
-    game_engine.declare_attackers [card]
-    game_engine.pass
-
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-    card = defends.first
-
-    assert_equal 0, defending_actions(card[:source]).count
-    game_engine.declare_defender card
-
-    assert_equal 1, defending_actions(card[:source]).count
-  end
-
-  test "declared defenders do not persist into the next turn" do
-    card = game_engine.available_attackers.first
-    game_engine.declare_attackers [card]
-    game_engine.pass
-
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-    card = defends.first
-    game_engine.declare_defender card
-    assert_equal 1, defending_actions(card[:source]).count
-
-    pass_until_next_player
-    assert_equal 0, attacking_actions(card[:source]).count
+    assert_equal defends.first[:target].entity, action.entity
   end
 
 end
