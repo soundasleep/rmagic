@@ -37,18 +37,18 @@ class Action < ActiveRecord::Base
 
   # helper methods
   def self.pass_action(duel, player)
-    Action.create( player: player, duel: duel, global_action: "pass" )
+    Action.create!( player: player, duel: duel, global_action: "pass" )
   end
 
   def self.new_turn_action(duel)
-    Action.create( duel: duel, global_action: "turn", argument: duel.turn )
+    Action.create!( duel: duel, global_action: "turn", argument: duel.turn )
   end
 
   def self.draw_card_action(duel, player)
-    Action.create( player: player, duel: duel, global_action: "draw" )
+    Action.create!( player: player, duel: duel, global_action: "draw" )
   end
 
   def self.card_action(duel, player, entity, key)
-    Action.create( player: player, duel: duel, entity: entity, entity_action: key)
+    Action.create!( player: player, duel: duel, entity: entity, entity_action: key)
   end
 end

@@ -64,6 +64,7 @@ class GameEngine
   def declare_attackers(cards)
     cards.each do |card|
       DeclaredAttacker.create!({duel: @duel, entity: card.entity})
+      Action.card_action(@duel, card.player, card.entity, "attack")
     end
   end
 

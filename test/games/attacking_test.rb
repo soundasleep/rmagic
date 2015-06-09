@@ -80,4 +80,17 @@ class AttackingTest < GameTest
     assert_equal [], @duel.declared_attackers
   end
 
+  def attacking_actions(card)
+    Action.where(duel: @duel, entity_action: "attack", entity: card.entity)
+  end
+
+  test "declaring an attacker creates an action" do
+    attacker = game_engine.available_attackers.first
+    assert_equal 0, attacking_actions(attacker).count
+
+    game_engine.declare_attackers [attacker]
+
+    assert_equal 1, attacking_actions(attacker).count
+  end
+
 end
