@@ -63,7 +63,8 @@ class GameEngine
 
   def declare_attackers(cards)
     cards.each do |card|
-      DeclaredAttacker.create!({duel: @duel, entity: card.entity})
+      # this assumes we are always attacking the other player
+      DeclaredAttacker.create!({duel: @duel, entity: card.entity, target_player: @duel.other_player})
       Action.card_action(@duel, card.player, card.entity, "declare")
     end
   end
@@ -127,6 +128,42 @@ class GameEngine
     @duel.pass
   end
 
+  def reset_damage
+    @duel.players.each do |player|
+      player.battlefield.each do |card|
+        card.entity.damage = 0
+        card.entity.save!
+      end
+    end
+  end
+
+  def apply_damage(attacker)
+    # TODO allow attacker to specify order of damage
+    remaining_damage = attacker.entity.find_card!.power
+
+    @duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
+      if remaining_damage > 0
+        if remaining_damage > d.source.entity.remaining_health
+          d.source.entity.damage += d.source.entity.remaining_health
+          d.source.entity.save!
+          remaining_damage -= d.source.entity.remaining_health
+        else
+          d.source.entity.damage += remaining_damage
+          remaining_damage = 0
+        end
+
+        # TODO create an 'attack' action
+      end
+    end
+
+    if remaining_damage > 0
+      attacker.target_player.life -= remaining_damage
+      attacker.target_player.save!
+
+      # TODO create an 'attack' action
+    end
+  end
+
   # TODO maybe put into a phase manager service?
 
   def clear_mana
@@ -162,11 +199,18 @@ class GameEngine
   def cleanup_phase
     clear_mana
 
+    @duel.declared_attackers.each do |d|
+      apply_damage d
+    end
+
     # remove attackers
     DeclaredAttacker.destroy_all(duel: @duel)
 
     # remove defenders
     DeclaredDefender.destroy_all(duel: @duel)
+
+    # reset damage
+    reset_damage
 
     @duel.reload
   end

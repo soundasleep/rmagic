@@ -3,6 +3,7 @@ class Entity < ActiveRecord::Base
 
   def init
     self.is_tapped ||= false
+    self.damage ||= 0
   end
 
   def find_card
@@ -36,5 +37,9 @@ class Entity < ActiveRecord::Base
     fail "card is already untapped" unless is_tapped?
     self.is_tapped = false
     save!
+  end
+
+  def remaining_health
+    find_card!.toughness - damage
   end
 end

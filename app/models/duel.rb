@@ -24,6 +24,10 @@ class Duel < ActiveRecord::Base
     [ player1, player2 ]
   end
 
+  def other_player
+    if current_player == player1 then player2 else player1 end
+  end
+
   def total_phases
     # TODO fix up as necessary
     4
@@ -114,7 +118,7 @@ class Duel < ActiveRecord::Base
       when Duel.attacking_phase
         "attack phase: declare attackers and defenders"
       when Duel.cleanup_phase
-        "cleanup phase: cleanup destroyed cards"
+        "cleanup phase: damage happens, cleanup destroyed cards"
     end
   end
 

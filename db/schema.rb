@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609023124) do
+ActiveRecord::Schema.define(version: 20150609031142) do
 
   create_table "action_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -63,12 +63,14 @@ ActiveRecord::Schema.define(version: 20150609023124) do
   create_table "declared_attackers", force: :cascade do |t|
     t.integer  "duel_id"
     t.integer  "entity_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "target_player_id"
   end
 
   add_index "declared_attackers", ["duel_id"], name: "index_declared_attackers_on_duel_id"
   add_index "declared_attackers", ["entity_id"], name: "index_declared_attackers_on_entity_id"
+  add_index "declared_attackers", ["target_player_id"], name: "index_declared_attackers_on_target_player_id"
 
   create_table "declared_defenders", force: :cascade do |t|
     t.integer  "duel_id"
@@ -104,6 +106,7 @@ ActiveRecord::Schema.define(version: 20150609023124) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.boolean  "is_tapped"
+    t.integer  "damage"
   end
 
   create_table "graveyards", force: :cascade do |t|

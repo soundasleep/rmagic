@@ -120,6 +120,12 @@ class AttackingTest < GameTest
     assert_equal 0, @duel.declared_attackers.count
   end
 
+  test "an attacker stores which player its attacking" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    assert_equal @duel.player2, @duel.declared_attackers.first.target_player
+  end
+
   test "if no defenders are declared, then attacks hit the player" do
     assert_equal 20, @duel.player2.life
 
