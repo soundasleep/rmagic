@@ -71,21 +71,33 @@ class DuelController < ApplicationController
   end
 
   def play
-    @hand = Hand.find(params[:hand])
-    game_engine.play @hand
+    hand = Hand.find(params[:hand])
+    game_engine.play hand
     redirect_to duel_path duel
   end
 
   def tap
-    @battlefield = Battlefield.find(params[:battlefield])
-    game_engine.card_action @battlefield, "tap"
+    battlefield = Battlefield.find(params[:battlefield])
+    game_engine.card_action battlefield, "tap"
     redirect_to duel_path duel
   end
 
-  helper_method :available_actions
+  def declare_attackers
+    attackers = Battlefield.find(params[:attacker])
+    game_engine.declare_attackers attackers
+    duel.pass
+    duel.save!
+    redirect_to duel_path duel
+  end
+
+  helper_method :available_actions, :available_attackers
 
   def available_actions
     game_engine.available_actions duel.player1
+  end
+
+  def available_attackers
+    game_engine.available_attackers
   end
 
   def game_engine

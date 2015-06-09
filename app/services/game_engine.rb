@@ -45,8 +45,8 @@ class GameEngine
     player.battlefield.select{ |b| !b.entity.is_tapped? and b.entity.find_card!.is_creature? }.map do |b|
       @duel.declared_attackers.map do |a|
         {
-          entity: b.entity,
-          target: a.entity
+          source: b,
+          target: a
         }
       end
     end.flatten(1)
@@ -64,7 +64,7 @@ class GameEngine
   def declare_attackers(cards)
     cards.each do |card|
       DeclaredAttacker.create!({duel: @duel, entity: card.entity})
-      Action.card_action(@duel, card.player, card.entity, "attack")
+      Action.card_action(@duel, card.player, card.entity, "declare")
     end
   end
 
@@ -105,6 +105,22 @@ class GameEngine
 
     player.use_mana card.mana_cost
     player.save!
+  end
+
+  def declare_defender(defend)
+    fail "No :source defined" unless defend[:source]
+    fail "No :target defined" unless defend[:target]
+
+    DeclaredDefender.create!( duel: @duel, source: defend[:source], target: defend[:target] )
+
+    # action
+    Action.card_action(@duel, defend[:source].player, defend[:source].entity, "defend")
+  end
+
+  def declare_defenders(defends)
+    defends.each do |d|
+      declare_defender d
+    end
   end
 
   def pass
