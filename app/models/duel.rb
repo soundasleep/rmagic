@@ -9,10 +9,10 @@ class Duel < ActiveRecord::Base
 
   def init
     self.turn ||= 1
-    self.first_player ||= 1
-    self.current_player ||= 1
-    self.priority_player ||= 1
-    self.phase ||= 1
+    self.first_player_number ||= 1
+    self.current_player_number ||= 1
+    self.priority_player_number ||= 1
+    self.phase_number ||= 1
   end
 
   def last_actions
@@ -28,35 +28,33 @@ class Duel < ActiveRecord::Base
     4
   end
 
-  # TODO rename to priority_player, priority_player_number
-  def active_player
-    players[priority_player - 1]
+  def priority_player
+    players[priority_player_number - 1]
   end
 
-  # TODO rename to current_player_number
-  def current_player_player
-    players[current_player - 1]
+  def current_player
+    players[current_player_number - 1]
   end
 
   # The current player has passed the turn; move the priority to the next player if necessary
   # TODO move into game_engine?
   def pass
     # add to action log
-    Action.pass_action(self, active_player)
+    Action.pass_action(self, priority_player)
 
-    self.priority_player = (priority_player % players.count) + 1
-    if priority_player == current_player
+    self.priority_player_number = (priority_player_number % players.count) + 1
+    if priority_player_number == current_player_number
       # priority has returned to the current player
-      self.priority_player = current_player
-      self.phase = ((phase - 1) % total_phases) + 2
+      self.priority_player_number = current_player_number
+      self.phase_number = ((phase_number - 1) % total_phases) + 2
 
-      if phase > total_phases
+      if phase_number > total_phases
         # next player
-        self.phase = 1
-        self.current_player = (current_player % players.count) + 1
-        self.priority_player = current_player
+        self.phase_number = 1
+        self.current_player_number = (current_player_number % players.count) + 1
+        self.priority_player_number = current_player_number
 
-        if current_player == first_player
+        if current_player_number == first_player_number
           # next turn
           self.turn += 1
 
@@ -68,7 +66,7 @@ class Duel < ActiveRecord::Base
     save!
 
     # perform phase actions
-    case phase
+    case phase_number
       when Duel.drawing_phase
         game_engine.draw_phase
       when Duel.playing_phase
@@ -80,7 +78,7 @@ class Duel < ActiveRecord::Base
     end
 
     # do the AI if necessary
-    if active_player.is_ai?
+    if priority_player.is_ai?
       SimpleAI.new.do_turn(self)
     end
   end
@@ -107,7 +105,7 @@ class Duel < ActiveRecord::Base
   end
 
   def phase_text
-    case phase
+    case phase_number
       when Duel.drawing_phase
         "drawing phase: draw cards"
       when Duel.playing_phase
@@ -120,7 +118,7 @@ class Duel < ActiveRecord::Base
   end
 
   def current_turn_text
-    "Turn #{turn}, phase #{phase} (#{phase_text}), current player #{current_player}, priority player #{priority_player}"
+    "Turn #{turn}, phase #{phase_number} (#{phase_text}), current player #{current_player_number}, priority player #{priority_player_number}"
   end
 
 end

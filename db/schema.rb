@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608215149) do
+ActiveRecord::Schema.define(version: 20150608235735) do
 
   create_table "action_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -73,13 +73,13 @@ ActiveRecord::Schema.define(version: 20150608215149) do
   create_table "duels", force: :cascade do |t|
     t.integer  "player1_id"
     t.integer  "player2_id"
-    t.integer  "current_player"
-    t.integer  "phase"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "priority_player"
+    t.integer  "current_player_number"
+    t.integer  "phase_number"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "priority_player_number"
     t.integer  "turn"
-    t.integer  "first_player"
+    t.integer  "first_player_number"
   end
 
   add_index "duels", ["player1_id"], name: "index_duels_on_player1_id"

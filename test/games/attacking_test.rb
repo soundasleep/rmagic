@@ -7,7 +7,7 @@ class AttackingTest < GameTest
 
     create_creatures
 
-    @duel.phase = Duel.attacking_phase
+    @duel.phase_number = Duel.attacking_phase
     @duel.save!
   end
 

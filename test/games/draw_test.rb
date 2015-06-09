@@ -6,9 +6,9 @@ class DrawTest < GameTest
     assert_equal 0, @duel.player1.hand.count
     assert_equal 0, @duel.player2.hand.count
 
-    @duel.phase = @duel.total_phases
-    @duel.current_player = 2
-    @duel.priority_player = 2
+    @duel.phase_number = @duel.total_phases
+    @duel.current_player_number = 2
+    @duel.priority_player_number = 2
 
     @duel.pass
 
@@ -17,7 +17,7 @@ class DrawTest < GameTest
 
     @duel.pass
 
-    assert_equal 1, @duel.phase
+    assert_equal 1, @duel.phase_number
     assert_equal 1, @duel.player1.hand.count
     assert_equal 0, @duel.player2.hand.count
   end
@@ -26,9 +26,9 @@ class DrawTest < GameTest
     assert_equal 0, @duel.player1.hand.count
     assert_equal 0, @duel.player2.hand.count
 
-    @duel.phase = @duel.total_phases
-    @duel.current_player = 1
-    @duel.priority_player = 1
+    @duel.phase_number = @duel.total_phases
+    @duel.current_player_number = 1
+    @duel.priority_player_number = 1
 
     @duel.pass
 
@@ -37,7 +37,7 @@ class DrawTest < GameTest
 
     @duel.pass
 
-    assert_equal 1, @duel.phase
+    assert_equal 1, @duel.phase_number
     assert_equal 0, @duel.player1.hand.count
     assert_equal 1, @duel.player2.hand.count
   end

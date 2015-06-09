@@ -5,7 +5,7 @@ class PlayableTest < GameTest
   def setup
     super
 
-    @duel.phase = Duel.playing_phase
+    @duel.phase_number = Duel.playing_phase
     @duel.save!
 
     assert_equal [], @duel.player1.hand
@@ -86,14 +86,14 @@ class PlayableTest < GameTest
   end
 
   test "we can't play a creature if it's not our turn" do
-    @duel.current_player = 2
+    @duel.current_player_number = 2
     @duel.save!
 
     assert_equal [], available_actions[:play].map { |h| h.entity }
   end
 
   test "we can't play a creature if it's not our priority, even with tapping" do
-    @duel.priority_player = 2
+    @duel.priority_player_number = 2
     @duel.save!
 
     tap_all_lands
@@ -102,7 +102,7 @@ class PlayableTest < GameTest
   end
 
   test "we can't play a creature if it's not our turn, even with tapping" do
-    @duel.current_player = 2
+    @duel.current_player_number = 2
     @duel.save!
 
     tap_all_lands

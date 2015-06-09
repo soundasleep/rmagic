@@ -14,13 +14,13 @@ class GameEngine
       tap: [],
       defend: []
     }
-    if @duel.phase == Duel.playing_phase and @duel.current_player_player == player and @duel.active_player == player
+    if @duel.phase_number == Duel.playing_phase and @duel.current_player == player and @duel.priority_player == player
       actions[:play] += playable_cards(player)
     end
-    if @duel.phase == Duel.playing_phase
+    if @duel.phase_number == Duel.playing_phase
       actions[:tap] += tappable_cards(player)
     end
-    if @duel.phase == Duel.attacking_phase and @duel.active_player == player and @duel.priority_player != @duel.current_player
+    if @duel.phase_number == Duel.attacking_phase and @duel.priority_player == player and @duel.priority_player != @duel.current_player
       actions[:defend] += defendable_cards(player)
     end
     actions
@@ -54,9 +54,9 @@ class GameEngine
 
   # list all entities which can attack
   def available_attackers
-    if @duel.phase == Duel.attacking_phase
+    if @duel.phase_number == Duel.attacking_phase
       # TODO summoning sickness
-      return @duel.active_player.battlefield.select { |b| b.entity.find_card!.is_creature? }
+      return @duel.priority_player.battlefield.select { |b| b.entity.find_card!.is_creature? }
     end
     []
   end
@@ -116,12 +116,12 @@ class GameEngine
     # for the current player
     # untap all tapped cards for the current player
     if @duel.current_player == @duel.priority_player
-      @duel.active_player.battlefield.select { |card| card.entity.is_tapped? }.each do |card|
+      @duel.priority_player.battlefield.select { |card| card.entity.is_tapped? }.each do |card|
         card_action(card, "untap")
       end
 
       # the current player draws a card
-      draw_card(@duel.active_player)
+      draw_card(@duel.priority_player)
     end
   end
 

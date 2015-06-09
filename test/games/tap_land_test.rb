@@ -5,7 +5,7 @@ class TapLandTest < GameTest
   def setup
     super
 
-    @duel.phase = Duel.playing_phase
+    @duel.phase_number = Duel.playing_phase
     @duel.save!
   end
 
@@ -67,7 +67,7 @@ class TapLandTest < GameTest
 
   test "tapping does not modify duel phase" do
     game_engine.card_action(untapped_land, "tap")
-    assert_equal Duel.playing_phase, @duel.phase
+    assert_equal Duel.playing_phase, @duel.phase_number
   end
 
   test "tapping creates an action" do
