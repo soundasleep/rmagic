@@ -59,6 +59,7 @@ class DamageTest < GameTest
 
     pass_until_next_turn
 
+    card.entity.reload
     assert_equal 0, card.entity.damage
   end
 

@@ -135,7 +135,7 @@ class AttackingTest < GameTest
 
     pass_until_next_turn
 
-    assert_equal (20 - 3), @duel.player2.life
+    assert_equal (20 - card.entity.find_card!.power), @duel.player2.life
   end
 
   test "a player can't defend when they're still attacking" do
