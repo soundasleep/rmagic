@@ -97,7 +97,7 @@ class DuelController < ApplicationController
   end
 
   def available_attackers
-    game_engine.available_attackers
+    game_engine.available_attackers duel.player1
   end
 
   def game_engine

@@ -53,8 +53,8 @@ class GameEngine
   end
 
   # list all entities which can attack
-  def available_attackers
-    if @duel.phase_number == Duel.attacking_phase
+  def available_attackers(player)
+    if @duel.phase_number == Duel.attacking_phase and @duel.current_player == player and @duel.priority_player == player
       # TODO summoning sickness
       return @duel.priority_player.battlefield.select { |b| b.entity.find_card!.is_creature? }
     end
