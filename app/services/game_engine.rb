@@ -112,7 +112,16 @@ class GameEngine
 
   # TODO maybe put into a phase manager service?
 
+  def clear_mana
+    @duel.players.each do |player|
+      player.clear_mana
+      player.save
+    end
+  end
+
   def draw_phase
+    clear_mana
+
     # for the current player
     # untap all tapped cards for the current player
     if @duel.current_player == @duel.priority_player
@@ -126,14 +135,16 @@ class GameEngine
   end
 
   def play_phase
-    # empty
+    clear_mana
   end
 
   def attacking_phase
-    # empty
+    clear_mana
   end
 
   def cleanup_phase
+    clear_mana
+
     # remove attackers
     DeclaredAttacker.destroy_all(duel: @duel)
     @duel.reload

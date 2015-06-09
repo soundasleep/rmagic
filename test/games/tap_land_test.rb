@@ -102,4 +102,15 @@ class TapLandTest < GameTest
     assert_not_equal turn, @duel.turn
   end
 
+  test "tapped mana disappears after a pass" do
+    assert_equal 0, @duel.player1.mana_green
+
+    tap_all_lands
+    assert_equal 3, @duel.player1.mana_green
+
+    game_engine.pass
+
+    assert_equal 0, @duel.player1.mana_green
+  end
+
 end

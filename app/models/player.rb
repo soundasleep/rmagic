@@ -47,6 +47,15 @@ class Player < ActiveRecord::Base
     return m
   end
 
+  def clear_mana
+    self.mana_green = 0
+    self.mana_blue = 0
+    self.mana_red = 0
+    self.mana_white = 0
+    self.mana_black = 0
+    self.mana_colourless = 0
+  end
+
   def mana_pool
     Player.clean_mana({ green: mana_green, blue: mana_blue, red: mana_red, white: mana_red, black: mana_black, colourless: mana_colourless })
   end
