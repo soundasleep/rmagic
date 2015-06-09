@@ -164,6 +164,10 @@ class GameEngine
 
     # remove attackers
     DeclaredAttacker.destroy_all(duel: @duel)
+
+    # remove defenders
+    DeclaredDefender.destroy_all(duel: @duel)
+
     @duel.reload
   end
 

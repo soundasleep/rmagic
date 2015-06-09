@@ -99,13 +99,25 @@ class AttackingTest < GameTest
     assert_equal 1, attacking_actions(card).count
   end
 
+  test "an attacker can be declared and referenced later" do
+    card = game_engine.available_attackers.first
+    assert_equal 0, @duel.declared_attackers.count
+
+    game_engine.declare_attackers [card]
+
+    assert_equal 1, @duel.declared_attackers.count
+  end
+
   test "declared attackers do not persist into the next turn" do
     card = game_engine.available_attackers.first
+    assert_equal 0, @duel.declared_attackers.count
+
     game_engine.declare_attackers [card]
-    assert_equal 1, attacking_actions(card).count
+
+    assert_equal 1, @duel.declared_attackers.count
 
     pass_until_next_player
-    assert_equal 0, attacking_actions(card).count
+    assert_equal 0, @duel.declared_attackers.count
   end
 
   test "if no defenders are declared, then attacks hit the player" do
@@ -154,9 +166,21 @@ class AttackingTest < GameTest
     card = defends.first
 
     assert_equal 0, defending_actions(card[:source]).count
-    game_engine.declare_defender card
 
+    game_engine.declare_defender card
     assert_equal 1, defending_actions(card[:source]).count
+  end
+
+  test "a defender can be declared and referenced later" do
+    card = game_engine.available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+
+    assert_equal 0, @duel.declared_defenders.count
+    game_engine.declare_defender defends.first
+    assert_equal 1, @duel.declared_defenders.count
   end
 
   test "declared defenders do not persist into the next turn" do
@@ -165,12 +189,13 @@ class AttackingTest < GameTest
     game_engine.pass
 
     defends = game_engine.available_actions(@duel.player2)[:defend]
-    card = defends.first
-    game_engine.declare_defender card
-    assert_equal 1, defending_actions(card[:source]).count
+
+    assert_equal 0, @duel.declared_defenders.count
+    game_engine.declare_defender defends.first
+    assert_equal 1, @duel.declared_defenders.count
 
     pass_until_next_player
-    assert_equal 0, attacking_actions(card[:source]).count
+    assert_equal 0, @duel.declared_defenders.count
   end
 
 end
