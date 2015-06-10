@@ -21,17 +21,18 @@ class Player < ActiveRecord::Base
     mana_cost_string mana_pool
   end
 
-  def clear_mana
-    set_mana zero_mana
+  def clear_mana!
+    set_mana! zero_mana
   end
 
-  def set_mana(mana)
+  def set_mana!(mana)
     self.mana_green = mana[:green]
     self.mana_blue = mana[:blue]
     self.mana_red = mana[:red]
     self.mana_white = mana[:white]
     self.mana_black = mana[:black]
     self.mana_colourless = mana[:colourless]
+    self.save!
   end
 
   def mana_pool
@@ -52,14 +53,14 @@ class Player < ActiveRecord::Base
     return use_mana_from_pool(cost, pool)
   end
 
-  def use_mana(cost)
+  def use_mana!(cost)
     cost = zero_mana.merge(cost)
     pool = mana_pool
 
     result = use_mana_from_pool(cost, pool)
     fail "Could not use mana #{cost} from #{pool}" unless result
 
-    set_mana result
+    set_mana! result
   end
 
 end

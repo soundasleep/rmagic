@@ -106,8 +106,7 @@ class GameEngine
   def use_mana!(player, hand)
     card = hand.entity.find_card!
 
-    player.use_mana card.mana_cost
-    player.save!
+    player.use_mana! card.mana_cost
   end
 
   def declare_defender(defend)
@@ -204,8 +203,7 @@ class GameEngine
 
   def clear_mana
     @duel.players.each do |player|
-      player.clear_mana
-      player.save
+      player.clear_mana!
     end
   end
 

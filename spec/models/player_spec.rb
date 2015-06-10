@@ -8,7 +8,7 @@ RSpec.describe Player do
     player = Player.create!({ mana_green: 1 })
     assert player.has_mana? ({ green: 1 })
 
-    player.use_mana ({ green: 1 })
+    player.use_mana! ({ green: 1 })
     assert_equal 0, player.mana_green
   end
 
@@ -16,7 +16,7 @@ RSpec.describe Player do
     player = Player.create!({ mana_green: 2 })
     assert player.has_mana? ({ green: 1, colourless: 1 })
 
-    player.use_mana ({ green: 1, colourless: 1 })
+    player.use_mana! ({ green: 1, colourless: 1 })
     assert_equal 0, player.mana_green
   end
 
@@ -24,7 +24,7 @@ RSpec.describe Player do
     player = Player.create!({ mana_green: 2 })
     assert player.has_mana? ({ green: 1 })
 
-    player.use_mana ({ green: 1 })
+    player.use_mana! ({ green: 1 })
     assert_equal 1, player.mana_green
   end
 
@@ -37,7 +37,7 @@ RSpec.describe Player do
     player = Player.create!({ mana_green: 1 })
     assert player.has_mana? ({ colourless: 1 })
 
-    player.use_mana ({ green: 1 })
+    player.use_mana! ({ green: 1 })
     assert_equal 0, player.mana_green
   end
 
@@ -52,7 +52,7 @@ RSpec.describe Player do
     player = Player.create!({ mana_green: 1, mana_blue: 2 })
     assert player.has_mana? ({ colourless: 2, green: 1 })
 
-    player.use_mana ({ colourless: 2, green: 1 })
+    player.use_mana! ({ colourless: 2, green: 1 })
     assert_equal 0, player.mana_green
     assert_equal 0, player.mana_blue
   end
@@ -61,7 +61,7 @@ RSpec.describe Player do
     player = Player.create!({ mana_colourless: 2 })
     assert player.has_mana?({ colourless: 1 }), player.mana
 
-    player.use_mana ({ colourless: 1 })
+    player.use_mana! ({ colourless: 1 })
     assert_equal 1, player.mana_colourless
   end
 
