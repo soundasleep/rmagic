@@ -84,7 +84,7 @@ class Duel < ActiveRecord::Base
 
     # do the AI if necessary
     if priority_player.is_ai?
-      SimpleAI.new.do_turn(self)
+      SimpleAI.new.do_turn(game_engine, priority_player)
     end
   end
 
