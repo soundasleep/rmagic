@@ -1,7 +1,7 @@
-require 'test_helper'
+require 'spec_helper'
 
-class BattlefieldTest < ActiveSupport::TestCase
-  test "we can't reference the same entity twice in the battlefield" do
+RSpec.describe Battlefield do
+  it "can't reference the same entity twice" do
     e = Entity.create!
     p = Player.create!
 
@@ -12,3 +12,4 @@ class BattlefieldTest < ActiveSupport::TestCase
     assert !b2.valid?
   end
 end
+
