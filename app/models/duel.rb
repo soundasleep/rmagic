@@ -50,6 +50,8 @@ class Duel < ActiveRecord::Base
         "attack phase: declare attackers and defenders"
       when PhaseManager.cleanup_phase
         "cleanup phase: damage happens, cleanup destroyed cards"
+      else
+        fail "Unknown phase #{phase_number}"
     end
   end
 

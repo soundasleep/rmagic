@@ -27,7 +27,7 @@ RSpec.describe "Defending Groups" do
   end
 
   it "we can referenced the declared group defenders" do
-    expect(game_engine.declared_defenders.length).to eq(2)
+    expect(@duel.declared_defenders.length).to eq(2)
   end
 
   it "overdefending will kill the single attacker" do
