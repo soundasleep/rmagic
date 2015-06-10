@@ -30,12 +30,4 @@ class Metaverse1 < CardType
     super
   end
 
-  def do_play(game_engine, card)
-    # use mana
-    game_engine.use_mana!(card.player, card)
-
-    # add to the battlefield
-    Battlefield.create!( player: card.player, entity: card.entity )
-  end
-
 end

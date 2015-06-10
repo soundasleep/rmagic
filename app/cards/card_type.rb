@@ -44,4 +44,13 @@ class CardType
   def do_action(game_engine, card, index)
     fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
   end
+
+  def do_play(game_engine, card)
+    # use mana
+    game_engine.use_mana!(card.player, card)
+
+    # add to the battlefield
+    Battlefield.create!( player: card.player, entity: card.entity )
+  end
+
 end

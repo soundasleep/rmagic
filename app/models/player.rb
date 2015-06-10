@@ -10,6 +10,7 @@ class Player < ActiveRecord::Base
     self.mana_colourless ||= 0
   end
 
+  # TODO has_many battlefield etc and remove these
   def deck
     Deck.where(player: self)
   end
@@ -104,6 +105,7 @@ class Player < ActiveRecord::Base
         pool[:colourless] -= 1
         next
       end
+      # TODO request priority
       if pool[:green] > 0
         pool[:green] -= 1
         next
@@ -112,6 +114,7 @@ class Player < ActiveRecord::Base
         pool[:blue] -= 1
         next
       end
+      # TODO other colours
 
       return false
     end

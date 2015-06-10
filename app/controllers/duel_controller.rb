@@ -49,6 +49,14 @@ class DuelController < ApplicationController
       creature = Entity.create!( metaverse_id: 1 )
       Hand.create!( entity: creature, player: @player2 )
     end
+    1.times do
+      forest = Entity.create!( metaverse_id: 2 )
+      Hand.create!( entity: forest, player: @player1 )
+    end
+    1.times do
+      forest = Entity.create!( metaverse_id: 2 )
+      Hand.create!( entity: forest, player: @player2 )
+    end
 
     @action1 = Action.create!( entity: @player2.battlefield.first.entity, entity_action: "attack", player: @player2, duel: @duel )
     @action_target1 = ActionTarget.create!( entity: @player1.battlefield.first.entity, action: @action1, damage: 1 )
