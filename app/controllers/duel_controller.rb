@@ -73,8 +73,7 @@ class DuelController < ApplicationController
   end
 
   def pass
-    duel.pass
-    duel.save!
+    PhaseManager.new(game_engine).pass!
     redirect_to duel_path duel
   end
 

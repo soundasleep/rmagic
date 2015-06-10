@@ -4,7 +4,7 @@ RSpec.describe "Passing" do
   before :each do
     setup
 
-    @duel.phase_number = Duel.playing_phase
+    @duel.phase_number = PhaseManager.playing_phase
     @duel.save!
   end
 
@@ -59,7 +59,7 @@ RSpec.describe "Passing" do
 
   it "tapping does not modify duel phase" do
     game_engine.card_action(untapped_land, "tap")
-    expect(@duel.phase_number).to eq(Duel.playing_phase)
+    expect(@duel.phase_number).to eq(PhaseManager.playing_phase)
   end
 
   it "tapping creates an action" do

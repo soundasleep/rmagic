@@ -14,13 +14,13 @@ class GameEngine
       tap: [],
       defend: []
     }
-    if @duel.phase_number == Duel.playing_phase and @duel.current_player == player and @duel.priority_player == player
+    if @duel.phase_number == PhaseManager.playing_phase and @duel.current_player == player and @duel.priority_player == player
       actions[:play] += playable_cards(player)
     end
-    if @duel.phase_number == Duel.playing_phase
+    if @duel.phase_number == PhaseManager.playing_phase
       actions[:tap] += tappable_cards(player)
     end
-    if @duel.phase_number == Duel.attacking_phase and @duel.priority_player == player and @duel.priority_player != @duel.current_player
+    if @duel.phase_number == PhaseManager.attacking_phase and @duel.priority_player == player and @duel.priority_player != @duel.current_player
       actions[:defend] += defendable_cards(player)
     end
     actions
@@ -56,7 +56,7 @@ class GameEngine
 
   # list all entities which can attack
   def available_attackers(player)
-    if @duel.phase_number == Duel.attacking_phase and @duel.current_player == player and @duel.priority_player == player
+    if @duel.phase_number == PhaseManager.attacking_phase and @duel.current_player == player and @duel.priority_player == player
       # TODO summoning sickness
       return @duel.priority_player.battlefield.select { |b| b.entity.find_card.is_creature? }
     end
@@ -130,7 +130,7 @@ class GameEngine
   end
 
   def pass
-    @duel.pass
+    PhaseManager.new(self).pass!
   end
 
   def reset_damage

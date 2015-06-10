@@ -3,6 +3,8 @@ require_relative "setup_game"
 RSpec.describe "Passing" do
   before :each do
     setup
+
+    @phases = PhaseManager.new(game_engine)
   end
 
   it "starting a new turn draws a card" do
@@ -28,7 +30,7 @@ RSpec.describe "Passing" do
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(1), "at turn #{test}"
-      @duel.pass
+      @phases.pass!
     end
 
     [
@@ -38,7 +40,7 @@ RSpec.describe "Passing" do
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(2), "at turn #{test}"
-      @duel.pass
+      @phases.pass!
     end
 
   end
@@ -70,7 +72,7 @@ RSpec.describe "Passing" do
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(1), "at turn #{test}"
-      @duel.pass
+      @phases.pass!
     end
 
     [
@@ -80,7 +82,7 @@ RSpec.describe "Passing" do
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(2), "at turn #{test}"
-      @duel.pass
+      @phases.pass!
     end
   end
 
