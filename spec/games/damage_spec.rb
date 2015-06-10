@@ -29,6 +29,7 @@ RSpec.describe "Damage" do
     expect(@duel.player1.battlefield).to include(card)
     card.entity.damage! 100
     game_engine.move_destroyed_creatures_to_graveyard
+    @duel.reload
     expect(@duel.player1.battlefield).to_not include(card)
   end
 
@@ -47,7 +48,7 @@ RSpec.describe "Damage" do
     expect(card.entity.is_destroyed?).to eq(true)
   end
 
-  it "a card with no much damage does not have the destroyed flag" do
+  it "a card with little damage does not have the destroyed flag" do
     card = first_creature
     card.entity.damage! 0
     expect(card.entity.is_destroyed?).to eq(false)

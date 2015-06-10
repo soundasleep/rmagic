@@ -1,4 +1,9 @@
 class Player < ActiveRecord::Base
+  has_many :deck
+  has_many :hand
+  has_many :battlefield
+  has_many :graveyard
+
   after_initialize :init
 
   def init
@@ -8,23 +13,6 @@ class Player < ActiveRecord::Base
     self.mana_white ||= 0
     self.mana_black ||= 0
     self.mana_colourless ||= 0
-  end
-
-  # TODO has_many battlefield etc and remove these
-  def deck
-    Deck.where(player: self)
-  end
-
-  def hand
-    Hand.where(player: self)
-  end
-
-  def battlefield
-    Battlefield.where(player: self)
-  end
-
-  def graveyard
-    Graveyard.where(player: self)
   end
 
   def mana
