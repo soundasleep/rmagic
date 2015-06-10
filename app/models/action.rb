@@ -13,10 +13,6 @@ class Action < ActiveRecord::Base
     end
   end
 
-  def targets
-    ActionTarget.where({action: self})
-  end
-
   def action_text
     case global_action
     when "pass"
