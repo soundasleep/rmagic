@@ -16,6 +16,12 @@
     = hidden_field_tag "battlefield", battlefield.id
     = submit_tag "Tap #{battlefield.entity.to_text}"
 
+- available_actions[:defend].each do |defend|
+  = form_tag(defend_duel_url(@duel)) do |f|
+    = hidden_field_tag "source", defend[:source].id
+    = hidden_field_tag "target", defend[:target].id
+    = submit_tag "Defend #{defend[:source].entity.to_text} (#{defend[:source].entity.id}) with #{defend[:target].entity.to_text} (#{defend[:target].entity.id})"
+
 - if available_attackers.any?
   = form_tag(declare_attackers_duel_url(@duel)) do |f|
     Declare attackers:
@@ -41,7 +47,9 @@
 
   %ul
     - player.hand.each do |hand|
-      %li= hand.entity.to_text
+      %li
+        = hand.entity.to_text
+        %small= hand.entity.id
 
   %h3 Battlefield ( #{player.battlefield.count} cards )
 
@@ -51,6 +59,7 @@
         = battlefield.entity.to_text
         - if battlefield.entity.is_tapped?
           %i (tapped)
+        %small= battlefield.entity.id
 
 %h2 Action Log
 
