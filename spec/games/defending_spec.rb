@@ -1,0 +1,142 @@
+require_relative "game_test"
+
+RSpec.describe "Defending" do
+  before :each do
+    setup
+
+    create_creatures
+
+    @duel.phase_number = Duel.attacking_phase
+    @duel.save!
+
+    @card = available_attackers.first
+    game_engine.declare_attackers [@card]
+
+    game_engine.pass
+  end
+
+  it "each defender can defend one attacker if only one attacks" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+
+    expect(defends.count).to eq(2)
+  end
+
+  it "an attacker stores which player is attacking" do
+    expect(@duel.declared_attackers.first.player).to eq(@duel.player1)
+  end
+
+  it "an attacker stores which player its attacking" do
+    expect(@duel.declared_attackers.first.target_player).to eq(@duel.player2)
+  end
+
+  it "a declared defender does not come up as another available defend option" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    defender = defends.first
+    game_engine.declare_defender defender
+
+    game_engine.available_actions(@duel.player2)[:defend].each do |defend|
+      expect(defend[:target]).to_not eq(defend[:source])
+    end
+  end
+
+  it "a defender can be declared and blocks damage" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+
+    game_engine.declare_defender defends.first
+
+    pass_until_next_turn
+
+    expect(@duel.player2.life).to eq(20)
+  end
+
+  it "a declared defender creates an action" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    card = defends.first
+
+    expect(defending_actions(card[:source]).count).to eq(0)
+
+    game_engine.declare_defender card
+    expect(defending_actions(card[:source]).count).to eq(1)
+  end
+
+  it "a defender can be declared and referenced later" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+
+    expect(@duel.declared_defenders.count).to eq(0)
+    game_engine.declare_defender defends.first
+    expect(@duel.declared_defenders.count).to eq(1)
+  end
+
+  it "declared defenders do not persist into the next turn" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+
+    expect(@duel.declared_defenders.count).to eq(0)
+    game_engine.declare_defender defends.first
+    expect(@duel.declared_defenders.count).to eq(1)
+
+    pass_until_next_player
+    expect(@duel.declared_defenders.count).to eq(0)
+  end
+
+  it "attacking actions are created when there are defenders and the attack resolves" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    expect(attacking_actions(@card).count).to eq(0)
+
+    pass_until_next_turn
+
+    assert_equal 1, attacking_actions(@card).count
+  end
+
+  it "attacking actions references the attacked defender" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    expect(attacking_actions(@card).count).to eq(0)
+
+    pass_until_next_turn
+
+    action = attacking_actions(@card).first
+    expect(action.targets.first.entity).to eq(defends.first[:source].entity)
+  end
+
+  it "attacking actions include a reference to defending creatures after the attack resolves" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    pass_until_next_turn
+
+    action = attacking_actions(@card).first
+    expect(action.entity).to eq(defends.first[:target].entity)
+  end
+
+  it "attacking actions are created when there are no defenders and the attack resolves" do
+    expect(attacking_actions(@card).count).to eq(0)
+
+    pass_until_next_turn
+
+    expect(attacking_actions(@card).count).to eq(1)
+  end
+
+  it "defending actions are created when there are defenders and the attack resolves" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    expect(defended_actions(defends.first[:source]).count).to eq(0)
+
+    pass_until_next_turn
+
+    expect(defended_actions(defends.first[:source]).count).to eq(1)
+  end
+
+  it "defending actions reference the defended attacker" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    pass_until_next_turn
+
+    expect(defended_actions(defends.first[:source]).first.targets.map{ |t| t.entity }).to include(@card.entity)
+  end
+
+end
