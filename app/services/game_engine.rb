@@ -41,15 +41,17 @@ class GameEngine
   end
 
   def defendable_cards(player)
-    # all cards on the battlefield that are not tapped
-    player.battlefield.select{ |b| !b.entity.is_tapped? and b.entity.find_card!.is_creature? }.map do |b|
-      @duel.declared_attackers.map do |a|
-        {
-          source: b,
-          target: a
-        }
-      end
-    end.flatten(1)
+    # all cards on the battlefield that are not tapped and not already defending
+    player.battlefield
+      .reject{ |b| declared_defenders.map{ |d| d.source }.include?(b) }
+      .select{ |b| !b.entity.is_tapped? and b.entity.find_card!.is_creature? }.map do |b|
+        @duel.declared_attackers.map do |a|
+          {
+            source: b,
+            target: a
+          }
+        end
+      end.flatten(1)
   end
 
   # list all entities which can attack
@@ -122,6 +124,10 @@ class GameEngine
     defends.each do |d|
       declare_defender d
     end
+  end
+
+  def declared_defenders
+    DeclaredDefender.where(duel: @duel)
   end
 
   def pass

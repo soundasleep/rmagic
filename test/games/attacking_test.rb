@@ -167,6 +167,20 @@ class AttackingTest < GameTest
     assert_not_equal [], game_engine.available_actions(@duel.player2)[:defend]
   end
 
+  test "a declared defender does not come up as another available defend option" do
+    card = available_attackers.first
+    game_engine.declare_attackers [card]
+    game_engine.pass
+
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    defender = defends.first
+    game_engine.declare_defender defender
+
+    game_engine.available_actions(@duel.player2)[:defend].each do |defend|
+      refute_equal defend[:source], defender[:source]
+    end
+  end
+
   test "a defender can be declared and blocks damage" do
     card = available_attackers.first
     game_engine.declare_attackers [card]
