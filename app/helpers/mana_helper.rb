@@ -1,4 +1,4 @@
-module Mana
+module ManaHelper
   def zero_mana
     {
       green: 0,
@@ -14,14 +14,18 @@ module Mana
   def mana_cost_string(mana)
     cost = zero_mana.merge(mana)
 
-    "{" +
-      ( cost[:colourless].to_s if cost[:colourless] ) +
+    result = "{" +
+      ( if cost[:colourless] > 0 then cost[:colourless].to_s else "" end ) +
       ( "g" * cost[:green] ) +
       ( "u" * cost[:blue] ) +
       ( "b" * cost[:black] ) +
       ( "r" * cost[:red] ) +
       ( "w" * cost[:white] ) +
       "}"
+
+    result = "{0}" if result == "{}"
+
+    result
   end
 
   def check_supported_colours!(pool)

@@ -1,5 +1,5 @@
 class Player < ActiveRecord::Base
-  include Mana
+  include ManaHelper
 
   has_many :deck
   has_many :hand
