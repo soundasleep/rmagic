@@ -1,7 +1,5 @@
 require_relative "game_test"
 
-RSpec.configure { |c| c.include GameTest }
-
 RSpec.describe "Attacking" do
   before :each do
     setup
@@ -44,10 +42,10 @@ RSpec.describe "Attacking" do
 
     defends = game_engine.available_actions(@duel.player2)[:defend]
     defends.each do |d|
-      expect(d[:source]).not_to be_nil, "#{d} had no :source"
-      expect(d[:target]).not_to be_nil, "#{d} had no :target"
-      expect(d[:source].entity).not_to be_nil, "#{d} had no :source.entity"
-      expect(d[:target].entity).not_to be_nil, "#{d} had no :target.entity"
+      expect(d[:source]).to_not be_nil, "#{d} had no :source"
+      expect(d[:target]).to_not be_nil, "#{d} had no :target"
+      expect(d[:source].entity).to_not be_nil, "#{d} had no :source.entity"
+      expect(d[:target].entity).to_not be_nil, "#{d} had no :target.entity"
     end
   end
 
@@ -67,7 +65,7 @@ RSpec.describe "Attacking" do
 
   it "after declaring attackers, when we get to the next turn the attackers will be cleared" do
     game_engine.declare_attackers available_attackers
-    expect( @duel.declared_attackers ).not_to be_empty
+    expect( @duel.declared_attackers ).to_not be_empty
 
     pass_until_next_turn
 
@@ -76,7 +74,7 @@ RSpec.describe "Attacking" do
 
   it "after declaring attackers, when we get to the next player the attackers will be cleared" do
     game_engine.declare_attackers available_attackers
-    expect( @duel.declared_attackers ).not_to be_empty
+    expect( @duel.declared_attackers ).to_not be_empty
 
     pass_until_next_player
 

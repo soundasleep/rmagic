@@ -105,3 +105,6 @@ module GameTest
   end
 
 end
+
+RSpec.configure { |c| c.include GameTest }
+
