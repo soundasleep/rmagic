@@ -27,102 +27,97 @@ RSpec.describe "Attacking" do
     end
   end
 
-  it "after we declare three attackers, we can declare two defenders (from player 2)" do
-    game_engine.declare_attackers available_attackers
-    game_engine.pass
+  context "when declaring all attackers" do
+    before :each do
+      game_engine.declare_attackers available_attackers
+    end
 
-    defends = game_engine.available_actions(@duel.player2)[:defend]
+    context "in the next turn" do
+      before :each do
+        game_engine.pass
+      end
 
-    expect(defends.to_a.uniq{ |d| d[:source] }.count).to eq(2)
-  end
+      it "we can declare two defenders (from player 2)" do
+        defends = game_engine.available_actions(@duel.player2)[:defend]
 
-  it "defenders have an entity and a target" do
-    game_engine.declare_attackers available_attackers
-    game_engine.pass
+        expect(defends.to_a.uniq{ |d| d[:source] }.count).to eq(2)
+      end
 
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-    defends.each do |d|
-      expect(d[:source]).to_not be_nil, "#{d} had no :source"
-      expect(d[:target]).to_not be_nil, "#{d} had no :target"
-      expect(d[:source].entity).to_not be_nil, "#{d} had no :source.entity"
-      expect(d[:target].entity).to_not be_nil, "#{d} had no :target.entity"
+      it "defenders have an entity and a target" do
+        defends = game_engine.available_actions(@duel.player2)[:defend]
+        defends.each do |d|
+          expect(d[:source]).to_not be_nil, "#{d} had no :source"
+          expect(d[:target]).to_not be_nil, "#{d} had no :target"
+          expect(d[:source].entity).to_not be_nil, "#{d} had no :source.entity"
+          expect(d[:target].entity).to_not be_nil, "#{d} had no :target.entity"
+        end
+      end
+
+      it "each defender can defend one attacker" do
+        defends = game_engine.available_actions(@duel.player2)[:defend]
+
+        expect(defends.count).to eq(2 * 3)
+      end
+    end
+
+    it "declared attackers are available through the duel" do
+      expect(@duel.declared_attackers.map{ |a| a.entity }).to eq(available_attackers.map{ |a| a.entity })
+    end
+
+    it "after declaring attackers, when we get to the next turn the attackers will be cleared" do
+      expect( @duel.declared_attackers ).to_not be_empty
+
+      pass_until_next_turn
+
+      expect(@duel.declared_attackers).to be_empty
+    end
+
+    it "after declaring attackers, when we get to the next player the attackers will be cleared" do
+      expect( @duel.declared_attackers ).to_not be_empty
+
+      pass_until_next_player
+
+      expect(@duel.declared_attackers).to be_empty
     end
   end
 
-  it "each defender can defend one attacker" do
-    game_engine.declare_attackers available_attackers
-    game_engine.pass
+  context "when declaring one attacker" do
+    before :each do
+      @card = available_attackers.first
 
-    defends = game_engine.available_actions(@duel.player2)[:defend]
+      expect(declaring_actions(@card).count).to eq(0)
+      expect(@duel.declared_attackers.count).to eq(0)
 
-    expect(defends.count).to eq(2 * 3)
-  end
+      game_engine.declare_attackers [@card]
+    end
 
-  it "declared attackers are available through the duel" do
-    game_engine.declare_attackers available_attackers
-    expect(@duel.declared_attackers.map{ |a| a.entity }).to eq(available_attackers.map{ |a| a.entity })
-  end
+    it "declaring an attacker creates an action" do
+      expect(declaring_actions(@card).count).to eq(1)
+    end
 
-  it "after declaring attackers, when we get to the next turn the attackers will be cleared" do
-    game_engine.declare_attackers available_attackers
-    expect( @duel.declared_attackers ).to_not be_empty
+    it "declared attackers do not persist into the next turn" do
+      expect(@duel.declared_attackers.count).to eq(1)
 
-    pass_until_next_turn
+      pass_until_next_player
+      expect(@duel.declared_attackers.count).to eq(0)
+    end
 
-    expect(@duel.declared_attackers).to be_empty
-  end
+    it "a player can't defend when they're still attacking" do
+      expect(game_engine.available_actions(@duel.player2)[:defend]).to be_empty
+      game_engine.pass
 
-  it "after declaring attackers, when we get to the next player the attackers will be cleared" do
-    game_engine.declare_attackers available_attackers
-    expect( @duel.declared_attackers ).to_not be_empty
+      # but the next player can
+      expect( game_engine.available_actions(@duel.player2)[:defend] ).not_to be_empty
+    end
 
-    pass_until_next_player
+    it "if no defenders are declared, then attacks hit the player" do
+      expect(@duel.player2.life).to eq(20)
+      game_engine.pass
 
-    expect(@duel.declared_attackers).to be_empty
-  end
+      pass_until_next_turn
 
-  it "declaring an attacker creates an action" do
-    card = available_attackers.first
-    expect(declaring_actions(card).count).to eq(0)
-
-    game_engine.declare_attackers [card]
-
-    expect(declaring_actions(card).count).to eq(1)
-  end
-
-  it "declared attackers do not persist into the next turn" do
-    card = available_attackers.first
-    expect(@duel.declared_attackers.count).to eq(0)
-
-    game_engine.declare_attackers [card]
-
-    expect(@duel.declared_attackers.count).to eq(1)
-
-    pass_until_next_player
-    expect(@duel.declared_attackers.count).to eq(0)
-  end
-
-  it "a player can't defend when they're still attacking" do
-    card = available_attackers.first
-    game_engine.declare_attackers [card]
-
-    expect(game_engine.available_actions(@duel.player2)[:defend]).to be_empty
-    game_engine.pass
-
-    # but the next player can
-    expect( game_engine.available_actions(@duel.player2)[:defend] ).not_to be_empty
-  end
-
-  it "if no defenders are declared, then attacks hit the player" do
-    card = available_attackers.first
-    game_engine.declare_attackers [card]
-
-    expect(@duel.player2.life).to eq(20)
-    game_engine.pass
-
-    pass_until_next_turn
-
-    expect(@duel.player2.life).to eq(20 - card.entity.find_card!.power)
+      expect(@duel.player2.life).to eq(20 - @card.entity.find_card!.power)
+    end
   end
 
 end
