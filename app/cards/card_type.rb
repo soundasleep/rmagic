@@ -1,9 +1,11 @@
 class CardType
+  include Mana
+
   def to_text
     if is_creature?
-      "#{name} (#{power} / #{toughness}) #{cost}"
+      "#{name} (#{power} / #{toughness}) #{cost_string}"
     else
-      "#{name} #{cost}"
+      "#{name} #{cost_string}"
     end
   end
 
@@ -28,17 +30,8 @@ class CardType
     {}
   end
 
-  def cost
-    cost = Player.clean_mana mana_cost
-
-    "{" +
-      ( cost[:colourless].to_s if cost[:colourless] ) +
-      ( "g" * cost[:green] ) +
-      ( "u" * cost[:blue] ) +
-      ( "b" * cost[:black] ) +
-      ( "r" * cost[:red] ) +
-      ( "w" * cost[:white] ) +
-      "}"
+  def cost_string
+    mana_cost_string(mana_cost)
   end
 
   def do_action(game_engine, card, index)
