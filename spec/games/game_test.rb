@@ -1,6 +1,6 @@
-require 'test_helper'
+require 'spec_helper'
 
-class GameTest < ActiveSupport::TestCase
+module GameTest
 
   # load a basic game state
   def setup
