@@ -143,32 +143,46 @@ class GameEngine
     end
   end
 
-  def apply_damage(attacker)
+  def apply_damage_to(action, remaining_damage, battlefield)
+    if remaining_damage > 0
+      if remaining_damage > battlefield.entity.remaining_health
+        battlefield.entity.damage! battlefield.entity.remaining_health
+        remaining_damage -= battlefield.entity.remaining_health
+      else
+        battlefield.entity.damage! remaining_damage
+        remaining_damage = 0
+      end
+
+      # link the defender
+      ActionTarget.create!( action: action, entity: battlefield.entity )
+    end
+
+    remaining_damage
+  end
+
+  def apply_attack_damage(attacker)
     # TODO allow attacker to specify order of damage
     remaining_damage = attacker.entity.find_card!.power
 
-    action = Action.card_action(@duel, attacker.player, attacker.entity, "attack") unless action
+    action = Action.card_action(@duel, attacker.player, attacker.entity, "attack")
 
     @duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
-      if remaining_damage > 0
-        if remaining_damage > d.source.entity.remaining_health
-          d.source.entity.damage += d.source.entity.remaining_health
-          d.source.entity.save!
-          remaining_damage -= d.source.entity.remaining_health
-        else
-          d.source.entity.damage += remaining_damage
-          remaining_damage = 0
-        end
-
-        # link the defender
-        ActionTarget.create!( action: action, entity: d.source.entity )
-      end
+      remaining_damage = apply_damage_to action, remaining_damage, d.source
     end
 
     if remaining_damage > 0
       attacker.target_player.life -= remaining_damage
       attacker.target_player.save!
     end
+  end
+
+  def apply_defend_damage(defender)
+    damage = defender.source.entity.find_card!.power
+
+    action = Action.card_action(@duel, defender.source.player, defender.source.entity, "defended")
+
+    # any overkill damage is ignored
+    apply_damage_to action, damage, defender.target
   end
 
   def move_destroyed_creatures_to_graveyard
@@ -222,7 +236,11 @@ class GameEngine
     clear_mana
 
     @duel.declared_attackers.each do |d|
-      apply_damage d
+      apply_attack_damage d
+    end
+
+    @duel.declared_defenders.each do |d|
+      apply_defend_damage d
     end
 
     # remove attackers

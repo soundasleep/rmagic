@@ -59,8 +59,16 @@ class GameTest < ActiveSupport::TestCase
     Action.where(duel: @duel, entity_action: "defend", entity: card.entity)
   end
 
+  def defended_actions(card)
+    Action.where(duel: @duel, entity_action: "defended", entity: card.entity)
+  end
+
   def attacking_actions(card)
     Action.where(duel: @duel, entity_action: "attack", entity: card.entity)
+  end
+
+  def graveyard_actions(entity)
+    Action.where(duel: @duel, entity_action: "graveyard", entity: entity)
   end
 
   def game_engine

@@ -69,10 +69,6 @@ class DamageTest < GameTest
     assert_includes @duel.player1.graveyard.map { |b| b.entity }, card.entity
   end
 
-  def graveyard_actions(entity)
-    Action.where(duel: @duel, entity_action: "graveyard", entity: entity)
-  end
-
   test "actions are created when creatures are moved to the graveyard" do
     card = first_creature
 

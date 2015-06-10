@@ -120,4 +120,24 @@ class DefendingTest < GameTest
     assert_equal 1, attacking_actions(@card).count
   end
 
+  test "defending actions are created when there are defenders and the attack resolves" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    assert_equal 0, defended_actions(defends.first[:source]).count
+
+    pass_until_next_turn
+
+    assert_equal 1, defended_actions(defends.first[:source]).count
+  end
+
+  test "defending actions reference the defended attacker" do
+    defends = game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.declare_defender defends.first
+
+    pass_until_next_turn
+
+    assert_includes defended_actions(defends.first[:source]).first.targets.map{ |t| t.entity }, @card.entity
+  end
+
 end
