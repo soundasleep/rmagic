@@ -37,7 +37,6 @@ class Duel < ActiveRecord::Base
   end
 
   def total_phases
-    # TODO fix up as necessary
     4
   end
 
