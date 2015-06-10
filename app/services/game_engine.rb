@@ -80,7 +80,7 @@ class GameEngine
     fail "No :target defined" unless defend[:target]
 
     DeclaredDefender.create!( duel: duel, source: defend[:source], target: defend[:target] )
-    duel.reload       # TODO is this an antipattern? this seems gross!
+    duel.reload       # TODO this seems gross!
 
     # action
     Action.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
@@ -155,6 +155,7 @@ class GameEngine
 
           # move to graveyard
           Graveyard.create!( player: b.player, entity: b.entity )
+          duel.reload       # TODO this seems gross!
 
           Action.card_action(duel, b.player, b.entity, "graveyard")
         end
@@ -215,7 +216,7 @@ class GameEngine
     # reset damage
     reset_damage
 
-    duel.reload
+    duel.reload       # TODO this seems gross! (necessary to pick up DeclaredAttacker/DeclaredDefender changes?)
   end
 
 end
