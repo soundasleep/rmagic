@@ -1,9 +1,12 @@
-require_relative "game_test"
+require_relative "setup_game"
 
-class PassingTest < GameTest
+RSpec.describe "Passing" do
+  before :each do
+    setup
+  end
 
-  test "starting a new turn draws a card" do
-    assert_equal 4, @duel.total_phases
+  it "starting a new turn draws a card" do
+    expect(@duel.total_phases).to eq(4)
 
     [
       [1, 1, 1],
@@ -23,8 +26,8 @@ class PassingTest < GameTest
       [2, 4, 2],
       [2, 4, 1],
     ].each do |test|
-      assert_equal test, [@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]
-      assert_equal 1, @duel.turn, "at turn #{test}"
+      expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
+      expect(@duel.turn).to eq(1), "at turn #{test}"
       @duel.pass
     end
 
@@ -33,19 +36,19 @@ class PassingTest < GameTest
       [1, 1, 1],
       [1, 1, 2],
     ].each do |test|
-      assert_equal test, [@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]
-      assert_equal 2, @duel.turn, "at turn #{test}"
+      expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
+      expect(@duel.turn).to eq(2), "at turn #{test}"
       @duel.pass
     end
 
   end
 
-  test "passing order works as expected when the second player starts first" do
+  it "passing order works as expected when the second player starts first" do
     @duel.priority_player_number = 2
     @duel.first_player_number = 2
     @duel.current_player_number = 2
 
-    assert_equal 4, @duel.total_phases
+    expect(@duel.total_phases).to eq(4)
 
     [
       [2, 1, 2],
@@ -65,8 +68,8 @@ class PassingTest < GameTest
       [1, 4, 1],
       [1, 4, 2],
     ].each do |test|
-      assert_equal test, [@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]
-      assert_equal 1, @duel.turn, "at turn #{test}"
+      expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
+      expect(@duel.turn).to eq(1), "at turn #{test}"
       @duel.pass
     end
 
@@ -75,8 +78,8 @@ class PassingTest < GameTest
       [2, 1, 2],
       [2, 1, 1],
     ].each do |test|
-      assert_equal test, [@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]
-      assert_equal 2, @duel.turn, "at turn #{test}"
+      expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
+      expect(@duel.turn).to eq(2), "at turn #{test}"
       @duel.pass
     end
   end

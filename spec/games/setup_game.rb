@@ -1,6 +1,4 @@
-require 'test_helper'
-
-class GameTest < ActiveSupport::TestCase
+module SetupGame
 
   # load a basic game state
   def setup
@@ -105,3 +103,8 @@ class GameTest < ActiveSupport::TestCase
   end
 
 end
+
+RSpec.configure do |c|
+  c.include SetupGame
+end
+
