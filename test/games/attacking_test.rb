@@ -103,4 +103,27 @@ class AttackingTest < GameTest
     assert_equal 0, @duel.declared_attackers.count
   end
 
+  test "a player can't defend when they're still attacking" do
+    card = available_attackers.first
+    game_engine.declare_attackers [card]
+
+    assert_equal [], game_engine.available_actions(@duel.player2)[:defend]
+    game_engine.pass
+
+    # but the next player can
+    assert_not_equal [], game_engine.available_actions(@duel.player2)[:defend]
+  end
+
+  test "if no defenders are declared, then attacks hit the player" do
+    card = available_attackers.first
+    game_engine.declare_attackers [card]
+
+    assert_equal 20, @duel.player2.life
+    game_engine.pass
+
+    pass_until_next_turn
+
+    assert_equal (20 - card.entity.find_card!.power), @duel.player2.life
+  end
+
 end

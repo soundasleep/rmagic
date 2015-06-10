@@ -12,11 +12,11 @@ class DefendingTest < GameTest
 
     @card = available_attackers.first
     game_engine.declare_attackers [@card]
+
+    game_engine.pass
   end
 
   test "each defender can defend one attacker if only one attacks" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
 
     assert_equal 2, defends.count
@@ -30,26 +30,7 @@ class DefendingTest < GameTest
     assert_equal @duel.player2, @duel.declared_attackers.first.target_player
   end
 
-  test "if no defenders are declared, then attacks hit the player" do
-    assert_equal 20, @duel.player2.life
-    game_engine.pass
-
-    pass_until_next_turn
-
-    assert_equal (20 - @card.entity.find_card!.power), @duel.player2.life
-  end
-
-  test "a player can't defend when they're still attacking" do
-    assert_equal [], game_engine.available_actions(@duel.player2)[:defend]
-    game_engine.pass
-
-    # but the next player can
-    assert_not_equal [], game_engine.available_actions(@duel.player2)[:defend]
-  end
-
   test "a declared defender does not come up as another available defend option" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
     defender = defends.first
     game_engine.declare_defender defender
@@ -60,8 +41,6 @@ class DefendingTest < GameTest
   end
 
   test "a defender can be declared and blocks damage" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
 
     game_engine.declare_defender defends.first
@@ -72,8 +51,6 @@ class DefendingTest < GameTest
   end
 
   test "a declared defender creates an action" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
     card = defends.first
 
@@ -84,8 +61,6 @@ class DefendingTest < GameTest
   end
 
   test "a defender can be declared and referenced later" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
 
     assert_equal 0, @duel.declared_defenders.count
@@ -94,8 +69,6 @@ class DefendingTest < GameTest
   end
 
   test "declared defenders do not persist into the next turn" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
 
     assert_equal 0, @duel.declared_defenders.count
@@ -107,9 +80,6 @@ class DefendingTest < GameTest
   end
 
   test "attacking actions are created when there are defenders and the attack resolves" do
-
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
     game_engine.declare_defender defends.first
 
@@ -121,8 +91,6 @@ class DefendingTest < GameTest
   end
 
   test "attacking actions references the attacked defender" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
     game_engine.declare_defender defends.first
 
@@ -135,8 +103,6 @@ class DefendingTest < GameTest
   end
 
   test "attacking actions include a reference to defending creatures after the attack resolves" do
-    game_engine.pass
-
     defends = game_engine.available_actions(@duel.player2)[:defend]
     game_engine.declare_defender defends.first
 
@@ -147,8 +113,6 @@ class DefendingTest < GameTest
   end
 
   test "attacking actions are created when there are no defenders and the attack resolves" do
-    game_engine.pass
-
     assert_equal 0, attacking_actions(@card).count
 
     pass_until_next_turn
