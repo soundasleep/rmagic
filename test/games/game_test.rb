@@ -43,6 +43,26 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
+  def our_creatures
+    @duel.player1.battlefield.select{ |b| b.entity.find_card!.is_creature? }.map{ |b| b.entity }
+  end
+
+  def available_attackers
+    game_engine.available_attackers(@duel.player1)
+  end
+
+  def declaring_actions(card)
+    Action.where(duel: @duel, entity_action: "declare", entity: card.entity)
+  end
+
+  def defending_actions(card)
+    Action.where(duel: @duel, entity_action: "defend", entity: card.entity)
+  end
+
+  def attacking_actions(card)
+    Action.where(duel: @duel, entity_action: "attack", entity: card.entity)
+  end
+
   def game_engine
     GameEngine.new(@duel)
   end
