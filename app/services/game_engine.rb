@@ -29,14 +29,14 @@ class GameEngine
   def playable_cards(player)
     # all cards where we have enough mana
     player.hand.select do |hand|
-      player.has_mana? hand.entity.find_card!.mana_cost
+      player.has_mana? hand.entity.find_card.mana_cost
     end
   end
 
   def tappable_cards(player)
     # all cards which can be tapped
     player.battlefield.select do |b|
-      !b.entity.is_tapped? and b.entity.find_card!.is_land?
+      !b.entity.is_tapped? and b.entity.find_card.is_land?
     end
   end
 
@@ -44,7 +44,7 @@ class GameEngine
     # all cards on the battlefield that are not tapped and not already defending
     player.battlefield
       .reject{ |b| declared_defenders.map{ |d| d.source }.include?(b) }
-      .select{ |b| !b.entity.is_tapped? and b.entity.find_card!.is_creature? }.map do |b|
+      .select{ |b| !b.entity.is_tapped? and b.entity.find_card.is_creature? }.map do |b|
         @duel.declared_attackers.map do |a|
           {
             source: b,
@@ -58,7 +58,7 @@ class GameEngine
   def available_attackers(player)
     if @duel.phase_number == Duel.attacking_phase and @duel.current_player == player and @duel.priority_player == player
       # TODO summoning sickness
-      return @duel.priority_player.battlefield.select { |b| b.entity.find_card!.is_creature? }
+      return @duel.priority_player.battlefield.select { |b| b.entity.find_card.is_creature? }
     end
     []
   end
@@ -94,7 +94,7 @@ class GameEngine
   def card_action(card, key)
     fail "No card specified" unless card
 
-    card.entity.find_card!.do_action self, card, key
+    card.entity.find_card.do_action self, card, key
 
     # action
     Action.card_action(@duel, card.player, card.entity, key)
@@ -104,7 +104,7 @@ class GameEngine
   end
 
   def use_mana!(player, hand)
-    card = hand.entity.find_card!
+    card = hand.entity.find_card
 
     player.use_mana! card.mana_cost
   end
@@ -161,7 +161,7 @@ class GameEngine
 
   def apply_attack_damage(attacker)
     # TODO allow attacker to specify order of damage
-    remaining_damage = attacker.entity.find_card!.power
+    remaining_damage = attacker.entity.find_card.power
 
     action = Action.card_action(@duel, attacker.player, attacker.entity, "attack")
 
@@ -176,7 +176,7 @@ class GameEngine
   end
 
   def apply_defend_damage(defender)
-    damage = defender.source.entity.find_card!.power
+    damage = defender.source.entity.find_card.power
 
     action = Action.card_action(@duel, defender.source.player, defender.source.entity, "defended")
 

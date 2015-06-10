@@ -7,24 +7,17 @@ class Entity < ActiveRecord::Base
   end
 
   def find_card
-    CardUniverse.new.find_metaverse(metaverse_id) if metaverse_id
-  end
+    return CardUniverse.new.find_metaverse(metaverse_id) if metaverse_id
 
-  def find_card!
-    find_card or fail "Could not find card #{metaverse_id}"
+    fail "Could not find card #{metaverse_id}"
   end
 
   def to_text
-    return find_card.to_text if find_card
-
-    return "(metaverse #{metaverse_id})" if metaverse_id
-    return "(unknown)"
+    find_card.to_text
   end
 
   def action_text(action_id)
-    return find_card.action_text(action_id) if find_card
-
-    return "(unknown action #{action_id})"
+    find_card.action_text(action_id)
   end
 
   def tap_card!
@@ -40,11 +33,11 @@ class Entity < ActiveRecord::Base
   end
 
   def remaining_health
-    find_card!.toughness - damage
+    find_card.toughness - damage
   end
 
   def is_destroyed?
-    find_card!.is_creature? and remaining_health <= 0
+    find_card.is_creature? and remaining_health <= 0
   end
 
   def damage!(n)

@@ -116,7 +116,7 @@ RSpec.describe "Attacking" do
 
       pass_until_next_turn
 
-      expect(@duel.player2.life).to eq(20 - @card.entity.find_card!.power)
+      expect(@duel.player2.life).to eq(20 - @card.entity.find_card.power)
     end
   end
 

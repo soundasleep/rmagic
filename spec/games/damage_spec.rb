@@ -8,7 +8,7 @@ RSpec.describe "Damage" do
   end
 
   def first_creature
-    @duel.player1.battlefield.select{ |b| b.entity.find_card!.is_creature? }.first
+    @duel.player1.battlefield.select{ |b| b.entity.find_card.is_creature? }.first
   end
 
   it "creatures start off with no damage" do
@@ -83,7 +83,7 @@ RSpec.describe "Damage" do
 
   it "temporary damage does not cause a card to be removed" do
     card = first_creature
-    expect(card.entity.find_card!.toughness).to_not equal(1)
+    expect(card.entity.find_card.toughness).to_not equal(1)
     card.entity.damage! 1
 
     pass_until_next_turn
@@ -93,7 +93,7 @@ RSpec.describe "Damage" do
 
   it "temporary damage is not removed until the next players turn" do
     card = first_creature
-    expect(card.entity.find_card!.toughness).to_not equal(1)
+    expect(card.entity.find_card.toughness).to_not equal(1)
     card.entity.damage! 1
 
     game_engine.pass
@@ -105,7 +105,7 @@ RSpec.describe "Damage" do
 
   it "temporary damage is removed at the start of the next players turn" do
     card = first_creature
-    expect(card.entity.find_card!.toughness).to_not equal(1)
+    expect(card.entity.find_card.toughness).to_not equal(1)
     card.entity.damage! 1
 
     pass_until_next_turn

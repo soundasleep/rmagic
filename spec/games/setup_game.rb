@@ -42,7 +42,7 @@ module SetupGame
   end
 
   def our_creatures
-    @duel.player1.battlefield.select{ |b| b.entity.find_card!.is_creature? }.map{ |b| b.entity }
+    @duel.player1.battlefield.select{ |b| b.entity.find_card.is_creature? }.map{ |b| b.entity }
   end
 
   def available_attackers
