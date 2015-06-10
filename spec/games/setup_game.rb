@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module GameTest
+module SetupGame
 
   # load a basic game state
   def setup
@@ -106,5 +106,7 @@ module GameTest
 
 end
 
-RSpec.configure { |c| c.include GameTest }
+RSpec.configure do |c|
+  c.include SetupGame
+end
 

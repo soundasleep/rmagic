@@ -1,6 +1,6 @@
-require_relative "game_test"
+require_relative "setup_game"
 
-RSpec.describe "Defending" do
+RSpec.describe "Drawing" do
   before :each do
     setup
   end

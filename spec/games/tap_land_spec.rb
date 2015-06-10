@@ -1,4 +1,4 @@
-require_relative "game_test"
+require_relative "setup_game"
 
 RSpec.describe "Passing" do
   before :each do
