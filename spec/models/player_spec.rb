@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Player do
   it "a player can have a mana pool" do
     player = Player.create!({ mana_green: 1 })

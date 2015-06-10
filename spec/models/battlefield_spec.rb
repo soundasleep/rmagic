@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Battlefield do
   it "can't reference the same entity twice" do
     e = Entity.create!
@@ -12,4 +10,3 @@ RSpec.describe Battlefield do
     assert !b2.valid?
   end
 end
-
