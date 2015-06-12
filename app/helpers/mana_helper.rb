@@ -59,7 +59,18 @@ module ManaHelper
         pool[:blue] -= 1
         next
       end
-      # TODO other colours
+      if pool[:red] > 0
+        pool[:red] -= 1
+        next
+      end
+      if pool[:white] > 0
+        pool[:white] -= 1
+        next
+      end
+      if pool[:black] > 0
+        pool[:black] -= 1
+        next
+      end
 
       return false
     end

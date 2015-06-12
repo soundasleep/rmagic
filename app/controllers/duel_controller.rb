@@ -6,7 +6,7 @@ class DuelController < ApplicationController
      life: 20,
      is_ai: false
     )
-    @player2 = Player.create(
+    @player2 = Player.create!(
       name: "AI",
       life: 15,
       is_ai: true
