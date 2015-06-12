@@ -6,7 +6,7 @@ RSpec.describe "Attacking" do
 
     create_creatures
 
-    @duel.phase_number = Duel.attacking_phase
+    @duel.phase_number = PhaseManager.attacking_phase
     @duel.save!
   end
 
@@ -116,7 +116,7 @@ RSpec.describe "Attacking" do
 
       pass_until_next_turn
 
-      expect(@duel.player2.life).to eq(20 - @card.entity.find_card!.power)
+      expect(@duel.player2.life).to eq(20 - @card.entity.find_card.power)
     end
   end
 

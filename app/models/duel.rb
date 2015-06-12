@@ -28,11 +28,6 @@ class Duel < ActiveRecord::Base
     if current_player == player1 then player2 else player1 end
   end
 
-  def total_phases
-    # TODO fix up as necessary
-    4
-  end
-
   def priority_player
     players[priority_player_number - 1]
   end
@@ -41,84 +36,22 @@ class Duel < ActiveRecord::Base
     players[current_player_number - 1]
   end
 
-  # The current player has passed the turn; move the priority to the next player if necessary
-  # TODO move into game_engine?
-  def pass
-    # add to action log
-    Action.pass_action(self, priority_player)
-
-    self.priority_player_number = (priority_player_number % players.count) + 1
-    if priority_player_number == current_player_number
-      # priority has returned to the current player
-      self.priority_player_number = current_player_number
-      self.phase_number = ((phase_number - 1) % total_phases) + 2
-
-      if phase_number > total_phases
-        # next player
-        self.phase_number = 1
-        self.current_player_number = (current_player_number % players.count) + 1
-        self.priority_player_number = current_player_number
-
-        if current_player_number == first_player_number
-          # next turn
-          self.turn += 1
-
-          Action.new_turn_action(self)
-        end
-      end
-    end
-
-    save!
-
-    # perform phase actions
-    case phase_number
-      when Duel.drawing_phase
-        game_engine.draw_phase
-      when Duel.playing_phase
-        game_engine.play_phase
-      when Duel.attacking_phase
-        game_engine.attacking_phase
-      when Duel.cleanup_phase
-        game_engine.cleanup_phase
-    end
-
-    # do the AI if necessary
-    if priority_player.is_ai?
-      SimpleAI.new.do_turn(game_engine, priority_player)
-    end
-  end
-
-  def game_engine
-    GameEngine.new(self)
-  end
-
-  # TODO consider replacing with symbols
-  def self.drawing_phase
-    1
-  end
-
-  def self.playing_phase
-    2
-  end
-
-  def self.attacking_phase
-    3
-  end
-
-  def self.cleanup_phase
+  def total_phases
     4
   end
 
   def phase_text
     case phase_number
-      when Duel.drawing_phase
+      when PhaseManager.drawing_phase
         "drawing phase: draw cards"
-      when Duel.playing_phase
+      when PhaseManager.playing_phase
         "playing phase: play cards, cast creatures"
-      when Duel.attacking_phase
+      when PhaseManager.attacking_phase
         "attack phase: declare attackers and defenders"
-      when Duel.cleanup_phase
+      when PhaseManager.cleanup_phase
         "cleanup phase: damage happens, cleanup destroyed cards"
+      else
+        fail "Unknown phase #{phase_number}"
     end
   end
 

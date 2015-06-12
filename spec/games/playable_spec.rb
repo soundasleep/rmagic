@@ -4,7 +4,7 @@ RSpec.describe "Playable" do
   before :each do
     setup
 
-    @duel.phase_number = Duel.playing_phase
+    @duel.phase_number = PhaseManager.playing_phase
     @duel.save!
 
     assert_equal [], @duel.player1.hand

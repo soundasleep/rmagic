@@ -1,7 +1,6 @@
 class DeclaredAttacker < ActiveRecord::Base
   belongs_to :duel
   belongs_to :entity
-
   belongs_to :target_player, class_name: "Player"
   belongs_to :player, class_name: "Player"
 

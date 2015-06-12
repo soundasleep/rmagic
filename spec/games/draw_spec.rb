@@ -13,12 +13,12 @@ RSpec.describe "Drawing" do
     @duel.current_player_number = 2
     @duel.priority_player_number = 2
 
-    @duel.pass
+    game_engine.pass
 
     expect(@duel.player1.hand.count).to eq(0)
     expect(@duel.player2.hand.count).to eq(0)
 
-    @duel.pass
+    game_engine.pass
 
     expect(@duel.phase_number).to eq(1)
     expect(@duel.player1.hand.count).to eq(1)
@@ -33,12 +33,12 @@ RSpec.describe "Drawing" do
     @duel.current_player_number = 1
     @duel.priority_player_number = 1
 
-    @duel.pass
+    game_engine.pass
 
     expect(@duel.player1.hand.count).to eq(0)
     expect(@duel.player2.hand.count).to eq(0)
 
-    @duel.pass
+    game_engine.pass
 
     expect(@duel.phase_number).to eq(1)
     expect(@duel.player1.hand.count).to eq(0)
