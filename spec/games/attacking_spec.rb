@@ -6,7 +6,7 @@ RSpec.describe "Attacking" do
 
     create_creatures
 
-    @duel.phase_number = PhaseManager.attacking_phase
+    @duel.phase_number = :attacking_phase
     @duel.save!
   end
 

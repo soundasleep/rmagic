@@ -22,7 +22,7 @@ class GameEngine
 
   # list all entities which can attack
   def available_attackers(player)
-    if duel.phase_number == PhaseManager.attacking_phase and duel.current_player == player and duel.priority_player == player
+    if duel.phase_number == "attacking_phase" and duel.current_player == player and duel.priority_player == player
       # TODO summoning sickness
       return duel.priority_player.battlefield.select { |b| b.entity.find_card.is_creature? }
     end

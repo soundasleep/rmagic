@@ -6,27 +6,18 @@ RSpec.describe "Passing" do
 
     @phases = PhaseManager.new(game_engine)
 
-    allow(@duel).to receive(:total_phases) { 3 }
-  end
-
-  it "can be mocked" do
-    expect(@duel.total_phases).to eq(3)
+    allow(@duel).to receive(:next_phase!) {
+      # we just pass through phases instantly
+      true
+    }
   end
 
   it "starting a new turn draws a card" do
     [
-      [1, 1, 1],
-      [1, 1, 2],
-      [1, 2, 1],
-      [1, 2, 2],
-      [1, 3, 1],
-      [1, 3, 2],
-      [2, 1, 2],
-      [2, 1, 1],
-      [2, 2, 2],
-      [2, 2, 1],
-      [2, 3, 2],
-      [2, 3, 1],
+      [1, "drawing_phase", 1],
+      [1, "drawing_phase", 2],
+      [2, "drawing_phase", 2],
+      [2, "drawing_phase", 1],
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(1), "at turn #{test}"
@@ -35,8 +26,8 @@ RSpec.describe "Passing" do
 
     [
       # and then back again
-      [1, 1, 1],
-      [1, 1, 2],
+      [1, "drawing_phase", 1],
+      [1, "drawing_phase", 2],
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(2), "at turn #{test}"
@@ -51,18 +42,10 @@ RSpec.describe "Passing" do
     @duel.current_player_number = 2
 
     [
-      [2, 1, 2],
-      [2, 1, 1],
-      [2, 2, 2],
-      [2, 2, 1],
-      [2, 3, 2],
-      [2, 3, 1],
-      [1, 1, 1],
-      [1, 1, 2],
-      [1, 2, 1],
-      [1, 2, 2],
-      [1, 3, 1],
-      [1, 3, 2],
+      [2, "drawing_phase", 2],
+      [2, "drawing_phase", 1],
+      [1, "drawing_phase", 1],
+      [1, "drawing_phase", 2],
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(1), "at turn #{test}"
@@ -71,8 +54,8 @@ RSpec.describe "Passing" do
 
     [
       # and then back again
-      [2, 1, 2],
-      [2, 1, 1],
+      [2, "drawing_phase", 2],
+      [2, "drawing_phase", 1],
     ].each do |test|
       expect([@duel.current_player_number, @duel.phase_number, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(2), "at turn #{test}"

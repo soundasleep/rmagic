@@ -6,6 +6,8 @@ class Duel < ActiveRecord::Base
   has_many :declared_defenders, dependent: :destroy
   has_many :actions, dependent: :destroy
 
+  enum phase_number: [ :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
+
   after_initialize :init
 
   def init
@@ -13,7 +15,7 @@ class Duel < ActiveRecord::Base
     self.first_player_number ||= 1
     self.current_player_number ||= 1
     self.priority_player_number ||= 1
-    self.phase_number ||= 1
+    self.phase_number ||= :drawing_phase
   end
 
   def last_actions
@@ -40,18 +42,39 @@ class Duel < ActiveRecord::Base
     4
   end
 
+  def next_phase!
+    case phase_number
+      when "drawing_phase"
+        self.phase_number = :playing_phase
+        save!
+      when "playing_phase"
+        self.phase_number = :attacking_phase
+        save!
+      when "attacking_phase"
+        self.phase_number = :cleanup_phase
+        save!
+      when "cleanup_phase"
+        self.phase_number = :drawing_phase
+        save!
+        return true
+      else
+        fail "Unknown phase '#{phase_number}'"
+    end
+    return false
+  end
+
   def phase_text
     case phase_number
-      when PhaseManager.drawing_phase
+      when "drawing_phase"
         "drawing phase: draw cards"
-      when PhaseManager.playing_phase
+      when "playing_phase"
         "playing phase: play cards, cast creatures"
-      when PhaseManager.attacking_phase
+      when "attacking_phase"
         "attack phase: declare attackers and defenders"
-      when PhaseManager.cleanup_phase
+      when "cleanup_phase"
         "cleanup phase: damage happens, cleanup destroyed cards"
       else
-        fail "Unknown phase #{phase_number}"
+        fail "Unknown phase '#{phase_number}'"
     end
   end
 

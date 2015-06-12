@@ -4,10 +4,10 @@ RSpec.describe "Playable" do
   before :each do
     setup
 
-    @duel.phase_number = PhaseManager.playing_phase
+    @duel.phase_number = :playing_phase
     @duel.save!
 
-    assert_equal [], @duel.player1.hand
+    expect(@duel.player1.hand).to be_empty
 
     creature = Entity.create!( metaverse_id: 1 )
     Hand.create!( player: @duel.player1, entity: creature )
@@ -19,6 +19,17 @@ RSpec.describe "Playable" do
 
   def available_actions
     game_engine.available_actions(@duel.player1)
+  end
+
+  it "we can set and compare phase directly" do
+    @duel.reload
+    expect(@duel.playing_phase?).to eq(true)
+    expect(@duel.phase_number).to eq("playing_phase")
+  end
+
+  it "we cannot compare phase with symbols" do
+    @duel.reload
+    expect(@duel.phase_number).to_not eq(:playing_phase)
   end
 
   it "without tapping, we can't play anything" do
