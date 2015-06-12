@@ -26,19 +26,18 @@ We try to use as few model objects as possible.
 ## TODO
 
 * Represents actions as classes/services rather than methods?
+* Phases not as numbers
+* Support more game phases correctly
+* Summoning sickness
 * Instants
 * Activated abilities
 * Sorceries
-* Support more game phases correctly
 * Effects on entities (cards)
 * Represent player as an entity
 * Deck shuffling and drawing
 * Random first player
 * Order cards in graveyard
 * Continuous testing
-
-## Release 1 goals
-
 * Mulligans
 
 ## Release 1 goals
