@@ -6,8 +6,7 @@ RSpec.describe "Defending Groups" do
 
     create_creatures
 
-    @duel.phase_number = PhaseManager.attacking_phase
-    @duel.save!
+    @duel.attacking_phase!
 
     @card = available_attackers.first
     game_engine.declare_attackers [@card]

@@ -24,11 +24,9 @@ class PhaseManager
     if duel.priority_player_number == duel.current_player_number
       # priority has returned to the current player
       duel.priority_player_number = duel.current_player_number
-      duel.phase_number = ((duel.phase_number - 1) % total_phases) + 2
+      next_player = duel.next_phase!
 
-      if duel.phase_number > total_phases
-        # next player
-        duel.phase_number = 1
+      if next_player
         duel.current_player_number = (duel.current_player_number % duel.players.count) + 1
         duel.priority_player_number = duel.current_player_number
 
@@ -43,21 +41,24 @@ class PhaseManager
 
     duel.save!
 
-    # perform phase actions
-    case duel.phase_number
-      when PhaseManager.drawing_phase
-        draw_phase
-      when PhaseManager.playing_phase
-        play_phase
-      when PhaseManager.attacking_phase
-        attacking_phase
-      when PhaseManager.cleanup_phase
-        cleanup_phase
-    end
+    perform_phase_actions
 
     # do the AI if necessary
     if duel.priority_player.is_ai?
       SimpleAI.new.do_turn(game_engine, duel.priority_player)
+    end
+  end
+
+  def perform_phase_actions
+    case duel.phase
+      when :drawing_phase
+        draw_phase
+      when :playing_phase
+        play_phase
+      when :attacking_phase
+        attacking_phase
+      when :cleanup_phase
+        cleanup_phase
     end
   end
 
@@ -103,23 +104,6 @@ class PhaseManager
     game_engine.reset_damage
 
     duel.reload       # TODO this seems gross! (necessary to pick up DeclaredAttacker/DeclaredDefender changes?)
-  end
-
-  # TODO consider replacing with symbols
-  def self.drawing_phase
-    1
-  end
-
-  def self.playing_phase
-    2
-  end
-
-  def self.attacking_phase
-    3
-  end
-
-  def self.cleanup_phase
-    4
   end
 
 end
