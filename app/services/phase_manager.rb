@@ -7,10 +7,6 @@ class PhaseManager
     @game_engine
   end
 
-  def total_phases
-    duel.total_phases
-  end
-
   def duel
     game_engine.duel
   end

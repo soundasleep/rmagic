@@ -38,11 +38,6 @@ class Duel < ActiveRecord::Base
     players[current_player_number - 1]
   end
 
-  # TODO remove
-  def total_phases
-    4
-  end
-
   def phase
     phase_number.to_sym
   end
