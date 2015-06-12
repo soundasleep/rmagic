@@ -33,19 +33,21 @@ RSpec.describe "Damage" do
     expect(@duel.player1.battlefield).to_not include(card)
   end
 
-  it "lots of damage causes cards to be removed at the next turn" do
-    card = first_creature
+  context "too much damage" do
+    before :each do
+      @card = first_creature
 
-    card.entity.damage! 100
-    pass_until_next_turn
+      @card.entity.damage! 100
+    end
 
-    expect(@duel.player1.battlefield).to_not include(card)
-  end
+    it "causes cards to be removed at the next turn" do
+      pass_until_next_turn
+      expect(@duel.player1.battlefield).to_not include(@card)
+    end
 
-  it "a card with too much damage has the destroyed flag" do
-    card = first_creature
-    card.entity.damage! 100
-    expect(card.entity.is_destroyed?).to eq(true)
+    it "provides the destroyed flag" do
+      expect(@card.entity.is_destroyed?).to eq(true)
+    end
   end
 
   it "a card with little damage does not have the destroyed flag" do
@@ -81,37 +83,33 @@ RSpec.describe "Damage" do
     expect(graveyard_actions(card.entity).count).to equal(1)
   end
 
-  it "temporary damage does not cause a card to be removed" do
-    card = first_creature
-    expect(card.entity.find_card.toughness).to_not equal(1)
-    card.entity.damage! 1
+  context "temporary damage" do
+    before :each do
+      @card = first_creature
+      expect(@card.entity.find_card.toughness).to_not equal(1)
+      @card.entity.damage! 1
+    end
 
-    pass_until_next_turn
+    it "does not cause a card to be removed" do
+      pass_until_next_turn
 
-    expect(@duel.player1.battlefield).to include(card)
-  end
+      expect(@duel.player1.battlefield).to include(@card)
+    end
 
-  it "temporary damage is not removed until the next players turn" do
-    card = first_creature
-    expect(card.entity.find_card.toughness).to_not equal(1)
-    card.entity.damage! 1
+    it "is not removed until the next players turn" do
+      game_engine.pass
+      expect(@card.entity.damage).to eq(1)
 
-    game_engine.pass
-    expect(card.entity.damage).to eq(1)
+      @card.entity.reload
+      expect(@card.entity.damage).to eq(1)
+    end
 
-    card.entity.reload
-    expect(card.entity.damage).to eq(1)
-  end
+    it "is removed at the start of the next players turn" do
+      pass_until_next_turn
 
-  it "temporary damage is removed at the start of the next players turn" do
-    card = first_creature
-    expect(card.entity.find_card.toughness).to_not equal(1)
-    card.entity.damage! 1
-
-    pass_until_next_turn
-
-    card.entity.reload
-    expect(card.entity.damage).to eq(0)
+      @card.entity.reload
+      expect(@card.entity.damage).to eq(0)
+    end
   end
 
 end

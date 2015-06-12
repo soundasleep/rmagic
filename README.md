@@ -38,6 +38,7 @@ We try to use as few model objects as possible.
 * Random first player
 * Order cards in graveyard
 * Continuous testing
+* Tests for controllers
 * Mulligans
 
 ## Release 1 goals
