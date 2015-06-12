@@ -38,48 +38,51 @@ class Duel < ActiveRecord::Base
     players[current_player_number - 1]
   end
 
+  # TODO remove
   def total_phases
     4
   end
 
+  def phase
+    phase_number.to_sym
+  end
+
   def next_phase!
-    case phase_number
-      when "drawing_phase"
-        self.phase_number = :playing_phase
-        save!
-      when "playing_phase"
-        self.phase_number = :attacking_phase
-        save!
-      when "attacking_phase"
-        self.phase_number = :cleanup_phase
-        save!
-      when "cleanup_phase"
-        self.phase_number = :drawing_phase
-        save!
-        return true
+    next_player = false
+    self.phase_number = case phase
+      when :drawing_phase
+        :playing_phase
+      when :playing_phase
+        :attacking_phase
+      when :attacking_phase
+        :cleanup_phase
+      when :cleanup_phase
+        next_player = true
+        :drawing_phase
       else
-        fail "Unknown phase '#{phase_number}'"
+        fail "Unknown phase '#{phase}'"
     end
-    return false
+    save!
+    return next_player
   end
 
   def phase_text
-    case phase_number
-      when "drawing_phase"
+    case phase
+      when :drawing_phase
         "drawing phase: draw cards"
-      when "playing_phase"
+      when :playing_phase
         "playing phase: play cards, cast creatures"
-      when "attacking_phase"
+      when :attacking_phase
         "attack phase: declare attackers and defenders"
-      when "cleanup_phase"
+      when :cleanup_phase
         "cleanup phase: damage happens, cleanup destroyed cards"
       else
-        fail "Unknown phase '#{phase_number}'"
+        fail "Unknown phase '#{phase}'"
     end
   end
 
   def current_turn_text
-    "Turn #{turn}, phase #{phase_number} (#{phase_text}), current player #{current_player_number}, priority player #{priority_player_number}"
+    "Turn #{turn}, phase #{phase} (#{phase_text}), current player #{current_player_number}, priority player #{priority_player_number}"
   end
 
 end

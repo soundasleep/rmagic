@@ -41,21 +41,24 @@ class PhaseManager
 
     duel.save!
 
-    # perform phase actions
-    case duel.phase_number
-      when "drawing_phase"
-        draw_phase
-      when "playing_phase"
-        play_phase
-      when "attacking_phase"
-        attacking_phase
-      when "cleanup_phase"
-        cleanup_phase
-    end
+    perform_phase_actions
 
     # do the AI if necessary
     if duel.priority_player.is_ai?
       SimpleAI.new.do_turn(game_engine, duel.priority_player)
+    end
+  end
+
+  def perform_phase_actions
+    case duel.phase
+      when :drawing_phase
+        draw_phase
+      when :playing_phase
+        play_phase
+      when :attacking_phase
+        attacking_phase
+      when :cleanup_phase
+        cleanup_phase
     end
   end
 

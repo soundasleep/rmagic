@@ -14,13 +14,13 @@ class ActionFinder
       tap: [],
       defend: []
     }
-    if duel.phase_number == "playing_phase" and duel.current_player == player and duel.priority_player == player
+    if duel.playing_phase? and duel.current_player == player and duel.priority_player == player
       actions[:play] += playable_cards(player)
     end
-    if duel.phase_number == "playing_phase"
+    if duel.playing_phase?
       actions[:tap] += tappable_cards(player)
     end
-    if duel.phase_number == "attacking_phase" and duel.priority_player == player and duel.priority_player != duel.current_player
+    if duel.attacking_phase? and duel.priority_player == player and duel.priority_player != duel.current_player
       actions[:defend] += defendable_cards(player)
     end
     actions
