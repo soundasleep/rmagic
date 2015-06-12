@@ -4,8 +4,7 @@ RSpec.describe "Passing" do
   before :each do
     setup
 
-    @duel.phase_number = :playing_phase
-    @duel.save!
+    @duel.playing_phase!
   end
 
   def untapped_land

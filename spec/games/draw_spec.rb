@@ -15,7 +15,7 @@ RSpec.describe "Drawing" do
     expect(@duel.player1.hand.count).to eq(0)
     expect(@duel.player2.hand.count).to eq(0)
 
-    @duel.phase_number = :cleanup_phase
+    @duel.cleanup_phase!
     @duel.current_player_number = 2
     @duel.priority_player_number = 2
 
@@ -41,7 +41,7 @@ RSpec.describe "Drawing" do
     expect(@duel.player1.hand.count).to eq(0)
     expect(@duel.player2.hand.count).to eq(0)
 
-    @duel.phase_number = :cleanup_phase
+    @duel.cleanup_phase!
     @duel.current_player_number = 1
     @duel.priority_player_number = 1
     @duel.save!

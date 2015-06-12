@@ -6,8 +6,7 @@ RSpec.describe "Attacking" do
 
     create_creatures
 
-    @duel.phase_number = :attacking_phase
-    @duel.save!
+    @duel.attacking_phase!
   end
 
   it "at the start of a duel, we have no declared attackers" do

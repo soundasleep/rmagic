@@ -4,8 +4,7 @@ RSpec.describe "Playable" do
   before :each do
     setup
 
-    @duel.phase_number = :playing_phase
-    @duel.save!
+    @duel.playing_phase!
 
     expect(@duel.player1.hand).to be_empty
 
