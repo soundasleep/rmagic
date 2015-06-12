@@ -25,6 +25,7 @@ We try to use as few model objects as possible.
 
 ## TODO
 
+* Rewrite specs with contexts rather than `it`s
 * Represents actions as classes/services rather than methods?
 * Phases not as numbers
 * Support more game phases correctly
