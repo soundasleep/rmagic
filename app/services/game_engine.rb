@@ -147,6 +147,18 @@ class GameEngine
     apply_damage_to action, damage, defender.target
   end
 
+  def apply_attack_damages(attackers)
+    attackers.each do |d|
+      apply_attack_damage d
+    end
+  end
+
+  def apply_defend_damages(defenders)
+    defenders.each do |d|
+      apply_defend_damage d
+    end
+  end
+
   def move_destroyed_creatures_to_graveyard
     duel.players.each do |player|
       player.battlefield.each do |b|
@@ -163,60 +175,10 @@ class GameEngine
     end
   end
 
-  # TODO maybe put into a phase manager service?
-
   def clear_mana
     duel.players.each do |player|
       player.clear_mana!
     end
-  end
-
-  def draw_phase
-    clear_mana
-
-    # for the current player
-    # untap all tapped cards for the current player
-    if duel.current_player == duel.priority_player
-      duel.priority_player.battlefield.select { |card| card.entity.is_tapped? }.each do |card|
-        card_action(card, "untap")
-      end
-
-      # the current player draws a card
-      draw_card(duel.priority_player)
-    end
-  end
-
-  def play_phase
-    clear_mana
-  end
-
-  def attacking_phase
-    clear_mana
-  end
-
-  def cleanup_phase
-    clear_mana
-
-    duel.declared_attackers.each do |d|
-      apply_attack_damage d
-    end
-
-    duel.declared_defenders.each do |d|
-      apply_defend_damage d
-    end
-
-    # remove attackers
-    DeclaredAttacker.destroy_all(duel: duel)
-
-    # remove defenders
-    DeclaredDefender.destroy_all(duel: duel)
-
-    move_destroyed_creatures_to_graveyard
-
-    # reset damage
-    reset_damage
-
-    duel.reload       # TODO this seems gross! (necessary to pick up DeclaredAttacker/DeclaredDefender changes?)
   end
 
 end

@@ -56,6 +56,7 @@ We try to use as few model objects as possible.
 * Support exile
 * Javascript REST-driven to enable a rich user experience
 * Chat
+* Card graphics
 
 ## Probably never
 
