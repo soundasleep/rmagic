@@ -20,6 +20,10 @@ RSpec.describe "Playable" do
     game_engine.available_actions(@duel.player1)
   end
 
+  def battlefield_creatures
+    @duel.player1.battlefield.select{ |b| !b.entity.find_card.is_land? }.map{ |b| b.entity }
+  end
+
   it "we can set and compare phase directly" do
     @duel.reload
     expect(@duel.playing_phase?).to eq(true)
@@ -35,42 +39,41 @@ RSpec.describe "Playable" do
     expect(available_actions[:play]).to be_empty
   end
 
-  it "we have three green lands to tap" do
-    tap_all_lands
-    expect(@duel.player1.mana_green).to eq(3)
-  end
+  context "tapping all lands on our turn" do
+    before :each do
+      tap_all_lands
+    end
 
-  it "with tapping, we can play a creature" do
-    tap_all_lands
+    it "provides three green mana" do
+      expect(@duel.player1.mana_green).to eq(3)
+    end
 
-    expect(available_actions[:play].map { |h| h.entity }).to eq([hand.first!.entity])
-  end
+    it "allows us to play a creature" do
+      expect(available_actions[:play].map { |h| h.entity }).to eq([hand.first!.entity])
+    end
 
-  it "playing a creature creates an action" do
-    tap_all_lands
+    context "playing a creature" do
+      before :each do
+        expect(battlefield_creatures).to be_empty
 
-    card = hand.first!
-    game_engine.play(card)
+        @card = hand.first!
+        game_engine.play(@card)
+      end
 
-    action = Action.where(duel: @duel).last
-    expect(action.entity).to eq(card.entity)
-    expect(action.entity_action).to eq("play")
-  end
+      it "creates an action" do
+        action = Action.where(duel: @duel).last
+        expect(action.entity).to eq(@card.entity)
+        expect(action.entity_action).to eq("play")
+      end
 
-  def battlefield_creatures
-    @duel.player1.battlefield.select{ |b| !b.entity.find_card.is_land? }.map{ |b| b.entity }
-  end
+      it "puts a creature on the battlefield" do
+        expect(battlefield_creatures).to eq([@card.entity])
+      end
+    end
 
-  it "playing a creature puts a creature on the battlefield" do
-    tap_all_lands
-
-    expect(battlefield_creatures).to be_empty
-
-    expect(@duel.player1.mana_green).to eq(3)
-    card = hand.first!
-    game_engine.play(card)
-
-    expect(battlefield_creatures).to eq([card.entity])
+    it "prevents lands from being retapped" do
+      expect(battlefield_can_be_tapped).to be_empty
+    end
   end
 
   def battlefield_can_be_tapped
@@ -79,11 +82,6 @@ RSpec.describe "Playable" do
 
   it "lands can be tapped" do
     expect(battlefield_can_be_tapped).to eq(@duel.player1.battlefield.map{ |b| b.entity })
-  end
-
-  it "after lands are tapped, lands cannot be retapped" do
-    tap_all_lands
-    expect(battlefield_can_be_tapped).to be_empty
   end
 
   it "creatures cannot be tapped" do
