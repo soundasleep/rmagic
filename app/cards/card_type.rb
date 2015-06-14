@@ -22,10 +22,6 @@ class CardType
     false
   end
 
-  def actions
-    []
-  end
-
   def mana_cost
     {}
   end
