@@ -31,15 +31,33 @@ class CardType
   end
 
   def do_action(game_engine, card, index)
+    case index
+      when "play"
+        return do_play(game_engine, card)
+    end
     fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
   end
 
+  # ignoring mana costs
   def can_do_action?(game_engine, card, index)
     case index
       when "play"
         return card.entity.can_play?
     end
     fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+  end
+
+  def action_cost(game_engine, card, index)
+    case index
+      when "play"
+        return mana_cost
+      end
+    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+  end
+
+  def actions
+    # TODO not all cards can be played?
+    [ "play" ]
   end
 
   def do_play(game_engine, card)

@@ -8,7 +8,7 @@ class GameEngine
   end
 
   def action_finder
-    ActionFinder.new(duel)
+    ActionFinder.new(self)
   end
 
   def phase_manager

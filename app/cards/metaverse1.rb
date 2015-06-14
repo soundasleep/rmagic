@@ -22,16 +22,4 @@ class Metaverse1 < CardType
     }
   end
 
-  def actions
-    [ "play" ]
-  end
-
-  def do_action(game_engine, card, index)
-    case index
-      when "play"
-        return do_play(game_engine, card)
-    end
-    super
-  end
-
 end

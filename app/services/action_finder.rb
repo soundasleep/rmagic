@@ -1,10 +1,14 @@
 class ActionFinder
-  def initialize(duel)
-    @duel = duel
+  def initialize(game_engine)
+    @game_engine = game_engine
+  end
+
+  def game_engine
+    @game_engine
   end
 
   def duel
-    @duel
+    game_engine.duel
   end
 
   # list all available actions for the given player
@@ -29,7 +33,7 @@ class ActionFinder
   def playable_cards(player)
     # all cards where we have enough mana
     player.hand.select do |hand|
-      player.has_mana? hand.entity.find_card.mana_cost
+      player.has_mana? hand.entity.find_card.action_cost(game_engine, hand, "play")
     end
   end
 
