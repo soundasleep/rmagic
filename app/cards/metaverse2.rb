@@ -8,7 +8,17 @@ class Metaverse2 < CardType
   end
 
   def actions
-    [ "tap", "untap", "play" ]
+    super + [ "tap", "untap" ]
+  end
+
+  def can_do_action?(game_engine, card, index)
+    case index
+      when "tap"
+        return card.entity.can_tap?
+      when "untap"
+        return card.entity.can_untap?
+    end
+    super
   end
 
   def do_action(game_engine, card, index)
@@ -17,8 +27,6 @@ class Metaverse2 < CardType
         return do_tap(game_engine, card)
       when "untap"
         return do_untap(game_engine, card)
-      when "play"
-        return do_play(game_engine, card)
     end
     super
   end

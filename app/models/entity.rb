@@ -22,6 +22,10 @@ class Entity < ActiveRecord::Base
     find_card.action_text(action_id)
   end
 
+  def can_tap?
+    !is_tapped?
+  end
+
   def tap_card!
     fail "card is already tapped" unless !is_tapped?
     self.is_tapped = true

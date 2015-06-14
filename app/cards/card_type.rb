@@ -34,6 +34,14 @@ class CardType
     fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
   end
 
+  def can_do_action?(game_engine, card, index)
+    case index
+      when "play"
+        return card.entity.can_play?
+    end
+    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+  end
+
   def do_play(game_engine, card)
     # use mana
     game_engine.use_mana!(card.player, card)

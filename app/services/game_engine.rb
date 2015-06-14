@@ -20,6 +20,10 @@ class GameEngine
     action_finder.available_actions(player)
   end
 
+  def can_do_action?(card, action)
+    card.entity.find_card.can_do_action?(self, card, action)
+  end
+
   def available_attackers(player)
     action_finder.available_attackers(player)
   end

@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Passing" do
+RSpec.describe "Tapping lands" do
   before :each do
     setup
 
@@ -29,46 +29,56 @@ RSpec.describe "Passing" do
     expect(@duel.player1.mana_green).to eq(2)
   end
 
-  it "we can tap cards" do
-    card = untapped_land
-    expect(card.entity.is_tapped?).to eq(false)
-    game_engine.card_action(card, "tap")
-    card.reload
-    card.entity.reload
-    expect(card.entity.is_tapped?).to eq(true)
+  context "an untapped land" do
+    before :each do
+      @card = untapped_land
+    end
 
-    # we have another untapped land
-    card = untapped_land
-    expect(card.entity.is_tapped?).to eq(false)
-  end
+    it "can be tapped" do
+      expect(@card.entity.is_tapped?).to eq(false)
+      game_engine.card_action(@card, "tap")
+      @card.reload
+      @card.entity.reload
+      expect(@card.entity.is_tapped?).to eq(true)
+    end
 
-  it "we can tap cards directly" do
-    card = untapped_land
-    expect(card.entity.is_tapped?).to eq(false)
-    card.entity.tap_card!
-    expect(card.entity.is_tapped?).to eq(true)
-  end
+    context "and when tapped" do
+      before :each do
+        expect(Action.where(duel: @duel)).to be_empty
+        game_engine.card_action(@card, "tap")
+      end
 
-  it "we can tap cards directly through entity" do
-    entity = untapped_land.entity
-    expect(entity.is_tapped?).to eq(false)
-    entity.tap_card!
-    expect(entity.is_tapped?).to eq(true)
-  end
+      it "can no longer be actioned to tap" do
+        expect(game_engine.can_do_action?(@card, "tap")).to eq(false)
+      end
 
-  it "tapping does not modify duel phase" do
-    game_engine.card_action(untapped_land, "tap")
-    expect(@duel.playing_phase?).to eq(true)
-  end
+      it "creates an action" do
+        action = Action.where(duel: @duel).first!
+        expect(action.entity).to eq(@card.entity)
+      end
 
-  it "tapping creates an action" do
-    expect(Action.where(duel: @duel)).to be_empty
+      it "does not modify the phase of the duel" do
+        expect(@duel.playing_phase?).to eq(true)
+      end
+    end
 
-    card = untapped_land
-    game_engine.card_action(card, "tap")
+    it "can be tapped directly" do
+      expect(@card.entity.is_tapped?).to eq(false)
+      @card.entity.tap_card!
+      expect(@card.entity.is_tapped?).to eq(true)
+    end
 
-    action = Action.where(duel: @duel).first!
-    expect(action.entity).to eq(card.entity)
+    it "does not tap other lands" do
+      @card.entity.tap_card!
+
+      card = untapped_land
+      expect(card.entity).to_not eq(@card.entity)
+      expect(card.entity.is_tapped?).to eq(false)
+    end
+
+    it "can be actioned to tap" do
+      expect(game_engine.can_do_action?(@card, "tap")).to eq(true)
+    end
   end
 
   it "tapped lands untap in the next turn" do
