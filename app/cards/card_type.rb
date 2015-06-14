@@ -44,6 +44,10 @@ class CardType
 
     # add to the battlefield
     Battlefield.create!( player: card.player, entity: card.entity )
+
+    # save the turn it was played
+    card.entity.turn_played = game_engine.duel.turn
+    card.entity.save!
   end
 
 end
