@@ -53,7 +53,7 @@ We try to use as few model objects as possible.
 
 * Specify resolved attack priority order
 * An AI that makes sense
-* Support exile
+* Support exile zone
 * Javascript REST-driven to enable a rich user experience
 * Chat
 * Card graphics
@@ -63,6 +63,7 @@ We try to use as few model objects as possible.
 * More than two player games
 * Different game modes
 * Data-driven cards, rather than [in Ruby](app/cards/)
+* Comparison of supported features to the [comprehensive rules](http://magiccards.info/rules.html)
 
 ## Tests
 
