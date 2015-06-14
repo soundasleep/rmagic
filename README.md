@@ -28,9 +28,9 @@ We try to use as few model objects as possible.
 * Rewrite specs with contexts rather than `it`s
 * Represents actions as classes/services rather than methods?
 * Support more game phases correctly
-* Summoning sickness
 * Instants
 * Activated abilities
+* Summoning sickness for activated abilities
 * Sorceries
 * Effects on entities (cards)
 * Represent player as an entity
