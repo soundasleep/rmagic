@@ -15,46 +15,46 @@ class DuelController < ApplicationController
     @duel = Duel.create!( player1: @player1, player2: @player2 )
 
     10.times do
-      creature = Entity.create!( metaverse_id: 1 )
+      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
       Deck.create!( entity: creature, player: @player1 )
     end
     10.times do
-      creature = Entity.create!( metaverse_id: 1 )
+      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
       Deck.create!( entity: creature, player: @player2 )
     end
 
     1.times do
-      creature = Entity.create!( metaverse_id: 1 )
+      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
       Battlefield.create!( entity: creature, player: @player1 )
     end
     1.times do
-      creature = Entity.create!( metaverse_id: 1 )
+      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
       Battlefield.create!( entity: creature, player: @player2 )
     end
 
     3.times do
-      forest = Entity.create!( metaverse_id: 2 )
+      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
       Battlefield.create!( entity: forest, player: @player1 )
     end
     3.times do
-      forest = Entity.create!( metaverse_id: 2 )
+      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
       Battlefield.create!( entity: forest, player: @player2 )
     end
 
     1.times do
-      creature = Entity.create!( metaverse_id: 1 )
+      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
       Hand.create!( entity: creature, player: @player1 )
     end
     1.times do
-      creature = Entity.create!( metaverse_id: 1 )
+      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
       Hand.create!( entity: creature, player: @player2 )
     end
     1.times do
-      forest = Entity.create!( metaverse_id: 2 )
+      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
       Hand.create!( entity: forest, player: @player1 )
     end
     1.times do
-      forest = Entity.create!( metaverse_id: 2 )
+      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
       Hand.create!( entity: forest, player: @player2 )
     end
 

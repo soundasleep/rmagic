@@ -8,7 +8,7 @@ RSpec.describe "Playable" do
 
     expect(@duel.player1.hand).to be_empty
 
-    creature = Entity.create!( metaverse_id: 1 )
+    creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
     Hand.create!( player: @duel.player1, entity: creature )
   end
 
@@ -68,6 +68,14 @@ RSpec.describe "Playable" do
 
       it "puts a creature on the battlefield" do
         expect(battlefield_creatures).to eq([@card.entity])
+      end
+
+      it "we're on turn 1" do
+        expect(@duel.turn).to eq(1)
+      end
+
+      it "stores when the entity was played" do
+        expect(battlefield_creatures.first.turn_played).to eq(1)
       end
 
       context "gives it summoning sickness" do

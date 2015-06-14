@@ -20,13 +20,8 @@ class GameEngine
     action_finder.available_actions(player)
   end
 
-  # list all entities which can attack
   def available_attackers(player)
-    if duel.attacking_phase? and duel.current_player == player and duel.priority_player == player
-      # TODO summoning sickness
-      return duel.priority_player.battlefield.select { |b| b.entity.find_card.is_creature? }
-    end
-    []
+    action_finder.available_attackers(player)
   end
 
   def declare_attackers(cards)

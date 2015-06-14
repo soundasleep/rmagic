@@ -54,4 +54,13 @@ class ActionFinder
       end.flatten(1)
   end
 
+  def available_attackers(player)
+    if duel.attacking_phase? and duel.current_player == player and duel.priority_player == player
+      return duel.priority_player.battlefield
+          .select{ |b| b.entity.find_card.is_creature? }
+          .select{ |b| b.entity.turn_played < duel.turn }   # summoning sickness
+    end
+    []
+  end
+
 end

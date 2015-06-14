@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609231109) do
+ActiveRecord::Schema.define(version: 20150614231112) do
 
   create_table "action_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150609231109) do
     t.datetime "updated_at",   null: false
     t.boolean  "is_tapped"
     t.integer  "damage"
+    t.integer  "turn_played"
   end
 
   create_table "graveyards", force: :cascade do |t|
