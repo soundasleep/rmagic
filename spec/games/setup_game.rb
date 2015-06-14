@@ -46,7 +46,7 @@ module SetupGame
   end
 
   def available_attackers
-    game_engine.available_attackers(@duel.player1)
+    game_engine.available_attackers(@duel.current_player)
   end
 
   def declaring_actions(card)

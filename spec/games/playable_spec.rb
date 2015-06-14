@@ -69,6 +69,21 @@ RSpec.describe "Playable" do
       it "puts a creature on the battlefield" do
         expect(battlefield_creatures).to eq([@card.entity])
       end
+
+      context "gives it summoning sickness" do
+        it "and it cannot attack in the current turn" do
+          @duel.attacking_phase!
+
+          expect(available_attackers).to eq([])
+        end
+
+        it "but can attack in the next turn" do
+          pass_until_next_turn
+
+          @duel.attacking_phase!
+          expect(available_attackers.map{ |b| b.entity }).to eq([@card.entity])
+        end
+      end
     end
 
     it "prevents lands from being retapped" do
