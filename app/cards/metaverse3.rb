@@ -39,7 +39,7 @@ class Metaverse3 < CardType
   def can_do_action?(game_engine, card, index)
     case index
       when "add_life"
-        return true
+        return game_engine.duel.priority_player == card.player && (game_engine.duel.playing_phase? || game_engine.duel.attacking_phase?)
     end
     super
   end
