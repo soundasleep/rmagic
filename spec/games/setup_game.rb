@@ -41,6 +41,36 @@ module SetupGame
     end
   end
 
+  def create_hand_cards(metaverse_id)
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Hand.create!( entity: entity, player: @duel.player1 )
+    end
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Hand.create!( entity: entity, player: @duel.player2 )
+    end
+  end
+
+  def create_battlefield_cards(metaverse_id)
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Battlefield.create!( entity: entity, player: @duel.player1 )
+    end
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Battlefield.create!( entity: entity, player: @duel.player2 )
+    end
+  end
+
+  def create_ability_creatures
+    create_battlefield_cards(3)
+  end
+
+  def create_instants
+    create_hand_cards(4)
+  end
+
   def our_creatures
     @duel.player1.battlefield.select{ |b| b.entity.find_card.is_creature? }.map{ |b| b.entity }
   end
@@ -49,24 +79,40 @@ module SetupGame
     game_engine.available_attackers(@duel.current_player)
   end
 
+  def available_actions
+    game_engine.available_actions(@duel.player1)
+  end
+
+  def actions(entity, action)
+    Action.where(duel: @duel, entity_action: action, entity: entity)
+  end
+
   def declaring_actions(card)
-    Action.where(duel: @duel, entity_action: "declare", entity: card.entity)
+    actions(card.entity, "declare")
   end
 
   def defending_actions(card)
-    Action.where(duel: @duel, entity_action: "defend", entity: card.entity)
+    actions(card.entity, "defend")
   end
 
   def defended_actions(card)
-    Action.where(duel: @duel, entity_action: "defended", entity: card.entity)
+    actions(card.entity, "defended")
   end
 
   def attacking_actions(card)
-    Action.where(duel: @duel, entity_action: "attack", entity: card.entity)
+    actions(card.entity, "attack")
   end
 
   def graveyard_actions(entity)
-    Action.where(duel: @duel, entity_action: "graveyard", entity: entity)
+    actions(entity, "graveyard")
+  end
+
+  def available_ability_actions(index)
+    available_actions[:ability].select { |action| action[:action] == index }
+  end
+
+  def available_play_actions(index)
+    available_actions[:play].select { |action| action[:action] == index }
   end
 
   def game_engine
@@ -98,6 +144,16 @@ module SetupGame
     while @duel.current_player == c do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next turn"
+      game_engine.pass
+    end
+  end
+
+  def pass_until_current_player_has_priority
+    i = 0
+
+    while @duel.priority_player != @duel.player1 do
+      i += 1
+      assert_operator i, :<, 100, "it took too long to get to the next priority"
       game_engine.pass
     end
   end

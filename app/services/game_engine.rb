@@ -8,7 +8,7 @@ class GameEngine
   end
 
   def action_finder
-    ActionFinder.new(duel)
+    ActionFinder.new(self)
   end
 
   def phase_manager
@@ -18,6 +18,13 @@ class GameEngine
   # list all available actions for the given player
   def available_actions(player)
     action_finder.available_actions(player)
+  end
+
+  def can_do_action?(card, action)
+    fail "Card #{card} has nil action cost for action '#{action}'" unless card.entity.find_card.action_cost(self, card, action)
+
+    card.entity.find_card.can_do_action?(self, card, action) and
+      card.player.has_mana? card.entity.find_card.action_cost(self, card, action)
   end
 
   def available_attackers(player)
@@ -32,33 +39,29 @@ class GameEngine
     end
   end
 
-  def play(hand)
-    # remove from hand
-    hand.destroy!
-
-    # do 'play' action
-    card_action hand, "play"
-  end
-
   def draw_card(player)
     # remove from deck
     card = player.deck.first!
     card.destroy
 
+    # update log
+    Action.draw_card_action(duel, player)
+
     # add it to the hand
     Hand.create!( player: player, entity: card.entity )
-
-    # action
-    Action.draw_card_action(duel, player)
   end
 
   def card_action(card, key)
     fail "No card specified" unless card
 
-    card.entity.find_card.do_action self, card, key
+    # use mana
+    card.player.use_mana! card.entity.find_card.action_cost(self, card, key)
 
-    # action
+    # update log
     Action.card_action(duel, card.player, card.entity, key)
+
+    # do the thing
+    card.entity.find_card.do_action self, card, key
 
     # clear any other references
     duel.reload
@@ -74,11 +77,11 @@ class GameEngine
     fail "No :source defined" unless defend[:source]
     fail "No :target defined" unless defend[:target]
 
+    # update log
+    Action.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
+
     DeclaredDefender.create!( duel: duel, source: defend[:source], target: defend[:target] )
     duel.reload       # TODO this seems gross!
-
-    # action
-    Action.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
   end
 
   def declare_defenders(defends)
@@ -158,16 +161,32 @@ class GameEngine
     duel.players.each do |player|
       player.battlefield.each do |b|
         if b.entity.is_destroyed?
-          b.destroy!
-
-          # move to graveyard
-          Graveyard.create!( player: b.player, entity: b.entity )
-          duel.reload       # TODO this seems gross!
-
-          Action.card_action(duel, b.player, b.entity, "graveyard")
+          move_into_graveyard b.player, b
         end
       end
     end
+  end
+
+  def move_into_graveyard(player, zone_card)
+    zone_card.destroy!
+
+    # udpate log
+    Action.card_action(duel, player, zone_card.entity, "graveyard")
+
+    # move to graveyard
+    Graveyard.create!( player: zone_card.player, entity: zone_card.entity )
+    duel.reload       # TODO this seems gross!
+  end
+
+  def move_into_battlefield(player, zone_card)
+    zone_card.destroy!
+
+    # update log
+    Action.card_action(duel, player, zone_card.entity, "battlefield")
+
+    # move to graveyard
+    Battlefield.create!( player: zone_card.player, entity: zone_card.entity )
+    duel.reload       # TODO this seems gross!
   end
 
   def clear_mana

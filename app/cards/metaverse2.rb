@@ -8,7 +8,30 @@ class Metaverse2 < CardType
   end
 
   def actions
-    [ "tap", "untap", "play" ]
+    super + [ "tap", "untap" ]
+  end
+
+  def can_do_action?(game_engine, card, index)
+    case index
+      when "tap"
+        return game_engine.duel.priority_player == card.player &&
+          (game_engine.duel.playing_phase? || game_engine.duel.attacking_phase?) && # TODO replace with game_engine.duel.phase.can_tap?
+          card.entity.can_tap? &&
+          card.zone.can_tap_from?
+      when "untap"
+        return false # we can never manually untap lands
+    end
+    super
+  end
+
+  def action_cost(game_engine, card, index)
+    case index
+      when "tap"
+        return zero_mana
+      when "untap"
+        return zero_mana
+    end
+    super
   end
 
   def do_action(game_engine, card, index)
@@ -17,8 +40,6 @@ class Metaverse2 < CardType
         return do_tap(game_engine, card)
       when "untap"
         return do_untap(game_engine, card)
-      when "play"
-        return do_play(game_engine, card)
     end
     super
   end

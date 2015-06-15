@@ -22,10 +22,6 @@ class CardType
     false
   end
 
-  def actions
-    []
-  end
-
   def mana_cost
     {}
   end
@@ -35,15 +31,43 @@ class CardType
   end
 
   def do_action(game_engine, card, index)
+    case index
+      when "play"
+        return do_play(game_engine, card)
+    end
     fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
   end
 
-  def do_play(game_engine, card)
-    # use mana
-    game_engine.use_mana!(card.player, card)
+  # ignoring mana costs
+  def can_do_action?(game_engine, card, index)
+    case index
+      when "play"
+        return game_engine.duel.priority_player == card.player &&
+            game_engine.duel.current_player == card.player &&
+            (game_engine.duel.playing_phase?) &&
+            card.zone.can_play_from? &&
+            card.entity.can_play?
+    end
+    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+  end
 
-    # add to the battlefield
-    Battlefield.create!( player: card.player, entity: card.entity )
+  def action_cost(game_engine, card, index)
+    case index
+      when "play"
+        return mana_cost
+    end
+    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+  end
+
+  def actions
+    # TODO not all cards can be played?
+    [ "play" ]
+  end
+
+  # ability mana cost has already been consumed
+  def do_play(game_engine, card)
+    # put it into the battlefield
+    game_engine.move_into_battlefield card.player, card
 
     # save the turn it was played
     card.entity.turn_played = game_engine.duel.turn

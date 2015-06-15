@@ -1,4 +1,6 @@
 RSpec.describe Player do
+  include ManaHelper
+
   it "a player can have a mana pool" do
     player = Player.create!({ mana_green: 1 })
     assert_equal ({ green: 1, blue: 0, red: 0, white: 0, black: 0, colourless: 0 }), player.mana_pool
@@ -63,6 +65,30 @@ RSpec.describe Player do
 
     player.use_mana! ({ colourless: 1 })
     assert_equal 1, player.mana_colourless
+  end
+
+  context "a new player" do
+    before :each do
+      @player = Player.create!
+    end
+
+    it "has no mana" do
+      expect(@player.mana_pool).to eq(zero_mana)
+    end
+
+    it "has 20 life" do
+      expect(@player.life).to eq(20)
+    end
+
+    it "can add life" do
+      @player.add_life! 1
+      expect(@player.life).to eq(20 + 1)
+    end
+
+    it "can remove life" do
+      @player.remove_life! 1
+      expect(@player.life).to eq(20 - 1)
+    end
   end
 
 end

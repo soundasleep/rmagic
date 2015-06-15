@@ -32,6 +32,15 @@ class DuelController < ApplicationController
       Battlefield.create!( entity: creature, player: @player2 )
     end
 
+    1.times do
+      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( entity: creature, player: @player1 )
+    end
+    1.times do
+      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( entity: creature, player: @player2 )
+    end
+
     3.times do
       forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
       Battlefield.create!( entity: forest, player: @player1 )
@@ -57,6 +66,14 @@ class DuelController < ApplicationController
       forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
       Hand.create!( entity: forest, player: @player2 )
     end
+    1.times do
+      instant = Entity.create!( metaverse_id: 4, turn_played: 0 )
+      Hand.create!( entity: instant, player: @player1 )
+    end
+    1.times do
+      instant = Entity.create!( metaverse_id: 4, turn_played: 0 )
+      Hand.create!( entity: instant, player: @player2 )
+    end
 
     @action1 = Action.create!( entity: @player2.battlefield.first.entity, entity_action: "attack", player: @player2, duel: @duel )
     @action_target1 = ActionTarget.create!( entity: @player1.battlefield.first.entity, action: @action1, damage: 1 )
@@ -79,13 +96,13 @@ class DuelController < ApplicationController
 
   def play
     hand = Hand.find(params[:hand])
-    game_engine.play hand
+    game_engine.card_action hand, params[:key]
     redirect_to duel_path duel
   end
 
-  def tap
+  def ability
     battlefield = Battlefield.find(params[:battlefield])
-    game_engine.card_action battlefield, "tap"
+    game_engine.card_action battlefield, params[:key]
     redirect_to duel_path duel
   end
 
@@ -99,7 +116,7 @@ class DuelController < ApplicationController
   def declare_attackers
     attackers = Battlefield.find(params[:attacker])
     game_engine.declare_attackers attackers
-    duel.pass
+    game_engine.pass
     duel.save!
     redirect_to duel_path duel
   end

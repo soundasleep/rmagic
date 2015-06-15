@@ -1,43 +1,41 @@
 class ActionFinder
-  def initialize(duel)
-    @duel = duel
+  def initialize(game_engine)
+    @game_engine = game_engine
+  end
+
+  def game_engine
+    @game_engine
   end
 
   def duel
-    @duel
+    game_engine.duel
   end
 
   # list all available actions for the given player
   def available_actions(player)
     actions = {
-      play: [],
-      tap: [],
-      defend: []
+      play: [],     # from hand - TODO maybe rename 'hand'
+      defend: [],   # from battlefield
+      ability: []   # from battlefield - TODO maybe rename 'battlefield'
     }
-    if duel.playing_phase? and duel.current_player == player and duel.priority_player == player
-      actions[:play] += playable_cards(player)
-    end
-    if duel.playing_phase?
-      actions[:tap] += tappable_cards(player)
-    end
+    actions[:play] += playable_cards(player)
     if duel.attacking_phase? and duel.priority_player == player and duel.priority_player != duel.current_player
       actions[:defend] += defendable_cards(player)
     end
+    actions[:ability] += ability_cards(player)
     actions
   end
 
   def playable_cards(player)
-    # all cards where we have enough mana
-    player.hand.select do |hand|
-      player.has_mana? hand.entity.find_card.mana_cost
-    end
-  end
-
-  def tappable_cards(player)
-    # all cards which can be tapped
-    player.battlefield.select do |b|
-      !b.entity.is_tapped? and b.entity.find_card.is_land?
-    end
+    # all hand cards which have an available ability (e.g. play, instant)
+    player.hand.map do |b|
+      b.entity.find_card.actions.map do |action|
+        {
+          source: b,
+          action: action
+        }
+      end
+    end.flatten(1).select{ |action| game_engine.can_do_action?(action[:source], action[:action]) }
   end
 
   def defendable_cards(player)
@@ -61,6 +59,18 @@ class ActionFinder
           .select{ |b| b.entity.turn_played < duel.turn }   # summoning sickness
     end
     []
+  end
+
+  def ability_cards(player)
+    # all battlefield cards which have an available ability
+    player.battlefield.map do |b|
+      b.entity.find_card.actions.map do |action|
+        {
+          source: b,
+          action: action
+        }
+      end
+    end.flatten(1).select{ |action| game_engine.can_do_action?(action[:source], action[:action]) }
   end
 
 end

@@ -6,4 +6,8 @@ class Hand < ActiveRecord::Base
   validates :entity, presence: true
   validates :entity, uniqueness: true
 
+  def zone
+    HandZone.new
+  end
+
 end

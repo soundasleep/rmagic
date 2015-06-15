@@ -16,10 +16,6 @@ RSpec.describe "Playable" do
     Hand.where(player: @duel.player1)
   end
 
-  def available_actions
-    game_engine.available_actions(@duel.player1)
-  end
-
   def battlefield_creatures
     @duel.player1.battlefield.select{ |b| !b.entity.find_card.is_land? }.map{ |b| b.entity }
   end
@@ -48,8 +44,16 @@ RSpec.describe "Playable" do
       expect(@duel.player1.mana_green).to eq(3)
     end
 
+    it "we have a creature to play" do
+      expect(@duel.player1.hand.select{ |h| h.entity.metaverse_id == 1 }.length).to eq(1)
+    end
+
     it "allows us to play a creature" do
-      expect(available_actions[:play].map { |h| h.entity }).to eq([hand.first!.entity])
+      expect(available_actions[:play].map { |h| h[:source].entity }).to eq([hand.first!.entity])
+    end
+
+    it "allows us to play a creature with the play action" do
+      expect(available_actions[:play].map { |h| h[:action] }).to eq(["play"])
     end
 
     context "playing a creature" do
@@ -57,13 +61,11 @@ RSpec.describe "Playable" do
         expect(battlefield_creatures).to be_empty
 
         @card = hand.first!
-        game_engine.play(@card)
+        game_engine.card_action @card, "play"
       end
 
       it "creates an action" do
-        action = Action.where(duel: @duel).last
-        expect(action.entity).to eq(@card.entity)
-        expect(action.entity_action).to eq("play")
+        expect(actions(@card.entity, "play").map{ |c| c.entity }).to eq([ @card.entity ])
       end
 
       it "puts a creature on the battlefield" do
@@ -100,7 +102,7 @@ RSpec.describe "Playable" do
   end
 
   def battlefield_can_be_tapped
-    available_actions[:tap].map{ |b| b.entity }
+    available_actions[:ability].select{ |a| a[:action] == "tap" }.map{ |a| a[:source].entity }
   end
 
   it "lands can be tapped" do

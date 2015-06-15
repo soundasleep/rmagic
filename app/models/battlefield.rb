@@ -6,4 +6,8 @@ class Battlefield < ActiveRecord::Base
   validates :entity, presence: true
   validates :entity, uniqueness: true
 
+  def zone
+    BattlefieldZone.new
+  end
+
 end

@@ -6,6 +6,8 @@ class Player < ActiveRecord::Base
   has_many :battlefield
   has_many :graveyard
 
+  validates :life, presence: true
+
   after_initialize :init
 
   def init
@@ -15,6 +17,7 @@ class Player < ActiveRecord::Base
     self.mana_white ||= 0
     self.mana_black ||= 0
     self.mana_colourless ||= 0
+    self.life ||= 20
   end
 
   def mana
@@ -50,7 +53,8 @@ class Player < ActiveRecord::Base
     cost = zero_mana.merge(cost)
     pool = mana_pool
 
-    return use_mana_from_pool(cost, pool)
+    # return boolean
+    return !! use_mana_from_pool(cost, pool)
   end
 
   def use_mana!(cost)
@@ -61,6 +65,16 @@ class Player < ActiveRecord::Base
     fail "Could not use mana #{cost} from #{pool}" unless result
 
     set_mana! result
+  end
+
+  def add_life!(life)
+    self.life += life
+    save!
+  end
+
+  def remove_life!(life)
+    self.life -= life
+    save!
   end
 
 end
