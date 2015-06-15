@@ -41,15 +41,34 @@ module SetupGame
     end
   end
 
+  def create_hand_cards(metaverse_id)
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Hand.create!( entity: entity, player: @duel.player1 )
+    end
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Hand.create!( entity: entity, player: @duel.player2 )
+    end
+  end
+
+  def create_battlefield_cards(metaverse_id)
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Battlefield.create!( entity: entity, player: @duel.player1 )
+    end
+    1.times do
+      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      Battlefield.create!( entity: entity, player: @duel.player2 )
+    end
+  end
+
   def create_ability_creatures
-    1.times do
-      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @duel.player1 )
-    end
-    1.times do
-      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @duel.player2 )
-    end
+    create_battlefield_cards(3)
+  end
+
+  def create_instants
+    create_hand_cards(4)
   end
 
   def our_creatures
@@ -90,6 +109,10 @@ module SetupGame
 
   def available_ability_actions(index)
     available_actions[:ability].select { |action| action[:action] == index }
+  end
+
+  def available_play_actions(index)
+    available_actions[:play].select { |action| action[:action] == index }
   end
 
   def game_engine

@@ -44,8 +44,16 @@ RSpec.describe "Playable" do
       expect(@duel.player1.mana_green).to eq(3)
     end
 
+    it "we have a creature to play" do
+      expect(@duel.player1.hand.select{ |h| h.entity.metaverse_id == 1 }.length).to eq(1)
+    end
+
     it "allows us to play a creature" do
-      expect(available_actions[:play].map { |h| h.entity }).to eq([hand.first!.entity])
+      expect(available_actions[:play].map { |h| h[:source].entity }).to eq([hand.first!.entity])
+    end
+
+    it "allows us to play a creature with the play action" do
+      expect(available_actions[:play].map { |h| h[:action] }).to eq(["play"])
     end
 
     context "playing a creature" do
