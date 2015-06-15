@@ -88,6 +88,10 @@ module SetupGame
     actions(entity, "graveyard")
   end
 
+  def available_ability_actions(index)
+    available_actions[:ability].select { |action| action[:action] == index }
+  end
+
   def game_engine
     GameEngine.new(@duel)
   end
