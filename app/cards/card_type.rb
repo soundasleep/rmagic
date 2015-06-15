@@ -51,7 +51,7 @@ class CardType
     case index
       when "play"
         return mana_cost
-      end
+    end
     fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
   end
 

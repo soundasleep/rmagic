@@ -16,7 +16,8 @@ class ActionFinder
     actions = {
       play: [],
       tap: [],
-      defend: []
+      defend: [],
+      ability: []
     }
     if duel.playing_phase? and duel.current_player == player and duel.priority_player == player
       actions[:play] += playable_cards(player)
@@ -26,6 +27,9 @@ class ActionFinder
     end
     if duel.attacking_phase? and duel.priority_player == player and duel.priority_player != duel.current_player
       actions[:defend] += defendable_cards(player)
+    end
+    if duel.priority_player == player
+      actions[:ability] += ability_cards(player)
     end
     actions
   end
@@ -65,6 +69,18 @@ class ActionFinder
           .select{ |b| b.entity.turn_played < duel.turn }   # summoning sickness
     end
     []
+  end
+
+  def ability_cards(player)
+    # all cards which have an available ability
+    player.battlefield.map do |b|
+      b.entity.find_card.actions.map do |action|
+        {
+          source: b,
+          action: action
+        }
+      end
+    end.flatten(1).select{ |action| game_engine.can_do_action?(action[:source], action[:action]) }
   end
 
 end

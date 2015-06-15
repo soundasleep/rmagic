@@ -26,6 +26,10 @@ class Entity < ActiveRecord::Base
     !is_tapped?
   end
 
+  def can_untap?
+    is_tapped?
+  end
+
   def tap_card!
     fail "card is already tapped" unless !is_tapped?
     self.is_tapped = true
@@ -50,4 +54,9 @@ class Entity < ActiveRecord::Base
     self.damage += n
     save!
   end
+
+  def can_play?
+    true
+  end
+
 end

@@ -53,7 +53,8 @@ class Player < ActiveRecord::Base
     cost = zero_mana.merge(cost)
     pool = mana_pool
 
-    return use_mana_from_pool(cost, pool)
+    # return boolean
+    return !! use_mana_from_pool(cost, pool)
   end
 
   def use_mana!(cost)

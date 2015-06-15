@@ -49,24 +49,32 @@ module SetupGame
     game_engine.available_attackers(@duel.current_player)
   end
 
+  def available_actions
+    game_engine.available_actions(@duel.player1)
+  end
+
+  def actions(entity, action)
+    Action.where(duel: @duel, entity_action: action, entity: entity)
+  end
+
   def declaring_actions(card)
-    Action.where(duel: @duel, entity_action: "declare", entity: card.entity)
+    actions(card.entity, "declare")
   end
 
   def defending_actions(card)
-    Action.where(duel: @duel, entity_action: "defend", entity: card.entity)
+    actions(card.entity, "defend")
   end
 
   def defended_actions(card)
-    Action.where(duel: @duel, entity_action: "defended", entity: card.entity)
+    actions(card.entity, "defended")
   end
 
   def attacking_actions(card)
-    Action.where(duel: @duel, entity_action: "attack", entity: card.entity)
+    actions(card.entity, "attack")
   end
 
   def graveyard_actions(entity)
-    Action.where(duel: @duel, entity_action: "graveyard", entity: entity)
+    actions(entity, "graveyard")
   end
 
   def game_engine

@@ -16,10 +16,6 @@ RSpec.describe "Playable" do
     Hand.where(player: @duel.player1)
   end
 
-  def available_actions
-    game_engine.available_actions(@duel.player1)
-  end
-
   def battlefield_creatures
     @duel.player1.battlefield.select{ |b| !b.entity.find_card.is_land? }.map{ |b| b.entity }
   end

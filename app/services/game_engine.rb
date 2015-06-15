@@ -21,7 +21,10 @@ class GameEngine
   end
 
   def can_do_action?(card, action)
-    card.entity.find_card.can_do_action?(self, card, action)
+    fail "Card #{card} has nil action cost for action '#{action}'" unless card.entity.find_card.action_cost(self, card, action)
+
+    card.entity.find_card.can_do_action?(self, card, action) and
+      card.player.has_mana? card.entity.find_card.action_cost(self, card, action)
   end
 
   def available_attackers(player)

@@ -21,6 +21,16 @@ class Metaverse2 < CardType
     super
   end
 
+  def action_cost(game_engine, card, index)
+    case index
+      when "tap"
+        return zero_mana
+      when "untap"
+        return zero_mana
+    end
+    super
+  end
+
   def do_action(game_engine, card, index)
     case index
       when "tap"
