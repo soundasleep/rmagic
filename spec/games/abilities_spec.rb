@@ -90,8 +90,8 @@ RSpec.describe "Abilities" do
       actions(card.entity, "tap")
     end
 
-    def available_tap_actions
-      available_actions[:ability].select { |action| action[:action] == "tap" }
+    def available_ability_actions(index)
+      available_actions[:ability].select { |action| action[:action] == index }
     end
 
     def first_land
@@ -99,7 +99,11 @@ RSpec.describe "Abilities" do
     end
 
     def first_land_available_tap_actions
-      available_tap_actions.select{ |a| a[:source].entity == first_land.entity }
+      available_ability_actions("tap").select{ |a| a[:source].entity == first_land.entity }
+    end
+
+    def first_land_available_untap_actions
+      available_ability_actions("untap").select{ |a| a[:source].entity == first_land.entity }
     end
 
     context "in our turn" do
@@ -233,6 +237,16 @@ RSpec.describe "Abilities" do
             expect(first_land_available_tap_actions).to be_empty
           end
         end
+      end
+    end
+
+    context "after being tapped" do
+      before :each do
+        game_engine.card_action(first_land, "tap")
+      end
+
+      it "cannot be untapped" do
+        expect(first_land_available_untap_actions).to be_empty
       end
     end
 

@@ -44,7 +44,7 @@ class GameEngine
     hand.destroy!
 
     # do 'play' action
-    card_action card.player, hand, "play"
+    card_action hand, "play"
   end
 
   def draw_card(player)
