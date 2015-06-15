@@ -44,11 +44,11 @@ class GameEngine
     card = player.deck.first!
     card.destroy
 
-    # add it to the hand
-    Hand.create!( player: player, entity: card.entity )
-
     # update log
     Action.draw_card_action(duel, player)
+
+    # add it to the hand
+    Hand.create!( player: player, entity: card.entity )
   end
 
   def card_action(card, key)
@@ -57,11 +57,11 @@ class GameEngine
     # use mana
     card.player.use_mana! card.entity.find_card.action_cost(self, card, key)
 
-    # do the thing
-    card.entity.find_card.do_action self, card, key
-
     # update log
     Action.card_action(duel, card.player, card.entity, key)
+
+    # do the thing
+    card.entity.find_card.do_action self, card, key
 
     # clear any other references
     duel.reload
@@ -77,11 +77,11 @@ class GameEngine
     fail "No :source defined" unless defend[:source]
     fail "No :target defined" unless defend[:target]
 
+    # update log
+    Action.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
+
     DeclaredDefender.create!( duel: duel, source: defend[:source], target: defend[:target] )
     duel.reload       # TODO this seems gross!
-
-    # action
-    Action.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
   end
 
   def declare_defenders(defends)
@@ -170,21 +170,23 @@ class GameEngine
   def move_into_graveyard(player, zone_card)
     zone_card.destroy!
 
+    # udpate log
+    Action.card_action(duel, player, zone_card.entity, "graveyard")
+
     # move to graveyard
     Graveyard.create!( player: zone_card.player, entity: zone_card.entity )
     duel.reload       # TODO this seems gross!
-
-    Action.card_action(duel, player, zone_card.entity, "graveyard")
   end
 
   def move_into_battlefield(player, zone_card)
     zone_card.destroy!
 
+    # update log
+    Action.card_action(duel, player, zone_card.entity, "battlefield")
+
     # move to graveyard
     Battlefield.create!( player: zone_card.player, entity: zone_card.entity )
     duel.reload       # TODO this seems gross!
-
-    Action.card_action(duel, player, zone_card.entity, "battlefield")
   end
 
   def clear_mana

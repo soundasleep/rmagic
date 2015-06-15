@@ -65,9 +65,7 @@ RSpec.describe "Playable" do
       end
 
       it "creates an action" do
-        action = Action.where(duel: @duel).last
-        expect(action.entity).to eq(@card.entity)
-        expect(action.entity_action).to eq("play")
+        expect(actions(@card.entity, "play").map{ |c| c.entity }).to eq([ @card.entity ])
       end
 
       it "puts a creature on the battlefield" do
