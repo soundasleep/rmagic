@@ -19,8 +19,8 @@
 
 - available_actions[:ability].each do |defend|
   = form_tag(ability_duel_url(@duel)) do |f|
-    = hidden_field_tag "source", defend[:source].id
-    = hidden_field_tag "action", defend[:action]
+    = hidden_field_tag "battlefield", defend[:source].id
+    = hidden_field_tag "key", defend[:action]
     = submit_tag "Use #{defend[:action]} of #{defend[:source].entity.to_text}"
 
 - if available_attackers.any?

@@ -92,6 +92,12 @@ class DuelController < ApplicationController
     redirect_to duel_path duel
   end
 
+  def ability
+    battlefield = Battlefield.find(params[:battlefield])
+    game_engine.card_action battlefield, params[:key]
+    redirect_to duel_path duel
+  end
+
   def defend
     source = Battlefield.find(params[:source])
     target = DeclaredAttacker.find(params[:target])
