@@ -108,7 +108,7 @@ class DuelController < ApplicationController
   def declare_attackers
     attackers = Battlefield.find(params[:attacker])
     game_engine.declare_attackers attackers
-    duel.pass
+    game_engine.pass
     duel.save!
     redirect_to duel_path duel
   end
