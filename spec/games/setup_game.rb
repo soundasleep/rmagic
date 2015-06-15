@@ -121,6 +121,16 @@ module SetupGame
     end
   end
 
+  def pass_until_current_player_has_priority
+    i = 0
+
+    while @duel.priority_player != @duel.player1 do
+      i += 1
+      assert_operator i, :<, 100, "it took too long to get to the next priority"
+      game_engine.pass
+    end
+  end
+
 end
 
 RSpec.configure do |c|
