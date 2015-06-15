@@ -22,6 +22,12 @@
     = hidden_field_tag "target", defend[:target].id
     = submit_tag "Defend #{defend[:source].entity.to_text} (#{defend[:source].entity.id}) with #{defend[:target].entity.to_text} (#{defend[:target].entity.id})"
 
+- available_actions[:ability].each do |defend|
+  = form_tag(ability_duel_url(@duel)) do |f|
+    = hidden_field_tag "source", defend[:source].id
+    = hidden_field_tag "action", defend[:action]
+    = submit_tag "Use #{defend[:action]} of #{defend[:source].entity.to_text}"
+
 - if available_attackers.any?
   = form_tag(declare_attackers_duel_url(@duel)) do |f|
     Declare attackers:

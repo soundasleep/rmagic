@@ -32,6 +32,15 @@ class DuelController < ApplicationController
       Battlefield.create!( entity: creature, player: @player2 )
     end
 
+    1.times do
+      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( entity: creature, player: @player1 )
+    end
+    1.times do
+      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( entity: creature, player: @player2 )
+    end
+
     3.times do
       forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
       Battlefield.create!( entity: forest, player: @player1 )

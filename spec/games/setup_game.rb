@@ -41,6 +41,17 @@ module SetupGame
     end
   end
 
+  def create_ability_creatures
+    1.times do
+      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( entity: creature, player: @duel.player1 )
+    end
+    1.times do
+      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( entity: creature, player: @duel.player2 )
+    end
+  end
+
   def our_creatures
     @duel.player1.battlefield.select{ |b| b.entity.find_card.is_creature? }.map{ |b| b.entity }
   end
