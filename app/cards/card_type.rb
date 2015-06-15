@@ -66,8 +66,8 @@ class CardType
 
   # ability mana cost has already been consumed
   def do_play(game_engine, card)
-    # add to the battlefield
-    Battlefield.create!( player: card.player, entity: card.entity )
+    # put it into the battlefield
+    game_engine.move_into_battlefield card.player, card
 
     # save the turn it was played
     card.entity.turn_played = game_engine.duel.turn

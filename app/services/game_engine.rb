@@ -177,6 +177,16 @@ class GameEngine
     Action.card_action(duel, player, zone_card.entity, "graveyard")
   end
 
+  def move_into_battlefield(player, zone_card)
+    zone_card.destroy!
+
+    # move to graveyard
+    Battlefield.create!( player: zone_card.player, entity: zone_card.entity )
+    duel.reload       # TODO this seems gross!
+
+    Action.card_action(duel, player, zone_card.entity, "battlefield")
+  end
+
   def clear_mana
     duel.players.each do |player|
       player.clear_mana!
