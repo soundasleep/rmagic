@@ -88,7 +88,7 @@ class DuelController < ApplicationController
 
   def play
     hand = Hand.find(params[:hand])
-    game_engine.play hand
+    game_engine.card_action hand, params[:key]
     redirect_to duel_path duel
   end
 

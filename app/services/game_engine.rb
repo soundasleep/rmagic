@@ -39,14 +39,6 @@ class GameEngine
     end
   end
 
-  def play(hand)
-    # remove from hand
-    hand.destroy!
-
-    # do 'play' action
-    card_action hand, "play"
-  end
-
   def draw_card(player)
     # remove from deck
     card = player.deck.first!

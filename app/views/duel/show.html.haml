@@ -8,8 +8,12 @@
 / possible actions
 - available_actions[:play].each do |hand|
   = form_tag(play_duel_url(@duel)) do |f|
-    = hidden_field_tag "hand", hand.id
-    = submit_tag "Play #{hand.entity.to_text}"
+    = hidden_field_tag "hand", hand[:source].id
+    = hidden_field_tag "key", hand[:action]
+    = submit_tag "Use #{hand[:action]} of #{hand[:source].entity.to_text}"
+    %i
+      %small
+        = hand[:source].entity.id
 
 - available_actions[:defend].each do |defend|
   = form_tag(defend_duel_url(@duel)) do |f|
@@ -17,11 +21,14 @@
     = hidden_field_tag "target", defend[:target].id
     = submit_tag "Defend #{defend[:source].entity.to_text} (#{defend[:source].entity.id}) with #{defend[:target].entity.to_text} (#{defend[:target].entity.id})"
 
-- available_actions[:ability].each do |defend|
+- available_actions[:ability].each do |ability|
   = form_tag(ability_duel_url(@duel)) do |f|
-    = hidden_field_tag "battlefield", defend[:source].id
-    = hidden_field_tag "key", defend[:action]
-    = submit_tag "Use #{defend[:action]} of #{defend[:source].entity.to_text}"
+    = hidden_field_tag "battlefield", ability[:source].id
+    = hidden_field_tag "key", ability[:action]
+    = submit_tag "Use #{ability[:action]} of #{ability[:source].entity.to_text}"
+    %i
+      %small
+        = ability[:source].entity.id
 
 - if available_attackers.any?
   = form_tag(declare_attackers_duel_url(@duel)) do |f|
