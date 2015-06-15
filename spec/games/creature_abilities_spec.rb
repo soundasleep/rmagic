@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Instant abilities" do
+RSpec.describe "Creature abilities" do
   before :each do
     setup
 
