@@ -88,6 +88,10 @@ RSpec.describe "Creatures" do
         expect(@duel.player1.mana_green).to eq(1)
       end
 
+      it "removes the creature from the hand" do
+        expect(first_creature).to be_nil
+      end
+
     end
   end
 
