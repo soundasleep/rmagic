@@ -44,7 +44,7 @@ class GameEngine
     hand.destroy!
 
     # do 'play' action
-    card_action hand, "play"
+    card_action card.player, hand, "play"
   end
 
   def draw_card(player)
@@ -55,16 +55,20 @@ class GameEngine
     # add it to the hand
     Hand.create!( player: player, entity: card.entity )
 
-    # action
+    # update log
     Action.draw_card_action(duel, player)
   end
 
   def card_action(card, key)
     fail "No card specified" unless card
 
+    # use mana
+    card.player.use_mana! card.entity.find_card.action_cost(self, card, key)
+
+    # do the thing
     card.entity.find_card.do_action self, card, key
 
-    # action
+    # update log
     Action.card_action(duel, card.player, card.entity, key)
 
     # clear any other references

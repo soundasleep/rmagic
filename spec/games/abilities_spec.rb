@@ -60,6 +60,7 @@ RSpec.describe "Abilities" do
         before :each do
           expect(@duel.player1.life).to eq(20)
           expect(@duel.player2.life).to eq(20)
+          expect(@duel.player1.mana_green).to eq(3)
           game_engine.card_action(@card, "add_life")
         end
 
@@ -74,6 +75,11 @@ RSpec.describe "Abilities" do
         it "creates an action" do
           expect(add_life_actions(@card).map{ |card| card.entity }).to eq([@card.entity])
         end
+
+        it "consumes mana" do
+          expect(@duel.player1.mana_green).to eq(2)
+        end
+
       end
     end
 
