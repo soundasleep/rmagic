@@ -14,16 +14,12 @@ class ActionFinder
   # list all available actions for the given player
   def available_actions(player)
     actions = {
-      play: [],
-      tap: [],
-      defend: [],
-      ability: []
+      play: [],     # from hand
+      defend: [],   # from battlefield
+      ability: []   # from battlefield
     }
     if duel.playing_phase? and duel.current_player == player and duel.priority_player == player
       actions[:play] += playable_cards(player)
-    end
-    if duel.playing_phase?
-      actions[:tap] += tappable_cards(player)
     end
     if duel.attacking_phase? and duel.priority_player == player and duel.priority_player != duel.current_player
       actions[:defend] += defendable_cards(player)
@@ -36,13 +32,6 @@ class ActionFinder
     # all cards where we have enough mana
     player.hand.select do |hand|
       player.has_mana? hand.entity.find_card.action_cost(game_engine, hand, "play")
-    end
-  end
-
-  def tappable_cards(player)
-    # all cards which can be tapped
-    player.battlefield.select do |b|
-      !b.entity.is_tapped? and b.entity.find_card.is_land?
     end
   end
 

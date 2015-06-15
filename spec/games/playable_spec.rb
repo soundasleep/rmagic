@@ -96,7 +96,7 @@ RSpec.describe "Playable" do
   end
 
   def battlefield_can_be_tapped
-    available_actions[:tap].map{ |b| b.entity }
+    available_actions[:ability].select{ |a| a[:action] == "tap" }.map{ |a| a[:source].entity }
   end
 
   it "lands can be tapped" do

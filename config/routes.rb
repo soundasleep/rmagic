@@ -3,7 +3,6 @@ Rails.application.routes.draw do
     member do
       post 'pass'
       post 'play'
-      post 'tap'
       post 'defend'
       post 'ability'
       post 'declare_attackers'

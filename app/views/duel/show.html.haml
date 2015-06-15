@@ -11,11 +11,6 @@
     = hidden_field_tag "hand", hand.id
     = submit_tag "Play #{hand.entity.to_text}"
 
-- available_actions[:tap].each do |battlefield|
-  = form_tag(tap_duel_url(@duel)) do |f|
-    = hidden_field_tag "battlefield", battlefield.id
-    = submit_tag "Tap #{battlefield.entity.to_text}"
-
 - available_actions[:defend].each do |defend|
   = form_tag(defend_duel_url(@duel)) do |f|
     = hidden_field_tag "source", defend[:source].id
