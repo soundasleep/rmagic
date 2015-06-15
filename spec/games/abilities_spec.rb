@@ -250,6 +250,10 @@ RSpec.describe "Abilities" do
       end
     end
 
+    it "never have a play action" do
+      expect(available_ability_actions("play")).to be_empty
+    end
+
   end
 
 end

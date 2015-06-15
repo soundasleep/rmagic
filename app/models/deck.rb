@@ -6,4 +6,8 @@ class Deck < ActiveRecord::Base
   validates :entity, presence: true
   validates :entity, uniqueness: true
 
+  def zone
+    DeckZone.new
+  end
+
 end

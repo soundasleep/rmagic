@@ -1,0 +1,3 @@
+class GraveyardZone < Zone
+
+end

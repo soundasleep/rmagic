@@ -1,0 +1,3 @@
+class HandZone < Zone
+
+end

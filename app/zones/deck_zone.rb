@@ -1,0 +1,3 @@
+class DeckZone < Zone
+
+end

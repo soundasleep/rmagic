@@ -1,0 +1,3 @@
+class BattlefieldZone < Zone
+  
+end

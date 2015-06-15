@@ -6,4 +6,8 @@ class Graveyard < ActiveRecord::Base
   validates :entity, presence: true
   validates :entity, uniqueness: true
 
+  def zone
+    GraveyardZone.new
+  end
+
 end
