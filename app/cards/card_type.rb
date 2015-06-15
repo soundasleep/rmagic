@@ -42,7 +42,11 @@ class CardType
   def can_do_action?(game_engine, card, index)
     case index
       when "play"
-        return card.zone.can_play_from? && card.entity.can_play?
+        return game_engine.duel.priority_player == card.player &&
+            game_engine.duel.current_player == card.player &&
+            (game_engine.duel.playing_phase?) &&
+            card.zone.can_play_from? &&
+            card.entity.can_play?
     end
     fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
   end

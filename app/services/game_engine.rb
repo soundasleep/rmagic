@@ -169,16 +169,20 @@ class GameEngine
     duel.players.each do |player|
       player.battlefield.each do |b|
         if b.entity.is_destroyed?
-          b.destroy!
-
-          # move to graveyard
-          Graveyard.create!( player: b.player, entity: b.entity )
-          duel.reload       # TODO this seems gross!
-
-          Action.card_action(duel, b.player, b.entity, "graveyard")
+          move_into_graveyard b.player, b
         end
       end
     end
+  end
+
+  def move_into_graveyard(player, zone_card)
+    zone_card.destroy!
+
+    # move to graveyard
+    Graveyard.create!( player: zone_card.player, entity: zone_card.entity )
+    duel.reload       # TODO this seems gross!
+
+    Action.card_action(duel, player, zone_card.entity, "graveyard")
   end
 
   def clear_mana

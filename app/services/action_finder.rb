@@ -14,13 +14,11 @@ class ActionFinder
   # list all available actions for the given player
   def available_actions(player)
     actions = {
-      play: [],     # from hand
+      play: [],     # from hand - TODO maybe rename 'hand'
       defend: [],   # from battlefield
-      ability: []   # from battlefield
+      ability: []   # from battlefield - TODO maybe rename 'battlefield'
     }
-    if duel.playing_phase? and duel.current_player == player and duel.priority_player == player
-      actions[:play] += playable_cards(player)
-    end
+    actions[:play] += playable_cards(player)
     if duel.attacking_phase? and duel.priority_player == player and duel.priority_player != duel.current_player
       actions[:defend] += defendable_cards(player)
     end
@@ -29,10 +27,15 @@ class ActionFinder
   end
 
   def playable_cards(player)
-    # all cards where we have enough mana
-    player.hand.select do |hand|
-      player.has_mana? hand.entity.find_card.action_cost(game_engine, hand, "play")
-    end
+    # all hand cards which have an available ability (e.g. play, instant)
+    player.hand.map do |b|
+      b.entity.find_card.actions.map do |action|
+        {
+          source: b,
+          action: action
+        }
+      end
+    end.flatten(1).select{ |action| game_engine.can_do_action?(action[:source], action[:action]) }
   end
 
   def defendable_cards(player)
@@ -59,7 +62,7 @@ class ActionFinder
   end
 
   def ability_cards(player)
-    # all cards which have an available ability
+    # all battlefield cards which have an available ability
     player.battlefield.map do |b|
       b.entity.find_card.actions.map do |action|
         {

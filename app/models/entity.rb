@@ -59,4 +59,8 @@ class Entity < ActiveRecord::Base
     true
   end
 
+  def can_instant?
+    true
+  end
+
 end
