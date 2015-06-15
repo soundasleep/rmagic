@@ -79,4 +79,157 @@ RSpec.describe "Abilities" do
 
   end
 
+  context "lands" do
+    def tap_actions(card)
+      actions(card.entity, "tap")
+    end
+
+    def available_tap_actions
+      available_actions[:ability].select { |action| action[:action] == "tap" }
+    end
+
+    def first_land
+      @duel.player1.battlefield.select{ |b| b.entity.find_card.is_land? }.first
+    end
+
+    def first_land_available_tap_actions
+      available_tap_actions.select{ |a| a[:source].entity == first_land.entity }
+    end
+
+    context "in our turn" do
+      context "in the drawing phase" do
+        before :each do
+          @duel.drawing_phase!
+        end
+
+        it "cannot be tapped" do
+          expect(first_land_available_tap_actions).to be_empty
+        end
+      end
+
+      context "in the playing phase" do
+        before :each do
+          @duel.playing_phase!
+        end
+
+        it "can be tapped" do
+          expect(first_land_available_tap_actions.length).to eq(1)
+        end
+      end
+
+      context "in the attacking phase" do
+        before :each do
+          @duel.attacking_phase!
+        end
+
+        it "can be tapped" do
+          expect(first_land_available_tap_actions.length).to eq(1)
+        end
+      end
+
+      context "in the cleanup phase" do
+        before :each do
+          @duel.cleanup_phase!
+        end
+
+        it "cannot be tapped" do
+          expect(first_land_available_tap_actions).to be_empty
+        end
+      end
+    end
+
+    context "in the other player's turn" do
+      before :each do
+        pass_until_next_player
+      end
+
+      context "in the drawing phase" do
+        before :each do
+          @duel.drawing_phase!
+        end
+
+        it "cannot be tapped" do
+          expect(first_land_available_tap_actions).to be_empty
+        end
+      end
+
+      context "in the playing phase" do
+        before :each do
+          @duel.playing_phase!
+        end
+
+        it "cannot be tapped" do
+          expect(first_land_available_tap_actions).to be_empty
+        end
+      end
+
+      context "in the attacking phase" do
+        before :each do
+          @duel.attacking_phase!
+        end
+
+        it "cannot be tapped" do
+          expect(first_land_available_tap_actions).to be_empty
+        end
+      end
+
+      context "in the cleanup phase" do
+        before :each do
+          @duel.cleanup_phase!
+        end
+
+        it "cannot be tapped" do
+          expect(first_land_available_tap_actions).to be_empty
+        end
+      end
+
+      context "when we have priority" do
+        before :each do
+          pass_until_current_player_has_priority
+        end
+
+        context "in the drawing phase" do
+          before :each do
+            @duel.drawing_phase!
+          end
+
+          it "cannot be tapped" do
+            expect(first_land_available_tap_actions).to be_empty
+          end
+        end
+
+        context "in the playing phase" do
+          before :each do
+            @duel.playing_phase!
+          end
+
+          it "can be tapped" do
+            expect(first_land_available_tap_actions.length).to eq(1)
+          end
+        end
+
+        context "in the attacking phase" do
+          before :each do
+            @duel.attacking_phase!
+          end
+
+          it "can be tapped" do
+            expect(first_land_available_tap_actions.length).to eq(1)
+          end
+        end
+
+        context "in the cleanup phase" do
+          before :each do
+            @duel.cleanup_phase!
+          end
+
+          it "cannot be tapped" do
+            expect(first_land_available_tap_actions).to be_empty
+          end
+        end
+      end
+    end
+
+  end
+
 end

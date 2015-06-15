@@ -28,9 +28,7 @@ class ActionFinder
     if duel.attacking_phase? and duel.priority_player == player and duel.priority_player != duel.current_player
       actions[:defend] += defendable_cards(player)
     end
-    if duel.priority_player == player
-      actions[:ability] += ability_cards(player)
-    end
+    actions[:ability] += ability_cards(player)
     actions
   end
 

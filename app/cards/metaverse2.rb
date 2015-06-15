@@ -14,7 +14,7 @@ class Metaverse2 < CardType
   def can_do_action?(game_engine, card, index)
     case index
       when "tap"
-        return card.entity.can_tap?
+        return game_engine.duel.priority_player == card.player && (game_engine.duel.playing_phase? || game_engine.duel.attacking_phase?) && card.entity.can_tap?
       when "untap"
         return card.entity.can_untap?
     end
