@@ -20,7 +20,7 @@ We try to use as few model objects as possible.
 * `Player` - life, unspent mana
 * `Duel` - current player, phase
 * `Battlefield`, `Deck`, `Graveyard`, `Hand`, `Exile` - zones where cards are
-* `Action` - something that happened (optionally with many `ActionTarget`s) - try and do everything with Actions (e.g. `draw`, `tap`, `untap`, `attack`, `defend`)
+* `ActionLog` - something that happened (optionally with many `ActionLogTarget`s) - try and do everything with ActionLogs (e.g. `draw`, `tap`, `untap`, `attack`, `defend`)
 * `DeclaredAttacker`, `DeclaredDefender` - temporary wrappers around declared attackers, defenders
 
 ## TODO
