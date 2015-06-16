@@ -55,9 +55,4 @@ class Duel < ActiveRecord::Base
     return phase.changes_player?
   end
 
-  # TODO remove
-  def phase_text
-    phase.description
-  end
-
 end
