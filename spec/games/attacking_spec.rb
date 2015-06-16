@@ -26,6 +26,10 @@ RSpec.describe "Attacking" do
     end
   end
 
+  it "can be declared in a phase which can declare attackers" do
+    expect(@duel.phase.can_declare_attackers?).to eq(true)
+  end
+
   context "when declaring all attackers" do
     before :each do
       game_engine.declare_attackers available_attackers

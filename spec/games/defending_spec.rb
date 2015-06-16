@@ -14,6 +14,10 @@ RSpec.describe "Defending" do
     game_engine.pass
   end
 
+  it "can be declared in a phase which can declare defenders" do
+    expect(@duel.phase.can_declare_defenders?).to eq(true)
+  end
+
   it "each defender can defend one attacker if only one attacks" do
     defends = game_engine.available_actions(@duel.player2)[:defend]
 

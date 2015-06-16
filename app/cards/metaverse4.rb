@@ -32,7 +32,7 @@ class Metaverse4 < CardType
     case index
       when "instant"
         return game_engine.duel.priority_player == card.player &&
-            (game_engine.duel.playing_phase? || game_engine.duel.attacking_phase?) &&
+            game_engine.duel.phase.can_instant? &&
             card.zone.can_instant_from? &&
             card.entity.can_instant?
     end

@@ -4,8 +4,6 @@ RSpec.describe "Passing" do
   before :each do
     setup
 
-    @phases = PhaseManager.new(game_engine)
-
     allow(@duel).to receive(:next_phase!) {
       # we just pass through phases instantly
       true
@@ -19,9 +17,9 @@ RSpec.describe "Passing" do
       [2, :drawing_phase, 2],
       [2, :drawing_phase, 1],
     ].each do |test|
-      expect([@duel.current_player_number, @duel.phase, @duel.priority_player_number]).to eq(test)
+      expect([@duel.current_player_number, @duel.phase.to_sym, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(1), "at turn #{test}"
-      @phases.pass!
+      game_engine.pass
     end
 
     [
@@ -29,9 +27,9 @@ RSpec.describe "Passing" do
       [1, :drawing_phase, 1],
       [1, :drawing_phase, 2],
     ].each do |test|
-      expect([@duel.current_player_number, @duel.phase, @duel.priority_player_number]).to eq(test)
+      expect([@duel.current_player_number, @duel.phase.to_sym, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(2), "at turn #{test}"
-      @phases.pass!
+      game_engine.pass
     end
 
   end
@@ -47,9 +45,9 @@ RSpec.describe "Passing" do
       [1, :drawing_phase, 1],
       [1, :drawing_phase, 2],
     ].each do |test|
-      expect([@duel.current_player_number, @duel.phase, @duel.priority_player_number]).to eq(test)
+      expect([@duel.current_player_number, @duel.phase.to_sym, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(1), "at turn #{test}"
-      @phases.pass!
+      game_engine.pass
     end
 
     [
@@ -57,9 +55,9 @@ RSpec.describe "Passing" do
       [2, :drawing_phase, 2],
       [2, :drawing_phase, 1],
     ].each do |test|
-      expect([@duel.current_player_number, @duel.phase, @duel.priority_player_number]).to eq(test)
+      expect([@duel.current_player_number, @duel.phase.to_sym, @duel.priority_player_number]).to eq(test)
       expect(@duel.turn).to eq(2), "at turn #{test}"
-      @phases.pass!
+      game_engine.pass
     end
   end
 

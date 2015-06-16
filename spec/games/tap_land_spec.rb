@@ -18,6 +18,10 @@ RSpec.describe "Tapping lands" do
     @duel.player1.battlefield.select { |b| !b.entity.is_tapped? && b.entity.find_card.is_land? }
   end
 
+  it "can be tapped in a phase which can be tapped" do
+    expect(@duel.phase.can_tap?).to eq(true)
+  end
+
   it "we can tap forests to get green mana" do
     expect(@duel.player1.mana_green).to eq(0)
     expect(untapped_land.player).to eq(@duel.player1)

@@ -26,6 +26,10 @@ RSpec.describe "Playable" do
     expect(@duel.phase_number).to eq("playing_phase")
   end
 
+  it "can be played in a phase which can cast instants" do
+    expect(@duel.phase.can_play?).to eq(true)
+  end
+
   it "we cannot compare phase with symbols" do
     @duel.reload
     expect(@duel.phase_number).to_not eq(:playing_phase)
