@@ -18,7 +18,7 @@ RSpec.describe "Phases" do
     end
   end
 
-  it "has one phase that changes the player" do
+  it "have one phase that changes the player" do
     turn = @duel.turn
     found = false
     while @duel.turn == turn do

@@ -27,4 +27,8 @@ class AttackingPhase < Phase
     "attack phase: declare attackers and defenders"
   end
 
+  def setup_phase(game_engine)
+    game_engine.clear_mana
+  end
+
 end
