@@ -89,6 +89,34 @@ RSpec.describe Player do
       @player.remove_life! 1
       expect(@player.life).to eq(20 - 1)
     end
+
+    context "adding green mana" do
+      before :each do
+        @player.add_mana! green: 1
+      end
+
+      it "can provide green mana" do
+        expect(@player.has_mana?(green: 1)).to eq(true)
+      end
+
+      it "can provide colourless mana" do
+        expect(@player.has_mana?(colourless: 1)).to eq(true)
+      end
+
+      it "does not provide red mana" do
+        expect(@player.has_mana?(red: 1)).to eq(false)
+      end
+
+      context "twice" do
+        before :each do
+          @player.add_mana! green: 1
+        end
+
+        it "provides two mana" do
+          expect(@player.has_mana?(green: 2)).to eq(true)
+        end
+      end
+    end
   end
 
 end

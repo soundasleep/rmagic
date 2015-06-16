@@ -67,6 +67,13 @@ class Player < ActiveRecord::Base
     set_mana! result
   end
 
+  def add_mana!(cost)
+    cost = zero_mana.merge(cost)
+    pool = mana_pool
+
+    set_mana! add_mana_to_pool(cost, pool)
+  end
+
   def add_life!(life)
     self.life += life
     save!
