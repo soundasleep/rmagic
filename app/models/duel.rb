@@ -6,7 +6,9 @@ class Duel < ActiveRecord::Base
   has_many :declared_defenders, dependent: :destroy
   has_many :action_logs, dependent: :destroy
 
-  # TODO validate player1, player2 set
+  validates :player1, :player2, :turn, :first_player_number,
+      :current_player_number, :priority_player_number,
+      :phase_number, presence: true
 
   # TODO has_many battlefields, etc
 
