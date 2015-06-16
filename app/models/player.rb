@@ -1,10 +1,10 @@
 class Player < ActiveRecord::Base
   include ManaHelper
 
-  has_many :deck
-  has_many :hand
-  has_many :battlefield
-  has_many :graveyard
+  has_many :deck, dependent: :destroy
+  has_many :hand, dependent: :destroy
+  has_many :battlefield, dependent: :destroy
+  has_many :graveyard, dependent: :destroy
 
   validates :life, presence: true
 

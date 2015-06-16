@@ -10,8 +10,6 @@ class Duel < ActiveRecord::Base
       :current_player_number, :priority_player_number,
       :phase_number, presence: true
 
-  # TODO has_many battlefields, etc
-
   enum phase_number: [ :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
 
   before_validation :init
