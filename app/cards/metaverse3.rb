@@ -1,4 +1,6 @@
 class Metaverse3 < CardType
+  include Playable
+
   def name
     "Creature with activated abilities"
   end

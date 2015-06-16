@@ -1,4 +1,5 @@
 module Land
+  include Playable
 
   def is_land?
     true

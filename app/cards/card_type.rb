@@ -1,6 +1,5 @@
 class CardType
   include ManaHelper
-  include Playable
 
   def to_text
     if is_creature?

@@ -1,4 +1,6 @@
 class Metaverse4 < CardType
+  include Playable
+
   def name
     "Instant add life"
   end
