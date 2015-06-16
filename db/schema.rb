@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616052830) do
+ActiveRecord::Schema.define(version: 20150616053506) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -87,15 +87,15 @@ ActiveRecord::Schema.define(version: 20150616052830) do
   add_index "declared_defenders", ["target_id"], name: "index_declared_defenders_on_target_id"
 
   create_table "duels", force: :cascade do |t|
-    t.integer  "player1_id"
-    t.integer  "player2_id"
-    t.integer  "current_player_number"
-    t.integer  "phase_number"
+    t.integer  "player1_id",             null: false
+    t.integer  "player2_id",             null: false
+    t.integer  "current_player_number",  null: false
+    t.integer  "phase_number",           null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.integer  "priority_player_number"
-    t.integer  "turn"
-    t.integer  "first_player_number"
+    t.integer  "priority_player_number", null: false
+    t.integer  "turn",                   null: false
+    t.integer  "first_player_number",    null: false
   end
 
   add_index "duels", ["player1_id"], name: "index_duels_on_player1_id"
