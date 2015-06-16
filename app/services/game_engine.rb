@@ -39,6 +39,7 @@ class GameEngine
     end
   end
 
+  # TODO move each of these phase activities into phase objects?
   def draw_card(player)
     # remove from deck
     card = player.deck.first!
