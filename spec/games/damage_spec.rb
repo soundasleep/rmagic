@@ -80,13 +80,13 @@ RSpec.describe "Damage" do
     card.entity.damage! 100
     pass_until_next_turn
 
-    expect(graveyard_actions(card.entity).count).to equal(1)
+    expect(graveyard_actions(card.entity).count).to eq(1)
   end
 
   context "temporary damage" do
     before :each do
       @card = first_creature
-      expect(@card.entity.find_card.toughness).to_not equal(1)
+      expect(@card.entity.find_card.toughness).to_not eq(1)
       @card.entity.damage! 1
     end
 
