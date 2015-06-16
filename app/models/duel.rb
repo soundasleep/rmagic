@@ -22,11 +22,6 @@ class Duel < ActiveRecord::Base
     self.phase_number ||= :drawing_phase
   end
 
-  # TODO rename to latest_action_logs? or remove
-  def last_action_logs
-    action_logs.order(created_at: :desc)
-  end
-
   def players
     [ player1, player2 ]
   end
