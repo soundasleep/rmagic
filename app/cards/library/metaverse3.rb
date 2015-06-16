@@ -1,4 +1,4 @@
-class Metaverse3 < CardType
+class Library::Metaverse3 < CardType
   include Creature
 
   def name

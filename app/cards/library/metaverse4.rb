@@ -1,4 +1,4 @@
-class Metaverse4 < CardType
+class Library::Metaverse4 < CardType
   include Playable
 
   def name

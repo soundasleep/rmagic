@@ -1,4 +1,4 @@
-class Metaverse2 < CardType
+class Library::Metaverse2 < CardType
   include Land
 
   def name
