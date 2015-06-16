@@ -39,18 +39,7 @@ class Duel < ActiveRecord::Base
   end
 
   def phase
-    case phase_number
-      when "drawing_phase"
-        DrawingPhase.new
-      when "playing_phase"
-        PlayingPhase.new
-      when "attacking_phase"
-        AttackingPhase.new
-      when "cleanup_phase"
-        CleanupPhase.new
-      else
-        fail "Unknown phase '#{phase_number}'"
-    end
+    phase_number.classify.constantize.new
   end
 
   def next_phase!
