@@ -15,7 +15,7 @@ class Metaverse2 < CardType
     case index
       when "tap"
         return game_engine.duel.priority_player == card.player &&
-          (game_engine.duel.playing_phase? || game_engine.duel.attacking_phase?) && # TODO replace with game_engine.duel.phase.can_tap?
+          game_engine.duel.phase.can_tap? &&
           card.entity.can_tap? &&
           card.zone.can_tap_from?
       when "untap"

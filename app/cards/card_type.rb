@@ -44,7 +44,7 @@ class CardType
       when "play"
         return game_engine.duel.priority_player == card.player &&
             game_engine.duel.current_player == card.player &&
-            (game_engine.duel.playing_phase?) &&
+            game_engine.duel.phase.can_play? &&
             card.zone.can_play_from? &&
             card.entity.can_play?
     end
