@@ -4,7 +4,7 @@
 class Entity < ActiveRecord::Base
   validates :turn_played, presence: true
 
-  after_initialize :init
+  before_validation :init
 
   def init
     self.is_tapped ||= false

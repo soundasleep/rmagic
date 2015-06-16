@@ -14,8 +14,7 @@ class Duel < ActiveRecord::Base
 
   enum phase_number: [ :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
 
-  # TODO look into before_create or before_validate
-  after_initialize :init
+  before_validation :init
 
   def init
     self.turn ||= 1
@@ -56,6 +55,7 @@ class Duel < ActiveRecord::Base
     return phase.changes_player?
   end
 
+  # TODO remove
   def phase_text
     phase.description
   end

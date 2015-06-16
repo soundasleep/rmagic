@@ -8,7 +8,7 @@ class Player < ActiveRecord::Base
 
   validates :life, presence: true
 
-  after_initialize :init
+  before_validation :init
 
   def init
     self.mana_blue ||= 0
