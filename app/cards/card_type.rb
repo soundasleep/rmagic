@@ -30,48 +30,22 @@ class CardType
     mana_cost_string(mana_cost)
   end
 
-  def do_action(game_engine, card, index)
-    case index
-      when "play"
-        return do_play(game_engine, card)
-    end
-    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+  def actions
+    methods.grep(/^do_/).map{ |m| m[3..-1] } - ["action"]
   end
 
-  # ignoring mana costs
   def can_do_action?(game_engine, card, index)
-    case index
-      when "play"
-        return game_engine.duel.priority_player == card.player &&
-            game_engine.duel.current_player == card.player &&
-            game_engine.duel.phase.can_play? &&
-            card.zone.can_play_from? &&
-            card.entity.can_play?
-    end
-    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+    send("can_#{index}?", game_engine, card)
   end
 
   def action_cost(game_engine, card, index)
-    case index
-      when "play"
-        return mana_cost
-    end
-    fail "no action #{index} defined for #{to_text}: #{actions.join(", ")}"
+    fail "Cannot get cost of 'action'" if index == "action"
+    send("#{index}_cost", game_engine, card)
   end
 
-  def actions
-    # TODO not all cards can be played?
-    [ "play" ]
-  end
-
-  # ability mana cost has already been consumed
-  def do_play(game_engine, card)
-    # put it into the battlefield
-    game_engine.move_into_battlefield card.player, card
-
-    # save the turn it was played
-    card.entity.turn_played = game_engine.duel.turn
-    card.entity.save!
+  def do_action(game_engine, card, index)
+    fail "Cannot do 'action'" if index == "action"
+    send("do_#{index}", game_engine, card)
   end
 
 end

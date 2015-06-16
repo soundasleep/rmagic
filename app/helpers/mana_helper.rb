@@ -34,6 +34,17 @@ module ManaHelper
     end
   end
 
+  def add_mana_to_pool(cost, pool)
+    check_supported_colours!(cost)
+    check_supported_colours!(pool)
+
+    result = {}
+    [:green, :blue, :red, :white, :black, :colourless].map do |c|
+      result[c] = pool[c] + cost[c]
+    end
+    result
+  end
+
   def use_mana_from_pool(cost, pool)
     check_supported_colours!(cost)
     check_supported_colours!(pool)

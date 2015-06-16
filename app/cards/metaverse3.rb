@@ -1,10 +1,8 @@
 class Metaverse3 < CardType
+  include Creature
+
   def name
     "Creature with activated abilities"
-  end
-
-  def is_creature?
-    true
   end
 
   def power
@@ -22,34 +20,14 @@ class Metaverse3 < CardType
     }
   end
 
-  def actions
-    super + [ "add_life" ]
+  def add_life_cost(game_engine, card)
+    return {
+      green: 1
+    }
   end
 
-  def action_cost(game_engine, card, index)
-    case index
-      when "add_life"
-        return {
-          green: 1
-        }
-    end
-    super
-  end
-
-  def can_do_action?(game_engine, card, index)
-    case index
-      when "add_life"
-        return game_engine.duel.priority_player == card.player && game_engine.duel.phase.can_instant?
-    end
-    super
-  end
-
-  def do_action(game_engine, card, index)
-    case index
-      when "add_life"
-        return do_add_life(game_engine, card)
-    end
-    super
+  def can_add_life?(game_engine, card)
+    return game_engine.duel.priority_player == card.player && game_engine.duel.phase.can_instant?
   end
 
   # an instant
