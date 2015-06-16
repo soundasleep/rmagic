@@ -26,6 +26,10 @@ RSpec.describe "Instants" do
     expect(first_instant).to_not be_nil
   end
 
+  it "can be played in a phase which can cast instants" do
+    expect(@duel.phase.can_instant?).to eq(true)
+  end
+
   context "without mana" do
     it "requires mana" do
       expect(game_engine.can_do_action?(@card, "instant")).to eq(false)

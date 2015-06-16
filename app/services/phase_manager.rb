@@ -46,7 +46,7 @@ class PhaseManager
   end
 
   def perform_phase_actions
-    case duel.phase
+    case duel.phase.to_sym
       when :drawing_phase
         draw_phase
       when :playing_phase
@@ -55,6 +55,8 @@ class PhaseManager
         attacking_phase
       when :cleanup_phase
         cleanup_phase
+      else
+        fail "Unknown phase '#{duel.phase}'"
     end
   end
 

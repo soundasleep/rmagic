@@ -19,7 +19,7 @@ class ActionFinder
       ability: []   # from battlefield - TODO maybe rename 'battlefield'
     }
     actions[:play] += playable_cards(player)
-    if duel.attacking_phase? and duel.priority_player == player and duel.priority_player != duel.current_player
+    if duel.phase.can_declare_defenders? and duel.priority_player == player and duel.priority_player != duel.current_player
       actions[:defend] += defendable_cards(player)
     end
     actions[:ability] += ability_cards(player)
@@ -53,7 +53,7 @@ class ActionFinder
   end
 
   def available_attackers(player)
-    if duel.attacking_phase? and duel.current_player == player and duel.priority_player == player
+    if duel.phase.can_declare_attackers? and duel.current_player == player and duel.priority_player == player
       return duel.priority_player.battlefield
           .select{ |b| b.entity.find_card.is_creature? }
           .select{ |b| b.entity.turn_played < duel.turn }   # summoning sickness
