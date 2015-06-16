@@ -8,6 +8,7 @@ RSpec.describe Player do
 
   it "we can use green mana to pay for green mana" do
     player = Player.create!({ mana_green: 1 })
+    # TODO remove asserts, replace with expect
     assert player.has_mana? ({ green: 1 })
 
     player.use_mana! ({ green: 1 })

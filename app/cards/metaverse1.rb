@@ -1,5 +1,5 @@
 class Metaverse1 < CardType
-  include Playable
+  include Creature
 
   def name
     "Basic creature"
