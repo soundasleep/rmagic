@@ -1,7 +1,6 @@
 class SetNotNullOnPlayer < ActiveRecord::Migration
   def change
     change_column_null :players, :name, false
-    change_column_null :players, :is_ai, false
     change_column_null :players, :life, false
     change_column_null :players, :mana_blue, false
     change_column_null :players, :mana_green, false

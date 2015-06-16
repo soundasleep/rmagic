@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616054917) do
+ActiveRecord::Schema.define(version: 20150616055024) do
 
   create_table "action_log_targets", force: :cascade do |t|
-    t.integer  "entity_id"
-    t.integer  "action_log_id"
+    t.integer  "entity_id",     null: false
+    t.integer  "action_log_id", null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "damage"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20150616054917) do
     t.integer  "player_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.integer  "duel_id"
+    t.integer  "duel_id",       null: false
     t.string   "global_action"
     t.integer  "argument"
   end
@@ -61,12 +61,12 @@ ActiveRecord::Schema.define(version: 20150616054917) do
   add_index "decks", ["player_id"], name: "index_decks_on_player_id"
 
   create_table "declared_attackers", force: :cascade do |t|
-    t.integer  "duel_id"
-    t.integer  "entity_id"
+    t.integer  "duel_id",          null: false
+    t.integer  "entity_id",        null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.integer  "target_player_id"
-    t.integer  "player_id"
+    t.integer  "target_player_id", null: false
+    t.integer  "player_id",        null: false
   end
 
   add_index "declared_attackers", ["duel_id"], name: "index_declared_attackers_on_duel_id"
@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(version: 20150616054917) do
   add_index "declared_attackers", ["target_player_id"], name: "index_declared_attackers_on_target_player_id"
 
   create_table "declared_defenders", force: :cascade do |t|
-    t.integer  "duel_id"
-    t.integer  "source_id"
-    t.integer  "target_id"
+    t.integer  "duel_id",    null: false
+    t.integer  "source_id",  null: false
+    t.integer  "target_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -107,9 +107,9 @@ ActiveRecord::Schema.define(version: 20150616054917) do
     t.integer  "effect_type"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.boolean  "is_tapped"
-    t.integer  "damage"
-    t.integer  "turn_played"
+    t.boolean  "is_tapped",    null: false
+    t.integer  "damage",       null: false
+    t.integer  "turn_played",  null: false
   end
 
   create_table "graveyards", force: :cascade do |t|
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 20150616054917) do
 
   create_table "players", force: :cascade do |t|
     t.string   "name",            null: false
-    t.boolean  "is_ai",           null: false
+    t.boolean  "is_ai"
     t.integer  "life",            null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false

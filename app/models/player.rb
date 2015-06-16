@@ -6,18 +6,22 @@ class Player < ActiveRecord::Base
   has_many :battlefield, dependent: :destroy
   has_many :graveyard, dependent: :destroy
 
-  validates :life, presence: true
+  validates :life, :name, :mana_blue, :mana_green,
+      :mana_red, :mana_white, :mana_black,
+      :mana_colourless, presence: true
 
   before_validation :init
 
   def init
+    self.life ||= 20
+    self.name ||= "Player"
+    self.is_ai ||= false
     self.mana_blue ||= 0
     self.mana_green ||= 0
     self.mana_red ||= 0
     self.mana_white ||= 0
     self.mana_black ||= 0
     self.mana_colourless ||= 0
-    self.life ||= 20
   end
 
   def mana
