@@ -2,9 +2,8 @@ class Graveyard < ActiveRecord::Base
   belongs_to :player
   belongs_to :entity
 
-  # TODO collapse
-  validates :player, presence: true
-  validates :entity, presence: true, uniqueness: true
+  validates :player, :entity, presence: true
+  validates :entity, uniqueness: true
 
   # TODO add db constraint in a rails migration nil=false for all presence: true
 
