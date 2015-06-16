@@ -1,5 +1,5 @@
 class DuelController < ApplicationController
-  def new
+  def create
     # create a temporary duel to display
     @player1 = Player.create!(
      name: "Jevon",
@@ -114,8 +114,10 @@ class DuelController < ApplicationController
   end
 
   def declare_attackers
-    attackers = Battlefield.find(params[:attacker])
-    game_engine.declare_attackers attackers
+    if params[:attacker]
+      attackers = Battlefield.find(params[:attacker])
+      game_engine.declare_attackers attackers
+    end
     game_engine.pass
     duel.save!
     redirect_to duel_path duel

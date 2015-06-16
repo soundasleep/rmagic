@@ -1,6 +1,5 @@
-%h1 Duel
-
-= link_to "Start new duel", new_duel_path
+= form_tag duel_index_path, method: :create do |f|
+  = submit_tag "Start new duel"
 
 = form_tag(pass_duel_url(@duel)) do |f|
   = submit_tag "Pass"
