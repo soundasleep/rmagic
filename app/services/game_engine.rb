@@ -35,7 +35,7 @@ class GameEngine
     cards.each do |card|
       # this assumes we are always attacking the other player
       DeclaredAttacker.create!({duel: duel, entity: card.entity, player: card.player, target_player: duel.other_player})
-      Action.card_action(duel, card.player, card.entity, "declare")
+      ActionLog.card_action(duel, card.player, card.entity, "declare")
     end
   end
 
@@ -45,7 +45,7 @@ class GameEngine
     card.destroy
 
     # update log
-    Action.draw_card_action(duel, player)
+    ActionLog.draw_card_action(duel, player)
 
     # add it to the hand
     Hand.create!( player: player, entity: card.entity )
@@ -58,7 +58,7 @@ class GameEngine
     card.player.use_mana! card.entity.find_card.action_cost(self, card, key)
 
     # update log
-    Action.card_action(duel, card.player, card.entity, key)
+    ActionLog.card_action(duel, card.player, card.entity, key)
 
     # do the thing
     card.entity.find_card.do_action self, card, key
@@ -78,7 +78,7 @@ class GameEngine
     fail "No :target defined" unless defend[:target]
 
     # update log
-    Action.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
+    ActionLog.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
 
     DeclaredDefender.create!( duel: duel, source: defend[:source], target: defend[:target] )
     duel.reload       # TODO this seems gross!
@@ -114,7 +114,7 @@ class GameEngine
       end
 
       # link the defender
-      ActionTarget.create!( action: action, entity: battlefield.entity )
+      ActionLogTarget.create!( action_log: action, entity: battlefield.entity )
     end
 
     remaining_damage
@@ -124,7 +124,7 @@ class GameEngine
     # TODO allow attacker to specify order of damage
     remaining_damage = attacker.entity.find_card.power
 
-    action = Action.card_action(duel, attacker.player, attacker.entity, "attack")
+    action = ActionLog.card_action(duel, attacker.player, attacker.entity, "attack")
 
     duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
       remaining_damage = apply_damage_to action, remaining_damage, d.source
@@ -139,7 +139,7 @@ class GameEngine
   def apply_defend_damage(defender)
     damage = defender.source.entity.find_card.power
 
-    action = Action.card_action(duel, defender.source.player, defender.source.entity, "defended")
+    action = ActionLog.card_action(duel, defender.source.player, defender.source.entity, "defended")
 
     # any overkill damage is ignored
     apply_damage_to action, damage, defender.target
@@ -171,7 +171,7 @@ class GameEngine
     zone_card.destroy!
 
     # udpate log
-    Action.card_action(duel, player, zone_card.entity, "graveyard")
+    ActionLog.card_action(duel, player, zone_card.entity, "graveyard")
 
     # move to graveyard
     Graveyard.create!( player: zone_card.player, entity: zone_card.entity )
@@ -182,7 +182,7 @@ class GameEngine
     zone_card.destroy!
 
     # update log
-    Action.card_action(duel, player, zone_card.entity, "battlefield")
+    ActionLog.card_action(duel, player, zone_card.entity, "battlefield")
 
     # move to graveyard
     Battlefield.create!( player: zone_card.player, entity: zone_card.entity )

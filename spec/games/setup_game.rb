@@ -84,7 +84,7 @@ module SetupGame
   end
 
   def actions(entity, action)
-    Action.where(duel: @duel, entity_action: action, entity: entity)
+    ActionLog.where(duel: @duel, entity_action: action, entity: entity)
   end
 
   def declaring_actions(card)

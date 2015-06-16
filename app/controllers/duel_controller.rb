@@ -75,8 +75,8 @@ class DuelController < ApplicationController
       Hand.create!( entity: instant, player: @player2 )
     end
 
-    @action1 = Action.create!( entity: @player2.battlefield.first.entity, entity_action: "attack", player: @player2, duel: @duel )
-    @action_target1 = ActionTarget.create!( entity: @player1.battlefield.first.entity, action: @action1, damage: 1 )
+    @action1 = ActionLog.create!( entity: @player2.battlefield.first.entity, entity_action: "attack", player: @player2, duel: @duel )
+    @action_target1 = ActionLogTarget.create!( entity: @player1.battlefield.first.entity, action_log: @action1, damage: 1 )
 
     redirect_to duel_path @duel
   end

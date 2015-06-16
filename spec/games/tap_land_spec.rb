@@ -48,7 +48,7 @@ RSpec.describe "Tapping lands" do
 
     context "and when tapped" do
       before :each do
-        expect(Action.where(duel: @duel)).to be_empty
+        expect(ActionLog.where(duel: @duel)).to be_empty
         game_engine.card_action(@card, "tap")
       end
 
@@ -56,8 +56,8 @@ RSpec.describe "Tapping lands" do
         expect(game_engine.can_do_action?(@card, "tap")).to eq(false)
       end
 
-      it "creates an action" do
-        action = Action.where(duel: @duel).first!
+      it "creates an action log" do
+        action = ActionLog.where(duel: @duel).first!
         expect(action.entity).to eq(@card.entity)
       end
 

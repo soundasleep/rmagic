@@ -14,7 +14,7 @@ class PhaseManager
   # The current player has passed the turn; move the priority to the next player if necessary
   def pass!
     # add to action log
-    Action.pass_action(duel, duel.priority_player)
+    ActionLog.pass_action(duel, duel.priority_player)
 
     duel.priority_player_number = (duel.priority_player_number % duel.players.count) + 1
     if duel.priority_player_number == duel.current_player_number
@@ -31,7 +31,7 @@ class PhaseManager
           duel.turn += 1
 
           # add to action log
-          Action.new_turn_action(duel)
+          ActionLog.new_turn_action(duel)
         end
       end
     end

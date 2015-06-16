@@ -1,6 +1,6 @@
-class ActionTarget < ActiveRecord::Base
+class ActionLogTarget < ActiveRecord::Base
   belongs_to :entity
-  belongs_to :action
+  belongs_to :action_log
 
   def effect_string
     s = entity.to_text

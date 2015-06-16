@@ -1,9 +1,9 @@
-class Action < ActiveRecord::Base
+class ActionLog < ActiveRecord::Base
   belongs_to :entity
   belongs_to :player
   belongs_to :duel
 
-  has_many :targets, class_name: "ActionTarget"
+  has_many :targets, class_name: "ActionLogTarget"
 
   validate :global_action_or_entity
 
@@ -35,18 +35,18 @@ class Action < ActiveRecord::Base
 
   # helper methods
   def self.pass_action(duel, player)
-    Action.create!( player: player, duel: duel, global_action: "pass" )
+    ActionLog.create!( player: player, duel: duel, global_action: "pass" )
   end
 
   def self.new_turn_action(duel)
-    Action.create!( duel: duel, global_action: "turn", argument: duel.turn )
+    ActionLog.create!( duel: duel, global_action: "turn", argument: duel.turn )
   end
 
   def self.draw_card_action(duel, player)
-    Action.create!( player: player, duel: duel, global_action: "draw" )
+    ActionLog.create!( player: player, duel: duel, global_action: "draw" )
   end
 
   def self.card_action(duel, player, entity, key)
-    Action.create!( player: player, duel: duel, entity: entity, entity_action: key)
+    ActionLog.create!( player: player, duel: duel, entity: entity, entity_action: key)
   end
 end

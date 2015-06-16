@@ -11,20 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150614231112) do
+ActiveRecord::Schema.define(version: 20150616024620) do
 
-  create_table "action_targets", force: :cascade do |t|
+  create_table "action_log_targets", force: :cascade do |t|
     t.integer  "entity_id"
-    t.integer  "action_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "action_log_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "damage"
   end
 
-  add_index "action_targets", ["action_id"], name: "index_action_targets_on_action_id"
-  add_index "action_targets", ["entity_id"], name: "index_action_targets_on_entity_id"
+  add_index "action_log_targets", ["action_log_id"], name: "index_action_log_targets_on_action_log_id"
+  add_index "action_log_targets", ["entity_id"], name: "index_action_log_targets_on_entity_id"
 
-  create_table "actions", force: :cascade do |t|
+  create_table "action_logs", force: :cascade do |t|
     t.integer  "entity_id"
     t.string   "entity_action"
     t.integer  "player_id"
@@ -35,9 +35,9 @@ ActiveRecord::Schema.define(version: 20150614231112) do
     t.integer  "argument"
   end
 
-  add_index "actions", ["duel_id"], name: "index_actions_on_duel_id"
-  add_index "actions", ["entity_id"], name: "index_actions_on_entity_id"
-  add_index "actions", ["player_id"], name: "index_actions_on_player_id"
+  add_index "action_logs", ["duel_id"], name: "index_action_logs_on_duel_id"
+  add_index "action_logs", ["entity_id"], name: "index_action_logs_on_entity_id"
+  add_index "action_logs", ["player_id"], name: "index_action_logs_on_player_id"
 
   create_table "battlefields", force: :cascade do |t|
     t.integer  "player_id"
