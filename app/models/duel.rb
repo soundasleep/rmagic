@@ -4,7 +4,7 @@ class Duel < ActiveRecord::Base
 
   has_many :declared_attackers, dependent: :destroy
   has_many :declared_defenders, dependent: :destroy
-  has_many :actions, dependent: :destroy
+  has_many :action_logs, dependent: :destroy
 
   enum phase_number: [ :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
 
@@ -18,8 +18,8 @@ class Duel < ActiveRecord::Base
     self.phase_number ||= :drawing_phase
   end
 
-  def last_actions
-    actions.order(created_at: :desc)
+  def last_action_logs
+    action_logs.order(created_at: :desc)
   end
 
   def players

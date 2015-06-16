@@ -72,7 +72,7 @@
 %h2 Action Log
 
 %ul
-  - @duel.last_actions.limit(10).each do |action|
+  - @duel.last_action_logs.limit(10).each do |action|
     %li
       [#{@duel.id}.#{action.id}]
       - if action.player
