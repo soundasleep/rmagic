@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616053506) do
+ActiveRecord::Schema.define(version: 20150616054917) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -134,17 +134,17 @@ ActiveRecord::Schema.define(version: 20150616053506) do
   add_index "hands", ["player_id"], name: "index_hands_on_player_id"
 
   create_table "players", force: :cascade do |t|
-    t.string   "name"
-    t.boolean  "is_ai"
-    t.integer  "life"
+    t.string   "name",            null: false
+    t.boolean  "is_ai",           null: false
+    t.integer  "life",            null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "mana_blue"
-    t.integer  "mana_green"
-    t.integer  "mana_red"
-    t.integer  "mana_white"
-    t.integer  "mana_black"
-    t.integer  "mana_colourless"
+    t.integer  "mana_blue",       null: false
+    t.integer  "mana_green",      null: false
+    t.integer  "mana_red",        null: false
+    t.integer  "mana_white",      null: false
+    t.integer  "mana_black",      null: false
+    t.integer  "mana_colourless", null: false
   end
 
 end
