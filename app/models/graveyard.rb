@@ -5,8 +5,6 @@ class Graveyard < ActiveRecord::Base
   validates :player, :entity, presence: true
   validates :entity, uniqueness: true
 
-  # TODO add db constraint in a rails migration nil=false for all presence: true
-
   def zone
     GraveyardZone.new
   end

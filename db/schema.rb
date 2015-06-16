@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616024620) do
+ActiveRecord::Schema.define(version: 20150616052830) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "entity_id"
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20150616024620) do
   add_index "action_logs", ["player_id"], name: "index_action_logs_on_player_id"
 
   create_table "battlefields", force: :cascade do |t|
-    t.integer  "player_id"
-    t.integer  "entity_id"
+    t.integer  "player_id",  null: false
+    t.integer  "entity_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 20150616024620) do
   add_index "battlefields", ["player_id"], name: "index_battlefields_on_player_id"
 
   create_table "decks", force: :cascade do |t|
-    t.integer  "player_id"
-    t.integer  "entity_id"
+    t.integer  "player_id",  null: false
+    t.integer  "entity_id",  null: false
     t.integer  "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(version: 20150616024620) do
   end
 
   create_table "graveyards", force: :cascade do |t|
-    t.integer  "player_id"
-    t.integer  "entity_id"
+    t.integer  "player_id",  null: false
+    t.integer  "entity_id",  null: false
     t.integer  "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -124,8 +124,8 @@ ActiveRecord::Schema.define(version: 20150616024620) do
   add_index "graveyards", ["player_id"], name: "index_graveyards_on_player_id"
 
   create_table "hands", force: :cascade do |t|
-    t.integer  "player_id"
-    t.integer  "entity_id"
+    t.integer  "player_id",  null: false
+    t.integer  "entity_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
