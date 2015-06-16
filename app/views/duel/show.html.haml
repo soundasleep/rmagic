@@ -41,7 +41,7 @@
           = a.entity.to_text
     = submit_tag "Declare attackers and pass"
 
-%h4 Turn #{@duel.turn}: Current player #{@duel.current_player_number}, phase #{@duel.phase} (#{@duel.phase_text}), priority player #{@duel.priority_player_number}
+%h4 Turn #{@duel.turn}: Current player #{@duel.current_player_number}, #{@duel.phase_text}, priority player #{@duel.priority_player_number}
 
 - [ @duel.player1, @duel.player2 ].each do |player|
   %h2

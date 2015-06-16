@@ -52,8 +52,4 @@ class Duel < ActiveRecord::Base
     phase.description
   end
 
-  def current_turn_text
-    "Turn #{turn}, phase #{phase} (#{phase_text}), current player #{current_player_number}, priority player #{priority_player_number}"
-  end
-
 end
