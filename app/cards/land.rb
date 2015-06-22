@@ -9,7 +9,7 @@ module Land
     return game_engine.duel.priority_player == card.player &&
       game_engine.duel.phase.can_tap? &&
       card.entity.can_tap? &&
-      card.zone.can_tap_from?
+      card.zone.cards_are_tappable?
   end
 
   def can_untap?(game_engine, card)
