@@ -3,11 +3,6 @@ class CleanupPhase < Phase
     DrawingPhase.new
   end
 
-  # TODO replace with next_phase_is_new_turn?
-  def next_phase_is_new_turn
-    true
-  end
-
   def to_sym
     :cleanup_phase
   end
