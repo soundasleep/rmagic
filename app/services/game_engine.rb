@@ -34,7 +34,7 @@ class GameEngine
   def declare_attackers(zone_cards)
     zone_cards.each do |zone_card|
       # this assumes we are always attacking the other player
-      DeclaredAttacker.create!({duel: duel, card: zone_card.card, player: zone_card.player, target_player: duel.other_player})
+      duel.declared_attackers.create! card: zone_card.card, player: zone_card.player, target_player: duel.other_player
       ActionLog.card_action(duel, zone_card.player, zone_card.card, "declare")
     end
   end
@@ -49,7 +49,7 @@ class GameEngine
     ActionLog.draw_card_action(duel, player)
 
     # add it to the hand
-    Hand.create!( player: player, card: zone_card.card )
+    player.hand.create! card: zone_card.card
   end
 
   def card_action(zone_card, key)
@@ -81,7 +81,7 @@ class GameEngine
     # update log
     ActionLog.card_action(duel, defend[:source].player, defend[:source].card, "defend")
 
-    DeclaredDefender.create!( duel: duel, source: defend[:source], target: defend[:target] )
+    duel.declared_defenders.create! source: defend[:source], target: defend[:target]
     duel.reload       # TODO this seems gross!
   end
 
@@ -114,7 +114,7 @@ class GameEngine
       end
 
       # link the defender
-      ActionLogTarget.create!( action_log: action, card: battlefield.card )
+      action.targets.create! card: battlefield.card
     end
 
     remaining_damage
@@ -173,7 +173,7 @@ class GameEngine
     ActionLog.card_action(duel, player, zone_card.card, "graveyard")
 
     # move to graveyard
-    Graveyard.create!( player: zone_card.player, card: zone_card.card )
+    player.graveyard.create! card: zone_card.card
     duel.reload       # TODO this seems gross!
   end
 
@@ -184,7 +184,7 @@ class GameEngine
     ActionLog.card_action(duel, player, zone_card.card, "battlefield")
 
     # move to graveyard
-    Battlefield.create!( player: zone_card.player, card: zone_card.card )
+    player.battlefield.create! card: zone_card.card
     duel.reload       # TODO this seems gross!
   end
 

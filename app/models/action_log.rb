@@ -32,18 +32,18 @@ class ActionLog < ActiveRecord::Base
 
   # helper methods
   def self.pass_action(duel, player)
-    ActionLog.create!( player: player, duel: duel, global_action: "pass" )
+    duel.action_logs.create! player: player, global_action: "pass"
   end
 
   def self.new_turn_action(duel)
-    ActionLog.create!( duel: duel, global_action: "turn", argument: duel.turn )
+    duel.action_logs.create! global_action: "turn", argument: duel.turn
   end
 
   def self.draw_card_action(duel, player)
-    ActionLog.create!( player: player, duel: duel, global_action: "draw" )
+    duel.action_logs.create! player: player, global_action: "draw"
   end
 
   def self.card_action(duel, player, card, key)
-    ActionLog.create!( player: player, duel: duel, card: card, card_action: key)
+    duel.action_logs.create! player: player, card: card, card_action: key
   end
 end

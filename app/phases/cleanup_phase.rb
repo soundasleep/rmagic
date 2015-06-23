@@ -21,10 +21,10 @@ class CleanupPhase < Phase
     game_engine.apply_defend_damages duel.declared_defenders
 
     # remove attackers
-    DeclaredAttacker.destroy_all(duel: duel)
+    duel.declared_attackers.destroy_all
 
     # remove defenders
-    DeclaredDefender.destroy_all(duel: duel)
+    duel.declared_defenders.destroy_all
 
     game_engine.move_destroyed_creatures_to_graveyard
 
