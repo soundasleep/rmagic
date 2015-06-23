@@ -4,7 +4,7 @@ RSpec.describe "Instants" do
   before :each do
     setup
 
-    create_instants
+    create_hand_cards(4)
     @duel.playing_phase!
 
     @card = first_instant
