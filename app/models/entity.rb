@@ -3,6 +3,15 @@
 # if this remains Entity then represent Players as Entities i.e. damage!
 class Entity < ActiveRecord::Base
   validates :turn_played, presence: true
+  validates :metaverse_id, presence: true
+
+  validate :valid_card
+
+  def valid_card
+    if !find_card
+      errors.add(:metaverse_id, "Could not find card #{metaverse_id}")
+    end
+  end
 
   before_validation :init
 
@@ -12,22 +21,10 @@ class Entity < ActiveRecord::Base
   end
 
   def find_card   # TODO card_type
-    # TODO replace with constant_defined? and swap fail/return and CardUniverse.exists?
-    # TODO replace with a validate:
-    return CardUniverse.new.find_metaverse(metaverse_id) if metaverse_id
-
-    fail "Could not find card #{metaverse_id}"
+    @card ||= CardUniverse.new.find_metaverse(metaverse_id)
   end
 
-  # delegate: :to_text, :find_card - look into this TODO
-
-  def to_text
-    find_card.to_text
-  end
-
-  def action_text(action_id)
-    find_card.action_text(action_id)
-  end
+  delegate :to_text, :action_text, to: :find_card
 
   def can_tap?
     !is_tapped?
