@@ -16,7 +16,7 @@ The engine barely supports anything at the moment, but it's a start.
 
 We try to use as few model objects as possible.
 
-* `Entity` - cards, tokens
+* `Card` - cards, tokens
 * `Player` - life, unspent mana
 * `Duel` - current player, phase
 * `Battlefield`, `Deck`, `Graveyard`, `Hand`, `Exile` - zones where cards are
@@ -34,7 +34,6 @@ We try to use as few model objects as possible.
 * Summoning sickness for activated abilities
 * Sorceries
 * Effects on entities (cards)
-* Represent player as an entity
 * Deck shuffling and drawing
 * Random first player
 * Order cards in graveyard

@@ -15,7 +15,7 @@ RSpec.describe "Tapping lands" do
   end
 
   def untapped_lands
-    @duel.player1.battlefield.select { |b| !b.entity.is_tapped? && b.entity.find_card.is_land? }
+    @duel.player1.battlefield.select { |b| !b.card.is_tapped? && b.card.card_type.is_land? }
   end
 
   it "can be tapped in a phase which can be tapped" do
@@ -35,30 +35,30 @@ RSpec.describe "Tapping lands" do
 
   context "an untapped land" do
     before :each do
-      @card = untapped_land
+      @battlefield = untapped_land
     end
 
     it "can be tapped" do
-      expect(@card.entity.is_tapped?).to eq(false)
-      game_engine.card_action(@card, "tap")
-      @card.reload
-      @card.entity.reload
-      expect(@card.entity.is_tapped?).to eq(true)
+      expect(@battlefield.card.is_tapped?).to eq(false)
+      game_engine.card_action(@battlefield, "tap")
+      @battlefield.reload
+      @battlefield.card.reload
+      expect(@battlefield.card.is_tapped?).to eq(true)
     end
 
     context "and when tapped" do
       before :each do
         expect(ActionLog.where(duel: @duel)).to be_empty
-        game_engine.card_action(@card, "tap")
+        game_engine.card_action(@battlefield, "tap")
       end
 
       it "can no longer be actioned to tap" do
-        expect(game_engine.can_do_action?(@card, "tap")).to eq(false)
+        expect(game_engine.can_do_action?(@battlefield, "tap")).to eq(false)
       end
 
       it "creates an action log" do
         action = ActionLog.where(duel: @duel).first!
-        expect(action.entity).to eq(@card.entity)
+        expect(action.card).to eq(@battlefield.card)
       end
 
       it "does not modify the phase of the duel" do
@@ -67,21 +67,21 @@ RSpec.describe "Tapping lands" do
     end
 
     it "can be tapped directly" do
-      expect(@card.entity.is_tapped?).to eq(false)
-      @card.entity.tap_card!
-      expect(@card.entity.is_tapped?).to eq(true)
+      expect(@battlefield.card.is_tapped?).to eq(false)
+      @battlefield.card.tap_card!
+      expect(@battlefield.card.is_tapped?).to eq(true)
     end
 
     it "does not tap other lands" do
-      @card.entity.tap_card!
+      @battlefield.card.tap_card!
 
       card = untapped_land
-      expect(card.entity).to_not eq(@card.entity)
-      expect(card.entity.is_tapped?).to eq(false)
+      expect(card.card).to_not eq(@battlefield.card)
+      expect(card.card.is_tapped?).to eq(false)
     end
 
     it "can be actioned to tap" do
-      expect(game_engine.can_do_action?(@card, "tap")).to eq(true)
+      expect(game_engine.can_do_action?(@battlefield, "tap")).to eq(true)
     end
   end
 

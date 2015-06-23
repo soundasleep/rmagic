@@ -36,7 +36,7 @@ class PhaseManager
       end
     end
 
-    duel.save!
+    duel.save!      # TODO replace with update!
 
     duel.phase.setup_phase game_engine
 

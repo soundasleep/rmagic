@@ -8,16 +8,16 @@ RSpec.describe "Playable" do
 
     expect(@duel.player1.hand).to be_empty
 
-    creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-    Hand.create!( player: @duel.player1, entity: creature )
+    creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+    @duel.player1.hand.create! card: creature
   end
 
   def hand
-    Hand.where(player: @duel.player1)
+    @duel.player1.hand
   end
 
   def battlefield_creatures
-    @duel.player1.battlefield.select{ |b| !b.entity.find_card.is_land? }.map{ |b| b.entity }
+    @duel.player1.battlefield.select{ |b| !b.card.card_type.is_land? }.map{ |b| b.card }
   end
 
   it "we can set and compare phase directly" do
@@ -49,11 +49,11 @@ RSpec.describe "Playable" do
     end
 
     it "we have a creature to play" do
-      expect(@duel.player1.hand.select{ |h| h.entity.metaverse_id == 1 }.length).to eq(1)
+      expect(@duel.player1.hand.select{ |h| h.card.metaverse_id == 1 }.length).to eq(1)
     end
 
     it "allows us to play a creature" do
-      expect(available_actions[:play].map { |h| h[:source].entity }).to eq([hand.first!.entity])
+      expect(available_actions[:play].map { |h| h[:source].card }).to eq([hand.first!.card])
     end
 
     it "allows us to play a creature with the play action" do
@@ -69,18 +69,18 @@ RSpec.describe "Playable" do
       end
 
       it "creates an action" do
-        expect(actions(@card.entity, "play").map{ |c| c.entity }).to eq([ @card.entity ])
+        expect(actions(@card.card, "play").map{ |c| c.card }).to eq([ @card.card ])
       end
 
       it "puts a creature on the battlefield" do
-        expect(battlefield_creatures).to eq([@card.entity])
+        expect(battlefield_creatures).to eq([@card.card])
       end
 
       it "we're on turn 1" do
         expect(@duel.turn).to eq(1)
       end
 
-      it "stores when the entity was played" do
+      it "stores when the card was played" do
         expect(battlefield_creatures.first.turn_played).to eq(1)
       end
 
@@ -95,7 +95,7 @@ RSpec.describe "Playable" do
           pass_until_next_turn
 
           @duel.attacking_phase!
-          expect(available_attackers.map{ |b| b.entity }).to eq([@card.entity])
+          expect(available_attackers.map{ |b| b.card }).to eq([@card.card])
         end
       end
     end
@@ -106,11 +106,11 @@ RSpec.describe "Playable" do
   end
 
   def battlefield_can_be_tapped
-    available_actions[:ability].select{ |a| a[:action] == "tap" }.map{ |a| a[:source].entity }
+    available_actions[:ability].select{ |a| a[:action] == "tap" }.map{ |a| a[:source].card }
   end
 
   it "lands can be tapped" do
-    expect(battlefield_can_be_tapped).to eq(@duel.player1.battlefield.map{ |b| b.entity })
+    expect(battlefield_can_be_tapped).to eq(@duel.player1.battlefield.map{ |b| b.card })
   end
 
   it "creatures cannot be tapped" do
@@ -123,7 +123,7 @@ RSpec.describe "Playable" do
     @duel.current_player_number = 2
     @duel.save!
 
-    expect(available_actions[:play].map { |h| h.entity }).to be_empty
+    expect(available_actions[:play].map { |h| h.card }).to be_empty
   end
 
   it "we can't play a creature if it's not our priority, even with tapping" do
@@ -132,7 +132,7 @@ RSpec.describe "Playable" do
 
     tap_all_lands
 
-    expect(available_actions[:play].map { |h| h.entity }).to be_empty
+    expect(available_actions[:play].map { |h| h.card }).to be_empty
   end
 
   it "we can't play a creature if it's not our turn, even with tapping" do
@@ -141,7 +141,7 @@ RSpec.describe "Playable" do
 
     tap_all_lands
 
-    expect(available_actions[:play].map { |h| h.entity }).to be_empty
+    expect(available_actions[:play].map { |h| h.card }).to be_empty
   end
 
 end

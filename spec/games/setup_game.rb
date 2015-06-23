@@ -9,21 +9,21 @@ module SetupGame
     @duel = Duel.create!(player1: player1, player2: player2)
 
     10.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( entity: creature, player: player1 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Deck.create!( card: creature, player: player1 )
     end
     10.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( entity: creature, player: player2 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Deck.create!( card: creature, player: player2 )
     end
 
     3.times do
-      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( entity: forest, player: player1 )
+      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
+      Battlefield.create!( card: forest, player: player1 )
     end
     3.times do
-      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( entity: forest, player: player2 )
+      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
+      Battlefield.create!( card: forest, player: player2 )
     end
 
     @duel.save!
@@ -32,34 +32,34 @@ module SetupGame
 
   def create_creatures
     3.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @duel.player1 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      @duel.player1.battlefield.create! card: creature
     end
     2.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @duel.player2 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      @duel.player2.battlefield.create! card: creature
     end
   end
 
   def create_hand_cards(metaverse_id)
     1.times do
-      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Hand.create!( entity: entity, player: @duel.player1 )
+      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      @duel.player1.hand.create card: card
     end
     1.times do
-      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Hand.create!( entity: entity, player: @duel.player2 )
+      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      @duel.player2.hand.create card: card
     end
   end
 
   def create_battlefield_cards(metaverse_id)
     1.times do
-      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Battlefield.create!( entity: entity, player: @duel.player1 )
+      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      @duel.player1.battlefield.create! card: card
     end
     1.times do
-      entity = Entity.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Battlefield.create!( entity: entity, player: @duel.player2 )
+      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+      @duel.player2.battlefield.create! card: card
     end
   end
 
@@ -72,7 +72,7 @@ module SetupGame
   end
 
   def our_creatures
-    @duel.player1.battlefield.select{ |b| b.entity.find_card.is_creature? }.map{ |b| b.entity }
+    @duel.player1.battlefield.select{ |b| b.card.card_type.is_creature? }.map{ |b| b.card }
   end
 
   def available_attackers
@@ -83,28 +83,28 @@ module SetupGame
     game_engine.available_actions(@duel.player1)
   end
 
-  def actions(entity, action)
-    ActionLog.where(duel: @duel, entity_action: action, entity: entity)
+  def actions(card, action)
+    @duel.action_logs.where card_action: action, card: card
   end
 
-  def declaring_actions(card)
-    actions(card.entity, "declare")
+  def declaring_actions(hand)
+    actions(hand.card, "declare")
   end
 
-  def defending_actions(card)
-    actions(card.entity, "defend")
+  def defending_actions(hand)
+    actions(hand.card, "defend")
   end
 
-  def defended_actions(card)
-    actions(card.entity, "defended")
+  def defended_actions(hand)
+    actions(hand.card, "defended")
   end
 
-  def attacking_actions(card)
-    actions(card.entity, "attack")
+  def attacking_actions(hand)
+    actions(hand.card, "attack")
   end
 
-  def graveyard_actions(entity)
-    actions(entity, "graveyard")
+  def graveyard_actions(card)
+    actions(card, "graveyard")
   end
 
   def available_ability_actions(index)
@@ -121,7 +121,7 @@ module SetupGame
 
   def tap_all_lands
     # tap all battlefield lands
-    @duel.player1.battlefield.select { |b| b.entity.find_card.is_land? }.each do |b|
+    @duel.player1.battlefield.select { |b| b.card.card_type.is_land? }.each do |b|
       game_engine.card_action(b, "tap")
     end
   end

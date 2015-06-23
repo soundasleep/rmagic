@@ -1,52 +1,49 @@
 class ActionLog < ActiveRecord::Base
-  belongs_to :entity
+  belongs_to :card
   belongs_to :player
   belongs_to :duel
 
   has_many :targets, class_name: "ActionLogTarget"
 
-  validate :global_action_or_entity
+  validate :global_action_or_card
 
-  def global_action_or_entity
-    if !global_action and !entity
-      errors.add(:entity, "No entity defined for a non-global action")
+  def global_action_or_card
+    if !global_action && !card
+      errors.add(:card, "No card defined for a non-global action")
     end
   end
 
   def action_text
     case global_action
     when "pass"
-      return "passes"
+      "passes"
     when "turn"
-      return "Turn #{argument} started"
+      "Turn #{argument} started"
     when "draw"
-      return "draws a card"
+      "draws a card"
     when "play"
-      return "plays #{entity.to_text}"
+      "plays #{card.to_text}"
     when nil
+      "used #{card.action_text card_action} of #{card.to_text}"
     else
       fail "Unknown action #{global_action}"
     end
-
-    fail "No entity for action" unless entity
-
-    return "used #{entity.action_text entity_action} of #{entity.to_text}"
   end
 
   # helper methods
   def self.pass_action(duel, player)
-    ActionLog.create!( player: player, duel: duel, global_action: "pass" )
+    duel.action_logs.create! player: player, global_action: "pass"
   end
 
   def self.new_turn_action(duel)
-    ActionLog.create!( duel: duel, global_action: "turn", argument: duel.turn )
+    duel.action_logs.create! global_action: "turn", argument: duel.turn
   end
 
   def self.draw_card_action(duel, player)
-    ActionLog.create!( player: player, duel: duel, global_action: "draw" )
+    duel.action_logs.create! player: player, global_action: "draw"
   end
 
-  def self.card_action(duel, player, entity, key)
-    ActionLog.create!( player: player, duel: duel, entity: entity, entity_action: key)
+  def self.card_action(duel, player, card, key)
+    duel.action_logs.create! player: player, card: card, card_action: key
   end
 end

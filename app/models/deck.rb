@@ -1,10 +1,9 @@
 class Deck < ActiveRecord::Base
   belongs_to :player
-  belongs_to :entity
+  belongs_to :card
 
-  validates :player, presence: true
-  validates :entity, presence: true
-  validates :entity, uniqueness: true
+  validates :player, :card, presence: true
+  validates :card, uniqueness: true
 
   def zone
     DeckZone.new

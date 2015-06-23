@@ -3,11 +3,6 @@ class CleanupPhase < Phase
     DrawingPhase.new
   end
 
-  # TODO replace with next_phase_is_new_turn?
-  def next_phase_is_new_turn
-    true
-  end
-
   def to_sym
     :cleanup_phase
   end
@@ -26,17 +21,15 @@ class CleanupPhase < Phase
     game_engine.apply_defend_damages duel.declared_defenders
 
     # remove attackers
-    DeclaredAttacker.destroy_all(duel: duel)
+    duel.declared_attackers.destroy_all
 
     # remove defenders
-    DeclaredDefender.destroy_all(duel: duel)
+    duel.declared_defenders.destroy_all
 
     game_engine.move_destroyed_creatures_to_graveyard
 
     # reset damage
     game_engine.reset_damage
-
-    duel.reload       # TODO this seems gross! (necessary to pick up DeclaredAttacker/DeclaredDefender changes?)
   end
 
 end

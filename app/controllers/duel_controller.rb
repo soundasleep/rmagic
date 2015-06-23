@@ -15,68 +15,68 @@ class DuelController < ApplicationController
     @duel = Duel.create!( player1: @player1, player2: @player2 )
 
     10.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( entity: creature, player: @player1 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Deck.create!( card: creature, player: @player1 )
     end
     10.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( entity: creature, player: @player2 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Deck.create!( card: creature, player: @player2 )
     end
 
     1.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @player1 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Battlefield.create!( card: creature, player: @player1 )
     end
     1.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @player2 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Battlefield.create!( card: creature, player: @player2 )
     end
 
     1.times do
-      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @player1 )
+      creature = Card.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( card: creature, player: @player1 )
     end
     1.times do
-      creature = Entity.create!( metaverse_id: 3, turn_played: 0 )
-      Battlefield.create!( entity: creature, player: @player2 )
+      creature = Card.create!( metaverse_id: 3, turn_played: 0 )
+      Battlefield.create!( card: creature, player: @player2 )
     end
 
     3.times do
-      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( entity: forest, player: @player1 )
+      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
+      Battlefield.create!( card: forest, player: @player1 )
     end
     3.times do
-      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( entity: forest, player: @player2 )
+      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
+      Battlefield.create!( card: forest, player: @player2 )
     end
 
     1.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Hand.create!( entity: creature, player: @player1 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Hand.create!( card: creature, player: @player1 )
     end
     1.times do
-      creature = Entity.create!( metaverse_id: 1, turn_played: 0 )
-      Hand.create!( entity: creature, player: @player2 )
+      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
+      Hand.create!( card: creature, player: @player2 )
     end
     1.times do
-      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
-      Hand.create!( entity: forest, player: @player1 )
+      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
+      Hand.create!( card: forest, player: @player1 )
     end
     1.times do
-      forest = Entity.create!( metaverse_id: 2, turn_played: 0 )
-      Hand.create!( entity: forest, player: @player2 )
+      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
+      Hand.create!( card: forest, player: @player2 )
     end
     1.times do
-      instant = Entity.create!( metaverse_id: 4, turn_played: 0 )
-      Hand.create!( entity: instant, player: @player1 )
+      instant = Card.create!( metaverse_id: 4, turn_played: 0 )
+      Hand.create!( card: instant, player: @player1 )
     end
     1.times do
-      instant = Entity.create!( metaverse_id: 4, turn_played: 0 )
-      Hand.create!( entity: instant, player: @player2 )
+      instant = Card.create!( metaverse_id: 4, turn_played: 0 )
+      Hand.create!( card: instant, player: @player2 )
     end
 
-    @action1 = ActionLog.create!( entity: @player2.battlefield.first.entity, entity_action: "attack", player: @player2, duel: @duel )
-    @action_target1 = ActionLogTarget.create!( entity: @player1.battlefield.first.entity, action_log: @action1, damage: 1 )
+    @action1 = ActionLog.create!( card: @player2.battlefield.first.card, card_action: "attack", player: @player2, duel: @duel )
+    @action_target1 = ActionLogTarget.create!( card: @player1.battlefield.first.card, action_log: @action1, damage: 1 )
 
     redirect_to duel_path @duel
   end

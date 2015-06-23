@@ -1,5 +1,5 @@
 class BattlefieldZone < Zone
-  def can_tap_from?
+  def cards_are_tappable?
     true
   end
 

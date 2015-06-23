@@ -6,14 +6,13 @@ class Duel < ActiveRecord::Base
   has_many :declared_defenders, dependent: :destroy
   has_many :action_logs, dependent: :destroy
 
-  # TODO validate player1, player2 set
-
-  # TODO has_many battlefields, etc
+  validates :player1, :player2, :turn, :first_player_number,
+      :current_player_number, :priority_player_number,
+      :phase_number, presence: true
 
   enum phase_number: [ :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
 
-  # TODO look into before_create or before_validate
-  after_initialize :init
+  before_validation :init
 
   def init
     self.turn ||= 1
@@ -21,11 +20,6 @@ class Duel < ActiveRecord::Base
     self.current_player_number ||= 1
     self.priority_player_number ||= 1
     self.phase_number ||= :drawing_phase
-  end
-
-  # TODO rename to latest_action_logs? or remove
-  def last_action_logs
-    action_logs.order(created_at: :desc)
   end
 
   def players
@@ -49,13 +43,8 @@ class Duel < ActiveRecord::Base
   end
 
   def next_phase!
-    self.phase_number = phase.next_phase.to_sym
-    save!
+    update! phase_number: phase.next_phase.to_sym
     return phase.changes_player?
-  end
-
-  def phase_text
-    phase.description
   end
 
 end

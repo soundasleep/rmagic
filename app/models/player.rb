@@ -1,23 +1,31 @@
 class Player < ActiveRecord::Base
   include ManaHelper
 
-  has_many :deck
-  has_many :hand
-  has_many :battlefield
-  has_many :graveyard
+  has_many :deck, dependent: :destroy
+  has_many :hand, dependent: :destroy
+  has_many :battlefield, dependent: :destroy
+  has_many :graveyard, dependent: :destroy
 
-  validates :life, presence: true
+  validates :life, :name, :mana_blue, :mana_green,
+      :mana_red, :mana_white, :mana_black,
+      :mana_colourless, presence: true
 
-  after_initialize :init
+  before_validation :init
 
   def init
+    self.life ||= 20
+    self.name ||= "Player"
+    self.is_ai ||= false
     self.mana_blue ||= 0
     self.mana_green ||= 0
     self.mana_red ||= 0
     self.mana_white ||= 0
     self.mana_black ||= 0
     self.mana_colourless ||= 0
-    self.life ||= 20
+  end
+
+  def zones
+    [ deck, hand, battlefield, graveyard ]
   end
 
   def mana
@@ -73,14 +81,12 @@ class Player < ActiveRecord::Base
     set_mana! add_mana_to_pool(cost, pool)
   end
 
-  def add_life!(life)
-    self.life += life
-    save!
+  def add_life!(n)
+    update! life: life + n
   end
 
-  def remove_life!(life)
-    self.life -= life
-    save!
+  def remove_life!(n)
+    update! life: life - n
   end
 
 end

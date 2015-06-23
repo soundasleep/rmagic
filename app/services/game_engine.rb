@@ -20,56 +20,53 @@ class GameEngine
     action_finder.available_actions(player)
   end
 
-  def can_do_action?(card, action)
-    fail "Card #{card} has nil action cost for action '#{action}'" unless card.entity.find_card.action_cost(self, card, action)
+  def can_do_action?(zone_card, action)
+    fail "Card #{zone_card} has nil action cost for action '#{action}'" unless zone_card.card.card_type.action_cost(self, zone_card, action)
 
-    card.entity.find_card.can_do_action?(self, card, action) and
-      card.player.has_mana? card.entity.find_card.action_cost(self, card, action)
+    zone_card.card.card_type.can_do_action?(self, zone_card, action) and
+      zone_card.player.has_mana? zone_card.card.card_type.action_cost(self, zone_card, action)
   end
 
   def available_attackers(player)
     action_finder.available_attackers(player)
   end
 
-  def declare_attackers(cards)
-    cards.each do |card|
+  def declare_attackers(zone_cards)
+    zone_cards.each do |zone_card|
       # this assumes we are always attacking the other player
-      DeclaredAttacker.create!({duel: duel, entity: card.entity, player: card.player, target_player: duel.other_player})
-      ActionLog.card_action(duel, card.player, card.entity, "declare")
+      duel.declared_attackers.create! card: zone_card.card, player: zone_card.player, target_player: duel.other_player
+      ActionLog.card_action(duel, zone_card.player, zone_card.card, "declare")
     end
   end
 
   # TODO move each of these phase activities into phase objects?
   def draw_card(player)
     # remove from deck
-    card = player.deck.first!
-    card.destroy
+    zone_card = player.deck.first!
+    zone_card.destroy
 
     # update log
     ActionLog.draw_card_action(duel, player)
 
     # add it to the hand
-    Hand.create!( player: player, entity: card.entity )
+    player.hand.create! card: zone_card.card
   end
 
-  def card_action(card, key)
-    fail "No card specified" unless card
+  def card_action(zone_card, key)
+    fail "No zone_card specified" unless zone_card
 
     # use mana
-    card.player.use_mana! card.entity.find_card.action_cost(self, card, key)
+    zone_card.player.use_mana! zone_card.card.card_type.action_cost(self, zone_card, key)
 
     # update log
-    ActionLog.card_action(duel, card.player, card.entity, key)
+    ActionLog.card_action(duel, zone_card.player, zone_card.card, key)
 
     # do the thing
-    card.entity.find_card.do_action self, card, key
-
-    # clear any other references
-    duel.reload
+    zone_card.card.card_type.do_action self, zone_card, key
   end
 
-  def use_mana!(player, hand)
-    card = hand.entity.find_card
+  def use_mana!(player, zone_card)
+    card = zone_card.card.card_type
 
     player.use_mana! card.mana_cost
   end
@@ -79,10 +76,9 @@ class GameEngine
     fail "No :target defined" unless defend[:target]
 
     # update log
-    ActionLog.card_action(duel, defend[:source].player, defend[:source].entity, "defend")
+    ActionLog.card_action(duel, defend[:source].player, defend[:source].card, "defend")
 
-    DeclaredDefender.create!( duel: duel, source: defend[:source], target: defend[:target] )
-    duel.reload       # TODO this seems gross!
+    duel.declared_defenders.create! source: defend[:source], target: defend[:target]
   end
 
   def declare_defenders(defends)
@@ -97,25 +93,24 @@ class GameEngine
 
   def reset_damage
     duel.players.each do |player|
-      player.battlefield.each do |card|
-        card.entity.damage = 0
-        card.entity.save!
+      player.battlefield.each do |zone_card|
+        zone_card.card.update! damage: 0
       end
     end
   end
 
   def apply_damage_to(action, remaining_damage, battlefield)
     if remaining_damage > 0
-      if remaining_damage > battlefield.entity.remaining_health
-        battlefield.entity.damage! battlefield.entity.remaining_health
-        remaining_damage -= battlefield.entity.remaining_health
+      if remaining_damage > battlefield.card.remaining_health
+        battlefield.card.damage! battlefield.card.remaining_health
+        remaining_damage -= battlefield.card.remaining_health
       else
-        battlefield.entity.damage! remaining_damage
+        battlefield.card.damage! remaining_damage
         remaining_damage = 0
       end
 
       # link the defender
-      ActionLogTarget.create!( action_log: action, entity: battlefield.entity )
+      action.targets.create! card: battlefield.card
     end
 
     remaining_damage
@@ -123,24 +118,23 @@ class GameEngine
 
   def apply_attack_damage(attacker)
     # TODO allow attacker to specify order of damage
-    remaining_damage = attacker.entity.find_card.power
+    remaining_damage = attacker.card.card_type.power
 
-    action = ActionLog.card_action(duel, attacker.player, attacker.entity, "attack")
+    action = ActionLog.card_action(duel, attacker.player, attacker.card, "attack")
 
     duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
       remaining_damage = apply_damage_to action, remaining_damage, d.source
     end
 
     if remaining_damage > 0
-      attacker.target_player.life -= remaining_damage
-      attacker.target_player.save!
+      attacker.target_player.remove_life! remaining_damage
     end
   end
 
   def apply_defend_damage(defender)
-    damage = defender.source.entity.find_card.power
+    damage = defender.source.card.card_type.power
 
-    action = ActionLog.card_action(duel, defender.source.player, defender.source.entity, "defended")
+    action = ActionLog.card_action(duel, defender.source.player, defender.source.card, "defended")
 
     # any overkill damage is ignored
     apply_damage_to action, damage, defender.target
@@ -161,7 +155,7 @@ class GameEngine
   def move_destroyed_creatures_to_graveyard
     duel.players.each do |player|
       player.battlefield.each do |b|
-        if b.entity.is_destroyed?
+        if b.card.is_destroyed?
           move_into_graveyard b.player, b
         end
       end
@@ -169,25 +163,25 @@ class GameEngine
   end
 
   def move_into_graveyard(player, zone_card)
-    zone_card.destroy!
+    # removing it from the collection, rather than object.destroy!,
+    # means we don't need to reload the duel manually
+    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
 
     # udpate log
-    ActionLog.card_action(duel, player, zone_card.entity, "graveyard")
+    ActionLog.card_action(duel, player, zone_card.card, "graveyard")
 
     # move to graveyard
-    Graveyard.create!( player: zone_card.player, entity: zone_card.entity )
-    duel.reload       # TODO this seems gross!
+    player.graveyard.create! card: zone_card.card
   end
 
   def move_into_battlefield(player, zone_card)
-    zone_card.destroy!
+    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
 
     # update log
-    ActionLog.card_action(duel, player, zone_card.entity, "battlefield")
+    ActionLog.card_action(duel, player, zone_card.card, "battlefield")
 
     # move to graveyard
-    Battlefield.create!( player: zone_card.player, entity: zone_card.entity )
-    duel.reload       # TODO this seems gross!
+    player.battlefield.create! card: zone_card.card
   end
 
   def clear_mana
