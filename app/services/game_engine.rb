@@ -63,9 +63,6 @@ class GameEngine
 
     # do the thing
     zone_card.card.card_type.do_action self, zone_card, key
-
-    # clear any other references
-    duel.reload
   end
 
   def use_mana!(player, zone_card)
@@ -82,7 +79,6 @@ class GameEngine
     ActionLog.card_action(duel, defend[:source].player, defend[:source].card, "defend")
 
     duel.declared_defenders.create! source: defend[:source], target: defend[:target]
-    duel.reload       # TODO this seems gross!
   end
 
   def declare_defenders(defends)
@@ -167,25 +163,25 @@ class GameEngine
   end
 
   def move_into_graveyard(player, zone_card)
-    zone_card.destroy!
+    # removing it from the collection, rather than object.destroy!,
+    # means we don't need to reload the duel manually
+    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
 
     # udpate log
     ActionLog.card_action(duel, player, zone_card.card, "graveyard")
 
     # move to graveyard
     player.graveyard.create! card: zone_card.card
-    duel.reload       # TODO this seems gross!
   end
 
   def move_into_battlefield(player, zone_card)
-    zone_card.destroy!
+    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
 
     # update log
     ActionLog.card_action(duel, player, zone_card.card, "battlefield")
 
     # move to graveyard
     player.battlefield.create! card: zone_card.card
-    duel.reload       # TODO this seems gross!
   end
 
   def clear_mana

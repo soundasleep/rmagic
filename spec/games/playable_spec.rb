@@ -9,11 +9,11 @@ RSpec.describe "Playable" do
     expect(@duel.player1.hand).to be_empty
 
     creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-    Hand.create!( player: @duel.player1, card: creature )
+    @duel.player1.hand.create! card: creature
   end
 
   def hand
-    Hand.where(player: @duel.player1)
+    @duel.player1.hand
   end
 
   def battlefield_creatures

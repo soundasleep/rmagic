@@ -30,8 +30,6 @@ class CleanupPhase < Phase
 
     # reset damage
     game_engine.reset_damage
-
-    duel.reload       # TODO this seems gross! (necessary to pick up DeclaredAttacker/DeclaredDefender changes?)
   end
 
 end

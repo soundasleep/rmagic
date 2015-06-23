@@ -33,33 +33,33 @@ module SetupGame
   def create_creatures
     3.times do
       creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( card: creature, player: @duel.player1 )
+      @duel.player1.battlefield.create! card: creature
     end
     2.times do
       creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( card: creature, player: @duel.player2 )
+      @duel.player2.battlefield.create! card: creature
     end
   end
 
   def create_hand_cards(metaverse_id)
     1.times do
       card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Hand.create!( card: card, player: @duel.player1 )
+      @duel.player1.hand.create card: card
     end
     1.times do
       card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Hand.create!( card: card, player: @duel.player2 )
+      @duel.player2.hand.create card: card
     end
   end
 
   def create_battlefield_cards(metaverse_id)
     1.times do
       card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Battlefield.create!( card: card, player: @duel.player1 )
+      @duel.player1.battlefield.create! card: card
     end
     1.times do
       card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      Battlefield.create!( card: card, player: @duel.player2 )
+      @duel.player2.battlefield.create! card: card
     end
   end
 
@@ -84,7 +84,7 @@ module SetupGame
   end
 
   def actions(card, action)
-    ActionLog.where(duel: @duel, card_action: action, card: card)
+    @duel.action_logs.where card_action: action, card: card
   end
 
   def declaring_actions(hand)

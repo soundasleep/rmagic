@@ -24,6 +24,10 @@ class Player < ActiveRecord::Base
     self.mana_colourless ||= 0
   end
 
+  def zones
+    [ deck, hand, battlefield, graveyard ]
+  end
+
   def mana
     mana_cost_string mana_pool
   end
