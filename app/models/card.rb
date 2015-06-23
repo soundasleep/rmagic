@@ -33,14 +33,12 @@ class Card < ActiveRecord::Base
 
   def tap_card!
     fail "card is already tapped" if is_tapped?
-    self.is_tapped = true     # TODO replace with update!({..})
-    save!
+    update! is_tapped: true
   end
 
   def untap_card!
     fail "card is already untapped" if !is_tapped?
-    self.is_tapped = false
-    save!
+    update! is_tapped: false
   end
 
   def remaining_health
@@ -53,8 +51,7 @@ class Card < ActiveRecord::Base
   end
 
   def damage!(n)
-    self.damage += n
-    save!
+    update! damage: damage + n
   end
 
   def can_play?

@@ -43,8 +43,7 @@ class Duel < ActiveRecord::Base
   end
 
   def next_phase!
-    self.phase_number = phase.next_phase.to_sym
-    save!
+    update! phase_number: phase.next_phase.to_sym
     return phase.changes_player?
   end
 

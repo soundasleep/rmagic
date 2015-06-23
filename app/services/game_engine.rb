@@ -98,8 +98,7 @@ class GameEngine
   def reset_damage
     duel.players.each do |player|
       player.battlefield.each do |zone_card|
-        zone_card.card.damage = 0
-        zone_card.card.save!
+        zone_card.card.update! damage: 0
       end
     end
   end
@@ -132,8 +131,7 @@ class GameEngine
     end
 
     if remaining_damage > 0
-      attacker.target_player.life -= remaining_damage
-      attacker.target_player.save!
+      attacker.target_player.remove_life! remaining_damage
     end
   end
 

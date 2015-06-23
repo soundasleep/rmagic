@@ -19,8 +19,7 @@ module Playable
     game_engine.move_into_battlefield hand.player, hand
 
     # save the turn it was played
-    hand.card.turn_played = game_engine.duel.turn
-    hand.card.save!
+    hand.card.update! turn_played: game_engine.duel.turn
   end
 
 end

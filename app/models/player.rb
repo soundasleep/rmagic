@@ -77,14 +77,12 @@ class Player < ActiveRecord::Base
     set_mana! add_mana_to_pool(cost, pool)
   end
 
-  def add_life!(life)
-    self.life += life
-    save!
+  def add_life!(n)
+    update! life: life + n
   end
 
-  def remove_life!(life)
-    self.life -= life
-    save!
+  def remove_life!(n)
+    update! life: life - n
   end
 
 end
