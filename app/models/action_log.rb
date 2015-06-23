@@ -8,7 +8,7 @@ class ActionLog < ActiveRecord::Base
   validate :global_action_or_card
 
   def global_action_or_card
-    if !global_action and !card
+    if !global_action && !card
       errors.add(:card, "No card defined for a non-global action")
     end
   end
@@ -16,21 +16,18 @@ class ActionLog < ActiveRecord::Base
   def action_text
     case global_action
     when "pass"
-      return "passes"
+      "passes"
     when "turn"
-      return "Turn #{argument} started"
+      "Turn #{argument} started"
     when "draw"
-      return "draws a card"
+      "draws a card"
     when "play"
-      return "plays #{card.to_text}"
+      "plays #{card.to_text}"
     when nil
+      "used #{card.action_text card_action} of #{card.to_text}"
     else
       fail "Unknown action #{global_action}"
     end
-
-    fail "No card for action" unless card
-
-    return "used #{card.action_text card_action} of #{card.to_text}"
   end
 
   # helper methods

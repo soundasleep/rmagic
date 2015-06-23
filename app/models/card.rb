@@ -46,8 +46,7 @@ class Card < ActiveRecord::Base
   end
 
   def is_destroyed?
-    # TODO replace 'and' with '&&' in logic for ps
-    card_type.is_creature? and remaining_health <= 0
+    card_type.is_creature? && remaining_health <= 0
   end
 
   def damage!(n)
