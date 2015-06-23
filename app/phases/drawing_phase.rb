@@ -23,8 +23,8 @@ class DrawingPhase < Phase
     # for the current player
     # untap all tapped cards for the current player
     if duel.current_player == duel.priority_player
-      duel.priority_player.battlefield.select { |card| card.entity.is_tapped? }.each do |card|
-        game_engine.card_action(card, "untap")
+      duel.priority_player.battlefield.select { |battlefield| battlefield.card.is_tapped? }.each do |battlefield|
+        game_engine.card_action(battlefield, "untap")
       end
 
       # the current player draws a card

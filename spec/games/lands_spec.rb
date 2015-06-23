@@ -7,35 +7,35 @@ RSpec.describe "Lands" do
     create_hand_cards 2
     @duel.playing_phase!
 
-    @card = first_hand_land
+    @hand = first_hand_land
   end
 
-  def tap_actions(card)
-    actions(card.entity, "tap")
+  def tap_actions(zone_card)
+    actions(zone_card.card, "tap")
   end
 
-  def play_actions(card)
-    actions(card.entity, "play")
+  def play_actions(zone_card)
+    actions(zone_card.card, "play")
   end
 
   def first_land
-    @duel.player1.battlefield.select{ |b| b.entity.card_type.is_land? }.first
+    @duel.player1.battlefield.select{ |b| b.card.card_type.is_land? }.first
   end
 
   def first_hand_land
-    @duel.player1.hand.select{ |b| b.entity.card_type.is_land? }.first
+    @duel.player1.hand.select{ |b| b.card.card_type.is_land? }.first
   end
 
   def first_hand_land_available_play_actions
-    available_play_actions("play").select{ |a| a[:source].entity == first_hand_land.entity }
+    available_play_actions("play").select{ |a| a[:source].card == first_hand_land.card }
   end
 
   def first_land_available_tap_actions
-    available_ability_actions("tap").select{ |a| a[:source].entity == first_land.entity }
+    available_ability_actions("tap").select{ |a| a[:source].card == first_land.card }
   end
 
   def first_land_available_untap_actions
-    available_ability_actions("untap").select{ |a| a[:source].entity == first_land.entity }
+    available_ability_actions("untap").select{ |a| a[:source].card == first_land.card }
   end
 
   it "can be created manually" do
@@ -48,28 +48,28 @@ RSpec.describe "Lands" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(@card, "play")).to eq(true)
+      expect(game_engine.can_do_action?(@hand, "play")).to eq(true)
     end
 
     it "are listed as an available action" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action[:source]).to eq(@card)
+      expect(action[:source]).to eq(@hand)
       expect(action[:action]).to eq("play")
     end
   end
 
   context "without mana" do
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(@card, "play")).to eq(true)
+      expect(game_engine.can_do_action?(@hand, "play")).to eq(true)
     end
 
     it "are listed as an available action" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action[:source]).to eq(@card)
+      expect(action[:source]).to eq(@hand)
       expect(action[:action]).to eq("play")
     end
 
@@ -82,25 +82,25 @@ RSpec.describe "Lands" do
 
     context "when played" do
       def played_lands(player)
-        player.battlefield.select{ |b| b.entity.turn_played != 0 }
+        player.battlefield.select{ |b| b.card.turn_played != 0 }
       end
 
       before :each do
         expect(played_lands(@duel.player1)).to be_empty
         expect(played_lands(@duel.player2)).to be_empty
-        game_engine.card_action(@card, "play")
+        game_engine.card_action(@hand, "play")
       end
 
       it "adds a creature to the battlefield" do
-        expect(played_lands(@duel.player1).map{ |c| c.entity }).to eq([@card.entity])
+        expect(played_lands(@duel.player1).map{ |c| c.card }).to eq([@hand.card])
       end
 
       it "does not add a creature for the other player" do
-        expect(played_lands(@duel.player2).map{ |c| c.entity }).to be_empty
+        expect(played_lands(@duel.player2).map{ |c| c.card }).to be_empty
       end
 
       it "creates an action" do
-        expect(play_actions(@card).map{ |card| card.entity }).to eq([@card.entity])
+        expect(play_actions(@hand).map{ |card| card.card }).to eq([@hand.card])
       end
 
       it "removes the land from the hand" do
@@ -120,7 +120,7 @@ RSpec.describe "Lands" do
     end
 
     it "cannot be tapped" do
-      actions = available_play_actions("tap").select{ |a| a[:source].entity == first_hand_land.entity }
+      actions = available_play_actions("tap").select{ |a| a[:source].card == first_hand_land.card }
       expect(actions).to be_empty
     end
   end

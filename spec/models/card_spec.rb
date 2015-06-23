@@ -1,11 +1,11 @@
-RSpec.describe Entity do
+RSpec.describe Card do
   it "needs a metaverse id" do
-    e = Entity.create()
+    e = Card.create()
     assert !e.valid?
   end
 
   it "needs a metaverse id that exists" do
-    e = Entity.create(metaverse_id: 0)
+    e = Card.create(metaverse_id: 0)
     assert !e.valid?
   end
 end

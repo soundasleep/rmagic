@@ -9,25 +9,25 @@
   = form_tag(play_duel_url(@duel)) do |f|
     = hidden_field_tag "hand", hand[:source].id
     = hidden_field_tag "key", hand[:action]
-    = submit_tag "Use #{hand[:action]} of #{hand[:source].entity.to_text}"
+    = submit_tag "Use #{hand[:action]} of #{hand[:source].card.to_text}"
     %i
       %small
-        = hand[:source].entity.id
+        = hand[:source].card.id
 
 - available_actions[:defend].each do |defend|
   = form_tag(defend_duel_url(@duel)) do |f|
     = hidden_field_tag "source", defend[:source].id
     = hidden_field_tag "target", defend[:target].id
-    = submit_tag "Defend #{defend[:source].entity.to_text} (#{defend[:source].entity.id}) with #{defend[:target].entity.to_text} (#{defend[:target].entity.id})"
+    = submit_tag "Defend #{defend[:source].card.to_text} (#{defend[:source].card.id}) with #{defend[:target].card.to_text} (#{defend[:target].card.id})"
 
 - available_actions[:ability].each do |ability|
   = form_tag(ability_duel_url(@duel)) do |f|
     = hidden_field_tag "battlefield", ability[:source].id
     = hidden_field_tag "key", ability[:action]
-    = submit_tag "Use #{ability[:action]} of #{ability[:source].entity.to_text}"
+    = submit_tag "Use #{ability[:action]} of #{ability[:source].card.to_text}"
     %i
       %small
-        = ability[:source].entity.id
+        = ability[:source].card.id
 
 - if available_attackers.any?
   = form_tag(declare_attackers_duel_url(@duel)) do |f|
@@ -37,7 +37,7 @@
       %li
         %label
           = check_box_tag "attacker[]", a.id
-          = a.entity.to_text
+          = a.card.to_text
     = submit_tag "Declare attackers and pass"
 
 %h4 Turn #{@duel.turn}: Current player #{@duel.current_player_number}, #{@duel.phase.description}, priority player #{@duel.priority_player_number}
@@ -55,18 +55,18 @@
   %ul
     - player.hand.each do |hand|
       %li
-        = hand.entity.to_text
-        %small= hand.entity.id
+        = hand.card.to_text
+        %small= hand.card.id
 
   %h3 Battlefield ( #{player.battlefield.count} cards )
 
   %ul
     - player.battlefield.each do |battlefield|
       %li
-        = battlefield.entity.to_text
-        - if battlefield.entity.is_tapped?
+        = battlefield.card.to_text
+        - if battlefield.card.is_tapped?
           %i (tapped)
-        %small= battlefield.entity.id
+        %small= battlefield.card.id
 
 %h2 Action Log
 

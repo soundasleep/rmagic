@@ -1,7 +1,4 @@
-# TODO rename to Card? maybe Players could be Targetable/Damageable?
-# Damage class?
-# if this remains Entity then represent Players as Entities i.e. damage!
-class Entity < ActiveRecord::Base
+class Card < ActiveRecord::Base
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
 

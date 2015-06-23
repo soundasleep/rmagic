@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616055024) do
+ActiveRecord::Schema.define(version: 20150623001342) do
 
   create_table "action_log_targets", force: :cascade do |t|
-    t.integer  "entity_id",     null: false
+    t.integer  "card_id",       null: false
     t.integer  "action_log_id", null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -22,11 +22,11 @@ ActiveRecord::Schema.define(version: 20150616055024) do
   end
 
   add_index "action_log_targets", ["action_log_id"], name: "index_action_log_targets_on_action_log_id"
-  add_index "action_log_targets", ["entity_id"], name: "index_action_log_targets_on_entity_id"
+  add_index "action_log_targets", ["card_id"], name: "index_action_log_targets_on_card_id"
 
   create_table "action_logs", force: :cascade do |t|
-    t.integer  "entity_id"
-    t.string   "entity_action"
+    t.integer  "card_id"
+    t.string   "card_action"
     t.integer  "player_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -35,42 +35,53 @@ ActiveRecord::Schema.define(version: 20150616055024) do
     t.integer  "argument"
   end
 
+  add_index "action_logs", ["card_id"], name: "index_action_logs_on_card_id"
   add_index "action_logs", ["duel_id"], name: "index_action_logs_on_duel_id"
-  add_index "action_logs", ["entity_id"], name: "index_action_logs_on_entity_id"
   add_index "action_logs", ["player_id"], name: "index_action_logs_on_player_id"
 
   create_table "battlefields", force: :cascade do |t|
     t.integer  "player_id",  null: false
-    t.integer  "entity_id",  null: false
+    t.integer  "card_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "battlefields", ["entity_id"], name: "index_battlefields_on_entity_id"
+  add_index "battlefields", ["card_id"], name: "index_battlefields_on_card_id"
   add_index "battlefields", ["player_id"], name: "index_battlefields_on_player_id"
+
+  create_table "cards", force: :cascade do |t|
+    t.integer  "metaverse_id"
+    t.integer  "token_type"
+    t.integer  "effect_type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.boolean  "is_tapped",    null: false
+    t.integer  "damage",       null: false
+    t.integer  "turn_played",  null: false
+  end
 
   create_table "decks", force: :cascade do |t|
     t.integer  "player_id",  null: false
-    t.integer  "entity_id",  null: false
+    t.integer  "card_id",    null: false
     t.integer  "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "decks", ["entity_id"], name: "index_decks_on_entity_id"
+  add_index "decks", ["card_id"], name: "index_decks_on_card_id"
   add_index "decks", ["player_id"], name: "index_decks_on_player_id"
 
   create_table "declared_attackers", force: :cascade do |t|
     t.integer  "duel_id",          null: false
-    t.integer  "entity_id",        null: false
+    t.integer  "card_id",          null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.integer  "target_player_id", null: false
     t.integer  "player_id",        null: false
   end
 
+  add_index "declared_attackers", ["card_id"], name: "index_declared_attackers_on_card_id"
   add_index "declared_attackers", ["duel_id"], name: "index_declared_attackers_on_duel_id"
-  add_index "declared_attackers", ["entity_id"], name: "index_declared_attackers_on_entity_id"
   add_index "declared_attackers", ["player_id"], name: "index_declared_attackers_on_player_id"
   add_index "declared_attackers", ["target_player_id"], name: "index_declared_attackers_on_target_player_id"
 
@@ -101,36 +112,25 @@ ActiveRecord::Schema.define(version: 20150616055024) do
   add_index "duels", ["player1_id"], name: "index_duels_on_player1_id"
   add_index "duels", ["player2_id"], name: "index_duels_on_player2_id"
 
-  create_table "entities", force: :cascade do |t|
-    t.integer  "metaverse_id"
-    t.integer  "token_type"
-    t.integer  "effect_type"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.boolean  "is_tapped",    null: false
-    t.integer  "damage",       null: false
-    t.integer  "turn_played",  null: false
-  end
-
   create_table "graveyards", force: :cascade do |t|
     t.integer  "player_id",  null: false
-    t.integer  "entity_id",  null: false
+    t.integer  "card_id",    null: false
     t.integer  "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "graveyards", ["entity_id"], name: "index_graveyards_on_entity_id"
+  add_index "graveyards", ["card_id"], name: "index_graveyards_on_card_id"
   add_index "graveyards", ["player_id"], name: "index_graveyards_on_player_id"
 
   create_table "hands", force: :cascade do |t|
     t.integer  "player_id",  null: false
-    t.integer  "entity_id",  null: false
+    t.integer  "card_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "hands", ["entity_id"], name: "index_hands_on_entity_id"
+  add_index "hands", ["card_id"], name: "index_hands_on_card_id"
   add_index "hands", ["player_id"], name: "index_hands_on_player_id"
 
   create_table "players", force: :cascade do |t|

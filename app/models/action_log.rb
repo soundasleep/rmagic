@@ -1,15 +1,15 @@
 class ActionLog < ActiveRecord::Base
-  belongs_to :entity
+  belongs_to :card
   belongs_to :player
   belongs_to :duel
 
   has_many :targets, class_name: "ActionLogTarget"
 
-  validate :global_action_or_entity
+  validate :global_action_or_card
 
-  def global_action_or_entity
-    if !global_action and !entity
-      errors.add(:entity, "No entity defined for a non-global action")
+  def global_action_or_card
+    if !global_action and !card
+      errors.add(:card, "No card defined for a non-global action")
     end
   end
 
@@ -22,15 +22,15 @@ class ActionLog < ActiveRecord::Base
     when "draw"
       return "draws a card"
     when "play"
-      return "plays #{entity.to_text}"
+      return "plays #{card.to_text}"
     when nil
     else
       fail "Unknown action #{global_action}"
     end
 
-    fail "No entity for action" unless entity
+    fail "No card for action" unless card
 
-    return "used #{entity.action_text entity_action} of #{entity.to_text}"
+    return "used #{card.action_text card_action} of #{card.to_text}"
   end
 
   # helper methods
@@ -46,7 +46,7 @@ class ActionLog < ActiveRecord::Base
     ActionLog.create!( player: player, duel: duel, global_action: "draw" )
   end
 
-  def self.card_action(duel, player, entity, key)
-    ActionLog.create!( player: player, duel: duel, entity: entity, entity_action: key)
+  def self.card_action(duel, player, card, key)
+    ActionLog.create!( player: player, duel: duel, card: card, card_action: key)
   end
 end

@@ -104,14 +104,14 @@ RSpec.describe "Defending" do
       pass_until_next_turn
 
       action = attacking_actions(@card).first
-      expect(action.targets.first.entity).to eq(@defender.entity)
+      expect(action.targets.first.card).to eq(@defender.card)
     end
 
     it "attacking actions include a reference to defending creatures after the attack resolves" do
       pass_until_next_turn
 
       action = attacking_actions(@card).first
-      expect(action.entity).to eq(@attacker.entity)
+      expect(action.card).to eq(@attacker.card)
     end
 
     it "defending actions are created when there are defenders and the attack resolves" do
@@ -125,7 +125,7 @@ RSpec.describe "Defending" do
     it "defending actions reference the defended attacker" do
       pass_until_next_turn
 
-      expect(defended_actions(@defender).first.targets.map{ |t| t.entity }).to include(@card.entity)
+      expect(defended_actions(@defender).first.targets.map{ |t| t.card }).to include(@card.card)
     end
   end
 

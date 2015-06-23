@@ -11,11 +11,11 @@ RSpec.describe "Creature abilities" do
   end
 
   def first_add_life_creature
-    @duel.player1.battlefield.select{ |b| b.entity.card_type.actions.include?("add_life") }.first
+    @duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("add_life") }.first
   end
 
-  def add_life_actions(card)
-    actions(card.entity, "add_life")
+  def add_life_actions(zone_card)
+    actions(zone_card.card, "add_life")
   end
 
   def first_creature_available_add_life_actions
@@ -73,7 +73,7 @@ RSpec.describe "Creature abilities" do
       end
 
       it "creates an action" do
-        expect(add_life_actions(@card).map{ |card| card.entity }).to eq([@card.entity])
+        expect(add_life_actions(@card).map{ |card| card.card }).to eq([@card.card])
       end
 
       it "consumes mana" do

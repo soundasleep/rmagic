@@ -11,11 +11,11 @@ RSpec.describe "Instants" do
   end
 
   def first_instant
-    @duel.player1.hand.select{ |b| b.entity.card_type.actions.include?("instant") }.first
+    @duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first
   end
 
-  def instant_actions(card)
-    actions(card.entity, "instant")
+  def instant_actions(zone_card)
+    actions(zone_card.card, "instant")
   end
 
   def first_instant_available_actions
@@ -81,7 +81,7 @@ RSpec.describe "Instants" do
       end
 
       it "creates an action" do
-        expect(instant_actions(@card).map{ |card| card.entity }).to eq([@card.entity])
+        expect(instant_actions(@card).map{ |card| card.card }).to eq([@card.card])
       end
 
       it "consumes mana" do
