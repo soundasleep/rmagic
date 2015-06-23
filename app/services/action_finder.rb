@@ -27,15 +27,42 @@ class ActionFinder
   end
 
   def playable_cards(player)
+    playable_cards_without_targets(player)
+      .concat(playable_cards_with_targets(player))
+      .select{ |action| game_engine.can_do_action?(action[:source], action[:action], action[:target]) }
+  end
+
+  def playable_cards_without_targets(player)
     # all hand cards which have an available ability (e.g. play, instant)
     player.hand.map do |hand|
       hand.card.card_type.actions.map do |action|
         {
           source: hand,
-          action: action
+          action: action,
+          target: nil
         }
       end
-    end.flatten(1).select{ |action| game_engine.can_do_action?(action[:source], action[:action]) }
+    end.flatten(1)
+  end
+
+  def playable_cards_with_targets(player)
+    # all hand cards which have an available ability (e.g. play, instant)
+    # with a target
+    duel.players.map do |duel_player|
+      duel_player.zones.map do |zone|
+        zone.map do |zone_card|
+          player.hand.map do |hand|
+            hand.card.card_type.actions.map do |action|
+              {
+                source: hand,
+                action: action,
+                target: zone_card
+              }
+            end
+          end.flatten(1)
+        end.flatten(1)
+      end.flatten(1)
+    end.flatten(1)
   end
 
   def defendable_cards(player)

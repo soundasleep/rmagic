@@ -28,7 +28,7 @@ RSpec.describe "Instants destroy" do
   end
 
   it "can be played in a phase which can cast destroys" do
-    expect(@duel.phase.can_instant?).to eq(true)
+    expect(@duel.phase.can_instant?).to eq(true)    # TODO replace eq(true) with be(true)
   end
 
   context "without mana" do
@@ -46,13 +46,19 @@ RSpec.describe "Instants destroy" do
       tap_all_lands
     end
 
-    it "can be played with mana" do
-      expect(game_engine.can_do_action?(@card, "destroy")).to eq(true)
+    context "can be played with mana" do
+      it "and a target" do
+        expect(game_engine.can_do_action?(@card, "destroy", @duel.player1.battlefield.creatures.first)).to eq(true)
+      end
+
+      it "but not without a target" do
+        expect(game_engine.can_do_action?(@card, "destroy")).to eq(false)
+      end
     end
 
     context "is listed as an available action" do
       it "of one type" do
-        expect(first_destroy_available_actions.to_a.uniq{ |u| u.source }.length).to eq(1)
+        expect(first_destroy_available_actions.to_a.uniq{ |u| u[:source] }.length).to eq(1)
       end
 
       it "of two targets" do
@@ -93,6 +99,14 @@ RSpec.describe "Instants destroy" do
         it "does not remove their creature" do
           expect(@duel.player2.battlefield.creatures).to_not be_empty
         end
+
+        it "creates an action" do
+          expect(destroy_actions(@card).map{ |card| card.card }).to eq([@card.card])
+        end
+
+        it "consumes mana" do
+          expect(@duel.player1.mana_green).to eq(2)
+        end
       end
 
       context "on their creature" do
@@ -107,14 +121,14 @@ RSpec.describe "Instants destroy" do
         it "does not remove our creature" do
           expect(@duel.player1.battlefield.creatures).to_not be_empty
         end
-      end
 
-      it "creates an action" do
-        expect(destroy_actions(@card).map{ |card| card.card }).to eq([@card.card])
-      end
+        it "creates an action" do
+          expect(destroy_actions(@card).map{ |card| card.card }).to eq([@card.card])
+        end
 
-      it "consumes mana" do
-        expect(@duel.player1.mana_green).to eq(2)
+        it "consumes mana" do
+          expect(@duel.player1.mana_green).to eq(2)
+        end
       end
 
     end

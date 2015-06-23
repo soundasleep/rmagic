@@ -34,18 +34,21 @@ class CardType
     methods.grep(/^do_/).map{ |m| m[3..-1] } - ["action"]
   end
 
-  def can_do_action?(game_engine, zone_card, index)
-    send("can_#{index}?", game_engine, zone_card)
+  # TODO replace 3 arguments with a PossibleAction hash
+  def can_do_action?(game_engine, zone_card, index, target = nil)
+    send("can_#{index}?", game_engine, zone_card, target)
   end
 
-  def action_cost(game_engine, zone_card, index)
+  # TODO replace 3 arguments with a PossibleAction hash
+  def action_cost(game_engine, zone_card, index, target = nil)
     fail "Cannot get cost of 'action'" if index == "action"
-    send("#{index}_cost", game_engine, zone_card)
+    send("#{index}_cost", game_engine, zone_card, target)
   end
 
-  def do_action(game_engine, zone_card, index)
+  # TODO replace 3 arguments with a PossibleAction hash
+  def do_action(game_engine, zone_card, index, target = nil)
     fail "Cannot do 'action'" if index == "action"
-    send("do_#{index}", game_engine, zone_card)
+    send("do_#{index}", game_engine, zone_card, target)
   end
 
 end

@@ -20,11 +20,12 @@ class GameEngine
     action_finder.available_actions(player)
   end
 
-  def can_do_action?(zone_card, action)
+  # TODO replace 3 arguments with a PossibleAction hash
+  def can_do_action?(zone_card, action, target = nil)
     fail "Card #{zone_card} has nil action cost for action '#{action}'" unless zone_card.card.card_type.action_cost(self, zone_card, action)
 
-    zone_card.card.card_type.can_do_action?(self, zone_card, action) and
-      zone_card.player.has_mana? zone_card.card.card_type.action_cost(self, zone_card, action)
+    zone_card.card.card_type.can_do_action?(self, zone_card, action, target) &&
+      zone_card.player.has_mana?(zone_card.card.card_type.action_cost(self, zone_card, action, target))
   end
 
   def available_attackers(player)
@@ -52,7 +53,7 @@ class GameEngine
     player.hand.create! card: zone_card.card
   end
 
-  def card_action(zone_card, key)
+  def card_action(zone_card, key, target = nil)
     fail "No zone_card specified" unless zone_card
 
     # use mana
@@ -62,7 +63,7 @@ class GameEngine
     ActionLog.card_action(duel, zone_card.player, zone_card.card, key)
 
     # do the thing
-    zone_card.card.card_type.do_action self, zone_card, key
+    zone_card.card.card_type.do_action self, zone_card, key, target
   end
 
   def use_mana!(player, zone_card)
