@@ -29,7 +29,7 @@ class ActionFinder
   def playable_cards(player)
     # all hand cards which have an available ability (e.g. play, instant)
     player.hand.map do |b|
-      b.entity.find_card.actions.map do |action|
+      b.entity.card_type.actions.map do |action|
         {
           source: b,
           action: action
@@ -42,7 +42,7 @@ class ActionFinder
     # all cards on the battlefield that are not tapped and not already defending
     player.battlefield
       .reject{ |b| duel.declared_defenders.map{ |d| d.source }.include?(b) }
-      .select{ |b| !b.entity.is_tapped? and b.entity.find_card.is_creature? }.map do |b|
+      .select{ |b| !b.entity.is_tapped? and b.entity.card_type.is_creature? }.map do |b|
         duel.declared_attackers.map do |a|
           {
             source: b,
@@ -55,7 +55,7 @@ class ActionFinder
   def available_attackers(player)
     if duel.phase.can_declare_attackers? and duel.current_player == player and duel.priority_player == player
       return duel.priority_player.battlefield
-          .select{ |b| b.entity.find_card.is_creature? }
+          .select{ |b| b.entity.card_type.is_creature? }
           .select{ |b| b.entity.turn_played < duel.turn }   # summoning sickness
     end
     []
@@ -64,7 +64,7 @@ class ActionFinder
   def ability_cards(player)
     # all battlefield cards which have an available ability
     player.battlefield.map do |b|
-      b.entity.find_card.actions.map do |action|
+      b.entity.card_type.actions.map do |action|
         {
           source: b,
           action: action

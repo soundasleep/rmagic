@@ -15,7 +15,7 @@ RSpec.describe "Tapping lands" do
   end
 
   def untapped_lands
-    @duel.player1.battlefield.select { |b| !b.entity.is_tapped? && b.entity.find_card.is_land? }
+    @duel.player1.battlefield.select { |b| !b.entity.is_tapped? && b.entity.card_type.is_land? }
   end
 
   it "can be tapped in a phase which can be tapped" do

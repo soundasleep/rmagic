@@ -17,7 +17,7 @@ RSpec.describe "Playable" do
   end
 
   def battlefield_creatures
-    @duel.player1.battlefield.select{ |b| !b.entity.find_card.is_land? }.map{ |b| b.entity }
+    @duel.player1.battlefield.select{ |b| !b.entity.card_type.is_land? }.map{ |b| b.entity }
   end
 
   it "we can set and compare phase directly" do

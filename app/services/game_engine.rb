@@ -21,10 +21,10 @@ class GameEngine
   end
 
   def can_do_action?(card, action)
-    fail "Card #{card} has nil action cost for action '#{action}'" unless card.entity.find_card.action_cost(self, card, action)
+    fail "Card #{card} has nil action cost for action '#{action}'" unless card.entity.card_type.action_cost(self, card, action)
 
-    card.entity.find_card.can_do_action?(self, card, action) and
-      card.player.has_mana? card.entity.find_card.action_cost(self, card, action)
+    card.entity.card_type.can_do_action?(self, card, action) and
+      card.player.has_mana? card.entity.card_type.action_cost(self, card, action)
   end
 
   def available_attackers(player)
@@ -56,20 +56,20 @@ class GameEngine
     fail "No card specified" unless card
 
     # use mana
-    card.player.use_mana! card.entity.find_card.action_cost(self, card, key)
+    card.player.use_mana! card.entity.card_type.action_cost(self, card, key)
 
     # update log
     ActionLog.card_action(duel, card.player, card.entity, key)
 
     # do the thing
-    card.entity.find_card.do_action self, card, key
+    card.entity.card_type.do_action self, card, key
 
     # clear any other references
     duel.reload
   end
 
   def use_mana!(player, hand)
-    card = hand.entity.find_card
+    card = hand.entity.card_type
 
     player.use_mana! card.mana_cost
   end
@@ -123,7 +123,7 @@ class GameEngine
 
   def apply_attack_damage(attacker)
     # TODO allow attacker to specify order of damage
-    remaining_damage = attacker.entity.find_card.power
+    remaining_damage = attacker.entity.card_type.power
 
     action = ActionLog.card_action(duel, attacker.player, attacker.entity, "attack")
 
@@ -138,7 +138,7 @@ class GameEngine
   end
 
   def apply_defend_damage(defender)
-    damage = defender.source.entity.find_card.power
+    damage = defender.source.entity.card_type.power
 
     action = ActionLog.card_action(duel, defender.source.player, defender.source.entity, "defended")
 

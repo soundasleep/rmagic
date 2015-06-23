@@ -11,7 +11,7 @@ RSpec.describe "Instants" do
   end
 
   def first_instant
-    @duel.player1.hand.select{ |b| b.entity.find_card.actions.include?("instant") }.first
+    @duel.player1.hand.select{ |b| b.entity.card_type.actions.include?("instant") }.first
   end
 
   def instant_actions(card)

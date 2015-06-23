@@ -8,7 +8,7 @@ RSpec.describe "Damage" do
   end
 
   def first_creature
-    @duel.player1.battlefield.select{ |b| b.entity.find_card.is_creature? }.first
+    @duel.player1.battlefield.select{ |b| b.entity.card_type.is_creature? }.first
   end
 
   it "creatures start off with no damage" do
@@ -86,7 +86,7 @@ RSpec.describe "Damage" do
   context "temporary damage" do
     before :each do
       @card = first_creature
-      expect(@card.entity.find_card.toughness).to_not eq(1)
+      expect(@card.entity.card_type.toughness).to_not eq(1)
       @card.entity.damage! 1
     end
 

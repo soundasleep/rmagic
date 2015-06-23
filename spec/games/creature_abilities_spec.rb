@@ -11,7 +11,7 @@ RSpec.describe "Creature abilities" do
   end
 
   def first_add_life_creature
-    @duel.player1.battlefield.select{ |b| b.entity.find_card.actions.include?("add_life") }.first
+    @duel.player1.battlefield.select{ |b| b.entity.card_type.actions.include?("add_life") }.first
   end
 
   def add_life_actions(card)

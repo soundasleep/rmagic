@@ -11,7 +11,7 @@ RSpec.describe "Creatures" do
   end
 
   def first_creature
-    @duel.player1.hand.select{ |b| b.entity.find_card.actions.include?("play") }.first
+    @duel.player1.hand.select{ |b| b.entity.card_type.actions.include?("play") }.first
   end
 
   def play_actions(card)

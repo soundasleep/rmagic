@@ -8,7 +8,7 @@ class Entity < ActiveRecord::Base
   validate :valid_card
 
   def valid_card
-    if !find_card
+    if !card_type
       errors.add(:metaverse_id, "Could not find card #{metaverse_id}")
     end
   end
@@ -20,11 +20,11 @@ class Entity < ActiveRecord::Base
     self.damage ||= 0
   end
 
-  def find_card   # TODO card_type
+  def card_type
     @card ||= CardUniverse.new.find_metaverse(metaverse_id)
   end
 
-  delegate :to_text, :action_text, to: :find_card
+  delegate :to_text, :action_text, to: :card_type
 
   def can_tap?
     !is_tapped?
@@ -47,12 +47,12 @@ class Entity < ActiveRecord::Base
   end
 
   def remaining_health
-    find_card.toughness - damage
+    card_type.toughness - damage
   end
 
   def is_destroyed?
     # TODO replace 'and' with '&&' in logic for ps
-    find_card.is_creature? and remaining_health <= 0
+    card_type.is_creature? and remaining_health <= 0
   end
 
   def damage!(n)

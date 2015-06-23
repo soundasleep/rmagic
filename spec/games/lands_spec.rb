@@ -19,11 +19,11 @@ RSpec.describe "Lands" do
   end
 
   def first_land
-    @duel.player1.battlefield.select{ |b| b.entity.find_card.is_land? }.first
+    @duel.player1.battlefield.select{ |b| b.entity.card_type.is_land? }.first
   end
 
   def first_hand_land
-    @duel.player1.hand.select{ |b| b.entity.find_card.is_land? }.first
+    @duel.player1.hand.select{ |b| b.entity.card_type.is_land? }.first
   end
 
   def first_hand_land_available_play_actions
