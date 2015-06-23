@@ -67,12 +67,8 @@ module SetupGame
     create_battlefield_cards(3)
   end
 
-  def create_instants
-    create_hand_cards(4)
-  end
-
   def our_creatures
-    @duel.player1.battlefield.select{ |b| b.card.card_type.is_creature? }.map{ |b| b.card }
+    @duel.player1.battlefield.creatures.map{ |b| b.card }
   end
 
   def available_attackers
@@ -116,12 +112,12 @@ module SetupGame
   end
 
   def game_engine
-    GameEngine.new(@duel)
+    @game_engine ||= GameEngine.new(@duel)
   end
 
   def tap_all_lands
     # tap all battlefield lands
-    @duel.player1.battlefield.select { |b| b.card.card_type.is_land? }.each do |b|
+    @duel.player1.battlefield.lands.each do |b|
       game_engine.card_action(b, "tap")
     end
   end

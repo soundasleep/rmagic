@@ -1,18 +1,10 @@
 class Player < ActiveRecord::Base
   include ManaHelper
 
-  has_many :deck, dependent: :destroy do
-    include ZoneHelper
-  end
-  has_many :hand, dependent: :destroy do
-    include ZoneHelper
-  end
-  has_many :battlefield, dependent: :destroy do
-    include ZoneHelper
-  end
-  has_many :graveyard, dependent: :destroy do
-    include ZoneHelper
-  end
+  has_many :deck, dependent: :destroy
+  has_many :hand, dependent: :destroy
+  has_many :battlefield, dependent: :destroy
+  has_many :graveyard, dependent: :destroy
 
   validates :life, :name, :mana_blue, :mana_green,
       :mana_red, :mana_white, :mana_black,
