@@ -95,7 +95,7 @@ RSpec.describe "Defending" do
 
       pass_until_next_turn
 
-      assert_equal 1, attacking_actions(@card).count
+      expect(attacking_actions(@card).count).to eq(1)
     end
 
     it "attacking actions references the attacked defender" do

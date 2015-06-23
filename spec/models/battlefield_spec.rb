@@ -4,9 +4,9 @@ RSpec.describe Battlefield do
     p = Player.create!()
 
     b1 = Battlefield.create({ player: p, card: e })
-    assert b1.valid?
+    expect(b1.valid?).to eq(true)
 
     b2 = Battlefield.create({ player: p, card: e })
-    assert !b2.valid?
+    expect(b2.valid?).to eq(false)
   end
 end
