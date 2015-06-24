@@ -9,7 +9,6 @@
   = form_tag(play_duel_url(@duel)) do |f|
     = hidden_field_tag "hand", hand.source.id
     = hidden_field_tag "key", hand.key
-    / TODO use ability.to_text instead
     - if hand.target
       = hidden_field_tag "target", hand.target.id
     = submit_tag hand.description
@@ -27,7 +26,6 @@
   = form_tag(ability_duel_url(@duel)) do |f|
     = hidden_field_tag "battlefield", ability.source.id
     = hidden_field_tag "key", ability.key
-    / TODO use action.to_text instead
     - if ability.target
       = hidden_field_tag "target", ability.target.id
     = submit_tag ability.description
