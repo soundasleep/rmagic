@@ -8,12 +8,12 @@ class PossibleAbility
   end
 
   def description
-    "Use #{key} of #{source}#{target_text}"
+    "Use #{key} of #{source.to_text}#{target_text}"
   end
 
   def target_text
     if target
-      " on #{target}"
+      " on #{target.to_text}"
     else
       ""
     end

@@ -8,12 +8,12 @@ class PossiblePlay
   end
 
   def description
-    "Play #{key} of #{source}#{target_text}"
+    "Play #{key} of #{source.to_text}#{target_text}"
   end
 
   def target_text
     if target
-      " on #{target}"
+      " on #{target.to_text}"
     else
       ""
     end

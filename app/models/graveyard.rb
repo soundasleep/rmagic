@@ -5,6 +5,8 @@ class Graveyard < ActiveRecord::Base
   validates :player, :card, presence: true
   validates :card, uniqueness: true
 
+  delegate :to_text, to: :card
+
   def zone
     GraveyardZone.new
   end

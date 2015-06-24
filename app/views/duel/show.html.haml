@@ -21,7 +21,7 @@
   = form_tag(defend_duel_url(@duel)) do |f|
     = hidden_field_tag "source", defend[:source].id
     = hidden_field_tag "target", defend[:target].id
-    = submit_tag "Defend #{defend[:source].card.to_text} (#{defend[:source].card.id}) with #{defend[:target].card.to_text} (#{defend[:target].card.id})"
+    = submit_tag "Defend #{defend[:source].to_text} (#{defend[:source].card.id}) with #{defend[:target].to_text} (#{defend[:target].card.id})"
 
 - available_actions[:ability].each do |ability|
   = form_tag(ability_duel_url(@duel)) do |f|
@@ -43,7 +43,7 @@
       %li
         %label
           = check_box_tag "attacker[]", a.id
-          = a.card.to_text
+          = a.to_text
     = submit_tag "Declare attackers and pass"
 
 %h4 Turn #{@duel.turn}: Current player #{@duel.current_player_number}, #{@duel.phase.description}, priority player #{@duel.priority_player_number}
@@ -61,7 +61,7 @@
   %ul
     - player.hand.each do |hand|
       %li
-        = hand.card.to_text
+        = hand.to_text
         %small= hand.card.id
 
   %h3 Battlefield ( #{player.battlefield.count} cards )
@@ -69,7 +69,7 @@
   %ul
     - player.battlefield.each do |battlefield|
       %li
-        = battlefield.card.to_text
+        = battlefield.to_text
         - if battlefield.card.is_tapped?
           %i (tapped)
         %small= battlefield.card.id
