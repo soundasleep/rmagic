@@ -1,17 +1,16 @@
 require_relative "setup_game"
 
 RSpec.describe "Creatures" do
+  let(:duel) { create_game }
   let(:card) { first_creature }
 
   before :each do
-    setup
-
     create_hand_cards 1
-    @duel.playing_phase!
+    duel.playing_phase!
   end
 
   def first_creature
-    @duel.player1.hand.select{ |b| b.card.card_type.actions.include?("play") }.first
+    duel.player1.hand.select{ |b| b.card.card_type.actions.include?("play") }.first
   end
 
   def play_actions(zone_card)
@@ -27,7 +26,7 @@ RSpec.describe "Creatures" do
   end
 
   it "can be played in a phase which can play creatures" do
-    expect(@duel.phase.can_play?).to eq(true)
+    expect(duel.phase.can_play?).to eq(true)
   end
 
   context "without mana" do
@@ -82,18 +81,18 @@ RSpec.describe "Creatures" do
       end
 
       before :each do
-        expect(played_creatures(@duel.player1)).to be_empty
-        expect(played_creatures(@duel.player2)).to be_empty
-        expect(@duel.player1.mana_green).to eq(3)
+        expect(played_creatures(duel.player1)).to be_empty
+        expect(played_creatures(duel.player2)).to be_empty
+        expect(duel.player1.mana_green).to eq(3)
         game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
       end
 
       it "adds a creature to the battlefield" do
-        expect(played_creatures(@duel.player1).map{ |c| c.card }).to eq([card.card])
+        expect(played_creatures(duel.player1).map{ |c| c.card }).to eq([card.card])
       end
 
       it "does not add a creature for the other player" do
-        expect(played_creatures(@duel.player2).map{ |c| c.card }).to be_empty
+        expect(played_creatures(duel.player2).map{ |c| c.card }).to be_empty
       end
 
       it "creates an action" do
@@ -101,7 +100,7 @@ RSpec.describe "Creatures" do
       end
 
       it "consumes mana" do
-        expect(@duel.player1.mana_green).to eq(1)
+        expect(duel.player1.mana_green).to eq(1)
       end
 
       it "removes the creature from the hand" do
@@ -114,7 +113,7 @@ RSpec.describe "Creatures" do
   context "in our turn" do
     context "in the drawing phase" do
       before :each do
-        @duel.drawing_phase!
+        duel.drawing_phase!
         tap_all_lands
       end
 
@@ -125,7 +124,7 @@ RSpec.describe "Creatures" do
 
     context "in the playing phase" do
       before :each do
-        @duel.playing_phase!
+        duel.playing_phase!
         tap_all_lands
       end
 
@@ -136,7 +135,7 @@ RSpec.describe "Creatures" do
 
     context "in the attacking phase" do
       before :each do
-        @duel.attacking_phase!
+        duel.attacking_phase!
         tap_all_lands
       end
 
@@ -147,7 +146,7 @@ RSpec.describe "Creatures" do
 
     context "in the cleanup phase" do
       before :each do
-        @duel.cleanup_phase!
+        duel.cleanup_phase!
         tap_all_lands
       end
 
@@ -164,7 +163,7 @@ RSpec.describe "Creatures" do
 
     context "in the drawing phase" do
       before :each do
-        @duel.drawing_phase!
+        duel.drawing_phase!
         tap_all_lands
       end
 
@@ -175,7 +174,7 @@ RSpec.describe "Creatures" do
 
     context "in the playing phase" do
       before :each do
-        @duel.playing_phase!
+        duel.playing_phase!
         tap_all_lands
       end
 
@@ -186,7 +185,7 @@ RSpec.describe "Creatures" do
 
     context "in the attacking phase" do
       before :each do
-        @duel.attacking_phase!
+        duel.attacking_phase!
         tap_all_lands
       end
 
@@ -197,7 +196,7 @@ RSpec.describe "Creatures" do
 
     context "in the cleanup phase" do
       before :each do
-        @duel.cleanup_phase!
+        duel.cleanup_phase!
         tap_all_lands
       end
 
@@ -213,7 +212,7 @@ RSpec.describe "Creatures" do
 
       context "in the drawing phase" do
         before :each do
-          @duel.drawing_phase!
+          duel.drawing_phase!
           tap_all_lands
         end
 
@@ -224,7 +223,7 @@ RSpec.describe "Creatures" do
 
       context "in the playing phase" do
         before :each do
-          @duel.playing_phase!
+          duel.playing_phase!
           tap_all_lands
         end
 
@@ -235,7 +234,7 @@ RSpec.describe "Creatures" do
 
       context "in the attacking phase" do
         before :each do
-          @duel.attacking_phase!
+          duel.attacking_phase!
           tap_all_lands
         end
 
@@ -246,7 +245,7 @@ RSpec.describe "Creatures" do
 
       context "in the cleanup phase" do
         before :each do
-          @duel.cleanup_phase!
+          duel.cleanup_phase!
           tap_all_lands
         end
 

@@ -1,18 +1,17 @@
 require_relative "setup_game"
 
 RSpec.describe "Instants destroy" do
+  let(:duel) { create_game }
   let(:card) { first_destroy }
 
   before :each do
-    setup
-
     create_battlefield_cards(1)
     create_hand_cards(5)
-    @duel.playing_phase!
+    duel.playing_phase!
   end
 
   def first_destroy
-    @duel.player1.hand.select{ |b| b.card.card_type.actions.include?("destroy") }.first
+    duel.player1.hand.select{ |b| b.card.card_type.actions.include?("destroy") }.first
   end
 
   def destroy_actions(zone_card)
@@ -28,7 +27,7 @@ RSpec.describe "Instants destroy" do
   end
 
   it "can be played in a phase which can cast destroys" do
-    expect(@duel.phase.can_instant?).to eq(true)    # TODO replace eq(true) with be(true)
+    expect(duel.phase.can_instant?).to eq(true)    # TODO replace eq(true) with be(true)
   end
 
   context "without mana" do
@@ -48,7 +47,7 @@ RSpec.describe "Instants destroy" do
 
     context "can be played with mana" do
       it "and a target" do
-        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "destroy", target: @duel.player1.battlefield_creatures.first))).to eq(true)
+        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))).to eq(true)
       end
 
       it "but not without a target" do
@@ -89,21 +88,21 @@ RSpec.describe "Instants destroy" do
 
     context "when activated" do
       before :each do
-        expect(@duel.player1.battlefield_creatures.length).to eq(1)
-        expect(@duel.player2.battlefield_creatures.length).to eq(1)
+        expect(duel.player1.battlefield_creatures.length).to eq(1)
+        expect(duel.player2.battlefield_creatures.length).to eq(1)
       end
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: @duel.player1.battlefield_creatures.first))
+          game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))
         end
 
         it "removes our creature" do
-          expect(@duel.player1.battlefield_creatures).to be_empty
+          expect(duel.player1.battlefield_creatures).to be_empty
         end
 
         it "does not remove their creature" do
-          expect(@duel.player2.battlefield_creatures).to_not be_empty
+          expect(duel.player2.battlefield_creatures).to_not be_empty
         end
 
         it "creates an action" do
@@ -111,21 +110,21 @@ RSpec.describe "Instants destroy" do
         end
 
         it "consumes mana" do
-          expect(@duel.player1.mana_green).to eq(2)
+          expect(duel.player1.mana_green).to eq(2)
         end
       end
 
       context "on their creature" do
         before :each do
-          game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: @duel.player2.battlefield_creatures.first))
+          game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first))
         end
 
         it "removes their creature" do
-          expect(@duel.player2.battlefield_creatures).to be_empty
+          expect(duel.player2.battlefield_creatures).to be_empty
         end
 
         it "does not remove our creature" do
-          expect(@duel.player1.battlefield_creatures).to_not be_empty
+          expect(duel.player1.battlefield_creatures).to_not be_empty
         end
 
         it "creates an action" do
@@ -133,7 +132,7 @@ RSpec.describe "Instants destroy" do
         end
 
         it "consumes mana" do
-          expect(@duel.player1.mana_green).to eq(2)
+          expect(duel.player1.mana_green).to eq(2)
         end
       end
 

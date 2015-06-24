@@ -1,13 +1,12 @@
 require_relative "setup_game"
 
 RSpec.describe "Lands" do
+  let(:duel) { create_game }
   let(:card) { first_hand_land }
 
   before :each do
-    setup
-
     create_hand_cards 2
-    @duel.playing_phase!
+    duel.playing_phase!
   end
 
   def tap_actions(zone_card)
@@ -19,11 +18,11 @@ RSpec.describe "Lands" do
   end
 
   def first_land
-    @duel.player1.battlefield.select{ |b| b.card.card_type.is_land? }.first
+    duel.player1.battlefield.select{ |b| b.card.card_type.is_land? }.first
   end
 
   def first_hand_land
-    @duel.player1.hand.select{ |b| b.card.card_type.is_land? }.first
+    duel.player1.hand.select{ |b| b.card.card_type.is_land? }.first
   end
 
   def first_hand_land_available_play_actions
@@ -98,17 +97,17 @@ RSpec.describe "Lands" do
       end
 
       before :each do
-        expect(played_lands(@duel.player1)).to be_empty
-        expect(played_lands(@duel.player2)).to be_empty
+        expect(played_lands(duel.player1)).to be_empty
+        expect(played_lands(duel.player2)).to be_empty
         game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
       end
 
       it "adds a creature to the battlefield" do
-        expect(played_lands(@duel.player1).map{ |c| c.card }).to eq([card.card])
+        expect(played_lands(duel.player1).map{ |c| c.card }).to eq([card.card])
       end
 
       it "does not add a creature for the other player" do
-        expect(played_lands(@duel.player2).map{ |c| c.card }).to be_empty
+        expect(played_lands(duel.player2).map{ |c| c.card }).to be_empty
       end
 
       it "creates an action" do
@@ -141,7 +140,7 @@ RSpec.describe "Lands" do
     context "in our turn" do
       context "in the drawing phase" do
         before :each do
-          @duel.drawing_phase!
+          duel.drawing_phase!
         end
 
         it "cannot be tapped" do
@@ -151,7 +150,7 @@ RSpec.describe "Lands" do
 
       context "in the playing phase" do
         before :each do
-          @duel.playing_phase!
+          duel.playing_phase!
         end
 
         it "can be tapped" do
@@ -161,7 +160,7 @@ RSpec.describe "Lands" do
 
       context "in the attacking phase" do
         before :each do
-          @duel.attacking_phase!
+          duel.attacking_phase!
         end
 
         it "can be tapped" do
@@ -171,7 +170,7 @@ RSpec.describe "Lands" do
 
       context "in the cleanup phase" do
         before :each do
-          @duel.cleanup_phase!
+          duel.cleanup_phase!
         end
 
         it "cannot be tapped" do
@@ -187,7 +186,7 @@ RSpec.describe "Lands" do
 
       context "in the drawing phase" do
         before :each do
-          @duel.drawing_phase!
+          duel.drawing_phase!
         end
 
         it "cannot be tapped" do
@@ -197,7 +196,7 @@ RSpec.describe "Lands" do
 
       context "in the playing phase" do
         before :each do
-          @duel.playing_phase!
+          duel.playing_phase!
         end
 
         it "cannot be tapped" do
@@ -207,7 +206,7 @@ RSpec.describe "Lands" do
 
       context "in the attacking phase" do
         before :each do
-          @duel.attacking_phase!
+          duel.attacking_phase!
         end
 
         it "cannot be tapped" do
@@ -217,7 +216,7 @@ RSpec.describe "Lands" do
 
       context "in the cleanup phase" do
         before :each do
-          @duel.cleanup_phase!
+          duel.cleanup_phase!
         end
 
         it "cannot be tapped" do
@@ -232,7 +231,7 @@ RSpec.describe "Lands" do
 
         context "in the drawing phase" do
           before :each do
-            @duel.drawing_phase!
+            duel.drawing_phase!
           end
 
           it "cannot be tapped" do
@@ -242,7 +241,7 @@ RSpec.describe "Lands" do
 
         context "in the playing phase" do
           before :each do
-            @duel.playing_phase!
+            duel.playing_phase!
           end
 
           it "can be tapped" do
@@ -252,7 +251,7 @@ RSpec.describe "Lands" do
 
         context "in the attacking phase" do
           before :each do
-            @duel.attacking_phase!
+            duel.attacking_phase!
           end
 
           it "can be tapped" do
@@ -262,7 +261,7 @@ RSpec.describe "Lands" do
 
         context "in the cleanup phase" do
           before :each do
-            @duel.cleanup_phase!
+            duel.cleanup_phase!
           end
 
           it "cannot be tapped" do

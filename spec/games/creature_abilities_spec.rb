@@ -1,17 +1,16 @@
 require_relative "setup_game"
 
 RSpec.describe "Creature abilities" do
+  let(:duel) { create_game }
   let(:card) { first_add_life_creature }
 
   before :each do
-    setup
-
     create_battlefield_cards 3
-    @duel.playing_phase!
+    duel.playing_phase!
   end
 
   def first_add_life_creature
-    @duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("add_life") }.first
+    duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("add_life") }.first
   end
 
   def add_life_actions(zone_card)
@@ -70,18 +69,18 @@ RSpec.describe "Creature abilities" do
 
     context "when activated" do
       before :each do
-        expect(@duel.player1.life).to eq(20)
-        expect(@duel.player2.life).to eq(20)
-        expect(@duel.player1.mana_green).to eq(3)
+        expect(duel.player1.life).to eq(20)
+        expect(duel.player2.life).to eq(20)
+        expect(duel.player1.mana_green).to eq(3)
         game_engine.card_action(PossibleAbility.new(source: card, key: "add_life"))
       end
 
       it "adds life" do
-        expect(@duel.player1.life).to eq(20 + 1)
+        expect(duel.player1.life).to eq(20 + 1)
       end
 
       it "does not add life to the other player" do
-        expect(@duel.player2.life).to_not eq(20 + 1)
+        expect(duel.player2.life).to_not eq(20 + 1)
       end
 
       it "creates an action" do
@@ -89,7 +88,7 @@ RSpec.describe "Creature abilities" do
       end
 
       it "consumes mana" do
-        expect(@duel.player1.mana_green).to eq(2)
+        expect(duel.player1.mana_green).to eq(2)
       end
 
     end
@@ -98,7 +97,7 @@ RSpec.describe "Creature abilities" do
   context "in our turn" do
     context "in the drawing phase" do
       before :each do
-        @duel.drawing_phase!
+        duel.drawing_phase!
         tap_all_lands
       end
 
@@ -109,7 +108,7 @@ RSpec.describe "Creature abilities" do
 
     context "in the playing phase" do
       before :each do
-        @duel.playing_phase!
+        duel.playing_phase!
         tap_all_lands
       end
 
@@ -120,7 +119,7 @@ RSpec.describe "Creature abilities" do
 
     context "in the attacking phase" do
       before :each do
-        @duel.attacking_phase!
+        duel.attacking_phase!
         tap_all_lands
       end
 
@@ -131,7 +130,7 @@ RSpec.describe "Creature abilities" do
 
     context "in the cleanup phase" do
       before :each do
-        @duel.cleanup_phase!
+        duel.cleanup_phase!
         tap_all_lands
       end
 
@@ -148,7 +147,7 @@ RSpec.describe "Creature abilities" do
 
     context "in the drawing phase" do
       before :each do
-        @duel.drawing_phase!
+        duel.drawing_phase!
         tap_all_lands
       end
 
@@ -159,7 +158,7 @@ RSpec.describe "Creature abilities" do
 
     context "in the playing phase" do
       before :each do
-        @duel.playing_phase!
+        duel.playing_phase!
         tap_all_lands
       end
 
@@ -170,7 +169,7 @@ RSpec.describe "Creature abilities" do
 
     context "in the attacking phase" do
       before :each do
-        @duel.attacking_phase!
+        duel.attacking_phase!
         tap_all_lands
       end
 
@@ -181,7 +180,7 @@ RSpec.describe "Creature abilities" do
 
     context "in the cleanup phase" do
       before :each do
-        @duel.cleanup_phase!
+        duel.cleanup_phase!
         tap_all_lands
       end
 
@@ -197,7 +196,7 @@ RSpec.describe "Creature abilities" do
 
       context "in the drawing phase" do
         before :each do
-          @duel.drawing_phase!
+          duel.drawing_phase!
           tap_all_lands
         end
 
@@ -208,7 +207,7 @@ RSpec.describe "Creature abilities" do
 
       context "in the playing phase" do
         before :each do
-          @duel.playing_phase!
+          duel.playing_phase!
           tap_all_lands
         end
 
@@ -219,7 +218,7 @@ RSpec.describe "Creature abilities" do
 
       context "in the attacking phase" do
         before :each do
-          @duel.attacking_phase!
+          duel.attacking_phase!
           tap_all_lands
         end
 
@@ -230,7 +229,7 @@ RSpec.describe "Creature abilities" do
 
       context "in the cleanup phase" do
         before :each do
-          @duel.cleanup_phase!
+          duel.cleanup_phase!
           tap_all_lands
         end
 

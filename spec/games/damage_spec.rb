@@ -1,14 +1,14 @@
 require_relative "setup_game"
 
 RSpec.describe "Damage" do
-  before :each do
-    setup
+  let(:duel) { create_game }
 
+  before :each do
     create_creatures
   end
 
   def first_creature
-    @duel.player1.battlefield.select{ |b| b.card.card_type.is_creature? }.first
+    duel.player1.battlefield.select{ |b| b.card.card_type.is_creature? }.first
   end
 
   it "creatures start off with no damage" do
@@ -21,16 +21,16 @@ RSpec.describe "Damage" do
 
     pass_until_next_turn
 
-    expect(@duel.player1.battlefield).to include(card)
+    expect(duel.player1.battlefield).to include(card)
   end
 
   it "damage causes cards to be removed" do
     card = first_creature
-    expect(@duel.player1.battlefield).to include(card)
+    expect(duel.player1.battlefield).to include(card)
     card.card.damage! 100
     game_engine.move_destroyed_creatures_to_graveyard
-    @duel.reload
-    expect(@duel.player1.battlefield).to_not include(card)
+    duel.reload
+    expect(duel.player1.battlefield).to_not include(card)
   end
 
   let(:creature) { first_creature }
@@ -42,7 +42,7 @@ RSpec.describe "Damage" do
 
     it "causes cards to be removed at the next turn" do
       pass_until_next_turn
-      expect(@duel.player1.battlefield).to_not include(creature)
+      expect(duel.player1.battlefield).to_not include(creature)
     end
 
     it "provides the destroyed flag" do
@@ -64,12 +64,12 @@ RSpec.describe "Damage" do
 
   it "a destroyed creature is moved into the graveyard" do
     card = first_creature
-    expect(@duel.player1.graveyard.map { |b| b.card }).to_not include(card.card)
+    expect(duel.player1.graveyard.map { |b| b.card }).to_not include(card.card)
 
     card.card.damage! 100
     pass_until_next_turn
 
-    expect(@duel.player1.graveyard.map { |b| b.card }).to include(card.card)
+    expect(duel.player1.graveyard.map { |b| b.card }).to include(card.card)
   end
 
   it "actions are created when creatures are moved to the graveyard" do
@@ -92,7 +92,7 @@ RSpec.describe "Damage" do
     it "does not cause a card to be removed" do
       pass_until_next_turn
 
-      expect(@duel.player1.battlefield).to include(creature)
+      expect(duel.player1.battlefield).to include(creature)
     end
 
     it "is not removed until the next players turn" do

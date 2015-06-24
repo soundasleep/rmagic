@@ -1,14 +1,13 @@
 require_relative "setup_game"
 
 RSpec.describe "Defending" do
+  let(:duel) { create_game }
   let(:attacker) { available_attackers.first }
 
   before :each do
-    setup
-
     create_creatures
 
-    @duel.attacking_phase!
+    duel.attacking_phase!
 
     game_engine.declare_attackers [attacker]
 
@@ -16,25 +15,25 @@ RSpec.describe "Defending" do
   end
 
   it "can be declared in a phase which can declare defenders" do
-    expect(@duel.phase.can_declare_defenders?).to eq(true)
+    expect(duel.phase.can_declare_defenders?).to eq(true)
   end
 
   it "each defender can defend one attacker if only one attacks" do
-    defends = game_engine.available_actions(@duel.player2)[:defend]
+    defends = game_engine.available_actions(duel.player2)[:defend]
 
     expect(defends.count).to eq(2)
   end
 
   it "an attacker stores which player is attacking" do
-    expect(@duel.declared_attackers.first.player).to eq(@duel.player1)
+    expect(duel.declared_attackers.first.player).to eq(duel.player1)
   end
 
   it "an attacker stores which player its attacking" do
-    expect(@duel.declared_attackers.first.target_player).to eq(@duel.player2)
+    expect(duel.declared_attackers.first.target_player).to eq(duel.player2)
   end
 
   context "when finding possible defenders" do
-    let(:defends) { game_engine.available_actions(@duel.player2)[:defend] }
+    let(:defends) { game_engine.available_actions(duel.player2)[:defend] }
     let(:defender) { defends.first }
 
     it "a declared defender creates an action" do
@@ -45,18 +44,18 @@ RSpec.describe "Defending" do
     end
 
     it "a defender can be declared and referenced later" do
-      expect(@duel.declared_defenders.count).to eq(0)
+      expect(duel.declared_defenders.count).to eq(0)
       game_engine.declare_defender defender
-      expect(@duel.declared_defenders.count).to eq(1)
+      expect(duel.declared_defenders.count).to eq(1)
     end
 
     it "declared defenders do not persist into the next turn" do
-      expect(@duel.declared_defenders.count).to eq(0)
+      expect(duel.declared_defenders.count).to eq(0)
       game_engine.declare_defender defender
-      expect(@duel.declared_defenders.count).to eq(1)
+      expect(duel.declared_defenders.count).to eq(1)
 
       pass_until_next_player
-      expect(@duel.declared_defenders.count).to eq(0)
+      expect(duel.declared_defenders.count).to eq(0)
     end
 
     context "and declaring a defender" do
@@ -65,7 +64,7 @@ RSpec.describe "Defending" do
       end
 
       it "the defender does not come up as another available defend option" do
-        game_engine.available_actions(@duel.player2)[:defend].each do |defend|
+        game_engine.available_actions(duel.player2)[:defend].each do |defend|
           expect(defend.target).to_not eq(defend.source)
         end
       end
@@ -76,7 +75,7 @@ RSpec.describe "Defending" do
         end
 
         it "blocks damage" do
-          expect(@duel.player2.life).to eq(20)
+          expect(duel.player2.life).to eq(20)
         end
 
         it "attacking actions include a reference to defending creatures after the attack resolves" do

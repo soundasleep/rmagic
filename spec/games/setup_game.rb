@@ -1,56 +1,56 @@
 module SetupGame
 
-  # load a basic game state
-  def setup
-
+  # return the created duel
+  def create_game
     player1 = Player.create!(name: "Player 1", life: 20, is_ai: false)
     player2 = Player.create!(name: "Player 2", life: 20, is_ai: false)
 
-    @duel = Duel.create!(player1: player1, player2: player2)
+    duel = Duel.create!(player1: player1, player2: player2)
 
     10.times do
-      create_card @duel.player1.deck, 1
-      create_card @duel.player2.deck, 1
+      create_card duel.player1.deck, 1
+      create_card duel.player2.deck, 1
     end
 
     3.times do
-      create_card @duel.player1.battlefield, 2
-      create_card @duel.player2.battlefield, 2
+      create_card duel.player1.battlefield, 2
+      create_card duel.player2.battlefield, 2
     end
 
-    @duel.save!
+    duel.save!
 
+    duel
   end
 
   def create_creatures
     3.times do
-      create_card @duel.player1.battlefield, 1
+      create_card duel.player1.battlefield, 1
     end
     2.times do
-      create_card @duel.player2.battlefield, 1
+      create_card duel.player2.battlefield, 1
     end
   end
 
   def create_hand_cards(metaverse_id)
-    create_card @duel.player1.hand, metaverse_id
-    create_card @duel.player2.hand, metaverse_id
+    create_card duel.player1.hand, metaverse_id
+    create_card duel.player2.hand, metaverse_id
   end
 
   def create_battlefield_cards(metaverse_id)
-    create_card @duel.player1.battlefield, metaverse_id
-    create_card @duel.player2.battlefield, metaverse_id
+    create_card duel.player1.battlefield, metaverse_id
+    create_card duel.player2.battlefield, metaverse_id
   end
 
   def available_attackers
-    game_engine.available_attackers(@duel.current_player)
+    game_engine.available_attackers(duel.current_player)
   end
 
   def available_actions
-    game_engine.available_actions(@duel.player1)
+    game_engine.available_actions(duel.player1)
   end
 
   def actions(card, action)
-    @duel.action_logs.where card_action: action, card: card
+    duel.action_logs.where card_action: action, card: card
   end
 
   def declaring_actions(hand)
@@ -82,21 +82,21 @@ module SetupGame
   end
 
   def game_engine
-    @game_engine ||= GameEngine.new(@duel)
+    @game_engine ||= GameEngine.new(duel)
   end
 
   def tap_all_lands
     # tap all battlefield lands
-    @duel.player1.battlefield_lands.each do |b|
+    duel.player1.battlefield_lands.each do |b|
       game_engine.card_action PossibleAbility.new(source: b, key: "tap")
     end
   end
 
   def pass_until_next_turn
-    t = @duel.turn
+    t = duel.turn
     i = 0
 
-    while @duel.turn == t do
+    while duel.turn == t do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next turn"
       game_engine.pass
@@ -104,10 +104,10 @@ module SetupGame
   end
 
   def pass_until_next_player
-    c = @duel.current_player
+    c = duel.current_player
     i = 0
 
-    while @duel.current_player == c do
+    while duel.current_player == c do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next turn"
       game_engine.pass
@@ -117,7 +117,7 @@ module SetupGame
   def pass_until_current_player_has_priority
     i = 0
 
-    while @duel.priority_player != @duel.player1 do
+    while duel.priority_player != duel.player1 do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next priority"
       game_engine.pass
