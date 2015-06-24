@@ -2,9 +2,9 @@ class DuelController < ApplicationController
   def create
     # create a temporary duel to display
     @player1 = Player.create!(
-     name: "Jevon",
-     life: 20,
-     is_ai: false
+      name: "Jevon",
+      life: 20,
+      is_ai: false
     )
     @player2 = Player.create!(
       name: "AI",
