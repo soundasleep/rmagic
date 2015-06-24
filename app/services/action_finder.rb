@@ -13,17 +13,11 @@ class ActionFinder
 
   # list all available actions for the given player
   def available_actions(player)
-    actions = {
-      play: [],     # from hand - TODO maybe rename 'hand'
-      defend: [],   # from battlefield
-      ability: []   # from battlefield - TODO maybe rename 'battlefield'
+    {
+      play: playable_cards(player),      # from hand - TODO maybe rename 'hand'
+      defend: defendable_cards(player),  # from battlefield
+      ability: ability_cards(player)     # from battlefield - TODO maybe rename 'battlefield'
     }
-    actions[:play] += playable_cards(player)
-    if duel.phase.can_declare_defenders? and duel.priority_player == player and duel.priority_player != duel.current_player
-      actions[:defend] += defendable_cards(player)
-    end
-    actions[:ability] += ability_cards(player)
-    actions
   end
 
   def playable_cards(player)
@@ -65,17 +59,21 @@ class ActionFinder
   end
 
   def defendable_cards(player)
-    # all cards on the battlefield that are not tapped and not already defending
-    player.battlefield
-      .reject{ |b| duel.declared_defenders.map{ |d| d.source }.include?(b) }
-      .select{ |b| !b.card.is_tapped? and b.card.card_type.is_creature? }.map do |b|
-        duel.declared_attackers.map do |a|
-          PossibleDefender.new(
-            source: b,
-            target: a
-          )
-        end
-      end.flatten(1)
+    if duel.phase.can_declare_defenders? && duel.priority_player == player && duel.priority_player != duel.current_player
+      # all cards on the battlefield that are not tapped and not already defending
+      player.battlefield
+        .reject{ |b| duel.declared_defenders.map{ |d| d.source }.include?(b) }
+        .select{ |b| !b.card.is_tapped? and b.card.card_type.is_creature? }.map do |b|
+          duel.declared_attackers.map do |a|
+            PossibleDefender.new(
+              source: b,
+              target: a
+            )
+          end
+        end.flatten(1)
+    else
+      []
+    end
   end
 
   def available_attackers(player)
@@ -83,8 +81,9 @@ class ActionFinder
       return duel.priority_player.battlefield
           .select{ |b| b.card.card_type.is_creature? }
           .select{ |b| b.card.turn_played < duel.turn }   # summoning sickness
+    else
+      []
     end
-    []
   end
 
   def ability_cards(player)
