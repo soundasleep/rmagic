@@ -61,26 +61,32 @@ RSpec.describe "Instants destroy" do
 
     context "is listed as an available action" do
       it "of one type" do
-        expect(first_destroy_available_actions.to_a.uniq{ |u| u[:source] }.length).to eq(1)
+        expect(first_destroy_available_actions.to_a.uniq{ |u| u.source }.length).to eq(1)
       end
 
       it "of two targets" do
         expect(first_destroy_available_actions.length).to eq(2)
       end
 
-      it "with the correct source and action" do
+      it "with the correct source and key" do
         available_actions[:play].each do |a|
-          expect(a[:source]).to eq(@card)
-          expect(a[:action]).to eq("destroy")
+          expect(a.source).to eq(@card)
+          expect(a.key).to eq("destroy")
         end
       end
     end
 
-    it "all actions have :source and :action and :target specified" do
+    it "all actions have source and key and target specified" do
       available_actions[:play].each do |a|
-        expect(a[:source]).to_not be_nil
-        expect(a[:action]).to_not be_nil
-        expect(a[:target]).to_not be_nil
+        expect(a.source).to_not be_nil
+        expect(a.key).to_not be_nil
+        expect(a.target).to_not be_nil
+      end
+    end
+
+    it "all actions have a description" do
+      available_actions[:play].each do |a|
+        expect(a.description).to_not be_nil
       end
     end
 

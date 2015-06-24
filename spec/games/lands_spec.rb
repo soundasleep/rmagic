@@ -27,15 +27,15 @@ RSpec.describe "Lands" do
   end
 
   def first_hand_land_available_play_actions
-    available_play_actions("play").select{ |a| a[:source].card == first_hand_land.card }
+    available_play_actions("play").select{ |a| a.source.card == first_hand_land.card }
   end
 
   def first_land_available_tap_actions
-    available_ability_actions("tap").select{ |a| a[:source].card == first_land.card }
+    available_ability_actions("tap").select{ |a| a.source.card == first_land.card }
   end
 
   def first_land_available_untap_actions
-    available_ability_actions("untap").select{ |a| a[:source].card == first_land.card }
+    available_ability_actions("untap").select{ |a| a.source.card == first_land.card }
   end
 
   it "can be created manually" do
@@ -55,8 +55,8 @@ RSpec.describe "Lands" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action[:source]).to eq(@hand)
-      expect(action[:action]).to eq("play")
+      expect(action.source).to eq(@hand)
+      expect(action.key).to eq("play")
     end
   end
 
@@ -69,14 +69,26 @@ RSpec.describe "Lands" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action[:source]).to eq(@hand)
-      expect(action[:action]).to eq("play")
+      expect(action.source).to eq(@hand)
+      expect(action.key).to eq("play")
     end
 
-    it "all actions have :source and :action specified" do
+    it "all actions have source and key specified" do
       available_actions[:play].each do |a|
-        expect(a[:source]).to_not be_nil
-        expect(a[:action]).to_not be_nil
+        expect(a.source).to_not be_nil
+        expect(a.key).to_not be_nil
+      end
+    end
+
+    it "all actions do not have a target" do
+      available_actions[:play].each do |a|
+        expect(a.target).to be_nil
+      end
+    end
+
+    it "all actions have a description specified" do
+      available_actions[:play].each do |a|
+        expect(a.description).to_not be_nil
       end
     end
 
@@ -120,7 +132,7 @@ RSpec.describe "Lands" do
     end
 
     it "cannot be tapped" do
-      actions = available_play_actions("tap").select{ |a| a[:source].card == first_hand_land.card }
+      actions = available_play_actions("tap").select{ |a| a.source.card == first_hand_land.card }
       expect(actions).to be_empty
     end
   end

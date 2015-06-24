@@ -29,18 +29,18 @@ class ActionFinder
   def playable_cards(player)
     playable_cards_without_targets(player)
       .concat(playable_cards_with_targets(player))
-      .select{ |action| game_engine.can_do_action?(action[:source], action[:action], action[:target]) }
+      .select{ |action| game_engine.can_do_action?(action.source, action.key, action.target) }
+      # TODO replace with can_do_action?(PossiblePlay)
   end
 
   def playable_cards_without_targets(player)
     # all hand cards which have an available ability (e.g. play, instant)
     player.hand.map do |hand|
       hand.card.card_type.actions.map do |action|
-        {
+        PossiblePlay.new(
           source: hand,
-          action: action,
-          target: nil
-        }
+          key: action
+        )
       end
     end.flatten(1)
   end
@@ -53,11 +53,11 @@ class ActionFinder
         zone.map do |zone_card|
           player.hand.map do |hand|
             hand.card.card_type.actions.map do |action|
-              {
+              PossiblePlay.new(
                 source: hand,
-                action: action,
+                key: action,
                 target: zone_card
-              }
+              )
             end
           end.flatten(1)
         end.flatten(1)
@@ -72,6 +72,7 @@ class ActionFinder
       .select{ |b| !b.card.is_tapped? and b.card.card_type.is_creature? }.map do |b|
         duel.declared_attackers.map do |a|
           {
+            # TODO replace with PossibleDefender
             source: b,
             target: a
           }
@@ -80,6 +81,7 @@ class ActionFinder
   end
 
   def available_attackers(player)
+    # TODO replace with PossibleAttacker
     if duel.phase.can_declare_attackers? and duel.current_player == player and duel.priority_player == player
       return duel.priority_player.battlefield
           .select{ |b| b.card.card_type.is_creature? }
@@ -91,17 +93,18 @@ class ActionFinder
   def ability_cards(player)
     ability_cards_without_targets(player)
       .concat(ability_cards_with_targets(player))
-      .select{ |action| game_engine.can_do_action?(action[:source], action[:action], action[:target]) }
+      .select{ |action| game_engine.can_do_action?(action.source, action.key, action.target) }
+      # TODO replace with can_do_action?(PossibleAbility)
   end
 
   def ability_cards_without_targets(player)
     # all battlefield cards which have an available ability
     player.battlefield.map do |b|
       b.card.card_type.actions.map do |action|
-        {
+        PossibleAbility.new(
           source: b,
-          action: action
-        }
+          key: action
+        )
       end
     end.flatten(1)
   end
@@ -114,11 +117,11 @@ class ActionFinder
         zone.map do |zone_card|
           player.battlefield.map do |b|
             b.card.card_type.actions.map do |action|
-              {
+              PossibleAbility.new(
                 source: b,
-                action: action,
+                key: action,
                 target: zone_card
-              }
+              )
             end
           end.flatten(1)
         end.flatten(1)

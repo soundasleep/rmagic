@@ -53,11 +53,11 @@ RSpec.describe "Playable" do
     end
 
     it "allows us to play a creature" do
-      expect(available_actions[:play].map { |h| h[:source].card }).to eq([hand.first!.card])
+      expect(available_actions[:play].map { |h| h.source.card }).to eq([hand.first!.card])
     end
 
     it "allows us to play a creature with the play action" do
-      expect(available_actions[:play].map { |h| h[:action] }).to eq(["play"])
+      expect(available_actions[:play].map { |h| h.key }).to eq(["play"])
     end
 
     context "playing a creature" do
@@ -106,7 +106,7 @@ RSpec.describe "Playable" do
   end
 
   def battlefield_can_be_tapped
-    available_actions[:ability].select{ |a| a[:action] == "tap" }.map{ |a| a[:source].card }
+    available_actions[:ability].select{ |a| a.key == "tap" }.map{ |a| a.source.card }
   end
 
   it "lands can be tapped" do

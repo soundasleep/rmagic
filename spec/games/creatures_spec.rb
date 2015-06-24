@@ -53,14 +53,26 @@ RSpec.describe "Creatures" do
       expect(first_creature_available_play_actions.length).to eq(1)
 
       action = first_creature_available_play_actions.first
-      expect(action[:source]).to eq(@creature)
-      expect(action[:action]).to eq("play")
+      expect(action.source).to eq(@creature)
+      expect(action.key).to eq("play")
     end
 
-    it "all actions have :source and :action specified" do
+    it "all actions have source and key specified" do
       available_actions[:play].each do |a|
-        expect(a[:source]).to_not be_nil
-        expect(a[:action]).to_not be_nil
+        expect(a.source).to_not be_nil
+        expect(a.key).to_not be_nil
+      end
+    end
+
+    it "all actions have a description" do
+      available_actions[:play].each do |a|
+        expect(a.description).to_not be_nil
+      end
+    end
+
+    it "all actions do not have a target" do
+      available_actions[:play].each do |a|
+        expect(a.target).to be_nil
       end
     end
 

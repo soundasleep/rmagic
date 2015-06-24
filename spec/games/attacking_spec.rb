@@ -18,6 +18,7 @@ RSpec.describe "Attacking" do
   end
 
   it "we can declare three attackers on our turn" do
+    # TODO replace with PossibleAttacker
     expect(available_attackers.map{ |b| b.card }).to eq(our_creatures)
   end
 
@@ -53,6 +54,7 @@ RSpec.describe "Attacking" do
       it "defenders have an card and a target" do
         defends = game_engine.available_actions(@duel.player2)[:defend]
         defends.each do |d|
+          # TODO replace with PossibleDefender
           expect(d[:source]).to_not be_nil, "#{d} had no :source"
           expect(d[:target]).to_not be_nil, "#{d} had no :target"
           expect(d[:source].card).to_not be_nil, "#{d} had no :source.card"

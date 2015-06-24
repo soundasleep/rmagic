@@ -74,11 +74,11 @@ module SetupGame
   end
 
   def available_ability_actions(index)
-    available_actions[:ability].select { |action| action[:action] == index }
+    available_actions[:ability].select { |action| action.key == index }
   end
 
   def available_play_actions(index)
-    available_actions[:play].select { |action| action[:action] == index }
+    available_actions[:play].select { |action| action.key == index }
   end
 
   def game_engine
