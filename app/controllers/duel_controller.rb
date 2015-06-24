@@ -15,65 +15,36 @@ class DuelController < ApplicationController
     @duel = Duel.create!( player1: @player1, player2: @player2 )
 
     10.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( card: creature, player: @player1 )
+      create_card @player1.deck, 1
     end
     10.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( card: creature, player: @player2 )
+      create_card @player2.deck, 1
     end
 
-    1.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( card: creature, player: @player1 )
-    end
-    1.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Battlefield.create!( card: creature, player: @player2 )
-    end
+    create_card @player1.battlefield, 1
+    create_card @player1.battlefield, 1
 
-    1.times do
-      creature = Card.create!( metaverse_id: 3, turn_played: 0 )
-      Battlefield.create!( card: creature, player: @player1 )
-    end
-    1.times do
-      creature = Card.create!( metaverse_id: 3, turn_played: 0 )
-      Battlefield.create!( card: creature, player: @player2 )
-    end
+    create_card @player1.battlefield, 3
+    create_card @player2.battlefield, 3
 
     3.times do
-      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( card: forest, player: @player1 )
+      create_card @player1.battlefield, 2
     end
     3.times do
-      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( card: forest, player: @player2 )
+      create_card @player2.battlefield, 2
     end
 
-    1.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Hand.create!( card: creature, player: @player1 )
-    end
-    1.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Hand.create!( card: creature, player: @player2 )
-    end
-    1.times do
-      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
-      Hand.create!( card: forest, player: @player1 )
-    end
-    1.times do
-      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
-      Hand.create!( card: forest, player: @player2 )
-    end
-    1.times do
-      instant = Card.create!( metaverse_id: 4, turn_played: 0 )
-      Hand.create!( card: instant, player: @player1 )
-    end
-    1.times do
-      instant = Card.create!( metaverse_id: 4, turn_played: 0 )
-      Hand.create!( card: instant, player: @player2 )
-    end
+    create_card @player1.hand, 1
+    create_card @player2.hand, 1
+
+    create_card @player1.hand, 2
+    create_card @player2.hand, 2
+
+    create_card @player1.hand, 4
+    create_card @player2.hand, 4
+
+    create_card @player1.hand, 5
+    create_card @player2.hand, 5
 
     @action1 = ActionLog.create!( card: @player2.battlefield.first.card, card_action: "attack", player: @player2, duel: @duel )
     @action_target1 = ActionLogTarget.create!( card: @player1.battlefield.first.card, action_log: @action1, damage: 1 )
@@ -96,13 +67,17 @@ class DuelController < ApplicationController
 
   def play
     hand = Hand.find(params[:hand])
-    game_engine.card_action hand, params[:key]
+    target = nil
+    target = Battlefield.find(params[:target]) if params[:target]
+    game_engine.card_action hand, params[:key], target
     redirect_to duel_path duel
   end
 
   def ability
     battlefield = Battlefield.find(params[:battlefield])
-    game_engine.card_action battlefield, params[:key]
+    target = nil
+    target = Battlefield.find(params[:target]) if params[:target]
+    game_engine.card_action battlefield, params[:key], target
     redirect_to duel_path duel
   end
 
@@ -135,6 +110,13 @@ class DuelController < ApplicationController
 
   def game_engine
     GameEngine.new(duel)
+  end
+
+  private
+
+  def create_card(zone, metaverse_id)
+    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+    zone.create! card: card
   end
 
 end
