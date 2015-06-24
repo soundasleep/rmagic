@@ -4,7 +4,7 @@ RSpec.describe "Creature abilities" do
   before :each do
     setup
 
-    create_ability_creatures
+    create_battlefield_cards 3
     @duel.playing_phase!
 
     @card = first_add_life_creature

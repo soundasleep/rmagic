@@ -58,7 +58,7 @@ RSpec.describe "Creatures with a destroy ability" do
 
     context "can be played with mana" do
       it "and a target" do
-        expect(game_engine.can_do_action?(@card, "destroy", @duel.player1.battlefield.creatures.first)).to eq(true)
+        expect(game_engine.can_do_action?(@card, "destroy", @duel.player1.battlefield_creatures.first)).to eq(true)
       end
 
       it "but not without a target" do
@@ -93,21 +93,21 @@ RSpec.describe "Creatures with a destroy ability" do
 
     context "when activated" do
       before :each do
-        expect(@duel.player1.battlefield.creatures.length).to eq(1)
-        expect(@duel.player2.battlefield.creatures.length).to eq(1)
+        expect(@duel.player1.battlefield_creatures.length).to eq(1)
+        expect(@duel.player2.battlefield_creatures.length).to eq(1)
       end
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(@card, "destroy", @duel.player1.battlefield.creatures.first)
+          game_engine.card_action(@card, "destroy", @duel.player1.battlefield_creatures.first)
         end
 
         it "removes our creature" do
-          expect(@duel.player1.battlefield.creatures).to be_empty
+          expect(@duel.player1.battlefield_creatures).to be_empty
         end
 
         it "does not remove their creature" do
-          expect(@duel.player2.battlefield.creatures).to_not be_empty
+          expect(@duel.player2.battlefield_creatures).to_not be_empty
         end
 
         it "creates an action" do
@@ -121,15 +121,15 @@ RSpec.describe "Creatures with a destroy ability" do
 
       context "on their creature" do
         before :each do
-          game_engine.card_action(@card, "destroy", @duel.player2.battlefield.creatures.first)
+          game_engine.card_action(@card, "destroy", @duel.player2.battlefield_creatures.first)
         end
 
         it "removes their creature" do
-          expect(@duel.player2.battlefield.creatures).to be_empty
+          expect(@duel.player2.battlefield_creatures).to be_empty
         end
 
         it "does not remove our creature" do
-          expect(@duel.player1.battlefield.creatures).to_not be_empty
+          expect(@duel.player1.battlefield_creatures).to_not be_empty
         end
 
         it "creates an action" do
@@ -144,20 +144,20 @@ RSpec.describe "Creatures with a destroy ability" do
       context "after adding another creature" do
         before :each do
           create_battlefield_cards(1)
-          @target = @duel.player1.battlefield.creatures.second
+          @target = @duel.player1.battlefield_creatures.second
           game_engine.card_action(@card, "destroy", @target)
         end
 
         it "removes the second creature" do
-          expect(@duel.player1.battlefield.creatures).to_not include(@target)
+          expect(@duel.player1.battlefield_creatures).to_not include(@target)
         end
 
         it "does not remove the activated creature" do
-          expect(@duel.player1.battlefield.creatures).to include(first_destroy_creature)
+          expect(@duel.player1.battlefield_creatures).to include(first_destroy_creature)
         end
 
         it "does not remove their creature" do
-          expect(@duel.player2.battlefield.creatures).to_not be_empty
+          expect(@duel.player2.battlefield_creatures).to_not be_empty
         end
       end
 

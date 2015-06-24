@@ -9,7 +9,7 @@ class Battlefield < ActiveRecord::Base
     BattlefieldZone.new
   end
 
-  scope :creatures, -> { select { |b| b.card.card_type.is_creature? } }
-  scope :lands, -> { select { |b| b.card.card_type.is_land? } }
+  # we can't use scopes; they do not clear caches when the underlying
+  # model is reloaded :(
 
 end

@@ -9,7 +9,4 @@ class Graveyard < ActiveRecord::Base
     GraveyardZone.new
   end
 
-  scope :creatures, -> { select { |b| b.card.card_type.is_creature? } }
-  scope :lands, -> { select { |b| b.card.card_type.is_land? } }
-
 end

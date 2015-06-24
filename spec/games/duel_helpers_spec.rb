@@ -13,11 +13,11 @@ RSpec.describe Duel do
       end
 
       it "contains three lands" do
-        expect(@duel.player1.battlefield.lands.length).to eq(3)
+        expect(@duel.player1.battlefield_lands.length).to eq(3)
       end
 
       it "contains zero creatures" do
-        expect(@duel.player1.battlefield.creatures.length).to eq(0)
+        expect(@duel.player1.battlefield_creatures.length).to eq(0)
       end
 
       context "adding a creature" do
@@ -30,11 +30,11 @@ RSpec.describe Duel do
         end
 
         it "contains three lands" do
-          expect(@duel.player1.battlefield.lands.length).to eq(3)
+          expect(@duel.player1.battlefield_lands.length).to eq(3)
         end
 
         it "contains one creature" do
-          expect(@duel.player1.battlefield.creatures.length).to eq(1)
+          expect(@duel.player1.battlefield_creatures.length).to eq(1)
         end
       end
     end
@@ -45,11 +45,11 @@ RSpec.describe Duel do
       end
 
       it "contains zero lands" do
-        expect(@duel.player1.hand.lands.length).to eq(0)
+        expect(@duel.player1.hand_lands.length).to eq(0)
       end
 
       it "contains zero creatures" do
-        expect(@duel.player1.hand.creatures.length).to eq(0)
+        expect(@duel.player1.hand_creatures.length).to eq(0)
       end
 
       context "adding a creature" do
@@ -62,11 +62,11 @@ RSpec.describe Duel do
         end
 
         it "contains zero lands" do
-          expect(@duel.player1.hand.lands.length).to eq(0)
+          expect(@duel.player1.hand_lands.length).to eq(0)
         end
 
         it "contains one creature" do
-          expect(@duel.player1.hand.creatures.length).to eq(1)
+          expect(@duel.player1.hand_creatures.length).to eq(1)
         end
       end
     end

@@ -9,6 +9,10 @@ RSpec.describe "Attacking" do
     @duel.attacking_phase!
   end
 
+  def our_creatures
+    @duel.player1.battlefield_creatures.map{ |b| b.card }
+  end
+
   it "at the start of a duel, we have no declared attackers" do
     expect(@duel.declared_attackers).to be_empty
   end

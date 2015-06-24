@@ -9,21 +9,13 @@ module SetupGame
     @duel = Duel.create!(player1: player1, player2: player2)
 
     10.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( card: creature, player: player1 )
-    end
-    10.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      Deck.create!( card: creature, player: player2 )
+      create_card @duel.player1.deck, 1
+      create_card @duel.player2.deck, 1
     end
 
     3.times do
-      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( card: forest, player: player1 )
-    end
-    3.times do
-      forest = Card.create!( metaverse_id: 2, turn_played: 0 )
-      Battlefield.create!( card: forest, player: player2 )
+      create_card @duel.player1.battlefield, 2
+      create_card @duel.player2.battlefield, 2
     end
 
     @duel.save!
@@ -32,43 +24,21 @@ module SetupGame
 
   def create_creatures
     3.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      @duel.player1.battlefield.create! card: creature
+      create_card @duel.player1.battlefield, 1
     end
     2.times do
-      creature = Card.create!( metaverse_id: 1, turn_played: 0 )
-      @duel.player2.battlefield.create! card: creature
+      create_card @duel.player2.battlefield, 1
     end
   end
 
   def create_hand_cards(metaverse_id)
-    1.times do
-      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      @duel.player1.hand.create card: card
-    end
-    1.times do
-      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      @duel.player2.hand.create card: card
-    end
+    create_card @duel.player1.hand, metaverse_id
+    create_card @duel.player2.hand, metaverse_id
   end
 
   def create_battlefield_cards(metaverse_id)
-    1.times do
-      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      @duel.player1.battlefield.create! card: card
-    end
-    1.times do
-      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      @duel.player2.battlefield.create! card: card
-    end
-  end
-
-  def create_ability_creatures
-    create_battlefield_cards(3)
-  end
-
-  def our_creatures
-    @duel.player1.battlefield.creatures.map{ |b| b.card }
+    create_card @duel.player1.battlefield, metaverse_id
+    create_card @duel.player2.battlefield, metaverse_id
   end
 
   def available_attackers
@@ -117,7 +87,7 @@ module SetupGame
 
   def tap_all_lands
     # tap all battlefield lands
-    @duel.player1.battlefield.lands.each do |b|
+    @duel.player1.battlefield_lands.each do |b|
       game_engine.card_action(b, "tap")
     end
   end
@@ -152,6 +122,11 @@ module SetupGame
       assert_operator i, :<, 100, "it took too long to get to the next priority"
       game_engine.pass
     end
+  end
+
+  def create_card(zone, metaverse_id)
+    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+    zone.create! card: card
   end
 
 end
