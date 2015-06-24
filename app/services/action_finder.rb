@@ -79,7 +79,6 @@ class ActionFinder
   end
 
   def available_attackers(player)
-    # TODO replace with PossibleAttacker
     if duel.phase.can_declare_attackers? and duel.current_player == player and duel.priority_player == player
       return duel.priority_player.battlefield
           .select{ |b| b.card.card_type.is_creature? }

@@ -1,6 +1,5 @@
 require_relative "setup_game"
 
-# TODO action should have a 'zone' parameter (battlefield, graveyard, exile etc)
 RSpec.describe "Instants destroy" do
   before :each do
     setup

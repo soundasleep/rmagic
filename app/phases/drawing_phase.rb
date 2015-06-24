@@ -24,7 +24,6 @@ class DrawingPhase < Phase
     # untap all tapped cards for the current player
     if duel.current_player == duel.priority_player
       duel.priority_player.battlefield.select { |battlefield| battlefield.card.is_tapped? }.each do |battlefield|
-        # TODO remove PossibleAbility, replace with PossibleAction maybe?
         game_engine.card_action(PossibleAbility.new(source: battlefield, key: "untap"))
       end
 

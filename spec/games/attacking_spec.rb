@@ -18,7 +18,6 @@ RSpec.describe "Attacking" do
   end
 
   it "we can declare three attackers on our turn" do
-    # TODO replace with PossibleAttacker
     expect(available_attackers.map{ |b| b.card }).to eq(our_creatures)
   end
 
