@@ -4,7 +4,7 @@ RSpec.describe "Instants" do
   before :each do
     setup
 
-    create_instants
+    create_hand_cards(4)
     @duel.playing_phase!
 
     @card = first_instant
@@ -32,7 +32,7 @@ RSpec.describe "Instants" do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(@card, "instant")).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "instant"))).to eq(false)
     end
 
     it "is not listed as an available action" do
@@ -46,21 +46,33 @@ RSpec.describe "Instants" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(@card, "instant")).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "instant"))).to eq(true)
     end
 
     it "is listed as an available action" do
       expect(first_instant_available_actions.length).to eq(1)
 
       action = first_instant_available_actions.first
-      expect(action[:source]).to eq(@card)
-      expect(action[:action]).to eq("instant")
+      expect(action.source).to eq(@card)
+      expect(action.key).to eq("instant")
     end
 
-    it "all actions have :source and :action specified" do
+    it "all actions have source and key specified" do
       available_actions[:play].each do |a|
-        expect(a[:source]).to_not be_nil
-        expect(a[:action]).to_not be_nil
+        expect(a.source).to_not be_nil
+        expect(a.key).to_not be_nil
+      end
+    end
+
+    it "all actions have a description" do
+      available_actions[:play].each do |a|
+        expect(a.description).to_not be_nil
+      end
+    end
+
+    it "all actions do not have a target" do
+      available_actions[:play].each do |a|
+        expect(a.target).to be_nil
       end
     end
 
@@ -69,7 +81,7 @@ RSpec.describe "Instants" do
         expect(@duel.player1.life).to eq(20)
         expect(@duel.player2.life).to eq(20)
         expect(@duel.player1.mana_green).to eq(3)
-        game_engine.card_action(@card, "instant")
+        game_engine.card_action(PossibleAbility.new(source: @card, key: "instant"))
       end
 
       it "adds life" do

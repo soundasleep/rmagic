@@ -7,6 +7,10 @@ class AttackingPhase < Phase
     true
   end
 
+  def can_activate?
+    true
+  end
+
   def can_declare_attackers?
     true
   end

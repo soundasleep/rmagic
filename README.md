@@ -25,7 +25,7 @@ We try to use as few model objects as possible.
 
 ## TODO
 
-* Rewrite specs with contexts rather than `it`s
+* Rewrite specs using `let` blocks
 * Represents actions as classes/services rather than methods?
 * Support more game phases correctly
 * Instants targeting creatures

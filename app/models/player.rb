@@ -89,4 +89,29 @@ class Player < ActiveRecord::Base
     update! life: life - n
   end
 
+  # TODO move these into a (testable) helper?
+  def battlefield_creatures
+    select_creatures battlefield
+  end
+
+  def battlefield_lands
+    select_lands battlefield
+  end
+
+  def hand_creatures
+    select_creatures hand
+  end
+
+  def hand_lands
+    select_lands hand
+  end
+
+  def select_creatures(collection)
+    collection.select { |b| b.card.card_type.is_creature? }
+  end
+
+  def select_lands(collection)
+    collection.select { |b| b.card.card_type.is_land? }
+  end
+
 end

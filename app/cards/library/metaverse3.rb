@@ -20,18 +20,19 @@ class Library::Metaverse3 < CardType
     }
   end
 
-  def add_life_cost(game_engine, zone_card)
+  def add_life_cost(game_engine, zone_card, target = nil)
     return {
       green: 1
     }
   end
 
-  def can_add_life?(game_engine, zone_card)
-    return game_engine.duel.priority_player == zone_card.player && game_engine.duel.phase.can_instant?
+  def can_add_life?(game_engine, zone_card, target = nil)
+    return target == nil &&
+        game_engine.duel.priority_player == zone_card.player && game_engine.duel.phase.can_instant?
   end
 
   # an instant
-  def do_add_life(game_engine, zone_card)
+  def do_add_life(game_engine, zone_card, target = nil)
     zone_card.player.add_life!(1)
   end
 

@@ -8,8 +8,8 @@ RSpec.describe "Defending" do
 
     @duel.attacking_phase!
 
-    @card = available_attackers.first
-    game_engine.declare_attackers [@card]
+    @attacker = available_attackers.first
+    game_engine.declare_attackers [@attacker]
 
     game_engine.pass
   end
@@ -32,109 +32,97 @@ RSpec.describe "Defending" do
     expect(@duel.declared_attackers.first.target_player).to eq(@duel.player2)
   end
 
-  it "a declared defender does not come up as another available defend option" do
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-    defender = defends.first
-    game_engine.declare_defender defender
-
-    game_engine.available_actions(@duel.player2)[:defend].each do |defend|
-      expect(defend[:target]).to_not eq(defend[:source])
-    end
-  end
-
-  it "a defender can be declared and blocks damage" do
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-
-    game_engine.declare_defender defends.first
-
-    pass_until_next_turn
-
-    expect(@duel.player2.life).to eq(20)
-  end
-
-  it "a declared defender creates an action" do
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-    card = defends.first
-
-    expect(defending_actions(card[:source]).count).to eq(0)
-
-    game_engine.declare_defender card
-    expect(defending_actions(card[:source]).count).to eq(1)
-  end
-
-  it "a defender can be declared and referenced later" do
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-
-    expect(@duel.declared_defenders.count).to eq(0)
-    game_engine.declare_defender defends.first
-    expect(@duel.declared_defenders.count).to eq(1)
-  end
-
-  it "declared defenders do not persist into the next turn" do
-    defends = game_engine.available_actions(@duel.player2)[:defend]
-
-    expect(@duel.declared_defenders.count).to eq(0)
-    game_engine.declare_defender defends.first
-    expect(@duel.declared_defenders.count).to eq(1)
-
-    pass_until_next_player
-    expect(@duel.declared_defenders.count).to eq(0)
-  end
-
-  context "when declaring defenders" do
+  context "when finding possible defenders" do
     before :each do
-      defends = game_engine.available_actions(@duel.player2)[:defend]
-      game_engine.declare_defender defends.first
-
-      @defender = defends.first[:source]
-      @attacker = defends.first[:target]
+      @defends = game_engine.available_actions(@duel.player2)[:defend]
+      @defender = @defends.first
     end
 
-    it "attacking actions are created when there are defenders and the attack resolves" do
-      expect(attacking_actions(@card).count).to eq(0)
+    it "a declared defender creates an action" do
+      expect(defending_actions(@defender.source).count).to eq(0)
 
-      pass_until_next_turn
-
-      expect(attacking_actions(@card).count).to eq(1)
+      game_engine.declare_defender @defender
+      expect(defending_actions(@defender.source).count).to eq(1)
     end
 
-    it "attacking actions references the attacked defender" do
-      expect(attacking_actions(@card).count).to eq(0)
-
-      pass_until_next_turn
-
-      action = attacking_actions(@card).first
-      expect(action.targets.first.card).to eq(@defender.card)
+    it "a defender can be declared and referenced later" do
+      expect(@duel.declared_defenders.count).to eq(0)
+      game_engine.declare_defender @defender
+      expect(@duel.declared_defenders.count).to eq(1)
     end
 
-    it "attacking actions include a reference to defending creatures after the attack resolves" do
-      pass_until_next_turn
+    it "declared defenders do not persist into the next turn" do
+      expect(@duel.declared_defenders.count).to eq(0)
+      game_engine.declare_defender @defender
+      expect(@duel.declared_defenders.count).to eq(1)
 
-      action = attacking_actions(@card).first
-      expect(action.card).to eq(@attacker.card)
+      pass_until_next_player
+      expect(@duel.declared_defenders.count).to eq(0)
     end
 
-    it "defending actions are created when there are defenders and the attack resolves" do
-      expect(defended_actions(@defender).count).to eq(0)
+    context "and declaring a defender" do
+      before :each do
+        game_engine.declare_defender @defender
+      end
 
-      pass_until_next_turn
+      it "the defender does not come up as another available defend option" do
+        game_engine.available_actions(@duel.player2)[:defend].each do |defend|
+          expect(defend.target).to_not eq(defend.source)
+        end
+      end
 
-      expect(defended_actions(@defender).count).to eq(1)
-    end
+      context "after attacking" do
+        before :each do
+          pass_until_next_turn
+        end
 
-    it "defending actions reference the defended attacker" do
-      pass_until_next_turn
+        it "blocks damage" do
+          expect(@duel.player2.life).to eq(20)
+        end
 
-      expect(defended_actions(@defender).first.targets.map{ |t| t.card }).to include(@card.card)
+        it "attacking actions include a reference to defending creatures after the attack resolves" do
+          action = attacking_actions(@attacker).first
+          expect(action.card).to eq(@defender.target.card)
+        end
+
+        it "defending actions reference the defended attacker" do
+          expect(defended_actions(@defender.source).first.targets.map{ |t| t.card }).to include(@attacker.card)
+        end
+      end
+
+      it "attacking actions are created when there are defenders and the attack resolves" do
+        expect(attacking_actions(@attacker).count).to eq(0)
+
+        pass_until_next_turn
+
+        expect(attacking_actions(@attacker).count).to eq(1)
+      end
+
+      it "attacking actions references the attacked defender" do
+        expect(attacking_actions(@attacker).count).to eq(0)
+
+        pass_until_next_turn
+
+        action = attacking_actions(@attacker).first
+        expect(action.targets.first.card).to eq(@defender.source.card)
+      end
+
+      it "defending actions are created when there are defenders and the attack resolves" do
+        expect(defended_actions(@defender.source).count).to eq(0)
+
+        pass_until_next_turn
+
+        expect(defended_actions(@defender.source).count).to eq(1)
+      end
     end
   end
 
   it "attacking actions are created when there are no defenders and the attack resolves" do
-    expect(attacking_actions(@card).count).to eq(0)
+    expect(attacking_actions(@attacker).count).to eq(0)
 
     pass_until_next_turn
 
-    expect(attacking_actions(@card).count).to eq(1)
+    expect(attacking_actions(@attacker).count).to eq(1)
   end
 
 end

@@ -1,8 +1,6 @@
-class Library::Metaverse4 < CardType
-  include Playable
-
+class Library::Metaverse5 < CardType
   def name
-    "Instant add life"
+    "Instant destroy creature"
   end
 
   def is_instant?
@@ -15,15 +13,17 @@ class Library::Metaverse4 < CardType
     }
   end
 
-  def instant_cost(game_engine, hand, target = nil)
+  def destroy_cost(game_engine, hand, target = nil)
     return {
       colourless: 1
     }
   end
 
   # ignoring mana costs
-  def can_instant?(game_engine, hand, target = nil)
-    return target == nil &&
+  def can_destroy?(game_engine, hand, target = nil)
+    return target != nil &&
+        target.player.battlefield.include?(target) &&
+        target.card.card_type.is_creature? &&
         game_engine.duel.priority_player == hand.player &&
         game_engine.duel.phase.can_instant? &&
         hand.zone.can_instant_from? &&
@@ -31,8 +31,8 @@ class Library::Metaverse4 < CardType
   end
 
   # an instant
-  def do_instant(game_engine, hand, target = nil)
-    hand.player.add_life!(1)
+  def do_destroy(game_engine, hand, target = nil)
+    game_engine.destroy target
 
     # and then put it into the graveyard
     game_engine.move_into_graveyard hand.player, hand

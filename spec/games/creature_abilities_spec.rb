@@ -4,7 +4,7 @@ RSpec.describe "Creature abilities" do
   before :each do
     setup
 
-    create_ability_creatures
+    create_battlefield_cards 3
     @duel.playing_phase!
 
     @card = first_add_life_creature
@@ -24,7 +24,7 @@ RSpec.describe "Creature abilities" do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(@card, "add_life")).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "add_life"))).to eq(false)
     end
 
     it "is not listed as an available action" do
@@ -38,21 +38,33 @@ RSpec.describe "Creature abilities" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(@card, "add_life")).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "add_life"))).to eq(true)
     end
 
     it "is listed as an available action" do
       expect(first_creature_available_add_life_actions.length).to eq(1)
 
       action = first_creature_available_add_life_actions.first
-      expect(action[:source]).to eq(@card)
-      expect(action[:action]).to eq("add_life")
+      expect(action.source).to eq(@card)
+      expect(action.key).to eq("add_life")
     end
 
-    it "all actions have :source and :action specified" do
+    it "all actions have source and key specified" do
       available_actions[:ability].each do |a|
-        expect(a[:source]).to_not be_nil
-        expect(a[:action]).to_not be_nil
+        expect(a.source).to_not be_nil
+        expect(a.key).to_not be_nil
+      end
+    end
+
+    it "all actions have a description" do
+      available_actions[:ability].each do |a|
+        expect(a.description).to_not be_nil
+      end
+    end
+
+    it "all actions do not have a target" do
+      available_actions[:ability].each do |a|
+        expect(a.target).to be_nil
       end
     end
 
@@ -61,7 +73,7 @@ RSpec.describe "Creature abilities" do
         expect(@duel.player1.life).to eq(20)
         expect(@duel.player2.life).to eq(20)
         expect(@duel.player1.mana_green).to eq(3)
-        game_engine.card_action(@card, "add_life")
+        game_engine.card_action(PossibleAbility.new(source: @card, key: "add_life"))
       end
 
       it "adds life" do

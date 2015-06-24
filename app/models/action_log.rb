@@ -43,7 +43,39 @@ class ActionLog < ActiveRecord::Base
     duel.action_logs.create! player: player, global_action: "draw"
   end
 
-  def self.card_action(duel, player, card, key)
+  def self.card_action(duel, player, action)
+    # TODO action.targets
+    self.generic_card_action duel, player, action.source.card, action.key
+  end
+
+  def self.defend_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "defend"
+  end
+
+  def self.declare_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "declare"
+  end
+
+  def self.attack_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "attack"
+  end
+
+  def self.defended_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "defended"
+  end
+
+  def self.graveyard_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "graveyard"
+  end
+
+  def self.battlefield_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "battlefield"
+  end
+
+  private
+
+  def self.generic_card_action(duel, player, card, key)
     duel.action_logs.create! player: player, card: card, card_action: key
   end
+
 end

@@ -3,4 +3,8 @@ class BattlefieldZone < Zone
     true
   end
 
+  def can_activate_from?
+    true
+  end
+
 end

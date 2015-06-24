@@ -1,12 +1,13 @@
 module Playable
 
-  def play_cost(game_engine, hand)
+  def play_cost(game_engine, hand, target = nil)
     mana_cost
   end
 
   # ignoring mana costs
-  def can_play?(game_engine, hand)
-    return game_engine.duel.priority_player == hand.player &&
+  def can_play?(game_engine, hand, target = nil)
+    return target == nil &&
+        game_engine.duel.priority_player == hand.player &&
         game_engine.duel.current_player == hand.player &&
         game_engine.duel.phase.can_play? &&
         hand.zone.can_play_from? &&
@@ -14,7 +15,7 @@ module Playable
   end
 
   # ability mana cost has already been consumed
-  def do_play(game_engine, hand)
+  def do_play(game_engine, hand, target = nil)
     # put it into the battlefield
     game_engine.move_into_battlefield hand.player, hand
 

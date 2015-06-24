@@ -9,4 +9,8 @@ class DeclaredAttacker < ActiveRecord::Base
   validates :target_player, presence: true
   validates :player, presence: true
 
+  def to_text
+    card.card_type.to_text
+  end
+
 end

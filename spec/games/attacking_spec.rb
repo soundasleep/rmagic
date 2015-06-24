@@ -9,6 +9,10 @@ RSpec.describe "Attacking" do
     @duel.attacking_phase!
   end
 
+  def our_creatures
+    @duel.player1.battlefield_creatures.map{ |b| b.card }
+  end
+
   it "at the start of a duel, we have no declared attackers" do
     expect(@duel.declared_attackers).to be_empty
   end
@@ -43,23 +47,32 @@ RSpec.describe "Attacking" do
       it "we can declare two defenders (from player 2)" do
         defends = game_engine.available_actions(@duel.player2)[:defend]
 
-        expect(defends.to_a.uniq{ |d| d[:source] }.count).to eq(2)
+        expect(defends.to_a.uniq{ |d| d.source }.count).to eq(2)
       end
 
-      it "defenders have an card and a target" do
-        defends = game_engine.available_actions(@duel.player2)[:defend]
-        defends.each do |d|
-          expect(d[:source]).to_not be_nil, "#{d} had no :source"
-          expect(d[:target]).to_not be_nil, "#{d} had no :target"
-          expect(d[:source].card).to_not be_nil, "#{d} had no :source.card"
-          expect(d[:target].card).to_not be_nil, "#{d} had no :target.card"
+      context "defenders" do
+        before :each do
+          @defenders = game_engine.available_actions(@duel.player2)[:defend]
         end
-      end
 
-      it "each defender can defend one attacker" do
-        defends = game_engine.available_actions(@duel.player2)[:defend]
+        it "each have a source and target" do
+          @defenders.each do |d|
+            expect(d.source).to_not be_nil
+            expect(d.target).to_not be_nil
+            expect(d.source.card).to_not be_nil
+            expect(d.target.card).to_not be_nil
+          end
+        end
 
-        expect(defends.count).to eq(2 * 3)
+        it "each have a description" do
+          @defenders.each do |d|
+            expect(d.description).to_not be_nil
+          end
+        end
+
+        it "can each defend one attacker" do
+          expect(@defenders.count).to eq(2 * 3)
+        end
       end
     end
 

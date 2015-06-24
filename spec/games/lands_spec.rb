@@ -7,7 +7,7 @@ RSpec.describe "Lands" do
     create_hand_cards 2
     @duel.playing_phase!
 
-    @hand = first_hand_land
+    @card = first_hand_land
   end
 
   def tap_actions(zone_card)
@@ -27,15 +27,15 @@ RSpec.describe "Lands" do
   end
 
   def first_hand_land_available_play_actions
-    available_play_actions("play").select{ |a| a[:source].card == first_hand_land.card }
+    available_play_actions("play").select{ |a| a.source.card == first_hand_land.card }
   end
 
   def first_land_available_tap_actions
-    available_ability_actions("tap").select{ |a| a[:source].card == first_land.card }
+    available_ability_actions("tap").select{ |a| a.source.card == first_land.card }
   end
 
   def first_land_available_untap_actions
-    available_ability_actions("untap").select{ |a| a[:source].card == first_land.card }
+    available_ability_actions("untap").select{ |a| a.source.card == first_land.card }
   end
 
   it "can be created manually" do
@@ -48,35 +48,47 @@ RSpec.describe "Lands" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(@hand, "play")).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: @card, key: "play"))).to eq(true)
     end
 
     it "are listed as an available action" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action[:source]).to eq(@hand)
-      expect(action[:action]).to eq("play")
+      expect(action.source).to eq(@card)
+      expect(action.key).to eq("play")
     end
   end
 
   context "without mana" do
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(@hand, "play")).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: @card, key: "play"))).to eq(true)
     end
 
     it "are listed as an available action" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action[:source]).to eq(@hand)
-      expect(action[:action]).to eq("play")
+      expect(action.source).to eq(@card)
+      expect(action.key).to eq("play")
     end
 
-    it "all actions have :source and :action specified" do
+    it "all actions have source and key specified" do
       available_actions[:play].each do |a|
-        expect(a[:source]).to_not be_nil
-        expect(a[:action]).to_not be_nil
+        expect(a.source).to_not be_nil
+        expect(a.key).to_not be_nil
+      end
+    end
+
+    it "all actions do not have a target" do
+      available_actions[:play].each do |a|
+        expect(a.target).to be_nil
+      end
+    end
+
+    it "all actions have a description specified" do
+      available_actions[:play].each do |a|
+        expect(a.description).to_not be_nil
       end
     end
 
@@ -88,11 +100,11 @@ RSpec.describe "Lands" do
       before :each do
         expect(played_lands(@duel.player1)).to be_empty
         expect(played_lands(@duel.player2)).to be_empty
-        game_engine.card_action(@hand, "play")
+        game_engine.card_action(PossiblePlay.new(source: @card, key: "play"))
       end
 
       it "adds a creature to the battlefield" do
-        expect(played_lands(@duel.player1).map{ |c| c.card }).to eq([@hand.card])
+        expect(played_lands(@duel.player1).map{ |c| c.card }).to eq([@card.card])
       end
 
       it "does not add a creature for the other player" do
@@ -100,7 +112,7 @@ RSpec.describe "Lands" do
       end
 
       it "creates an action" do
-        expect(play_actions(@hand).map{ |card| card.card }).to eq([@hand.card])
+        expect(play_actions(@card).map{ |card| card.card }).to eq([@card.card])
       end
 
       it "removes the land from the hand" do
@@ -120,7 +132,7 @@ RSpec.describe "Lands" do
     end
 
     it "cannot be tapped" do
-      actions = available_play_actions("tap").select{ |a| a[:source].card == first_hand_land.card }
+      actions = available_play_actions("tap").select{ |a| a.source.card == first_hand_land.card }
       expect(actions).to be_empty
     end
   end
@@ -262,7 +274,7 @@ RSpec.describe "Lands" do
 
     context "after being tapped" do
       before :each do
-        game_engine.card_action(first_land, "tap")
+        game_engine.card_action(PossibleAbility.new(source: first_land, key: "tap"))
       end
 
       it "cannot be untapped" do

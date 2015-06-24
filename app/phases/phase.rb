@@ -11,6 +11,10 @@ class Phase
     false
   end
 
+  def can_activate?
+    false
+  end
+
   def can_declare_attackers?
     false
   end

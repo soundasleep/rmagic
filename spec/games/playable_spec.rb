@@ -17,7 +17,7 @@ RSpec.describe "Playable" do
   end
 
   def battlefield_creatures
-    @duel.player1.battlefield.select{ |b| !b.card.card_type.is_land? }.map{ |b| b.card }
+    @duel.player1.battlefield_creatures.map{ |b| b.card }
   end
 
   it "we can set and compare phase directly" do
@@ -53,11 +53,11 @@ RSpec.describe "Playable" do
     end
 
     it "allows us to play a creature" do
-      expect(available_actions[:play].map { |h| h[:source].card }).to eq([hand.first!.card])
+      expect(available_actions[:play].map { |h| h.source.card }).to eq([hand.first!.card])
     end
 
     it "allows us to play a creature with the play action" do
-      expect(available_actions[:play].map { |h| h[:action] }).to eq(["play"])
+      expect(available_actions[:play].map { |h| h.key }).to eq(["play"])
     end
 
     context "playing a creature" do
@@ -65,7 +65,7 @@ RSpec.describe "Playable" do
         expect(battlefield_creatures).to be_empty
 
         @card = hand.first!
-        game_engine.card_action @card, "play"
+        game_engine.card_action PossiblePlay.new(source: @card, key: "play")
       end
 
       it "creates an action" do
@@ -106,7 +106,7 @@ RSpec.describe "Playable" do
   end
 
   def battlefield_can_be_tapped
-    available_actions[:ability].select{ |a| a[:action] == "tap" }.map{ |a| a[:source].card }
+    available_actions[:ability].select{ |a| a.key == "tap" }.map{ |a| a.source.card }
   end
 
   it "lands can be tapped" do
