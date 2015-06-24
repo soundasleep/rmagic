@@ -45,37 +45,37 @@ class ActionLog < ActiveRecord::Base
 
   def self.card_action(duel, player, action)
     # TODO action.targets
-    duel.action_logs.create! player: player, card: action.source.card, card_action: action.key
+    self.generic_card_action duel, player, action.source.card, action.key
   end
 
-  def self.defend_card_action(duel, player, card)
-    # TODO don't hack with PossibleAbility
-    self.card_action(duel, player, PossibleAbility.new(source: card, key: "defend"))
+  def self.defend_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "defend"
   end
 
-  def self.declare_card_action(duel, player, card)
-    # TODO don't hack with PossibleAbility
-    self.card_action(duel, player, PossibleAbility.new(source: card, key: "declare"))
+  def self.declare_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "declare"
   end
 
-  def self.attack_card_action(duel, player, card)
-    # TODO don't hack with PossibleAbility
-    self.card_action(duel, player, PossibleAbility.new(source: card, key: "attack"))
+  def self.attack_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "attack"
   end
 
-  def self.defended_card_action(duel, player, card)
-    # TODO don't hack with PossibleAbility
-    self.card_action(duel, player, PossibleAbility.new(source: card, key: "defended"))
+  def self.defended_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "defended"
   end
 
-  def self.graveyard_card_action(duel, player, card)
-    # TODO don't hack with PossibleAbility
-    self.card_action(duel, player, PossibleAbility.new(source: card, key: "graveyard"))
+  def self.graveyard_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "graveyard"
   end
 
-  def self.battlefield_card_action(duel, player, card)
-    # TODO don't hack with PossibleAbility
-    self.card_action(duel, player, PossibleAbility.new(source: card, key: "battlefield"))
+  def self.battlefield_card_action(duel, player, zone_card)
+    self.generic_card_action duel, player, zone_card.card, "battlefield"
+  end
+
+  private
+
+  def self.generic_card_action(duel, player, card, key)
+    duel.action_logs.create! player: player, card: card, card_action: key
   end
 
 end
