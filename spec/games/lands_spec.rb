@@ -1,13 +1,13 @@
 require_relative "setup_game"
 
 RSpec.describe "Lands" do
+  let(:card) { first_hand_land }
+
   before :each do
     setup
 
     create_hand_cards 2
     @duel.playing_phase!
-
-    @card = first_hand_land
   end
 
   def tap_actions(zone_card)
@@ -48,28 +48,28 @@ RSpec.describe "Lands" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: @card, key: "play"))).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to eq(true)
     end
 
     it "are listed as an available action" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action.source).to eq(@card)
+      expect(action.source).to eq(card)
       expect(action.key).to eq("play")
     end
   end
 
   context "without mana" do
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: @card, key: "play"))).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to eq(true)
     end
 
     it "are listed as an available action" do
       expect(first_hand_land_available_play_actions.length).to eq(1)
 
       action = first_hand_land_available_play_actions.first
-      expect(action.source).to eq(@card)
+      expect(action.source).to eq(card)
       expect(action.key).to eq("play")
     end
 
@@ -100,11 +100,11 @@ RSpec.describe "Lands" do
       before :each do
         expect(played_lands(@duel.player1)).to be_empty
         expect(played_lands(@duel.player2)).to be_empty
-        game_engine.card_action(PossiblePlay.new(source: @card, key: "play"))
+        game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
       end
 
       it "adds a creature to the battlefield" do
-        expect(played_lands(@duel.player1).map{ |c| c.card }).to eq([@card.card])
+        expect(played_lands(@duel.player1).map{ |c| c.card }).to eq([card.card])
       end
 
       it "does not add a creature for the other player" do
@@ -112,7 +112,7 @@ RSpec.describe "Lands" do
       end
 
       it "creates an action" do
-        expect(play_actions(@card).map{ |card| card.card }).to eq([@card.card])
+        expect(play_actions(card).map{ |card| card.card }).to eq([card.card])
       end
 
       it "removes the land from the hand" do

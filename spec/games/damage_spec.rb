@@ -33,20 +33,20 @@ RSpec.describe "Damage" do
     expect(@duel.player1.battlefield).to_not include(card)
   end
 
+  let(:creature) { first_creature }
+
   context "too much damage" do
     before :each do
-      @creature = first_creature
-
-      @creature.card.damage! 100
+      creature.card.damage! 100
     end
 
     it "causes cards to be removed at the next turn" do
       pass_until_next_turn
-      expect(@duel.player1.battlefield).to_not include(@creature)
+      expect(@duel.player1.battlefield).to_not include(creature)
     end
 
     it "provides the destroyed flag" do
-      expect(@creature.card.is_destroyed?).to eq(true)
+      expect(creature.card.is_destroyed?).to eq(true)
     end
   end
 
@@ -85,30 +85,29 @@ RSpec.describe "Damage" do
 
   context "temporary damage" do
     before :each do
-      @creature = first_creature
-      expect(@creature.card.card_type.toughness).to_not eq(1)
-      @creature.card.damage! 1
+      expect(creature.card.card_type.toughness).to_not eq(1)
+      creature.card.damage! 1
     end
 
     it "does not cause a card to be removed" do
       pass_until_next_turn
 
-      expect(@duel.player1.battlefield).to include(@creature)
+      expect(@duel.player1.battlefield).to include(creature)
     end
 
     it "is not removed until the next players turn" do
       game_engine.pass
-      expect(@creature.card.damage).to eq(1)
+      expect(creature.card.damage).to eq(1)
 
-      @creature.card.reload
-      expect(@creature.card.damage).to eq(1)
+      creature.card.reload
+      expect(creature.card.damage).to eq(1)
     end
 
     it "is removed at the start of the next players turn" do
       pass_until_next_turn
 
-      @creature.card.reload
-      expect(@creature.card.damage).to eq(0)
+      creature.card.reload
+      expect(creature.card.damage).to eq(0)
     end
   end
 

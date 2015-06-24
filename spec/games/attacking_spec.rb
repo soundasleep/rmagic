@@ -51,12 +51,10 @@ RSpec.describe "Attacking" do
       end
 
       context "defenders" do
-        before :each do
-          @defenders = game_engine.available_actions(@duel.player2)[:defend]
-        end
+        let(:defenders) { game_engine.available_actions(@duel.player2)[:defend] }
 
         it "each have a source and target" do
-          @defenders.each do |d|
+          defenders.each do |d|
             expect(d.source).to_not be_nil
             expect(d.target).to_not be_nil
             expect(d.source.card).to_not be_nil
@@ -65,13 +63,13 @@ RSpec.describe "Attacking" do
         end
 
         it "each have a description" do
-          @defenders.each do |d|
+          defenders.each do |d|
             expect(d.description).to_not be_nil
           end
         end
 
         it "can each defend one attacker" do
-          expect(@defenders.count).to eq(2 * 3)
+          expect(defenders.count).to eq(2 * 3)
         end
       end
     end
@@ -98,17 +96,17 @@ RSpec.describe "Attacking" do
   end
 
   context "when declaring one attacker" do
-    before :each do
-      @attacker = available_attackers.first
+    let(:attacker) { available_attackers.first }
 
-      expect(declaring_actions(@attacker).count).to eq(0)
+    before :each do
+      expect(declaring_actions(attacker).count).to eq(0)
       expect(@duel.declared_attackers.count).to eq(0)
 
-      game_engine.declare_attackers [@attacker]
+      game_engine.declare_attackers [attacker]
     end
 
     it "declaring an attacker creates an action" do
-      expect(declaring_actions(@attacker).count).to eq(1)
+      expect(declaring_actions(attacker).count).to eq(1)
     end
 
     it "declared attackers do not persist into the next turn" do
@@ -132,7 +130,7 @@ RSpec.describe "Attacking" do
 
       pass_until_next_turn
 
-      expect(@duel.player2.life).to eq(20 - @attacker.card.card_type.power)
+      expect(@duel.player2.life).to eq(20 - attacker.card.card_type.power)
     end
   end
 

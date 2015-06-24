@@ -1,6 +1,8 @@
 require_relative "setup_game"
 
 RSpec.describe "Defending Groups" do
+  let(:attacker) { available_attackers.first }
+
   before :each do
     setup
 
@@ -8,8 +10,7 @@ RSpec.describe "Defending Groups" do
 
     @duel.attacking_phase!
 
-    @attacker = available_attackers.first
-    game_engine.declare_attackers [@attacker]
+    game_engine.declare_attackers [attacker]
 
     game_engine.pass
 
@@ -32,7 +33,7 @@ RSpec.describe "Defending Groups" do
   it "overdefending will kill the single attacker" do
     pass_until_next_turn
 
-    expect(@duel.player1.battlefield).to_not include(@attacker)
+    expect(@duel.player1.battlefield).to_not include(attacker)
   end
 
   it "overdefending will put the attacker into the graveyard" do
@@ -44,10 +45,10 @@ RSpec.describe "Defending Groups" do
   end
 
   it "overdefending will create a graveyard action" do
-    expect(graveyard_actions(@attacker.card).count).to eq(0)
+    expect(graveyard_actions(attacker.card).count).to eq(0)
 
     pass_until_next_turn
 
-    expect(graveyard_actions(@attacker.card).count).to eq(1)
+    expect(graveyard_actions(attacker.card).count).to eq(1)
   end
 end

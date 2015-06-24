@@ -1,13 +1,13 @@
 require_relative "setup_game"
 
 RSpec.describe "Creature abilities" do
+  let(:card) { first_add_life_creature }
+
   before :each do
     setup
 
     create_battlefield_cards 3
     @duel.playing_phase!
-
-    @card = first_add_life_creature
   end
 
   def first_add_life_creature
@@ -24,7 +24,7 @@ RSpec.describe "Creature abilities" do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "add_life"))).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to eq(false)
     end
 
     it "is not listed as an available action" do
@@ -38,14 +38,14 @@ RSpec.describe "Creature abilities" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "add_life"))).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to eq(true)
     end
 
     it "is listed as an available action" do
       expect(first_creature_available_add_life_actions.length).to eq(1)
 
       action = first_creature_available_add_life_actions.first
-      expect(action.source).to eq(@card)
+      expect(action.source).to eq(card)
       expect(action.key).to eq("add_life")
     end
 
@@ -73,7 +73,7 @@ RSpec.describe "Creature abilities" do
         expect(@duel.player1.life).to eq(20)
         expect(@duel.player2.life).to eq(20)
         expect(@duel.player1.mana_green).to eq(3)
-        game_engine.card_action(PossibleAbility.new(source: @card, key: "add_life"))
+        game_engine.card_action(PossibleAbility.new(source: card, key: "add_life"))
       end
 
       it "adds life" do
@@ -85,7 +85,7 @@ RSpec.describe "Creature abilities" do
       end
 
       it "creates an action" do
-        expect(add_life_actions(@card).map{ |card| card.card }).to eq([@card.card])
+        expect(add_life_actions(card).map{ |card| card.card }).to eq([card.card])
       end
 
       it "consumes mana" do
