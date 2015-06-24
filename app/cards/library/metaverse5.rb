@@ -32,7 +32,7 @@ class Library::Metaverse5 < CardType
 
   # an instant
   def do_destroy(game_engine, hand, target = nil)
-    fail "Not implemented yet"
+    game_engine.destroy target
 
     # and then put it into the graveyard
     game_engine.move_into_graveyard hand.player, hand

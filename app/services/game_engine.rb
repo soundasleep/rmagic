@@ -1,4 +1,5 @@
 class GameEngine
+  # TODO add a services/game_engine_spec.rb test for each of these methods
   def initialize(duel)
     @duel = duel
   end
@@ -161,6 +162,11 @@ class GameEngine
         end
       end
     end
+  end
+
+  def destroy(zone_card)
+    # move the creature into the graveyard
+    move_into_graveyard zone_card.player, zone_card
   end
 
   def move_into_graveyard(player, zone_card)
