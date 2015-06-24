@@ -1,52 +1,59 @@
 require_relative "setup_game"
 
-# TODO add action as an object rather than a struct
-# TODO add tests on action.to_text
-# TODO action should have a 'zone' parameter (battlefield, graveyard, exile etc)
-RSpec.describe "Instants destroy" do
+RSpec.describe "Creatures with a destroy ability" do
   before :each do
     setup
 
-    create_battlefield_cards(1)
-    create_hand_cards(5)
+    create_battlefield_cards(6)
     @duel.playing_phase!
 
-    @card = first_destroy
+    @card = first_destroy_creature
   end
 
-  def first_destroy
-    @duel.player1.hand.select{ |b| b.card.card_type.actions.include?("destroy") }.first
+  def first_destroy_creature
+    @duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("destroy") }.first
   end
 
   def destroy_actions(zone_card)
     actions(zone_card.card, "destroy")
   end
 
-  def first_destroy_available_actions
-    available_play_actions("destroy")
+  def first_creature_available_destroy_actions
+    available_ability_actions("destroy")
   end
 
-  it "can be created manually" do
-    expect(first_destroy).to_not be_nil
+  it "has a destroy ability" do
+    battlefield = @duel.player1.battlefield.last
+    expect(battlefield.card.card_type.actions).to include("destroy")
   end
 
-  it "can be played in a phase which can cast destroys" do
-    expect(@duel.phase.can_instant?).to eq(true)    # TODO replace eq(true) with be(true)
+  it "exist on the battlefield" do
+    expect(@duel.player1.battlefield).to include(first_destroy_creature)
   end
 
   context "without mana" do
+    it "is not enough mana to play" do
+      card = first_destroy_creature
+      expect(@duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(false)
+    end
+
     it "requires mana" do
       expect(game_engine.can_do_action?(@card, "destroy")).to eq(false)
     end
 
     it "is not listed as an available action" do
-      expect(first_destroy_available_actions).to be_empty
+      expect(first_creature_available_destroy_actions).to be_empty
     end
   end
 
   context "with mana" do
     before :each do
       tap_all_lands
+    end
+
+    it "is enough mana to play" do
+      card = first_destroy_creature
+      expect(@duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(true)
     end
 
     context "can be played with mana" do
@@ -61,11 +68,11 @@ RSpec.describe "Instants destroy" do
 
     context "is listed as an available action" do
       it "of one type" do
-        expect(first_destroy_available_actions.to_a.uniq{ |u| u[:source] }.length).to eq(1)
+        expect(first_creature_available_destroy_actions.to_a.uniq{ |u| u[:source] }.length).to eq(1)
       end
 
       it "of two targets" do
-        expect(first_destroy_available_actions.length).to eq(2)
+        expect(first_creature_available_destroy_actions.length).to eq(2)
       end
 
       it "with the correct source and action" do
@@ -131,6 +138,26 @@ RSpec.describe "Instants destroy" do
 
         it "consumes mana" do
           expect(@duel.player1.mana_green).to eq(2)
+        end
+      end
+
+      context "after adding another creature" do
+        before :each do
+          create_battlefield_cards(1)
+          @target = @duel.player1.battlefield.creatures.second
+          game_engine.card_action(@card, "destroy", @target)
+        end
+
+        it "removes the second creature" do
+          expect(@duel.player1.battlefield.creatures).to_not include(@target)
+        end
+
+        it "does not remove the activated creature" do
+          expect(@duel.player1.battlefield.creatures).to include(first_destroy_creature)
+        end
+
+        it "does not remove their creature" do
+          expect(@duel.player2.battlefield.creatures).to_not be_empty
         end
       end
 

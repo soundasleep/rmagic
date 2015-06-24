@@ -7,6 +7,10 @@ class Zone
     false
   end
 
+  def can_activate_from?
+    false
+  end
+
   def cards_are_tappable?
     false
   end

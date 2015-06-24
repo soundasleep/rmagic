@@ -7,6 +7,10 @@ class PlayingPhase < Phase
     true
   end
 
+  def can_activate?
+    true
+  end
+
   def can_play?
     true
   end

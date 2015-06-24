@@ -89,6 +89,12 @@ class ActionFinder
   end
 
   def ability_cards(player)
+    ability_cards_without_targets(player)
+      .concat(ability_cards_with_targets(player))
+      .select{ |action| game_engine.can_do_action?(action[:source], action[:action], action[:target]) }
+  end
+
+  def ability_cards_without_targets(player)
     # all battlefield cards which have an available ability
     player.battlefield.map do |b|
       b.card.card_type.actions.map do |action|
@@ -97,7 +103,27 @@ class ActionFinder
           action: action
         }
       end
-    end.flatten(1).select{ |action| game_engine.can_do_action?(action[:source], action[:action]) }
+    end.flatten(1)
+  end
+
+  def ability_cards_with_targets(player)
+    # all battlefield cards which have an available ability
+    # with a target
+    duel.players.map do |duel_player|
+      duel_player.zones.map do |zone|
+        zone.map do |zone_card|
+          player.battlefield.map do |b|
+            b.card.card_type.actions.map do |action|
+              {
+                source: b,
+                action: action,
+                target: zone_card
+              }
+            end
+          end.flatten(1)
+        end.flatten(1)
+      end.flatten(1)
+    end.flatten(1)
   end
 
 end
