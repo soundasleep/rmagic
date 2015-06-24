@@ -7,7 +7,7 @@ RSpec.describe "Creatures" do
     create_hand_cards 1
     @duel.playing_phase!
 
-    @creature = first_creature
+    @card = first_creature
   end
 
   def first_creature
@@ -32,7 +32,7 @@ RSpec.describe "Creatures" do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(@creature, "play")).to eq(false)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: @card, key: "play"))).to eq(false)
     end
 
     it "is not listed as an available action" do
@@ -46,14 +46,14 @@ RSpec.describe "Creatures" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(@creature, "play")).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: @card, key: "play"))).to eq(true)
     end
 
     it "is listed as an available action" do
       expect(first_creature_available_play_actions.length).to eq(1)
 
       action = first_creature_available_play_actions.first
-      expect(action.source).to eq(@creature)
+      expect(action.source).to eq(@card)
       expect(action.key).to eq("play")
     end
 
@@ -85,11 +85,11 @@ RSpec.describe "Creatures" do
         expect(played_creatures(@duel.player1)).to be_empty
         expect(played_creatures(@duel.player2)).to be_empty
         expect(@duel.player1.mana_green).to eq(3)
-        game_engine.card_action(@creature, "play")
+        game_engine.card_action(PossiblePlay.new(source: @card, key: "play"))
       end
 
       it "adds a creature to the battlefield" do
-        expect(played_creatures(@duel.player1).map{ |c| c.card }).to eq([@creature.card])
+        expect(played_creatures(@duel.player1).map{ |c| c.card }).to eq([@card.card])
       end
 
       it "does not add a creature for the other player" do
@@ -97,7 +97,7 @@ RSpec.describe "Creatures" do
       end
 
       it "creates an action" do
-        expect(play_actions(@creature).map{ |card| card.card }).to eq([@creature.card])
+        expect(play_actions(@card).map{ |card| card.card }).to eq([@card.card])
       end
 
       it "consumes mana" do

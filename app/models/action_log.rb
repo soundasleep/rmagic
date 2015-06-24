@@ -43,7 +43,39 @@ class ActionLog < ActiveRecord::Base
     duel.action_logs.create! player: player, global_action: "draw"
   end
 
-  def self.card_action(duel, player, card, key)
-    duel.action_logs.create! player: player, card: card, card_action: key
+  def self.card_action(duel, player, action)
+    # TODO action.targets
+    duel.action_logs.create! player: player, card: action.source.card, card_action: action.key
   end
+
+  def self.defend_card_action(duel, player, card)
+    # TODO don't hack with PossibleAbility
+    self.card_action(duel, player, PossibleAbility.new(source: card, key: "defend"))
+  end
+
+  def self.declare_card_action(duel, player, card)
+    # TODO don't hack with PossibleAbility
+    self.card_action(duel, player, PossibleAbility.new(source: card, key: "declare"))
+  end
+
+  def self.attack_card_action(duel, player, card)
+    # TODO don't hack with PossibleAbility
+    self.card_action(duel, player, PossibleAbility.new(source: card, key: "attack"))
+  end
+
+  def self.defended_card_action(duel, player, card)
+    # TODO don't hack with PossibleAbility
+    self.card_action(duel, player, PossibleAbility.new(source: card, key: "defended"))
+  end
+
+  def self.graveyard_card_action(duel, player, card)
+    # TODO don't hack with PossibleAbility
+    self.card_action(duel, player, PossibleAbility.new(source: card, key: "graveyard"))
+  end
+
+  def self.battlefield_card_action(duel, player, card)
+    # TODO don't hack with PossibleAbility
+    self.card_action(duel, player, PossibleAbility.new(source: card, key: "battlefield"))
+  end
+
 end

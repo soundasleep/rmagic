@@ -73,7 +73,11 @@ class DuelController < ApplicationController
     hand = Hand.find(params[:hand])
     target = nil
     target = Battlefield.find(params[:target]) if params[:target]
-    game_engine.card_action hand, params[:key], target
+    game_engine.card_action PossiblePlay.new(
+      source: hand,
+      key: "play",
+      target: target
+    )
     redirect_to duel_path duel
   end
 
@@ -81,7 +85,11 @@ class DuelController < ApplicationController
     battlefield = Battlefield.find(params[:battlefield])
     target = nil
     target = Battlefield.find(params[:target]) if params[:target]
-    game_engine.card_action battlefield, params[:key], target
+    game_engine.card_action PossibleAbility.new(
+      source: battlefield,
+      key: params[:key],
+      target: target
+    )
     redirect_to duel_path duel
   end
 

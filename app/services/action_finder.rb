@@ -29,8 +29,7 @@ class ActionFinder
   def playable_cards(player)
     playable_cards_without_targets(player)
       .concat(playable_cards_with_targets(player))
-      .select{ |action| game_engine.can_do_action?(action.source, action.key, action.target) }
-      # TODO replace with can_do_action?(PossiblePlay)
+      .select{ |action| game_engine.can_do_action?(action) }
   end
 
   def playable_cards_without_targets(player)
@@ -93,8 +92,7 @@ class ActionFinder
   def ability_cards(player)
     ability_cards_without_targets(player)
       .concat(ability_cards_with_targets(player))
-      .select{ |action| game_engine.can_do_action?(action.source, action.key, action.target) }
-      # TODO replace with can_do_action?(PossibleAbility)
+      .select{ |action| game_engine.can_do_action?(action) }
   end
 
   def ability_cards_without_targets(player)

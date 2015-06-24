@@ -65,7 +65,7 @@ RSpec.describe "Playable" do
         expect(battlefield_creatures).to be_empty
 
         @card = hand.first!
-        game_engine.card_action @card, "play"
+        game_engine.card_action PossiblePlay.new(source: @card, key: "play")
       end
 
       it "creates an action" do

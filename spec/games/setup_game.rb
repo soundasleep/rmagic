@@ -88,7 +88,7 @@ module SetupGame
   def tap_all_lands
     # tap all battlefield lands
     @duel.player1.battlefield_lands.each do |b|
-      game_engine.card_action(b, "tap")
+      game_engine.card_action PossibleAbility.new(source: b, key: "tap")
     end
   end
 

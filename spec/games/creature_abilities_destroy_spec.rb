@@ -38,7 +38,7 @@ RSpec.describe "Creatures with a destroy ability" do
     end
 
     it "requires mana" do
-      expect(game_engine.can_do_action?(@card, "destroy")).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "destroy"))).to eq(false)
     end
 
     it "is not listed as an available action" do
@@ -58,11 +58,11 @@ RSpec.describe "Creatures with a destroy ability" do
 
     context "can be played with mana" do
       it "and a target" do
-        expect(game_engine.can_do_action?(@card, "destroy", @duel.player1.battlefield_creatures.first)).to eq(true)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "destroy", target: @duel.player1.battlefield_creatures.first))).to eq(true)
       end
 
       it "but not without a target" do
-        expect(game_engine.can_do_action?(@card, "destroy")).to eq(false)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "destroy"))).to eq(false)
       end
     end
 
@@ -105,7 +105,7 @@ RSpec.describe "Creatures with a destroy ability" do
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(@card, "destroy", @duel.player1.battlefield_creatures.first)
+          game_engine.card_action(PossibleAbility.new(source: @card, key: "destroy", target: @duel.player1.battlefield_creatures.first))
         end
 
         it "removes our creature" do
@@ -127,7 +127,7 @@ RSpec.describe "Creatures with a destroy ability" do
 
       context "on their creature" do
         before :each do
-          game_engine.card_action(@card, "destroy", @duel.player2.battlefield_creatures.first)
+          game_engine.card_action(PossibleAbility.new(source: @card, key: "destroy", target: @duel.player2.battlefield_creatures.first))
         end
 
         it "removes their creature" do
@@ -151,7 +151,7 @@ RSpec.describe "Creatures with a destroy ability" do
         before :each do
           create_battlefield_cards(1)
           @target = @duel.player1.battlefield_creatures.second
-          game_engine.card_action(@card, "destroy", @target)
+          game_engine.card_action(PossibleAbility.new(source: @card, key: "destroy", target: @target))
         end
 
         it "removes the second creature" do

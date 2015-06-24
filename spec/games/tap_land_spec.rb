@@ -26,10 +26,10 @@ RSpec.describe "Tapping lands" do
     expect(@duel.player1.mana_green).to eq(0)
     expect(untapped_land.player).to eq(@duel.player1)
 
-    game_engine.card_action(untapped_land, "tap")
+    game_engine.card_action(PossibleAbility.new(source: untapped_land, key: "tap"))
     expect(@duel.player1.mana_green).to eq(1)
 
-    game_engine.card_action(untapped_land, "tap")
+    game_engine.card_action(PossibleAbility.new(source: untapped_land, key: "tap"))
     expect(@duel.player1.mana_green).to eq(2)
   end
 
@@ -40,7 +40,7 @@ RSpec.describe "Tapping lands" do
 
     it "can be tapped" do
       expect(@battlefield.card.is_tapped?).to eq(false)
-      game_engine.card_action(@battlefield, "tap")
+      game_engine.card_action(PossibleAbility.new(source: @battlefield, key: "tap"))
       @battlefield.reload
       @battlefield.card.reload
       expect(@battlefield.card.is_tapped?).to eq(true)
@@ -49,11 +49,11 @@ RSpec.describe "Tapping lands" do
     context "and when tapped" do
       before :each do
         expect(ActionLog.where(duel: @duel)).to be_empty
-        game_engine.card_action(@battlefield, "tap")
+        game_engine.card_action(PossibleAbility.new(source: @battlefield, key: "tap"))
       end
 
       it "can no longer be actioned to tap" do
-        expect(game_engine.can_do_action?(@battlefield, "tap")).to eq(false)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: @battlefield, key: "tap"))).to eq(false)
       end
 
       it "creates an action log" do
@@ -81,7 +81,7 @@ RSpec.describe "Tapping lands" do
     end
 
     it "can be actioned to tap" do
-      expect(game_engine.can_do_action?(@battlefield, "tap")).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: @battlefield, key: "tap"))).to eq(true)
     end
   end
 

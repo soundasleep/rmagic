@@ -21,12 +21,9 @@ class GameEngine
     action_finder.available_actions(player)
   end
 
-  # TODO replace 3 arguments with a PossibleAction hash
-  def can_do_action?(zone_card, action, target = nil)
-    fail "Card #{zone_card} has nil action cost for action '#{action}'" unless zone_card.card.card_type.action_cost(self, zone_card, action)
-
-    zone_card.card.card_type.can_do_action?(self, zone_card, action, target) &&
-      zone_card.player.has_mana?(zone_card.card.card_type.action_cost(self, zone_card, action, target))
+  def can_do_action?(action)
+    action.source.card.card_type.can_do_action?(self, action) &&
+      action.source.player.has_mana?(action.source.card.card_type.action_cost(self, action))
   end
 
   def available_attackers(player)
@@ -37,7 +34,7 @@ class GameEngine
     zone_cards.each do |zone_card|
       # this assumes we are always attacking the other player
       duel.declared_attackers.create! card: zone_card.card, player: zone_card.player, target_player: duel.other_player
-      ActionLog.card_action(duel, zone_card.player, zone_card.card, "declare")
+      ActionLog.declare_card_action(duel, zone_card.player, zone_card)
     end
   end
 
@@ -54,17 +51,15 @@ class GameEngine
     player.hand.create! card: zone_card.card
   end
 
-  def card_action(zone_card, key, target = nil)
-    fail "No zone_card specified" unless zone_card
-
+  def card_action(action)
     # use mana
-    zone_card.player.use_mana! zone_card.card.card_type.action_cost(self, zone_card, key)
+    action.source.player.use_mana! action.source.card.card_type.action_cost(self, action)
 
     # update log
-    ActionLog.card_action(duel, zone_card.player, zone_card.card, key)
+    ActionLog.card_action(duel, action.source.player, action)
 
     # do the thing
-    zone_card.card.card_type.do_action self, zone_card, key, target
+    action.source.card.card_type.do_action self, action
   end
 
   def use_mana!(player, zone_card)
@@ -78,7 +73,7 @@ class GameEngine
     fail "No :target defined" unless defend[:target]
 
     # update log
-    ActionLog.card_action(duel, defend[:source].player, defend[:source].card, "defend")
+    ActionLog.defend_card_action(duel, defend[:source].player, defend[:source])
 
     duel.declared_defenders.create! source: defend[:source], target: defend[:target]
   end
@@ -122,7 +117,7 @@ class GameEngine
     # TODO allow attacker to specify order of damage
     remaining_damage = attacker.card.card_type.power
 
-    action = ActionLog.card_action(duel, attacker.player, attacker.card, "attack")
+    action = ActionLog.attack_card_action(duel, attacker.player, attacker)
 
     duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
       remaining_damage = apply_damage_to action, remaining_damage, d.source
@@ -136,7 +131,7 @@ class GameEngine
   def apply_defend_damage(defender)
     damage = defender.source.card.card_type.power
 
-    action = ActionLog.card_action(duel, defender.source.player, defender.source.card, "defended")
+    action = ActionLog.defended_card_action(duel, defender.source.player, defender.source)
 
     # any overkill damage is ignored
     apply_damage_to action, damage, defender.target
@@ -175,7 +170,7 @@ class GameEngine
     player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
 
     # udpate log
-    ActionLog.card_action(duel, player, zone_card.card, "graveyard")
+    ActionLog.graveyard_card_action(duel, player, zone_card)
 
     # move to graveyard
     player.graveyard.create! card: zone_card.card
@@ -185,7 +180,7 @@ class GameEngine
     player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
 
     # update log
-    ActionLog.card_action(duel, player, zone_card.card, "battlefield")
+    ActionLog.battlefield_card_action(duel, player, zone_card)
 
     # move to graveyard
     player.battlefield.create! card: zone_card.card
