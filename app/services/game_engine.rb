@@ -69,13 +69,10 @@ class GameEngine
   end
 
   def declare_defender(defend)
-    fail "No :source defined" unless defend[:source]
-    fail "No :target defined" unless defend[:target]
-
     # update log
-    ActionLog.defend_card_action(duel, defend[:source].player, defend[:source])
+    ActionLog.defend_card_action(duel, defend.source.player, defend.source)
 
-    duel.declared_defenders.create! source: defend[:source], target: defend[:target]
+    duel.declared_defenders.create! source: defend.source, target: defend.target
   end
 
   def declare_defenders(defends)

@@ -39,10 +39,10 @@ RSpec.describe "Defending" do
     end
 
     it "a declared defender creates an action" do
-      expect(defending_actions(@defender[:source]).count).to eq(0)
+      expect(defending_actions(@defender.source).count).to eq(0)
 
       game_engine.declare_defender @defender
-      expect(defending_actions(@defender[:source]).count).to eq(1)
+      expect(defending_actions(@defender.source).count).to eq(1)
     end
 
     it "a defender can be declared and referenced later" do
@@ -67,7 +67,7 @@ RSpec.describe "Defending" do
 
       it "the defender does not come up as another available defend option" do
         game_engine.available_actions(@duel.player2)[:defend].each do |defend|
-          expect(defend[:target]).to_not eq(defend[:source])
+          expect(defend.target).to_not eq(defend.source)
         end
       end
 
@@ -82,11 +82,11 @@ RSpec.describe "Defending" do
 
         it "attacking actions include a reference to defending creatures after the attack resolves" do
           action = attacking_actions(@attacker).first
-          expect(action.card).to eq(@defender[:target].card)
+          expect(action.card).to eq(@defender.target.card)
         end
 
         it "defending actions reference the defended attacker" do
-          expect(defended_actions(@defender[:source]).first.targets.map{ |t| t.card }).to include(@attacker.card)
+          expect(defended_actions(@defender.source).first.targets.map{ |t| t.card }).to include(@attacker.card)
         end
       end
 
@@ -104,15 +104,15 @@ RSpec.describe "Defending" do
         pass_until_next_turn
 
         action = attacking_actions(@attacker).first
-        expect(action.targets.first.card).to eq(@defender[:source].card)
+        expect(action.targets.first.card).to eq(@defender.source.card)
       end
 
       it "defending actions are created when there are defenders and the attack resolves" do
-        expect(defended_actions(@defender[:source]).count).to eq(0)
+        expect(defended_actions(@defender.source).count).to eq(0)
 
         pass_until_next_turn
 
-        expect(defended_actions(@defender[:source]).count).to eq(1)
+        expect(defended_actions(@defender.source).count).to eq(1)
       end
     end
   end

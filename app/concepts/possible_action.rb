@@ -12,15 +12,18 @@ class PossibleAction
     "#{action_description} #{key} of #{source.to_text}#{target_text}"
   end
 
-  def target_text
-    if target
-      " on #{target.to_text}"
-    else
-      ""
-    end
-  end
+  private
 
-  def to_s
-    {action_type: action_type, source: source, key: key, target: target}.to_s
-  end
+    def target_text
+      if target
+        " on #{target.to_text}"
+      else
+        ""
+      end
+    end
+
+    def to_s
+      {action_type: action_type, source: source, key: key, target: target}.to_s
+    end
+
 end

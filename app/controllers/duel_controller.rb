@@ -96,7 +96,10 @@ class DuelController < ApplicationController
   def defend
     source = Battlefield.find(params[:source])
     target = DeclaredAttacker.find(params[:target])
-    game_engine.declare_defender({source: source, target: target})
+    game_engine.declare_defender PossibleDefender.new(
+      source: source,
+      target: target
+    )
     redirect_to duel_path duel
   end
 

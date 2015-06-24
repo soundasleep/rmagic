@@ -70,11 +70,10 @@ class ActionFinder
       .reject{ |b| duel.declared_defenders.map{ |d| d.source }.include?(b) }
       .select{ |b| !b.card.is_tapped? and b.card.card_type.is_creature? }.map do |b|
         duel.declared_attackers.map do |a|
-          {
-            # TODO replace with PossibleDefender
+          PossibleDefender.new(
             source: b,
             target: a
-          }
+          )
         end
       end.flatten(1)
   end
