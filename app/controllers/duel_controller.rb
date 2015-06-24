@@ -27,6 +27,9 @@ class DuelController < ApplicationController
     create_card @player1.battlefield, 3
     create_card @player2.battlefield, 3
 
+    create_card @player1.battlefield, 6
+    create_card @player2.battlefield, 6
+
     3.times do
       create_card @player1.battlefield, 2
     end
