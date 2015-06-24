@@ -31,7 +31,7 @@ RSpec.describe "Attacking" do
   end
 
   it "can be declared in a phase which can declare attackers" do
-    expect(duel.phase.can_declare_attackers?).to eq(true)
+    expect(duel.phase.can_declare_attackers?).to be(true)
   end
 
   context "when declaring all attackers" do

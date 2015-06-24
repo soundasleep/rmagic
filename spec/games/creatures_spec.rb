@@ -26,12 +26,12 @@ RSpec.describe "Creatures" do
   end
 
   it "can be played in a phase which can play creatures" do
-    expect(duel.phase.can_play?).to eq(true)
+    expect(duel.phase.can_play?).to be(true)
   end
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to eq(false)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -45,7 +45,7 @@ RSpec.describe "Creatures" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
     end
 
     it "is listed as an available action" do

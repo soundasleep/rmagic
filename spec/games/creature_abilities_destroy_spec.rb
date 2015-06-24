@@ -37,7 +37,7 @@ RSpec.describe "Creatures with a destroy ability" do
     end
 
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -57,11 +57,11 @@ RSpec.describe "Creatures with a destroy ability" do
 
     context "can be played with mana" do
       it "and a target" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))).to eq(true)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))).to be(true)
       end
 
       it "but not without a target" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to eq(false)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to be(false)
       end
     end
 

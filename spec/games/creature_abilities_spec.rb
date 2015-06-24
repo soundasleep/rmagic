@@ -23,7 +23,7 @@ RSpec.describe "Creature abilities" do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -37,7 +37,7 @@ RSpec.describe "Creature abilities" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to be(true)
     end
 
     it "is listed as an available action" do

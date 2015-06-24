@@ -19,7 +19,7 @@ RSpec.describe "Tapping lands" do
   end
 
   it "can be tapped in a phase which can be tapped" do
-    expect(duel.phase.can_tap?).to eq(true)
+    expect(duel.phase.can_tap?).to be(true)
   end
 
   it "we can tap forests to get green mana" do
@@ -37,11 +37,11 @@ RSpec.describe "Tapping lands" do
     let(:battlefield) { untapped_land }
 
     it "can be tapped" do
-      expect(battlefield.card.is_tapped?).to eq(false)
+      expect(battlefield.card.is_tapped?).to be(false)
       game_engine.card_action(PossibleAbility.new(source: battlefield, key: "tap"))
       battlefield.reload
       battlefield.card.reload
-      expect(battlefield.card.is_tapped?).to eq(true)
+      expect(battlefield.card.is_tapped?).to be(true)
     end
 
     context "and when tapped" do
@@ -51,7 +51,7 @@ RSpec.describe "Tapping lands" do
       end
 
       it "can no longer be actioned to tap" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: battlefield, key: "tap"))).to eq(false)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: battlefield, key: "tap"))).to be(false)
       end
 
       it "creates an action log" do
@@ -60,14 +60,14 @@ RSpec.describe "Tapping lands" do
       end
 
       it "does not modify the phase of the duel" do
-        expect(duel.playing_phase?).to eq(true)
+        expect(duel.playing_phase?).to be(true)
       end
     end
 
     it "can be tapped directly" do
-      expect(battlefield.card.is_tapped?).to eq(false)
+      expect(battlefield.card.is_tapped?).to be(false)
       battlefield.card.tap_card!
-      expect(battlefield.card.is_tapped?).to eq(true)
+      expect(battlefield.card.is_tapped?).to be(true)
     end
 
     it "does not tap other lands" do
@@ -75,11 +75,11 @@ RSpec.describe "Tapping lands" do
 
       card = untapped_land
       expect(card.card).to_not eq(battlefield.card)
-      expect(card.card.is_tapped?).to eq(false)
+      expect(card.card.is_tapped?).to be(false)
     end
 
     it "can be actioned to tap" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: battlefield, key: "tap"))).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: battlefield, key: "tap"))).to be(true)
     end
   end
 

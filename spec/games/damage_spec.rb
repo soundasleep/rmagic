@@ -46,20 +46,20 @@ RSpec.describe "Damage" do
     end
 
     it "provides the destroyed flag" do
-      expect(creature.card.is_destroyed?).to eq(true)
+      expect(creature.card.is_destroyed?).to be(true)
     end
   end
 
   it "a card with little damage does not have the destroyed flag" do
     card = first_creature
     card.card.damage! 0
-    expect(card.card.is_destroyed?).to eq(false)
+    expect(card.card.is_destroyed?).to be(false)
   end
 
   it "a card with one damage does not have the destroyed flag" do
     card = first_creature
     card.card.damage! 1
-    expect(card.card.is_destroyed?).to eq(false)
+    expect(card.card.is_destroyed?).to be(false)
   end
 
   it "a destroyed creature is moved into the graveyard" do

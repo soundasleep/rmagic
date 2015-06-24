@@ -5,7 +5,7 @@ RSpec.describe "Drawing" do
 
   context "default" do
     it "starts in drawing phase" do
-      expect(duel.drawing_phase?).to eq(true)
+      expect(duel.drawing_phase?).to be(true)
     end
   end
 
@@ -17,20 +17,20 @@ RSpec.describe "Drawing" do
     duel.current_player_number = 2
     duel.priority_player_number = 2
 
-    expect(duel.cleanup_phase?).to eq(true)
-    expect(duel.drawing_phase?).to eq(false)
+    expect(duel.cleanup_phase?).to be(true)
+    expect(duel.drawing_phase?).to be(false)
 
     game_engine.pass
 
-    expect(duel.cleanup_phase?).to eq(true)
-    expect(duel.drawing_phase?).to eq(false)
+    expect(duel.cleanup_phase?).to be(true)
+    expect(duel.drawing_phase?).to be(false)
     expect(duel.player1.hand.count).to eq(0)
     expect(duel.player2.hand.count).to eq(0)
 
     game_engine.pass
 
-    expect(duel.cleanup_phase?).to eq(false)
-    expect(duel.drawing_phase?).to eq(true)
+    expect(duel.cleanup_phase?).to be(false)
+    expect(duel.drawing_phase?).to be(true)
     expect(duel.player1.hand.count).to eq(1)
     expect(duel.player2.hand.count).to eq(0)
   end
@@ -46,15 +46,15 @@ RSpec.describe "Drawing" do
 
     game_engine.pass
 
-    expect(duel.cleanup_phase?).to eq(true)
-    expect(duel.drawing_phase?).to eq(false)
+    expect(duel.cleanup_phase?).to be(true)
+    expect(duel.drawing_phase?).to be(false)
     expect(duel.player1.hand.count).to eq(0)
     expect(duel.player2.hand.count).to eq(0)
 
     game_engine.pass
 
-    expect(duel.cleanup_phase?).to eq(false)
-    expect(duel.drawing_phase?).to eq(true)
+    expect(duel.cleanup_phase?).to be(false)
+    expect(duel.drawing_phase?).to be(true)
     expect(duel.player1.hand.count).to eq(0)
     expect(duel.player2.hand.count).to eq(1)
   end

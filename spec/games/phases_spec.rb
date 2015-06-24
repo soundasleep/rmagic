@@ -23,7 +23,7 @@ RSpec.describe "Phases" do
       found = true if duel.phase.changes_player?
       game_engine.pass
     end
-    expect(found).to eq(true)
+    expect(found).to be(true)
   end
 
   it "all have descriptions" do

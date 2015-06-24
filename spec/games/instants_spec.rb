@@ -26,12 +26,12 @@ RSpec.describe "Instants" do
   end
 
   it "can be played in a phase which can cast instants" do
-    expect(duel.phase.can_instant?).to eq(true)
+    expect(duel.phase.can_instant?).to be(true)
   end
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -45,7 +45,7 @@ RSpec.describe "Instants" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to be(true)
     end
 
     it "is listed as an available action" do

@@ -47,7 +47,7 @@ RSpec.describe "Lands" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
     end
 
     it "are listed as an available action" do
@@ -61,7 +61,7 @@ RSpec.describe "Lands" do
 
   context "without mana" do
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to eq(true)
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
     end
 
     it "are listed as an available action" do
