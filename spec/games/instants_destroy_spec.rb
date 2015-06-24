@@ -1,5 +1,9 @@
 require_relative "setup_game"
 
+# TODO test instants on battlefield cards (c.f. on instants played from hands)
+# TODO add action as an object rather than a struct
+# TODO add tests on action.to_text
+# TODO action should have a 'zone' parameter (battlefield, graveyard, exile etc)
 RSpec.describe "Instants destroy" do
   before :each do
     setup

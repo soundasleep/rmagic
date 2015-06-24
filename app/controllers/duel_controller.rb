@@ -34,6 +34,7 @@ class DuelController < ApplicationController
       create_card @player2.battlefield, 2
     end
 
+    # TODO use Library::Metaverse1.id instead of magic numbers here
     create_card @player1.hand, 1
     create_card @player2.hand, 1
 
