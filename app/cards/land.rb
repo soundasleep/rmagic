@@ -6,7 +6,7 @@ module Land
   end
 
   def can_tap?(game_engine, battlefield, target = nil)
-    return target != nil &&
+    return target == nil &&
         game_engine.duel.priority_player == battlefield.player &&
         game_engine.duel.phase.can_tap? &&
         battlefield.card.can_tap? &&
@@ -14,7 +14,7 @@ module Land
   end
 
   def can_untap?(game_engine, battlefield, target = nil)
-    return target != nil &&
+    return target == nil &&
         false # we can never manually untap lands
   end
 
