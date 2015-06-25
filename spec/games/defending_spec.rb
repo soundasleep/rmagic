@@ -112,6 +112,10 @@ RSpec.describe "Defending" do
 
         expect(defended_actions(defender.source).count).to eq(1)
       end
+
+      it "does not destroy the defending creature" do
+        expect(duel.player2.battlefield_creatures).to include(defender.source)
+      end
     end
   end
 
