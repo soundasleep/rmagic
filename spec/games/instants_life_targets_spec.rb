@@ -28,11 +28,11 @@ RSpec.describe "Instants add life to targets", type: :game do
     end
 
     it "has the instant_player action" do
-      expect(card.card_type.actions).to include("instant_player")
+      expect(card.card.card_type.actions).to include("instant_player")
     end
 
     it "has the instant_creature action" do
-      expect(card.card_type.actions).to include("instant_creature")
+      expect(card.card.card_type.actions).to include("instant_creature")
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe "Instants add life to targets", type: :game do
         end
 
         it "but not with a target creature" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1.battlefield_creatures.first))).to be(true)
+          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1.battlefield_creatures.first))).to be(false)
         end
 
         it "but not without a target" do
@@ -76,10 +76,9 @@ RSpec.describe "Instants add life to targets", type: :game do
           expect(first_instant_player_available_actions.length).to eq(2)
         end
 
-        it "with the correct source and key" do
+        it "with the correct source" do
           available_actions[:play].each do |a|
             expect(a.source).to eq(card)
-            expect(a.key).to eq("instant_player")
           end
         end
       end
@@ -257,6 +256,20 @@ RSpec.describe "Instants add life to targets", type: :game do
 
     context "targeting creatures" do
       let(:our_creature) { duel.player1.battlefield_creatures.first }
+
+      context "can be played with mana" do
+        it "and a target creature" do
+          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_creature", target: our_creature))).to be(true)
+        end
+
+        it "but not with a target player" do
+          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_creature", target: duel.player1))).to be(false)
+        end
+
+        it "but not without a target" do
+          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_creature"))).to be(false)
+        end
+      end
 
       context "our creature" do
         it "exists" do

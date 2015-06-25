@@ -114,4 +114,16 @@ class Player < ActiveRecord::Base
     collection.select { |b| b.card.card_type.is_land? }
   end
 
+  def is_card?
+    false
+  end
+
+  def is_player?
+    true
+  end
+
+  def to_text
+    "Player #{name}"
+  end
+
 end

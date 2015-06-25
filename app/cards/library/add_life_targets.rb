@@ -23,7 +23,7 @@ class Library::AddLifeTargets < CardType
 
   # ignoring mana costs
   def can_instant_player?(game_engine, hand, target = nil)
-    return target == nil &&
+    return target != nil &&
       target.is_player? &&
       can_play_instant?(game_engine, hand)
   end
