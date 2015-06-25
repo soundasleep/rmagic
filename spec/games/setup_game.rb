@@ -13,8 +13,8 @@ module SetupGame
     end
 
     3.times do
-      create_card duel.player1.battlefield, Library::Metaverse2.id
-      create_card duel.player2.battlefield, Library::Metaverse2.id
+      create_card duel.player1.battlefield, Library::Forest.id
+      create_card duel.player2.battlefield, Library::Forest.id
     end
 
     duel.save!

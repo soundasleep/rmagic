@@ -5,7 +5,7 @@ RSpec.describe "Lands" do
   let(:card) { first_hand_land }
 
   before :each do
-    create_hand_cards Library::Metaverse2.id
+    create_hand_cards Library::Forest.id
     duel.playing_phase!
   end
 

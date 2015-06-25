@@ -1,4 +1,4 @@
-class Library::Metaverse2 < CardType
+class Library::Forest < CardType
   include Land
 
   def name
@@ -9,6 +9,14 @@ class Library::Metaverse2 < CardType
     {
       green: 1
     }
+  end
+
+  def metaverse_id
+    2
+  end
+
+  def self.id
+    2
   end
 
 end

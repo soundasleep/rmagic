@@ -31,17 +31,17 @@ class DuelController < ApplicationController
     create_card @player2.battlefield, Library::Metaverse6.id
 
     3.times do
-      create_card @player1.battlefield, Library::Metaverse2.id
+      create_card @player1.battlefield, Library::Forest.id
     end
     3.times do
-      create_card @player2.battlefield, Library::Metaverse2.id
+      create_card @player2.battlefield, Library::Forest.id
     end
 
     create_card @player1.hand, Library::Metaverse1.id
     create_card @player2.hand, Library::Metaverse1.id
 
-    create_card @player1.hand, Library::Metaverse2.id
-    create_card @player2.hand, Library::Metaverse2.id
+    create_card @player1.hand, Library::Forest.id
+    create_card @player2.hand, Library::Forest.id
 
     create_card @player1.hand, Library::Metaverse4.id
     create_card @player2.hand, Library::Metaverse4.id
