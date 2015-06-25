@@ -1,17 +1,16 @@
 require_relative "setup_game"
 
 RSpec.describe "Instants" do
+  let(:duel) { create_game }
+  let(:card) { first_instant }
+
   before :each do
-    setup
-
     create_hand_cards(4)
-    @duel.playing_phase!
-
-    @card = first_instant
+    duel.playing_phase!
   end
 
   def first_instant
-    @duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first
+    duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first
   end
 
   def instant_actions(zone_card)
@@ -27,12 +26,12 @@ RSpec.describe "Instants" do
   end
 
   it "can be played in a phase which can cast instants" do
-    expect(@duel.phase.can_instant?).to eq(true)
+    expect(duel.phase.can_instant?).to be(true)
   end
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "instant"))).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -46,14 +45,14 @@ RSpec.describe "Instants" do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "instant"))).to eq(true)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to be(true)
     end
 
     it "is listed as an available action" do
       expect(first_instant_available_actions.length).to eq(1)
 
       action = first_instant_available_actions.first
-      expect(action.source).to eq(@card)
+      expect(action.source).to eq(card)
       expect(action.key).to eq("instant")
     end
 
@@ -78,26 +77,26 @@ RSpec.describe "Instants" do
 
     context "when activated" do
       before :each do
-        expect(@duel.player1.life).to eq(20)
-        expect(@duel.player2.life).to eq(20)
-        expect(@duel.player1.mana_green).to eq(3)
-        game_engine.card_action(PossibleAbility.new(source: @card, key: "instant"))
+        expect(duel.player1.life).to eq(20)
+        expect(duel.player2.life).to eq(20)
+        expect(duel.player1.mana_green).to eq(3)
+        game_engine.card_action(PossibleAbility.new(source: card, key: "instant"))
       end
 
       it "adds life" do
-        expect(@duel.player1.life).to eq(20 + 1)
+        expect(duel.player1.life).to eq(20 + 1)
       end
 
       it "does not add life to the other player" do
-        expect(@duel.player2.life).to_not eq(20 + 1)
+        expect(duel.player2.life).to_not eq(20 + 1)
       end
 
       it "creates an action" do
-        expect(instant_actions(@card).map{ |card| card.card }).to eq([@card.card])
+        expect(instant_actions(card).map{ |card| card.card }).to eq([card.card])
       end
 
       it "consumes mana" do
-        expect(@duel.player1.mana_green).to eq(2)
+        expect(duel.player1.mana_green).to eq(2)
       end
 
     end
@@ -106,7 +105,7 @@ RSpec.describe "Instants" do
   context "in our turn" do
     context "in the drawing phase" do
       before :each do
-        @duel.drawing_phase!
+        duel.drawing_phase!
         tap_all_lands
       end
 
@@ -117,7 +116,7 @@ RSpec.describe "Instants" do
 
     context "in the playing phase" do
       before :each do
-        @duel.playing_phase!
+        duel.playing_phase!
         tap_all_lands
       end
 
@@ -128,7 +127,7 @@ RSpec.describe "Instants" do
 
     context "in the attacking phase" do
       before :each do
-        @duel.attacking_phase!
+        duel.attacking_phase!
         tap_all_lands
       end
 
@@ -139,7 +138,7 @@ RSpec.describe "Instants" do
 
     context "in the cleanup phase" do
       before :each do
-        @duel.cleanup_phase!
+        duel.cleanup_phase!
         tap_all_lands
       end
 
@@ -156,7 +155,7 @@ RSpec.describe "Instants" do
 
     context "in the drawing phase" do
       before :each do
-        @duel.drawing_phase!
+        duel.drawing_phase!
         tap_all_lands
       end
 
@@ -167,7 +166,7 @@ RSpec.describe "Instants" do
 
     context "in the playing phase" do
       before :each do
-        @duel.playing_phase!
+        duel.playing_phase!
         tap_all_lands
       end
 
@@ -178,7 +177,7 @@ RSpec.describe "Instants" do
 
     context "in the attacking phase" do
       before :each do
-        @duel.attacking_phase!
+        duel.attacking_phase!
         tap_all_lands
       end
 
@@ -189,7 +188,7 @@ RSpec.describe "Instants" do
 
     context "in the cleanup phase" do
       before :each do
-        @duel.cleanup_phase!
+        duel.cleanup_phase!
         tap_all_lands
       end
 
@@ -205,7 +204,7 @@ RSpec.describe "Instants" do
 
       context "in the drawing phase" do
         before :each do
-          @duel.drawing_phase!
+          duel.drawing_phase!
           tap_all_lands
         end
 
@@ -216,7 +215,7 @@ RSpec.describe "Instants" do
 
       context "in the playing phase" do
         before :each do
-          @duel.playing_phase!
+          duel.playing_phase!
           tap_all_lands
         end
 
@@ -227,7 +226,7 @@ RSpec.describe "Instants" do
 
       context "in the attacking phase" do
         before :each do
-          @duel.attacking_phase!
+          duel.attacking_phase!
           tap_all_lands
         end
 
@@ -238,7 +237,7 @@ RSpec.describe "Instants" do
 
       context "in the cleanup phase" do
         before :each do
-          @duel.cleanup_phase!
+          duel.cleanup_phase!
           tap_all_lands
         end
 

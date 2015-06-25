@@ -1,17 +1,16 @@
 require_relative "setup_game"
 
 RSpec.describe "Creatures with a destroy ability" do
+  let(:duel) { create_game }
+  let(:card) { first_destroy_creature }
+
   before :each do
-    setup
-
     create_battlefield_cards(6)
-    @duel.playing_phase!
-
-    @card = first_destroy_creature
+    duel.playing_phase!
   end
 
   def first_destroy_creature
-    @duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("destroy") }.first
+    duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("destroy") }.first
   end
 
   def destroy_actions(zone_card)
@@ -23,22 +22,22 @@ RSpec.describe "Creatures with a destroy ability" do
   end
 
   it "has a destroy ability" do
-    battlefield = @duel.player1.battlefield.last
+    battlefield = duel.player1.battlefield.last
     expect(battlefield.card.card_type.actions).to include("destroy")
   end
 
   it "exist on the battlefield" do
-    expect(@duel.player1.battlefield).to include(first_destroy_creature)
+    expect(duel.player1.battlefield).to include(first_destroy_creature)
   end
 
   context "without mana" do
     it "is not enough mana to play" do
       card = first_destroy_creature
-      expect(@duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(false)
+      expect(duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(false)
     end
 
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "destroy"))).to eq(false)
+      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -53,16 +52,16 @@ RSpec.describe "Creatures with a destroy ability" do
 
     it "is enough mana to play" do
       card = first_destroy_creature
-      expect(@duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(true)
+      expect(duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(true)
     end
 
     context "can be played with mana" do
       it "and a target" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "destroy", target: @duel.player1.battlefield_creatures.first))).to eq(true)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))).to be(true)
       end
 
       it "but not without a target" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: @card, key: "destroy"))).to eq(false)
+        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to be(false)
       end
     end
 
@@ -77,7 +76,7 @@ RSpec.describe "Creatures with a destroy ability" do
 
       it "with the correct source and key" do
         available_actions[:play].each do |a|
-          expect(a.source).to eq(@card)
+          expect(a.source).to eq(card)
           expect(a.key).to eq("destroy")
         end
       end
@@ -98,72 +97,81 @@ RSpec.describe "Creatures with a destroy ability" do
     end
 
     context "when activated" do
-      before :each do
-        expect(@duel.player1.battlefield_creatures.length).to eq(1)
-        expect(@duel.player2.battlefield_creatures.length).to eq(1)
+      it "we have one creature" do
+        expect(duel.player1.battlefield_creatures.length).to eq(1)
+      end
+
+      it "they have one creature" do
+        expect(duel.player2.battlefield_creatures.length).to eq(1)
       end
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(PossibleAbility.new(source: @card, key: "destroy", target: @duel.player1.battlefield_creatures.first))
+          game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))
         end
 
         it "removes our creature" do
-          expect(@duel.player1.battlefield_creatures).to be_empty
+          expect(duel.player1.battlefield_creatures).to be_empty
         end
 
         it "does not remove their creature" do
-          expect(@duel.player2.battlefield_creatures).to_not be_empty
+          expect(duel.player2.battlefield_creatures).to_not be_empty
         end
 
         it "creates an action" do
-          expect(destroy_actions(@card).map{ |card| card.card }).to eq([@card.card])
+          expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
         end
 
         it "consumes mana" do
-          expect(@duel.player1.mana_green).to eq(2)
+          expect(duel.player1.mana_green).to eq(2)
         end
       end
 
       context "on their creature" do
         before :each do
-          game_engine.card_action(PossibleAbility.new(source: @card, key: "destroy", target: @duel.player2.battlefield_creatures.first))
+          game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first))
         end
 
         it "removes their creature" do
-          expect(@duel.player2.battlefield_creatures).to be_empty
+          expect(duel.player2.battlefield_creatures).to be_empty
         end
 
         it "does not remove our creature" do
-          expect(@duel.player1.battlefield_creatures).to_not be_empty
+          expect(duel.player1.battlefield_creatures).to_not be_empty
         end
 
         it "creates an action" do
-          expect(destroy_actions(@card).map{ |card| card.card }).to eq([@card.card])
+          expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
         end
 
         it "consumes mana" do
-          expect(@duel.player1.mana_green).to eq(2)
+          expect(duel.player1.mana_green).to eq(2)
         end
       end
 
       context "after adding another creature" do
         before :each do
           create_battlefield_cards(1)
-          @target = @duel.player1.battlefield_creatures.second
-          game_engine.card_action(PossibleAbility.new(source: @card, key: "destroy", target: @target))
         end
 
-        it "removes the second creature" do
-          expect(@duel.player1.battlefield_creatures).to_not include(@target)
-        end
+        context "targeting the second creature" do
+          let(:target) { duel.player1.battlefield_creatures.second }
 
-        it "does not remove the activated creature" do
-          expect(@duel.player1.battlefield_creatures).to include(first_destroy_creature)
-        end
+          before :each do
+            game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: target))
+          end
 
-        it "does not remove their creature" do
-          expect(@duel.player2.battlefield_creatures).to_not be_empty
+          it "removes the second creature" do
+            expect(duel.player1.battlefield_creatures).to_not include(target)
+          end
+
+          it "does not remove the activated creature" do
+            expect(duel.player1.battlefield_creatures).to include(first_destroy_creature)
+          end
+
+          it "does not remove their creature" do
+            expect(duel.player2.battlefield_creatures).to_not be_empty
+          end
         end
       end
 
