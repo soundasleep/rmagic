@@ -21,7 +21,7 @@ RSpec.describe "Instants" do
     available_play_actions("instant")
   end
 
-  it "can be created manually" do
+  it "can be found" do
     expect(first_instant).to_not be_nil
   end
 

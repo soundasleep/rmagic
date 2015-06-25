@@ -183,6 +183,14 @@ class GameEngine
     player.battlefield.create! card: zone_card.card
   end
 
+  def add_effect(player, effect_id, target)
+    # add effect
+    target.card.effects.create! effect_id: effect_id, order: 1    # TODO calculate order as necessary
+
+    # update log
+    ActionLog.effect_action(duel, player, target, effect_id)
+  end
+
   def clear_mana
     duel.players.each do |player|
       player.clear_mana!

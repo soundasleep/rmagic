@@ -72,6 +72,10 @@ class ActionLog < ActiveRecord::Base
     self.generic_card_action duel, player, zone_card.card, "battlefield"
   end
 
+  def self.effect_action(duel, player, zone_card, effect_id)
+    duel.action_logs.create! player: player, card: zone_card.card, card_action: "effect", argument: effect_id
+  end
+
   private
 
   def self.generic_card_action(duel, player, card, key)

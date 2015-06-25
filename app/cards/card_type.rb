@@ -49,7 +49,7 @@ class CardType
   end
 
   def metaverse_id
-    self.class.name.split(/[^0-9]/).last.to_i
+    self.class.id
   end
 
   def self.id
