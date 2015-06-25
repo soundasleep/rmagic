@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Instants effects" do
+RSpec.describe "Instants effects", type: :game do
   let(:duel) { create_game }
   let(:card) { first_counter }
 

@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Instants destroy" do
+RSpec.describe "Instants destroy", type: :game do
   let(:duel) { create_game }
   let(:card) { first_destroy }
 

@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Defending with effects" do
+RSpec.describe "Defending with effects", type: :game do
   let(:duel) { create_game }
   let(:target) { duel.player1.battlefield_creatures.first }
 

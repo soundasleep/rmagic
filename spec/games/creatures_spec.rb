@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Creatures" do
+RSpec.describe "Creatures", type: :game do
   let(:duel) { create_game }
   let(:card) { first_creature }
 

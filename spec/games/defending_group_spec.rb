@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Defending Groups" do
+RSpec.describe "Defending Groups", type: :game do
   let(:duel) { create_game }
   let(:attacker) { available_attackers.first }
 

@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Phases" do
+RSpec.describe "Phases", type: :game do
   let(:duel) { create_game }
 
   it "all have unique symbols" do

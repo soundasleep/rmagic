@@ -1,3 +1,5 @@
+require "rails_helper"
+
 module SetupGame
 
   # return the created duel

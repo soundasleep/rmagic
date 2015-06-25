@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe Duel do
+RSpec.describe Duel, type: :game do
   let(:duel) { create_game }
 
   context "#player1" do

@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Creatures with a destroy ability" do
+RSpec.describe "Creatures with a destroy ability", type: :game do
   let(:duel) { create_game }
   let(:card) { first_destroy_creature }
 

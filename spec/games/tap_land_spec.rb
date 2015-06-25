@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Tapping lands" do
+RSpec.describe "Tapping lands", type: :game do
   let(:duel) { create_game }
 
   before :each do

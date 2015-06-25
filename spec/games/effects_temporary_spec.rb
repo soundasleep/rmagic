@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Temporary effects" do
+RSpec.describe "Temporary effects", type: :game do
   let(:duel) { create_game }
   let(:our_creature) { duel.player1.battlefield_creatures.first.card }
 

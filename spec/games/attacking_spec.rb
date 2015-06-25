@@ -1,6 +1,6 @@
 require_relative "setup_game"
 
-RSpec.describe "Attacking" do
+RSpec.describe "Attacking", type: :game do
   let(:duel) { create_game }
 
   before :each do

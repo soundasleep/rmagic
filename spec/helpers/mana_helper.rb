@@ -1,4 +1,4 @@
-RSpec.describe ManaHelper do
+RSpec.describe ManaHelper, type: :helper do
   include ManaHelper
 
   it "formats mana costs of one green" do

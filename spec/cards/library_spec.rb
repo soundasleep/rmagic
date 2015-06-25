@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Library, type: :cards do
+RSpec.describe Library, type: :card do
   let(:library) { Library.new }
 
   context "card types" do
