@@ -112,7 +112,7 @@ class GameEngine
 
   def apply_attack_damage(attacker)
     # TODO allow attacker to specify order of damage
-    remaining_damage = attacker.card.card_type.power
+    remaining_damage = attacker.card.power
 
     action = ActionLog.attack_card_action(duel, attacker.player, attacker)
 
@@ -126,7 +126,7 @@ class GameEngine
   end
 
   def apply_defend_damage(defender)
-    damage = defender.source.card.card_type.power
+    damage = defender.source.card.power
 
     action = ActionLog.defended_card_action(duel, defender.source.player, defender.source)
 

@@ -2,9 +2,11 @@ require_relative "setup_game"
 
 RSpec.describe "Defending with effects" do
   let(:duel) { create_game }
+  let(:target) { duel.player1.battlefield_creatures.first }
 
   before :each do
-    create_battlefield_cards 1
+    create_battlefield_cards Library::Metaverse1.id
+    game_engine.add_effect duel.player1, Effects::TemporaryCounter.id, target
     duel.attacking_phase!
   end
 

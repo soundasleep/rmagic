@@ -52,7 +52,7 @@ class Card < ActiveRecord::Base
   end
 
   def remaining_health
-    card_type.toughness - damage
+    toughness - damage
   end
 
   def is_destroyed?
@@ -63,6 +63,7 @@ class Card < ActiveRecord::Base
     update! damage: damage + n
   end
 
+  # TODO remove these unused methods
   def can_play?
     true
   end
