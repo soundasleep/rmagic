@@ -5,9 +5,9 @@ class Library
 
   def load_card_types
     cards = Dir[File.dirname(__FILE__) + '/library/*.rb'].map do |file|
-      ("Library::" + File.basename(file, ".rb").classify).constantize.new
+      ("Library::" + File.basename(file, ".rb").classify).constantize
     end
 
-    Hash[cards.map { |card| [card.metaverse_id, card] }]
+    Hash[cards.map { |card| [card.id, card] }]
   end
 end

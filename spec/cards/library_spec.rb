@@ -11,13 +11,13 @@ RSpec.describe Library do
   context "card types" do
     it "each have a metaverse id" do
       card_types.each do |id, card_type|
-        expect(card_type.metaverse_id).to_not be_nil
+        expect(card_type.new.metaverse_id).to_not be_nil
       end
     end
 
     it "each have a description" do
       card_types.each do |id, card_type|
-        expect(card_type.to_text).to_not be_nil
+        expect(card_type.new.to_text).to_not be_nil
       end
     end
   end
