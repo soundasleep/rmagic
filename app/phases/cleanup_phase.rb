@@ -26,6 +26,15 @@ class CleanupPhase < Phase
     # remove defenders
     duel.declared_defenders.destroy_all
 
+    # remove all temporary effects
+    duel.players.each do |p|
+      p.battlefield.each do |b|
+        b.card.effects.select { |e| e.effect_type.temporary? }.each do |e|
+          b.card.effects.destroy e
+        end
+      end
+    end
+
     game_engine.move_destroyed_creatures_to_graveyard
 
     # reset damage

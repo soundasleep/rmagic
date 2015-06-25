@@ -22,7 +22,7 @@ RSpec.describe "Instants destroy" do
     available_play_actions("destroy")
   end
 
-  it "can be created manually" do
+  it "can be found" do
     expect(first_destroy).to_not be_nil
   end
 

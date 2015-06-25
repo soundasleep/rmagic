@@ -12,15 +12,17 @@ The engine barely supports anything at the moment, but it's a start.
 * Declare attackers and defenders
 * Tapping cards for mana
 * Instants on cards, abilities on creatures
+* Temporary effects modifying power/toughness on creatures
 
 ## ActiveRecord concepts
 
 We try to use as few model objects as possible.
 
-* `Card` - cards, tokens
+* `Card` - cards
+* `Effect` - temporary and permanent effects on cards
 * `Player` - life, unspent mana
 * `Duel` - current player, phase
-* `Battlefield`, `Deck`, `Graveyard`, `Hand`, `Exile` - zones where cards are
+* `Battlefield`, `Deck`, `Graveyard`, `Hand`, `Exile` - zones where `Card`s are
 * `ActionLog` - something that happened (optionally with many `ActionLogTarget`s) - try and do everything with ActionLogs (e.g. `draw`, `tap`, `untap`, `attack`, `defend`)
 * `DeclaredAttacker`, `DeclaredDefender` - temporary wrappers around declared attackers, defenders
 
@@ -32,7 +34,6 @@ We try to use as few model objects as possible.
 * Activated abilities
 * Summoning sickness for activated abilities
 * Sorceries
-* Effects on entities (cards)
 * Deck shuffling and drawing
 * Random first player
 * Order cards in graveyard

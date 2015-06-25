@@ -1,5 +1,5 @@
-RSpec.describe Deck do
-  # test "the truth" do
-  #   assert true
-  # end
+require 'rails_helper'
+
+RSpec.describe Deck, type: :model do
+
 end

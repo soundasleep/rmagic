@@ -1,5 +1,5 @@
-RSpec.describe ActionLog do
-  # test "the truth" do
-  #   assert true
-  # end
+require 'rails_helper'
+
+RSpec.describe ActionLog, type: :model do
+
 end

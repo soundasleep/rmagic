@@ -1,4 +1,6 @@
 class Card < ActiveRecord::Base
+  has_many :effects, dependent: :destroy
+
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
 
@@ -21,7 +23,15 @@ class Card < ActiveRecord::Base
     @card ||= CardUniverse.new.find_metaverse(metaverse_id)
   end
 
-  delegate :to_text, :action_text, to: :card_type
+  def to_text
+    if card_type.is_creature?
+      "#{card_type.to_text} ( #{power} / #{toughness} )"
+    else
+      card_type.to_text
+    end
+  end
+
+  delegate :action_text, to: :card_type
 
   def can_tap?
     !is_tapped?
@@ -42,7 +52,7 @@ class Card < ActiveRecord::Base
   end
 
   def remaining_health
-    card_type.toughness - damage
+    toughness - damage
   end
 
   def is_destroyed?
@@ -53,6 +63,7 @@ class Card < ActiveRecord::Base
     update! damage: damage + n
   end
 
+  # TODO remove these unused methods
   def can_play?
     true
   end
@@ -63,6 +74,14 @@ class Card < ActiveRecord::Base
 
   def can_ability?
     true
+  end
+
+  def power
+    effects.inject(card_type.power) { |n, effect| effect.effect_type.modify_power(n) }
+  end
+
+  def toughness
+    effects.inject(card_type.toughness) { |n, effect| effect.effect_type.modify_toughness(n) }
   end
 
 end

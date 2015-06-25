@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623001342) do
+ActiveRecord::Schema.define(version: 20150625015052) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -50,9 +50,7 @@ ActiveRecord::Schema.define(version: 20150623001342) do
   add_index "battlefields", ["player_id"], name: "index_battlefields_on_player_id"
 
   create_table "cards", force: :cascade do |t|
-    t.integer  "metaverse_id"
-    t.integer  "token_type"
-    t.integer  "effect_type"
+    t.integer  "metaverse_id", null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.boolean  "is_tapped",    null: false
@@ -111,6 +109,18 @@ ActiveRecord::Schema.define(version: 20150623001342) do
 
   add_index "duels", ["player1_id"], name: "index_duels_on_player1_id"
   add_index "duels", ["player2_id"], name: "index_duels_on_player2_id"
+
+  create_table "effects", force: :cascade do |t|
+    t.integer  "effect_id",  null: false
+    t.integer  "order",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "card_id",    null: false
+  end
+
+  add_index "effects", ["card_id"], name: "index_effects_on_card_id"
+  add_index "effects", ["effect_id"], name: "index_effects_on_effect_id"
+  add_index "effects", ["order"], name: "index_effects_on_order"
 
   create_table "graveyards", force: :cascade do |t|
     t.integer  "player_id",  null: false

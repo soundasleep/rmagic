@@ -2,11 +2,7 @@ class CardType
   include ManaHelper
 
   def to_text
-    if is_creature?
-      "#{name} (#{power} / #{toughness}) #{cost_string}"
-    else
-      "#{name} #{cost_string}"
-    end
+    "#{name} #{cost_string}"
   end
 
   def action_text(id)
@@ -49,7 +45,7 @@ class CardType
   end
 
   def metaverse_id
-    self.class.name.split(/[^0-9]/).last.to_i
+    self.class.id
   end
 
   def self.id

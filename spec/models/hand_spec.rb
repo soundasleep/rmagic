@@ -1,5 +1,5 @@
-RSpec.describe Hand do
-  # test "the truth" do
-  #   assert true
-  # end
+require 'rails_helper'
+
+RSpec.describe Hand, type: :model do
+
 end

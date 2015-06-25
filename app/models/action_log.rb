@@ -3,7 +3,7 @@ class ActionLog < ActiveRecord::Base
   belongs_to :player
   belongs_to :duel
 
-  has_many :targets, class_name: "ActionLogTarget"
+  has_many :targets, class_name: "ActionLogTarget", dependent: :destroy
 
   validate :global_action_or_card
 
@@ -70,6 +70,10 @@ class ActionLog < ActiveRecord::Base
 
   def self.battlefield_card_action(duel, player, zone_card)
     self.generic_card_action duel, player, zone_card.card, "battlefield"
+  end
+
+  def self.effect_action(duel, player, zone_card, effect_id)
+    duel.action_logs.create! player: player, card: zone_card.card, card_action: "effect", argument: effect_id
   end
 
   private

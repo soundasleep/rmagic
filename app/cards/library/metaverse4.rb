@@ -1,5 +1,4 @@
 class Library::Metaverse4 < CardType
-  include Playable
   include PlayableInstant
 
   def name

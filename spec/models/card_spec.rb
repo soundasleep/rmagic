@@ -1,4 +1,6 @@
-RSpec.describe Card do
+require 'rails_helper'
+
+RSpec.describe Card, type: :model do
   it "needs a metaverse id" do
     e = Card.create()
     expect(e.valid?).to be(false)
