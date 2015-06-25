@@ -5,7 +5,12 @@ class Library
 
   def load_card_types
     cards = Dir[File.dirname(__FILE__) + '/library/*.rb'].map do |file|
-      ("Library::" + File.basename(file, ".rb").classify).constantize
+      constant_name = "Library::" + File.basename(file, ".rb").camelize
+      begin
+        constant_name.constantize
+      rescue NameError
+        fail "Could not load #{file} into #{constant_name}"
+      end
     end
 
     fail("Found duplicate card type ID #{duplicates(cards)}") if duplicates(cards)
@@ -19,7 +24,12 @@ class Library
 
   def load_effect_types
     effects = Dir[File.dirname(__FILE__) + '/effects/*.rb'].map do |file|
-      ("Effects::" + File.basename(file, ".rb").classify).constantize
+      constant_name = "Effects::" + File.basename(file, ".rb").camelize
+      begin
+        constant_name.constantize
+      rescue NameError
+        fail "Could not load #{file} into #{constant_name}"
+      end
     end
 
     fail("Found duplicate effect type ID #{duplicates(effects)}") if duplicates(effects)
