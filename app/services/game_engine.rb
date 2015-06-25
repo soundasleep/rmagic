@@ -170,7 +170,7 @@ class GameEngine
     ActionLog.graveyard_card_action(duel, player, zone_card)
 
     # move to graveyard
-    player.graveyard.create! card: zone_card.card
+    player.graveyard.create! card: zone_card.card, order: player.next_graveyard_order
   end
 
   def move_into_battlefield(player, zone_card)

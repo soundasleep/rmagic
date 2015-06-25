@@ -122,6 +122,16 @@ class Player < ActiveRecord::Base
     collection.select { |b| b.card.card_type.is_land? }
   end
 
+  def next_graveyard_order
+    return 1 if graveyard.empty?
+    graveyard.map(&:order).max + 1
+  end
+
+  def next_deck_order
+    return 1 if deck.empty?
+    deck.map(&:order).max + 1
+  end
+
   def is_card?
     false
   end
