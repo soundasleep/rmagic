@@ -11,11 +11,8 @@ class Effects::TemporaryCounter < EffectType
     n + 1
   end
 
-  def effect_id
-    1
-  end
-
   def self.id
     1
   end
+
 end

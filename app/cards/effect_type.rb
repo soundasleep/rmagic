@@ -12,12 +12,13 @@ class EffectType
     n
   end
 
+  # TODO replace with until_end_of_turn? etc
   def temporary?
     true
   end
 
   def effect_id
-    self.class.name.split(/[^0-9]/).last.to_i
+    self.class.id
   end
 
   def self.id
