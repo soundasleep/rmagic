@@ -48,4 +48,8 @@ class CardType
     send("do_#{action.key}", game_engine, action.source, action.target)
   end
 
+  def metaverse_id
+    self.class.name.split(/[^0-9]/).last.to_i
+  end
+
 end

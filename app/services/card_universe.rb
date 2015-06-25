@@ -1,9 +1,12 @@
 class CardUniverse
+  def library
+    @library ||= Library.new
+  end
+
   def find_metaverse(metaverse_id)
-    begin
-      "Library::Metaverse#{metaverse_id}".constantize.new
-    rescue NameError
-      # TODO replace with a library that defines a range of valid card types
+    if library.card_types.has_key? metaverse_id
+      library.card_types[metaverse_id]
+    else
       false
     end
   end
