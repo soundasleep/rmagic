@@ -1,4 +1,6 @@
 class Library::Metaverse5 < CardType
+  include PlayableInstant
+
   def name
     "Instant destroy creature"
   end
@@ -24,10 +26,7 @@ class Library::Metaverse5 < CardType
     return target != nil &&
         target.player.battlefield.include?(target) &&
         target.card.card_type.is_creature? &&
-        game_engine.duel.priority_player == hand.player &&
-        game_engine.duel.phase.can_instant? &&
-        hand.zone.can_instant_from? &&
-        hand.card.can_instant?
+        can_play_instant?(game_engine, hand)
   end
 
   # an instant

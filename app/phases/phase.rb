@@ -11,7 +11,7 @@ class Phase
     false
   end
 
-  def can_activate?
+  def can_ability?
     false
   end
 

@@ -1,5 +1,6 @@
 class Library::Metaverse4 < CardType
   include Playable
+  include PlayableInstant
 
   def name
     "Instant add life"
@@ -24,10 +25,7 @@ class Library::Metaverse4 < CardType
   # ignoring mana costs
   def can_instant?(game_engine, hand, target = nil)
     return target == nil &&
-        game_engine.duel.priority_player == hand.player &&
-        game_engine.duel.phase.can_instant? &&
-        hand.zone.can_instant_from? &&
-        hand.card.can_instant?
+      can_play_instant?(game_engine, hand)
   end
 
   # an instant

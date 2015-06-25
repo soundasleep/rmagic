@@ -61,7 +61,7 @@ class Card < ActiveRecord::Base
     true
   end
 
-  def can_activate?
+  def can_ability?
     true
   end
 

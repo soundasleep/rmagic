@@ -1,5 +1,6 @@
 class Library::Metaverse6 < CardType
   include Creature
+  include CreatureAbility
 
   def name
     "Creature with activated abilities"
@@ -31,10 +32,7 @@ class Library::Metaverse6 < CardType
     return target != nil &&
         target.player.battlefield.include?(target) &&
         target.card.card_type.is_creature? &&
-        game_engine.duel.priority_player == hand.player &&
-        game_engine.duel.phase.can_activate? &&
-        hand.zone.can_activate_from? &&
-        hand.card.can_activate?
+        can_creature_ability?(game_engine, hand)
   end
 
   # an instant

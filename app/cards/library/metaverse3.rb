@@ -1,8 +1,9 @@
 class Library::Metaverse3 < CardType
   include Creature
+  include CreatureAbility
 
   def name
-    "Creature with activated abilities"
+    "Creature with add life"
   end
 
   def power
@@ -28,7 +29,7 @@ class Library::Metaverse3 < CardType
 
   def can_add_life?(game_engine, zone_card, target = nil)
     return target == nil &&
-        game_engine.duel.priority_player == zone_card.player && game_engine.duel.phase.can_instant?
+        can_creature_ability?(game_engine, zone_card)
   end
 
   # an instant

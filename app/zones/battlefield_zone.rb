@@ -3,7 +3,7 @@ class BattlefieldZone < Zone
     true
   end
 
-  def can_activate_from?
+  def can_ability_from?
     true
   end
 

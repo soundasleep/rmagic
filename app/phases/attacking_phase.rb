@@ -7,7 +7,7 @@ class AttackingPhase < Phase
     true
   end
 
-  def can_activate?
+  def can_ability?
     true
   end
 

@@ -7,7 +7,7 @@ class Zone
     false
   end
 
-  def can_activate_from?
+  def can_ability_from?
     false
   end
 
