@@ -15,40 +15,40 @@ class DuelController < ApplicationController
     @duel = Duel.create!( player1: @player1, player2: @player2 )
 
     10.times do
-      create_card @player1.deck, 1
+      create_card @player1.deck, Library::Metaverse1.id
     end
     10.times do
-      create_card @player2.deck, 1
+      create_card @player2.deck, Library::Metaverse1.id
     end
 
-    create_card @player1.battlefield, 1
-    create_card @player1.battlefield, 1
+    create_card @player1.battlefield, Library::Metaverse1.id
+    create_card @player1.battlefield, Library::Metaverse1.id
 
-    create_card @player1.battlefield, 3
-    create_card @player2.battlefield, 3
+    create_card @player1.battlefield, Library::Metaverse3.id
+    create_card @player2.battlefield, Library::Metaverse3.id
 
-    create_card @player1.battlefield, 6
-    create_card @player2.battlefield, 6
+    create_card @player1.battlefield, Library::Metaverse6.id
+    create_card @player2.battlefield, Library::Metaverse6.id
 
     3.times do
-      create_card @player1.battlefield, 2
+      create_card @player1.battlefield, Library::Metaverse2.id
     end
     3.times do
-      create_card @player2.battlefield, 2
+      create_card @player2.battlefield, Library::Metaverse2.id
     end
 
     # TODO use Library::Metaverse1.id instead of magic numbers here
-    create_card @player1.hand, 1
-    create_card @player2.hand, 1
+    create_card @player1.hand, Library::Metaverse1.id
+    create_card @player2.hand, Library::Metaverse1.id
 
-    create_card @player1.hand, 2
-    create_card @player2.hand, 2
+    create_card @player1.hand, Library::Metaverse2.id
+    create_card @player2.hand, Library::Metaverse2.id
 
-    create_card @player1.hand, 4
-    create_card @player2.hand, 4
+    create_card @player1.hand, Library::Metaverse4.id
+    create_card @player2.hand, Library::Metaverse4.id
 
-    create_card @player1.hand, 5
-    create_card @player2.hand, 5
+    create_card @player1.hand, Library::Metaverse5.id
+    create_card @player2.hand, Library::Metaverse5.id
 
     @action1 = ActionLog.create!( card: @player2.battlefield.first.card, card_action: "attack", player: @player2, duel: @duel )
     @action_target1 = ActionLogTarget.create!( card: @player1.battlefield.first.card, action_log: @action1, damage: 1 )

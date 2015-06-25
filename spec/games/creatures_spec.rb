@@ -5,7 +5,7 @@ RSpec.describe "Creatures" do
   let(:card) { first_creature }
 
   before :each do
-    create_hand_cards 1
+    create_hand_cards Library::Metaverse1.id
     duel.playing_phase!
   end
 

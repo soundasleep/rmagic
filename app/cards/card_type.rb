@@ -52,4 +52,8 @@ class CardType
     self.class.name.split(/[^0-9]/).last.to_i
   end
 
+  def self.id
+    name.split(/[^0-9]/).last.to_i
+  end
+
 end

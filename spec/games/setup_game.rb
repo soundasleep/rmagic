@@ -8,13 +8,13 @@ module SetupGame
     duel = Duel.create!(player1: player1, player2: player2)
 
     10.times do
-      create_card duel.player1.deck, 1
-      create_card duel.player2.deck, 1
+      create_card duel.player1.deck, Library::Metaverse1.id
+      create_card duel.player2.deck, Library::Metaverse1.id
     end
 
     3.times do
-      create_card duel.player1.battlefield, 2
-      create_card duel.player2.battlefield, 2
+      create_card duel.player1.battlefield, Library::Metaverse2.id
+      create_card duel.player2.battlefield, Library::Metaverse2.id
     end
 
     duel.save!
@@ -24,10 +24,10 @@ module SetupGame
 
   def create_creatures
     3.times do
-      create_card duel.player1.battlefield, 1
+      create_card duel.player1.battlefield, Library::Metaverse1.id
     end
     2.times do
-      create_card duel.player2.battlefield, 1
+      create_card duel.player2.battlefield, Library::Metaverse1.id
     end
   end
 

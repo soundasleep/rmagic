@@ -5,7 +5,7 @@ RSpec.describe "Instants" do
   let(:card) { first_instant }
 
   before :each do
-    create_hand_cards(4)
+    create_hand_cards Library::Metaverse4.id
     duel.playing_phase!
   end
 
