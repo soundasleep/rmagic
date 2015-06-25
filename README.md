@@ -11,6 +11,7 @@ The engine barely supports anything at the moment, but it's a start.
 * (Hopefully) amazingly clean code
 * Declare attackers and defenders
 * Tapping cards for mana
+* Instants on cards, abilities on creatures
 
 ## ActiveRecord concepts
 
