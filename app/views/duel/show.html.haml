@@ -9,6 +9,7 @@
   = form_tag(play_duel_url(@duel)) do |f|
     = hidden_field_tag "hand", hand.source.id
     = hidden_field_tag "key", hand.key
+    = hidden_field_tag "target_type", get_target_type(hand.target)
     - if hand.target
       = hidden_field_tag "target", hand.target.id
     = submit_tag hand.description
@@ -16,16 +17,11 @@
       %small
         = hand.source.card.id
 
-- available_actions[:defend].each do |defend|
-  = form_tag(defend_duel_url(@duel)) do |f|
-    = hidden_field_tag "source", defend.source.id
-    = hidden_field_tag "target", defend.target.id
-    = submit_tag defend.description
-
 - available_actions[:ability].each do |ability|
   = form_tag(ability_duel_url(@duel)) do |f|
     = hidden_field_tag "battlefield", ability.source.id
     = hidden_field_tag "key", ability.key
+    = hidden_field_tag "target_type", get_target_type(ability.target)
     - if ability.target
       = hidden_field_tag "target", ability.target.id
     = submit_tag ability.description
@@ -43,6 +39,12 @@
           = check_box_tag "attacker[]", a.id
           = a.to_text
     = submit_tag "Declare attackers and pass"
+
+- available_actions[:defend].each do |defend|
+  = form_tag(defend_duel_url(@duel)) do |f|
+    = hidden_field_tag "source", defend.source.id
+    = hidden_field_tag "target", defend.target.id
+    = submit_tag defend.description
 
 %h4 Turn #{@duel.turn}: Current player #{@duel.current_player_number}, #{@duel.phase.description}, priority player #{@duel.priority_player_number}
 
