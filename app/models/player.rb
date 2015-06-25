@@ -106,6 +106,14 @@ class Player < ActiveRecord::Base
     select_lands hand
   end
 
+  def graveyard_creatures
+    select_creatures graveyard
+  end
+
+  def graveyard_lands
+    select_lands graveyard
+  end
+
   def select_creatures(collection)
     collection.select { |b| b.card.card_type.is_creature? }
   end

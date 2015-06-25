@@ -43,6 +43,11 @@ module SetupGame
     create_card duel.player2.battlefield, metaverse_id
   end
 
+  def create_graveyard_cards(metaverse_id)
+    create_card duel.player1.graveyard, metaverse_id
+    create_card duel.player2.graveyard, metaverse_id
+  end
+
   def available_attackers
     game_engine.available_attackers(duel.current_player)
   end
