@@ -1,5 +1,4 @@
 class Library::Metaverse4 < CardType
-  include Playable      # TODO can we remove this?
   include PlayableInstant
 
   def name

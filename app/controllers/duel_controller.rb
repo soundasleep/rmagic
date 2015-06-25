@@ -49,6 +49,9 @@ class DuelController < ApplicationController
     create_card @player1.hand, Library::Metaverse5.id
     create_card @player2.hand, Library::Metaverse5.id
 
+    create_card @player1.hand, Library::InstantCounter.id
+    create_card @player2.hand, Library::InstantCounter.id
+
     @action1 = ActionLog.create!( card: @player2.battlefield.first.card, card_action: "attack", player: @player2, duel: @duel )
     @action_target1 = ActionLogTarget.create!( card: @player1.battlefield.first.card, action_log: @action1, damage: 1 )
 
@@ -74,7 +77,7 @@ class DuelController < ApplicationController
     target = Battlefield.find(params[:target]) if params[:target]
     game_engine.card_action PossiblePlay.new(
       source: hand,
-      key: "play",
+      key: params[:key],
       target: target
     )
     redirect_to duel_path duel

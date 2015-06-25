@@ -23,7 +23,15 @@ class Card < ActiveRecord::Base
     @card ||= CardUniverse.new.find_metaverse(metaverse_id)
   end
 
-  delegate :to_text, :action_text, to: :card_type
+  def to_text
+    if card_type.is_creature?
+      "#{card_type.to_text} ( #{power} / #{toughness} )"
+    else
+      card_type.to_text
+    end
+  end
+
+  delegate :action_text, to: :card_type
 
   def can_tap?
     !is_tapped?

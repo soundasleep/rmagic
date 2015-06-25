@@ -13,6 +13,19 @@ RSpec.describe "Instants" do
     duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first
   end
 
+  it "do not have play abilities" do
+    expect(card.card.card_type.actions).to_not include("play")
+  end
+
+  context "available play actions" do
+    let(:playable) { game_engine.action_finder.available_actions(duel.player1)[:play] }
+    let(:card_playable) { playable.select{ |a| a.source == card } }
+
+    it "are not listed as an available play action" do
+      expect(card_playable).to be_empty
+    end
+  end
+
   def instant_actions(zone_card)
     actions(zone_card.card, "instant")
   end
