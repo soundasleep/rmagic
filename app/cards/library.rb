@@ -8,6 +8,8 @@ class Library
       ("Library::" + File.basename(file, ".rb").classify).constantize
     end
 
+    fail("Found duplicate card type ID #{duplicates(cards)}") if duplicates(cards)
+
     Hash[cards.map { |card| [card.id, card] }]
   end
 
@@ -20,6 +22,13 @@ class Library
       ("Effects::" + File.basename(file, ".rb").classify).constantize
     end
 
+    fail("Found duplicate effect type ID #{duplicates(effects)}") if duplicates(effects)
+
     Hash[effects.map { |effect| [effect.id, effect] }]
+  end
+
+  def duplicates(collection)
+    ids = collection.map(&:id)
+    ids.detect { |e| ids.rindex(e) != ids.index(e) }
   end
 end

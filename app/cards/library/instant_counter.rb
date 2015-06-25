@@ -39,7 +39,7 @@ class Library::InstantCounter < CardType
   end
 
   def self.id
-    7   # TODO add test that all card IDs are unique
+    7
   end
 
 end
