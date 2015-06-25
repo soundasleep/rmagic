@@ -1,5 +1,5 @@
-RSpec.describe DeclaredDefender do
-  # test "the truth" do
-  #   assert true
-  # end
+require 'rails_helper'
+
+RSpec.describe DeclaredDefender, type: :model do
+
 end

@@ -1,4 +1,6 @@
-RSpec.describe Player do
+require 'rails_helper'
+
+RSpec.describe Player, type: :model do
   include ManaHelper
 
   it "a player can have a mana pool" do

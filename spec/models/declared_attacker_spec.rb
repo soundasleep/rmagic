@@ -1,5 +1,5 @@
-RSpec.describe DeclaredAttacker do
-  # test "the truth" do
-  #   assert true
-  # end
+require 'rails_helper'
+
+RSpec.describe DeclaredAttacker, type: :model do
+
 end
