@@ -17,6 +17,6 @@ class Effect < ActiveRecord::Base
     @effect ||= EffectUniverse.new.find_effect(effect_id)
   end
 
-  delegate :to_text, to: :card_type
+  delegate :to_text, to: :effect_type
 
 end

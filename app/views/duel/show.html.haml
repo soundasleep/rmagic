@@ -72,6 +72,11 @@
         = battlefield.to_text
         - if battlefield.card.is_tapped?
           %i (tapped)
+        - if battlefield.card.effects.any?
+          %i
+            #{pluralize(battlefield.card.effects.count, "effect")}:
+            = battlefield.card.effects.map{ |e| e.to_text }.join(", ")
+
         %small= battlefield.card.id
 
 %h2 Action Log
