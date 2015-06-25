@@ -27,7 +27,6 @@ We try to use as few model objects as possible.
 
 * Represents actions as classes/services rather than methods?
 * Support more game phases correctly
-* Instants targeting creatures
 * Instants targeting players
 * Activated abilities
 * Summoning sickness for activated abilities
