@@ -22,7 +22,8 @@ class ActionFinder
 
   def playable_cards(player)
     playable_cards_without_targets(player)
-      .concat(playable_cards_with_targets(player))
+      .concat(playable_cards_with_card_targets(player))
+      .concat(playable_cards_with_player_targets(player))
       .select{ |action| game_engine.can_do_action?(action) }
   end
 
@@ -38,9 +39,9 @@ class ActionFinder
     end.flatten(1)
   end
 
-  def playable_cards_with_targets(player)
+  def playable_cards_with_card_targets(player)
     # all hand cards which have an available ability (e.g. play, instant)
-    # with a target
+    # with a card target
     duel.players.map do |duel_player|
       duel_player.zones.map do |zone|
         zone.map do |zone_card|
@@ -54,6 +55,22 @@ class ActionFinder
             end
           end.flatten(1)
         end.flatten(1)
+      end.flatten(1)
+    end.flatten(1)
+  end
+
+  def playable_cards_with_player_targets(player)
+    # all hand cards which have an available ability (e.g. play, instant)
+    # with a card target
+    duel.players.map do |duel_player|
+      player.hand.map do |hand|
+        hand.card.card_type.actions.map do |action|
+          PossiblePlay.new(
+            source: hand,
+            key: action,
+            target: duel_player
+          )
+        end
       end.flatten(1)
     end.flatten(1)
   end
@@ -88,7 +105,8 @@ class ActionFinder
 
   def ability_cards(player)
     ability_cards_without_targets(player)
-      .concat(ability_cards_with_targets(player))
+      .concat(ability_cards_with_card_targets(player))
+      .concat(ability_cards_with_player_targets(player))
       .select{ |action| game_engine.can_do_action?(action) }
   end
 
@@ -104,9 +122,9 @@ class ActionFinder
     end.flatten(1)
   end
 
-  def ability_cards_with_targets(player)
+  def ability_cards_with_card_targets(player)
     # all battlefield cards which have an available ability
-    # with a target
+    # with a card target
     duel.players.map do |duel_player|
       duel_player.zones.map do |zone|
         zone.map do |zone_card|
@@ -120,6 +138,22 @@ class ActionFinder
             end
           end.flatten(1)
         end.flatten(1)
+      end.flatten(1)
+    end.flatten(1)
+  end
+
+  def ability_cards_with_player_targets(player)
+    # all battlefield cards which have an available ability
+    # with a player target
+    duel.players.map do |duel_player|
+      player.battlefield.map do |b|
+        b.card.card_type.actions.map do |action|
+          PossibleAbility.new(
+            source: b,
+            key: action,
+            target: duel_player
+          )
+        end
       end.flatten(1)
     end.flatten(1)
   end

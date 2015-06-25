@@ -3,7 +3,7 @@ class Library::Metaverse3 < CardType
   include CreatureAbility
 
   def name
-    "Creature with add life"
+    "Creature with add life to owner"
   end
 
   def power

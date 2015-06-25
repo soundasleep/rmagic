@@ -24,6 +24,7 @@ class Library::InstantCounter < CardType
   # ignoring mana costs
   def can_counter?(game_engine, hand, target = nil)
     return target != nil &&
+        target.is_card? &&
         target.player.battlefield.include?(target) &&
         target.card.card_type.is_creature? &&
         can_play_instant?(game_engine, hand)

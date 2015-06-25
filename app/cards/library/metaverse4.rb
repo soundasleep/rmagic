@@ -2,7 +2,7 @@ class Library::Metaverse4 < CardType
   include PlayableInstant
 
   def name
-    "Instant add life"
+    "Instant add life to owner"
   end
 
   def is_instant?

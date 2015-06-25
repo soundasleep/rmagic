@@ -52,6 +52,9 @@ class DuelController < ApplicationController
     create_card @player1.hand, Library::InstantCounter.id
     create_card @player2.hand, Library::InstantCounter.id
 
+    create_card @player1.hand, Library::AddLifeTargets.id
+    create_card @player2.hand, Library::AddLifeTargets.id
+
     @action1 = ActionLog.create!( card: @player2.battlefield.first.card, card_action: "attack", player: @player2, duel: @duel )
     @action_target1 = ActionLogTarget.create!( card: @player1.battlefield.first.card, action_log: @action1, damage: 1 )
 
@@ -72,25 +75,19 @@ class DuelController < ApplicationController
   end
 
   def play
-    hand = Hand.find(params[:hand])
-    target = nil
-    target = Battlefield.find(params[:target]) if params[:target]
     game_engine.card_action PossiblePlay.new(
-      source: hand,
+      source: Hand.find(params[:hand]),
       key: params[:key],
-      target: target
+      target: find_target
     )
     redirect_to duel_path duel
   end
 
   def ability
-    battlefield = Battlefield.find(params[:battlefield])
-    target = nil
-    target = Battlefield.find(params[:target]) if params[:target]
     game_engine.card_action PossibleAbility.new(
-      source: battlefield,
+      source: Battlefield.find(params[:battlefield]),
       key: params[:key],
-      target: target
+      target: find_target
     )
     redirect_to duel_path duel
   end
@@ -116,6 +113,7 @@ class DuelController < ApplicationController
   end
 
   helper_method :available_actions, :available_attackers
+  helper_method :get_target_type
 
   def available_actions
     game_engine.available_actions duel.player1
@@ -134,6 +132,31 @@ class DuelController < ApplicationController
   def create_card(zone, metaverse_id)
     card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
     zone.create! card: card
+  end
+
+  def find_target
+    case params[:target_type]
+      when "player"
+        Player.find(params[:target])
+      when "battlefield"
+        Battlefield.find(params[:target])
+      when "none"
+        nil
+      else
+        fail "Unknown target type '#{params[:target_type]}'"
+    end
+  end
+
+  def get_target_type(target)
+    return "none" if target == nil
+    case target.class.name
+      when "Player"
+        "player"
+      when "Battlefield"
+        "battlefield"
+      else
+        fail "Unknown target type '#{target.class.name}'"
+    end
   end
 
 end

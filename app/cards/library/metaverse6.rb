@@ -30,6 +30,7 @@ class Library::Metaverse6 < CardType
   # ignoring mana costs
   def can_destroy?(game_engine, hand, target = nil)
     return target != nil &&
+        target.is_card? &&
         target.player.battlefield.include?(target) &&
         target.card.card_type.is_creature? &&
         can_creature_ability?(game_engine, hand)
