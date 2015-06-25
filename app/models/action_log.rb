@@ -3,7 +3,7 @@ class ActionLog < ActiveRecord::Base
   belongs_to :player
   belongs_to :duel
 
-  has_many :targets, class_name: "ActionLogTarget"
+  has_many :targets, class_name: "ActionLogTarget", dependent: :destroy
 
   validate :global_action_or_card
 

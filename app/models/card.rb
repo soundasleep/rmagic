@@ -1,4 +1,6 @@
 class Card < ActiveRecord::Base
+  has_many :effects, dependent: :destroy
+
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
 
@@ -63,6 +65,14 @@ class Card < ActiveRecord::Base
 
   def can_ability?
     true
+  end
+
+  def power
+    effects.inject(card_type.power) { |n, effect| effect.effect_type.modify_power(n) }
+  end
+
+  def toughness
+    effects.inject(card_type.toughness) { |n, effect| effect.effect_type.modify_toughness(n) }
   end
 
 end
