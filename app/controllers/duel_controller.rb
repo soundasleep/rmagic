@@ -1,4 +1,6 @@
 class DuelController < ApplicationController
+  before_filter :authenticate
+
   def create
     # create a temporary duel to display
     @player1 = Player.create!(
