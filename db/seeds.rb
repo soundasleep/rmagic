@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+system = User.create! name: "System"
+
+deck = system.premade_decks.create! name: "Fate"
+
+deck.cards.create! metaverse_id: Library::Forest.id
