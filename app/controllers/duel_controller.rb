@@ -2,6 +2,7 @@ class DuelController < ApplicationController
   before_filter :authenticate
 
   def create
+    # TODO move this into a service so we can test it? (GameCreationService? GameCreator?)
     player1 = current_user.players.create! name: current_user.name, life: 20, is_ai: false
     player2 = Player.create! name: "AI", life: 20, is_ai: true
 
@@ -18,6 +19,9 @@ class DuelController < ApplicationController
       create_order_card player2.deck, c.metaverse_id, i
     end
 
+    # TODO shuffle deck
+    # TODO mulligans, pre-game setup
+
     duel.save!
 
     # execute the first phase of the game
@@ -27,7 +31,7 @@ class DuelController < ApplicationController
   end
 
   def duel
-    # TODO check that we can actually view/interact with this duel
+    # TODO check permissions that we can actually view/interact with this duel
     @duel ||= Duel.find(params[:id])
   end
 
@@ -36,7 +40,7 @@ class DuelController < ApplicationController
   end
 
   def pass
-    PhaseManager.new(game_engine).pass!
+    game_engine.pass
     redirect_to duel_path duel
   end
 
@@ -90,7 +94,7 @@ class DuelController < ApplicationController
   end
 
   def game_engine
-    GameEngine.new(duel)
+    @game_engine ||= GameEngine.new(duel)
   end
 
   private
