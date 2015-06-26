@@ -148,6 +148,27 @@ RSpec.describe "Lands", type: :game do
             expect(can_be_played).to be(true)
           end
         end
+
+        context "after the first land is moved to graveyard" do
+          before :each do
+            game_engine.move_into_graveyard duel.player1, card
+          end
+
+          it "still cannot be played" do
+            expect(can_be_played).to be(false)
+          end
+
+          context "on the next turn" do
+            before :each do
+              pass_until_next_turn
+              duel.playing_phase!
+            end
+
+            it "can be played" do
+              expect(can_be_played).to be(true)
+            end
+          end
+        end
       end
 
     end
