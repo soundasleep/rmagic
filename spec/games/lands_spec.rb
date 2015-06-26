@@ -60,7 +60,7 @@ RSpec.describe "Lands", type: :game do
   end
 
   context "without mana" do
-    it "can be played with mana" do
+    it "can be played without mana" do
       expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
     end
 
@@ -116,6 +116,38 @@ RSpec.describe "Lands", type: :game do
 
       it "removes the land from the hand" do
         expect(first_hand_land).to be_nil
+      end
+
+      context "and another land" do
+        let(:second_land) { duel.player1.hand_lands.first }
+        let(:can_be_played) { game_engine.can_do_action?(PossiblePlay.new(source: second_land, key: "play")) }
+
+        before :each do
+          create_hand_cards Library::Forest.id
+        end
+
+        it "we have one card in hand" do
+          expect(duel.player1.hand_lands.length).to eq(1)
+        end
+
+        it "is different to the first land" do
+          expect(card.card).to_not eq(second_land.card)
+        end
+
+        it "cannot be played" do
+          expect(can_be_played).to be(false)
+        end
+
+        context "on the next turn" do
+          before :each do
+            pass_until_next_turn
+            duel.playing_phase!
+          end
+
+          it "can be played" do
+            expect(can_be_played).to be(true)
+          end
+        end
       end
 
     end
