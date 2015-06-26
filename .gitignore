@@ -16,5 +16,8 @@
 !/log/.keep
 /tmp
 
+# Ignore private config
+.env
+
 # Silly Mac OS X
 .DS_Store

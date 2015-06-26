@@ -28,6 +28,12 @@ gem 'haml-rails'
 # Use Rspec rather than test_unit
 gem 'rspec-rails'
 
+# OAuth2 login
+gem 'dotenv-rails'
+gem 'figaro'
+gem 'omniauth-google-oauth2'
+gem 'activerecord-session_store'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

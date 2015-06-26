@@ -11,6 +11,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/auth/google_login/callback" => "sessions#create"
+  get "/signout" => "sessions#destroy", :as => :signout
+
   # get 'duel/show/:id' => "duel#show"
   # get 'duel/create'
   # post 'duel/pass'
