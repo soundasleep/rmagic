@@ -5,6 +5,11 @@ module Land
     true
   end
 
+  def can_play?(game_engine, battlefield, target = nil)
+    super(game_engine, battlefield, target) &&
+        !has_played_a_land?(battlefield.player, game_engine.duel.turn)
+  end
+
   def can_tap?(game_engine, battlefield, target = nil)
     return target == nil &&
         game_engine.duel.priority_player == battlefield.player &&
@@ -37,6 +42,10 @@ module Land
     fail "Cannot untap #{battlefield.card}: already untapped" if !battlefield.card.is_tapped?
 
     battlefield.card.untap_card!
+  end
+
+  def has_played_a_land?(player, turn)
+    (player.battlefield + player.graveyard).any?{ |card| card.card.turn_played == turn }
   end
 
 end
