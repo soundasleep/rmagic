@@ -8,6 +8,10 @@
 
 system = User.create! name: "System"
 
-deck = system.premade_decks.create! name: "Fate"
+deck = system.premade_decks.create! name: "Fury"
 
 deck.cards.create! metaverse_id: Library::Forest.id
+
+deck = system.premade_decks.create! name: "Fate"
+
+deck.cards.create! metaverse_id: Library::Island.id
