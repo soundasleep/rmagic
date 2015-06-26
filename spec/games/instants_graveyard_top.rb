@@ -1,0 +1,217 @@
+require_relative "setup_game"
+
+RSpec.describe "Instants returning the top of graveyard", type: :game do
+  let(:duel) { create_game }
+  let(:card) { first_instant }
+
+  before :each do
+    create_graveyard_cards Library::Metaverse1.id
+    create_hand_cards Library::InstantGraveyardTop.id
+    duel.playing_phase!
+  end
+
+  def first_instant
+    duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first
+  end
+
+  def instant_actions(zone_card)
+    actions(zone_card.card, "instant")
+  end
+
+  def first_instant_available_actions
+    available_play_actions("instant")
+  end
+
+  it "can be found" do
+    expect(first_instant).to_not be_nil
+  end
+
+  it "can be played in a phase which can cast instants" do
+    expect(duel.phase.can_instant?).to be(true)
+  end
+
+  context "without mana" do
+    it "requires mana" do
+      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant"))).to be(false)
+    end
+
+    it "is not listed as an available action" do
+      expect(first_instant_available_actions).to be_empty
+    end
+  end
+
+  context "with mana" do
+    let(:target) { duel.player1.graveyard_creatures.first }
+
+    before :each do
+      tap_all_lands
+    end
+
+    context "can be played with mana" do
+      it "and a target from our graveyard" do
+        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: target))).to be(true)
+      end
+
+      it "but not with a target from their graveyard" do
+        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: duel.player2.graveyard_creatures.first))).to be(false)
+      end
+
+      it "but not without a target" do
+        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant"))).to be(false)
+      end
+    end
+
+    context "is listed as an available action" do
+      it "of one type" do
+        expect(first_instant_available_actions.to_a.uniq{ |u| u.source }.length).to eq(1)
+      end
+
+      it "of one target" do
+        expect(first_instant_available_actions.length).to eq(1)
+      end
+
+      it "with the correct source and key" do
+        available_actions[:play].each do |a|
+          expect(a.source).to eq(card)
+          expect(a.key).to eq("instant")
+        end
+      end
+
+      it "with only our targets" do
+        available_actions[:play].each do |a|
+          expect(a.target.player).to eq(duel.player1)
+        end
+      end
+    end
+
+    it "all actions have source and key and target specified" do
+      available_actions[:play].each do |a|
+        expect(a.source).to_not be_nil
+        expect(a.key).to_not be_nil
+        expect(a.target).to_not be_nil
+      end
+    end
+
+    it "all actions have a description" do
+      available_actions[:play].each do |a|
+        expect(a.description).to_not be_nil
+      end
+    end
+
+    context "when activated" do
+      before :each do
+        expect(duel.player1.graveyard_creatures.length).to eq(1)
+        expect(duel.player2.graveyard_creatures.length).to eq(1)
+      end
+
+      context "on our creature" do
+        before :each do
+          game_engine.card_action(PossiblePlay.new(source: card, key: "instant", target: target))
+        end
+
+        it "removes our creature from the graveyard" do
+          expect(duel.player1.graveyard_creatures).to be_empty
+        end
+
+        it "adds a creature into the battlefield" do
+          expect(duel.player1.battlefield_creatures).to_not be_empty
+        end
+
+        it "adds our creature into the battlefield" do
+          expect(duel.player1.battlefield_creatures.map{|b| b.card}).to eq([target.card])
+        end
+
+        it "creates an action" do
+          expect(instant_actions(card).map{ |card| card.card }).to eq([card.card])
+        end
+
+        it "consumes mana" do
+          expect(duel.player1.mana_green).to eq(2)
+        end
+      end
+
+    end
+  end
+
+  context "with another creature in the graveyard" do
+    before :each do
+      create_graveyard_cards Library::Metaverse3.id
+    end
+
+    context "graveyard cards" do
+      let(:order) { duel.player1.graveyard.map(&:order) }
+      let(:uniques) { order.uniq }
+      let(:order_ids) { duel.player1.graveyard.map(&:card).map(&:card_type).map(&:metaverse_id) }
+
+      it "each have a unique order" do
+        expect(order).to eq(uniques)
+      end
+
+      it "are in increasing order based on time added" do
+        expect(order_ids).to eq([ Library::Metaverse1.id, Library::Metaverse3.id ])
+      end
+    end
+
+    context "with mana" do
+      let(:target) { duel.player1.graveyard_creatures.last }
+
+      before :each do
+        tap_all_lands
+      end
+
+      context "can be played with mana" do
+        it "and a target from our graveyard" do
+          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: target))).to be(true)
+        end
+      end
+
+      context "is listed as an available action" do
+        it "of one target" do
+          expect(first_instant_available_actions.length).to eq(1)
+        end
+
+        it "with the correct source and key" do
+          available_actions[:play].each do |a|
+            expect(a.source).to eq(card)
+            expect(a.key).to eq("instant")
+          end
+        end
+
+        it "with only our target" do
+          expect(available_actions[:play].first.target).to eq(target)
+        end
+      end
+    end
+  end
+
+  context "with a land in the graveyard" do
+    before :each do
+      create_graveyard_cards Library::Forest.id
+    end
+
+    context "with mana" do
+      let(:target) { duel.player1.graveyard_creatures.first }
+
+      before :each do
+        tap_all_lands
+      end
+
+      context "can be played with mana" do
+        it "and a target from our graveyard" do
+          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: target))).to be(true)
+        end
+      end
+
+      context "is listed as an available action" do
+        it "of one target" do
+          expect(first_instant_available_actions.length).to eq(1)
+        end
+
+        it "with only our target" do
+          expect(available_actions[:play].first.target).to eq(target)
+        end
+      end
+    end
+  end
+
+end

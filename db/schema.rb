@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625015052) do
+ActiveRecord::Schema.define(version: 20150625235413) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20150625015052) do
   create_table "decks", force: :cascade do |t|
     t.integer  "player_id",  null: false
     t.integer  "card_id",    null: false
-    t.integer  "order"
+    t.integer  "order",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20150625015052) do
   create_table "graveyards", force: :cascade do |t|
     t.integer  "player_id",  null: false
     t.integer  "card_id",    null: false
-    t.integer  "order"
+    t.integer  "order",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

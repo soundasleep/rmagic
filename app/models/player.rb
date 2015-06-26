@@ -1,10 +1,10 @@
 class Player < ActiveRecord::Base
   include ManaHelper
 
-  has_many :deck, dependent: :destroy
+  has_many :deck, -> { order(order: :desc) }, dependent: :destroy
   has_many :hand, dependent: :destroy
   has_many :battlefield, dependent: :destroy
-  has_many :graveyard, dependent: :destroy
+  has_many :graveyard, -> { order(order: :desc) }, dependent: :destroy
 
   validates :life, :name, :mana_blue, :mana_green,
       :mana_red, :mana_white, :mana_black,
@@ -106,12 +106,30 @@ class Player < ActiveRecord::Base
     select_lands hand
   end
 
+  def graveyard_creatures
+    select_creatures graveyard
+  end
+
+  def graveyard_lands
+    select_lands graveyard
+  end
+
   def select_creatures(collection)
     collection.select { |b| b.card.card_type.is_creature? }
   end
 
   def select_lands(collection)
     collection.select { |b| b.card.card_type.is_land? }
+  end
+
+  def next_graveyard_order
+    return 1 if graveyard.empty?
+    graveyard.map(&:order).max + 1
+  end
+
+  def next_deck_order
+    return 1 if deck.empty?
+    deck.map(&:order).max + 1
   end
 
   def is_card?

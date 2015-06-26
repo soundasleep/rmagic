@@ -10,8 +10,8 @@ module SetupGame
     duel = Duel.create!(player1: player1, player2: player2)
 
     10.times do
-      create_card duel.player1.deck, Library::Metaverse1.id
-      create_card duel.player2.deck, Library::Metaverse1.id
+      create_order_card duel.player1.deck, Library::Metaverse1.id, duel.player1.next_deck_order
+      create_order_card duel.player2.deck, Library::Metaverse1.id, duel.player2.next_deck_order
     end
 
     3.times do
@@ -33,6 +33,16 @@ module SetupGame
     end
   end
 
+  def create_card(zone, metaverse_id)
+    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+    zone.create! card: card
+  end
+
+  def create_order_card(zone, metaverse_id, order)
+    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+    zone.create! card: card, order: order
+  end
+
   def create_hand_cards(metaverse_id)
     create_card duel.player1.hand, metaverse_id
     create_card duel.player2.hand, metaverse_id
@@ -41,6 +51,11 @@ module SetupGame
   def create_battlefield_cards(metaverse_id)
     create_card duel.player1.battlefield, metaverse_id
     create_card duel.player2.battlefield, metaverse_id
+  end
+
+  def create_graveyard_cards(metaverse_id)
+    create_order_card duel.player1.graveyard, metaverse_id, duel.player1.next_graveyard_order
+    create_order_card duel.player2.graveyard, metaverse_id, duel.player2.next_graveyard_order
   end
 
   def available_attackers
@@ -124,11 +139,6 @@ module SetupGame
       assert_operator i, :<, 100, "it took too long to get to the next priority"
       game_engine.pass
     end
-  end
-
-  def create_card(zone, metaverse_id)
-    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-    zone.create! card: card
   end
 
 end
