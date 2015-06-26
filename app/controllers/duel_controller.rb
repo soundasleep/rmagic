@@ -15,10 +15,10 @@ class DuelController < ApplicationController
     @duel = Duel.create!( player1: @player1, player2: @player2 )
 
     10.times do
-      create_card @player1.deck, Library::Metaverse1.id
+      create_order_card @player1.deck, Library::Metaverse1.id, @player1.next_deck_order
     end
     10.times do
-      create_card @player2.deck, Library::Metaverse1.id
+      create_order_card @player2.deck, Library::Metaverse1.id, @player2.next_deck_order
     end
 
     create_card @player1.battlefield, Library::Metaverse1.id
@@ -132,6 +132,11 @@ class DuelController < ApplicationController
   def create_card(zone, metaverse_id)
     card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
     zone.create! card: card
+  end
+
+  def create_order_card(zone, metaverse_id, order)
+    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+    zone.create! card: card, order: order
   end
 
   def find_target
