@@ -1,0 +1,5 @@
+- if current_user
+  = button_to "Sign out", logout_path
+- else
+  = button_to "Sign in with Google", "/auth/google_login"
+
