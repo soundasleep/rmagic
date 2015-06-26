@@ -1,0 +1,2 @@
+module PremadeDecksHelper
+end

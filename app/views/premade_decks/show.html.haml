@@ -1,0 +1,30 @@
+%h1 #{@deck.name} Deck
+
+- cards = @deck.cards.map{ |card| card.card_type }
+- creatures = cards.select{ |card| card.is_creature? }
+/- spells = cards.select{ |card| card.card_type.is_spell? } - creatures
+- spells = []
+- lands = cards.select{ |card| card.is_land? } - creatures - spells
+- others = cards - creatures - spells - lands
+
+- if creatures.any?
+  %h2 Creatures (#{creatures.count})
+
+  %ul
+    - creatures.each do |c|
+      %li=c.name
+
+- if lands.any?
+  %h2 Creatures (#{lands.count})
+
+  %ul
+    - lands.each do |c|
+      %li=c.name
+
+- if others.any?
+  %h2 Other (#{others.count})
+
+  %ul
+    - others.each do |c|
+      %li=c.name
+
