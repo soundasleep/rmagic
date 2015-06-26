@@ -18,6 +18,10 @@ class CardType
     false
   end
 
+  def is_spell?
+    false
+  end
+
   def mana_cost
     {}
   end

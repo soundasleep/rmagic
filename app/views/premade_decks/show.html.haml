@@ -2,8 +2,7 @@
 
 - cards = @deck.cards.map{ |card| card.card_type }
 - creatures = cards.select{ |card| card.is_creature? }
-/- spells = cards.select{ |card| card.card_type.is_spell? } - creatures
-- spells = []
+- spells = cards.select{ |card| card.is_spell? } - creatures
 - lands = cards.select{ |card| card.is_land? } - creatures - spells
 - others = cards - creatures - spells - lands
 
@@ -14,8 +13,15 @@
     - creatures.each do |c|
       %li=c.name
 
+- if spells.any?
+  %h2 Spells (#{spells.count})
+
+  %ul
+    - spells.each do |c|
+      %li=c.name
+
 - if lands.any?
-  %h2 Creatures (#{lands.count})
+  %h2 Lands (#{lands.count})
 
   %ul
     - lands.each do |c|
@@ -27,4 +33,3 @@
   %ul
     - others.each do |c|
       %li=c.name
-
