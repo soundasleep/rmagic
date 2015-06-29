@@ -35,5 +35,13 @@ RSpec.describe CardUniverse, type: :service do
     it "provides at least one card" do
       expect(all.count).to be > 0
     end
+
+    context "each card" do
+      it "has an id" do
+        all.each do |card|
+          expect(card.id).to_not be_nil
+        end
+      end
+    end
   end
 end

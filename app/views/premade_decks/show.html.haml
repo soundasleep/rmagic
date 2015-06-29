@@ -11,25 +11,25 @@
 
   %ul
     - creatures.each do |c|
-      %li=c.name
+      %li= link_to c.name, card_path(c.metaverse_id)
 
 - if spells.any?
   %h2 Spells (#{spells.count})
 
   %ul
     - spells.each do |c|
-      %li=c.name
+      %li= link_to c.name, card_path(c.metaverse_id)
 
 - if lands.any?
   %h2 Lands (#{lands.count})
 
   %ul
     - lands.each do |c|
-      %li=c.name
+      %li= link_to c.name, card_path(c.metaverse_id)
 
 - if others.any?
   %h2 Other (#{others.count})
 
   %ul
     - others.each do |c|
-      %li=c.name
+      %li= link_to c.name, card_path(c.metaverse_id)

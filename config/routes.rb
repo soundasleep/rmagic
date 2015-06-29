@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   resources :premade_decks, only: [ :index, :show ]
 
+  resources :cards, only: [ :index, :show ]
+
   get "/auth/google_login/callback" => "sessions#create"
   get "/logout" => "sessions#destroy", :as => :logout
 

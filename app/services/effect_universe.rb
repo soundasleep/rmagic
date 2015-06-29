@@ -8,7 +8,7 @@ class EffectUniverse
   end
 
   def find_effect(effect_id)
-    @cache[effect_id] ||= load_effect(effect_id)
+    @cache[effect_id.to_i] ||= load_effect(effect_id.to_i)
   end
 
   def load_effect(effect_id)
@@ -20,6 +20,6 @@ class EffectUniverse
   end
 
   def all
-    library.card_types
+    library.card_types.values
   end
 end

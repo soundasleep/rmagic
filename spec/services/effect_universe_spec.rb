@@ -35,5 +35,13 @@ RSpec.describe EffectUniverse, type: :service do
     it "provides at least one effect" do
       expect(all.count).to be > 0
     end
+
+    context "each effect" do
+      it "has an id" do
+        all.each do |effect|
+          expect(effect.id).to_not be_nil
+        end
+      end
+    end
   end
 end
