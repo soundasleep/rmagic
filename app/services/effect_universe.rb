@@ -18,4 +18,8 @@ class EffectUniverse
       false
     end
   end
+
+  def all
+    library.card_types
+  end
 end
