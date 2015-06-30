@@ -14,7 +14,7 @@ class Card < ActiveRecord::Base
   end
 
   def valid_metaverse_id
-    if metaverse_id <= 0
+    if metaverse_id && metaverse_id <= 0
       errors.add(:metaverse_id, "Invalid metaverse ID #{metaverse_id}")
     end
   end
@@ -40,6 +40,7 @@ class Card < ActiveRecord::Base
 
   delegate :action_text, to: :card_type
 
+  # TODO remove - seems unnecessary, since this has no context information
   def can_tap?
     !is_tapped?
   end

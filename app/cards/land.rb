@@ -1,5 +1,6 @@
 module Land
   include Playable
+  # TODO include ActivatedAbility?
 
   def is_land?
     true
