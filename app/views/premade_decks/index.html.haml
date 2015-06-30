@@ -1,0 +1,7 @@
+%h1 Premade decks
+
+%ul
+  - @decks.each do |deck|
+    %li
+      = link_to deck.name, premade_deck_path(deck)
+      (#{pluralize(deck.cards.count, "card")})

@@ -1,4 +1,13 @@
 %h1 Rmagic
 
-= form_tag duel_index_path, method: :create do |f|
-  = submit_tag "Start new duel"
+%h2 Premade duels vs AI
+
+%ul
+  - premade_decks.each do |deck1|
+    - premade_decks.each do |deck2|
+      = form_tag duel_index_path, method: :create do |f|
+        = hidden_field_tag "deck1", deck1.id
+        = hidden_field_tag "deck2", deck2.id
+        = submit_tag "#{deck1.name} v #{deck2.name}"
+
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150626015951) do
+ActiveRecord::Schema.define(version: 20150626024509) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -155,7 +155,28 @@ ActiveRecord::Schema.define(version: 20150626015951) do
     t.integer  "mana_white",      null: false
     t.integer  "mana_black",      null: false
     t.integer  "mana_colourless", null: false
+    t.integer  "user_id"
   end
+
+  add_index "players", ["user_id"], name: "index_players_on_user_id"
+
+  create_table "premade_deck_cards", force: :cascade do |t|
+    t.integer  "premade_deck_id", null: false
+    t.integer  "metaverse_id",    null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "premade_deck_cards", ["premade_deck_id"], name: "index_premade_deck_cards_on_premade_deck_id"
+
+  create_table "premade_decks", force: :cascade do |t|
+    t.string   "name",          null: false
+    t.integer  "created_by_id", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "premade_decks", ["created_by_id"], name: "index_premade_decks_on_created_by_id"
 
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", null: false

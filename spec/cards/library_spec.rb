@@ -16,6 +16,12 @@ RSpec.describe Library, type: :card do
       end
     end
 
+    it "each have an id equal to metaverse id" do
+      card_types.each do |id, card_type|
+        expect(card_type.new.metaverse_id).to eq(card_type.new.id)
+      end
+    end
+
     it "each have a description" do
       card_types.each do |id, card_type|
         expect(card_type.new.to_text).to_not be_nil
@@ -33,6 +39,12 @@ RSpec.describe Library, type: :card do
     it "each have an effect id" do
       effect_types.each do |id, effect|
         expect(effect.new.effect_id).to_not be_nil
+      end
+
+    end
+    it "each have an id equal to effect id" do
+      effect_types.each do |id, effect|
+        expect(effect.new.effect_id).to eq(effect.new.id)
       end
     end
 

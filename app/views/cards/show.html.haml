@@ -1,0 +1,23 @@
+%h1 #{@card.name}
+
+%dl
+  %dt Metaverse ID
+  %dd= @card.metaverse_id
+
+  %dt Is creature?
+  %dd= @card.is_creature?.to_s
+
+  %dt Is land?
+  %dd= @card.is_land?.to_s
+
+  %dt Is spell?
+  %dd= @card.is_spell?.to_s
+
+  %dt Converted mana cost
+  %dd= @card.cost_string
+
+  %dt Actions
+  %dd
+    %ul
+      - @card.actions.each do |a|
+        %li= a

@@ -2,69 +2,37 @@ class DuelController < ApplicationController
   before_filter :authenticate
 
   def create
-    # create a temporary duel to display
-    @player1 = Player.create!(
-      name: "Jevon",
-      life: 20,
-      is_ai: false
-    )
-    @player2 = Player.create!(
-      name: "AI",
-      life: 15,
-      is_ai: true
-    )
+    # TODO move this into a service so we can test it? (GameCreationService? GameCreator?)
+    player1 = current_user.players.create! name: current_user.name, life: 20, is_ai: false
+    player2 = Player.create! name: "AI", life: 20, is_ai: true
 
-    @duel = Duel.create!( player1: @player1, player2: @player2 )
+    @duel = Duel.create! player1: player1, player2: player2
 
-    10.times do
-      create_order_card @player1.deck, Library::Metaverse1.id, @player1.next_deck_order
+    # create deck
+    deck1 = PremadeDeck.find(params[:deck1])
+    deck2 = PremadeDeck.find(params[:deck2])
+
+    deck1.cards.each_with_index do |c, i|
+      create_order_card player1.deck, c.metaverse_id, i
     end
-    10.times do
-      create_order_card @player2.deck, Library::Metaverse1.id, @player2.next_deck_order
+    deck2.cards.each_with_index do |c, i|
+      create_order_card player2.deck, c.metaverse_id, i
     end
 
-    create_card @player1.battlefield, Library::Metaverse1.id
-    create_card @player1.battlefield, Library::Metaverse1.id
+    # TODO shuffle deck
+    # TODO mulligans, pre-game setup
 
-    create_card @player1.battlefield, Library::Metaverse3.id
-    create_card @player2.battlefield, Library::Metaverse3.id
+    duel.save!
 
-    create_card @player1.battlefield, Library::Metaverse6.id
-    create_card @player2.battlefield, Library::Metaverse6.id
+    # execute the first phase of the game
+    duel.phase.setup_phase(game_engine)
 
-    3.times do
-      create_card @player1.battlefield, Library::Forest.id
-    end
-    3.times do
-      create_card @player2.battlefield, Library::Forest.id
-    end
-
-    create_card @player1.hand, Library::Metaverse1.id
-    create_card @player2.hand, Library::Metaverse1.id
-
-    create_card @player1.hand, Library::Forest.id
-    create_card @player2.hand, Library::Forest.id
-
-    create_card @player1.hand, Library::Metaverse4.id
-    create_card @player2.hand, Library::Metaverse4.id
-
-    create_card @player1.hand, Library::Metaverse5.id
-    create_card @player2.hand, Library::Metaverse5.id
-
-    create_card @player1.hand, Library::InstantCounter.id
-    create_card @player2.hand, Library::InstantCounter.id
-
-    create_card @player1.hand, Library::AddLifeTargets.id
-    create_card @player2.hand, Library::AddLifeTargets.id
-
-    @action1 = ActionLog.create!( card: @player2.battlefield.first.card, card_action: "attack", player: @player2, duel: @duel )
-    @action_target1 = ActionLogTarget.create!( card: @player1.battlefield.first.card, action_log: @action1, damage: 1 )
-
-    redirect_to duel_path @duel
+    redirect_to duel_path duel
   end
 
   def duel
-    Duel.find(params[:id])
+    # TODO check permissions that we can actually view/interact with this duel
+    @duel ||= Duel.find(params[:id])
   end
 
   def show
@@ -72,7 +40,7 @@ class DuelController < ApplicationController
   end
 
   def pass
-    PhaseManager.new(game_engine).pass!
+    game_engine.pass
     redirect_to duel_path duel
   end
 
@@ -126,7 +94,7 @@ class DuelController < ApplicationController
   end
 
   def game_engine
-    GameEngine.new(duel)
+    @game_engine ||= GameEngine.new(duel)
   end
 
   private

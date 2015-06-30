@@ -1,0 +1,27 @@
+%h1 #{@deck.name} Deck
+
+- cards = @deck.cards.map{ |card| card.card_type }
+- creatures = cards.select{ |card| card.is_creature? }
+- spells = cards.select{ |card| card.is_spell? } - creatures
+- lands = cards.select{ |card| card.is_land? } - creatures - spells
+- others = cards - creatures - spells - lands
+
+- if creatures.any?
+  %h2 Creatures (#{creatures.count})
+
+  = render partial: "cards", object: creatures
+
+- if spells.any?
+  %h2 Spells (#{spells.count})
+
+  = render partial: "cards", object: spells
+
+- if lands.any?
+  %h2 Lands (#{lands.count})
+
+  = render partial: "cards", object: lands
+
+- if others.any?
+  %h2 Other (#{others.count})
+
+  = render partial: "cards", object: others

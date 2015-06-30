@@ -9,6 +9,8 @@
   %body
     %nav
       = link_to "Rmagic", root_path
+      = link_to "Cards", cards_path
+      = link_to "Premade decks", premade_decks_path
       - if current_user
         Logged in as
         = current_user.name

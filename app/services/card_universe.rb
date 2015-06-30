@@ -8,7 +8,7 @@ class CardUniverse
   end
 
   def find_metaverse(metaverse_id)
-    @cache[metaverse_id] ||= load_card(metaverse_id)
+    @cache[metaverse_id.to_i] ||= load_card(metaverse_id.to_i)
   end
 
   def load_card(metaverse_id)
@@ -17,5 +17,9 @@ class CardUniverse
     else
       false
     end
+  end
+
+  def all
+    library.card_types.values
   end
 end

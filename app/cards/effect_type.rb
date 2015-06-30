@@ -17,12 +17,17 @@ class EffectType
     true
   end
 
+  # TODO remove and replace with .id
   def effect_id
     self.class.id
   end
 
   def self.id
     name.split(/[^0-9]/).last.to_i
+  end
+
+  def id
+    effect_id
   end
 
 end
