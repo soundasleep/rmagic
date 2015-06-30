@@ -67,6 +67,7 @@ class Card < ActiveRecord::Base
     card_type.is_creature? && remaining_health <= 0
   end
 
+  # TODO consider moving into service (can introduce locking etc)
   def damage!(n)
     update! damage: damage + n
   end
