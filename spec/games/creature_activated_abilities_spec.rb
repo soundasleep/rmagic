@@ -52,11 +52,6 @@ RSpec.describe "Creature activated abilities", type: :game do
         it "is played on turn 1" do
           expect(creature.card.turn_played).to eq(1)
         end
-
-        # summoning sickness
-        it "cannot be tapped" do
-          expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "tap"))).to be(false)
-        end
       end
 
       it "consumes mana" do
@@ -68,10 +63,8 @@ RSpec.describe "Creature activated abilities", type: :game do
       end
 
       context "the activated ability" do
-        context "without tapping" do
-          it "cannot be played" do
-            expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
-          end
+        it "cannot be played" do
+          expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
         end
       end
 
@@ -102,85 +95,62 @@ RSpec.describe "Creature activated abilities", type: :game do
             expect(creature.card.is_tapped?).to be(false)
           end
 
-          it "can be tapped" do
-            expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "tap"))).to be(true)
-          end
-
           it "can be tapped manually" do
             expect(creature.card.can_tap?).to be(true)
           end
         end
 
         context "the activated ability" do
-          context "without tapping" do
-            it "cannot be played" do
-              expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
-            end
+          it "cannot be played" do
+            expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
           end
 
-          context "after being tapped by the player" do
-            before :each do
-              game_engine.card_action(PossibleAbility.new(source: creature, key: "tap"))
-            end
-
-            it "the card is tapped" do
-              expect(creature.card.is_tapped?).to be(true)
-            end
-
-            it "cannot be played" do
-              expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
-            end
-
-            context "and tapping our lands" do
-              let(:player) { duel.player1 }
-
-              before :each do
-                tap_all_lands
-              end
-
-              it "can be played" do
-                expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(true)
-              end
-
-              it "the player still has 20 life" do
-                expect(player.life).to eq(20)
-              end
-
-              context "when played" do
-                before :each do
-                  game_engine.card_action(PossibleAbility.new(source: creature, key: "add_life"))
-                end
-
-                it "adds life to the current player" do
-                  expect(player.life).to eq(20 + 1)
-                end
-              end
-            end
-          end
-
-          # it needs to be tapped by the current player
           context "after being tapped manually" do
             before :each do
               creature.card.tap_card!
             end
 
-            it "the card is tapped" do
-              expect(creature.card.is_tapped?).to be(true)
-            end
-
             it "cannot be played" do
               expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
             end
+          end
 
-            context "and tapping our lands" do
-              let(:player) { duel.player1 }
+          context "without mana" do
+            it "cannot be activated" do
+              expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+            end
+          end
 
+          context "with mana" do
+            let(:player) { duel.player1 }
+
+            before :each do
+              tap_all_lands
+            end
+
+            it "can be activated" do
+              expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(true)
+            end
+
+            it "the player still has 20 life" do
+              expect(player.life).to eq(20)
+            end
+
+            context "when activated" do
               before :each do
-                tap_all_lands
+                game_engine.card_action(PossibleAbility.new(source: creature, key: "add_life"))
               end
 
-              it "cannot be played" do
-                expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+              it "the card is tapped" do
+                expect(creature.card.is_tapped?).to be(true)
+              end
+
+              it "the card cannot be tapped" do
+                expect(creature.card.can_tap?).to be(false)
+              end
+
+              it "adds life to the current player" do
+                expect(player.life).to eq(20 + 1)
               end
             end
           end

@@ -13,6 +13,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Tapping cards for mana
 * Instants from cards, abilities from creatures, targeting both cards and players
 * Temporary effects modifying power/toughness on creatures
+* Activated abilities considering summoning sickness
 
 ## ActiveRecord concepts
 
@@ -30,7 +31,6 @@ We try to use as few model objects as possible.
 
 * Represents actions as classes/services rather than methods?
 * Support more game phases correctly
-* Activated abilities
 * Summoning sickness for activated abilities
 * Sorceries
 * Deck shuffling and drawing
