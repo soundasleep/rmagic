@@ -80,6 +80,7 @@ RSpec.describe "Creature activated abilities", type: :game do
 
         before :each do
           pass_until_next_turn
+          duel.playing_phase!
         end
 
         it "all the lands are untapped" do
@@ -102,8 +103,11 @@ RSpec.describe "Creature activated abilities", type: :game do
           end
 
           it "can be tapped" do
-            puts "#{creature.card.to_json}"
             expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "tap"))).to be(true)
+          end
+
+          it "can be tapped manually" do
+            expect(creature.card.can_tap?).to be(true)
           end
         end
 
