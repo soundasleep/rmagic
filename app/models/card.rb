@@ -5,10 +5,17 @@ class Card < ActiveRecord::Base
   validates :metaverse_id, presence: true
 
   validate :valid_card
+  validate :valid_metaverse_id
 
   def valid_card
     if !card_type
       errors.add(:metaverse_id, "Could not find card #{metaverse_id}")
+    end
+  end
+
+  def valid_metaverse_id
+    if metaverse_id <= 0
+      errors.add(:metaverse_id, "Invalid metaverse ID #{metaverse_id}")
     end
   end
 
