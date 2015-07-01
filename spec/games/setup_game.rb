@@ -10,11 +10,13 @@ module SetupGame
     duel = Duel.create!(player1: player1, player2: player2)
 
     10.times do
+      # TODO replace with Library::Metaverse1
       create_order_card duel.player1.deck, Library::Metaverse1.id, duel.player1.next_deck_order
       create_order_card duel.player2.deck, Library::Metaverse1.id, duel.player2.next_deck_order
     end
 
     3.times do
+      # TODO replace with Library::Forest
       create_card duel.player1.battlefield, Library::Forest.id
       create_card duel.player2.battlefield, Library::Forest.id
     end
