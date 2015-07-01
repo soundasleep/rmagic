@@ -92,10 +92,14 @@ RSpec.describe "Counterspells", type: :game do
 
         context "our counterspell" do
           let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
+          let(:target) { stack.first }
+
+          it "our target is the first instant" do
+            expect(target.card).to eq(instant.card)
+          end
 
           context "targeting our spell" do
-            # TODO does this need to instead target the top of the 'Stack'? a new zone?
-            let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter", target: instant) }
+            let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter", target: target) }
 
             it "can be played" do
               expect(game_engine.can_do_action?(play_counter_spell)).to be(true)
@@ -151,10 +155,10 @@ RSpec.describe "Counterspells", type: :game do
 
           context "their counterspell" do
             let(:counter_spell) { duel.player2.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
+            let(:target) { stack.second }
 
             context "targeting our spell" do
-              # TODO does this need to instead target the top of the 'Stack'? a new zone?
-              let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter", target: instant) }
+              let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter", target: target) }
 
               context "without mana" do
                 it "cannot be played" do

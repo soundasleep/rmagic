@@ -24,17 +24,23 @@ class Library::CounterSpell < CardType
   # ignoring mana costs
   def can_counter?(game_engine, hand, target = nil)
     return target != nil &&
-      target.is_spell? &&
+      target.is_card? &&
+      target.card.card_type.is_spell? &&
       can_play_instant?(game_engine, hand)
   end
 
   # an instant
   def do_counter(game_engine, hand, target = nil)
-    # TODO counter spell
-    hand.player.add_life!(1)
+    game_engine.move_into_stack hand.player, hand, "counter", target
+  end
 
-    # and then put it into the graveyard
-    game_engine.move_into_graveyard hand.player, hand
+  # the instant resolves
+  def resolve_counter(game_engine, stack)
+    # move the target spell into the graveyard
+    game_engine.move_into_graveyard stack.player, stack.target
+
+    # and then put this into the graveyard
+    game_engine.move_into_graveyard stack.player, stack
   end
 
   def self.id
