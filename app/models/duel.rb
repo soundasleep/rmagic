@@ -5,6 +5,7 @@ class Duel < ActiveRecord::Base
   has_many :declared_attackers, dependent: :destroy
   has_many :declared_defenders, dependent: :destroy
   has_many :action_logs, dependent: :destroy
+  has_many :stack, dependent: :destroy
 
   validates :player1, :player2, :turn, :first_player_number,
       :current_player_number, :priority_player_number,

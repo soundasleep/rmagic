@@ -8,6 +8,8 @@ RSpec.describe "Counterspells", type: :game do
 
   let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
+  let(:stack) { duel.stack }
+
   before :each do
     create_hand_cards Library::Metaverse4.id
     create_hand_cards Library::CounterSpell.id
@@ -52,6 +54,10 @@ RSpec.describe "Counterspells", type: :game do
         expect(game_engine.can_do_action?(play_instant)).to be(true)
       end
 
+      it "the stack is empty" do
+        expect(stack).to be_empty
+      end
+
       context "when played" do
         before { game_engine.card_action(play_instant) }
 
@@ -60,6 +66,14 @@ RSpec.describe "Counterspells", type: :game do
         # receives priority afterward."
         it "we still have priority" do
           expect(duel.priority_player).to eq(duel.player1)
+        end
+
+        it "the stack is not empty" do
+          expect(stack).to_not be_empty
+        end
+
+        it "the stack has the played card" do
+          expect(stack.map{ |s| s.card }).to eq([instant.card])
         end
 
         context "in the current phase" do
@@ -158,6 +172,10 @@ RSpec.describe "Counterspells", type: :game do
                 context "when played" do
                   before { game_engine.card_action(play_counter_spell) }
 
+                  it "adds it to the stack" do
+                    expect(stack.map{ |s| s.card }).to eq([instant.card, counter_spell.card])
+                  end
+
                   it "player one immediately gets priority again" do
                     expect(duel.priority_player).to eq(duel.player1)
                   end
@@ -165,6 +183,10 @@ RSpec.describe "Counterspells", type: :game do
                   context "in the current phase" do
                     it "we have 20 life" do
                       expect(duel.player1.life).to eq(20)
+                    end
+
+                    it "the stack is not empty" do
+                      expect(stack).to_not be_empty
                     end
                   end
 
@@ -174,6 +196,10 @@ RSpec.describe "Counterspells", type: :game do
                     it "we have 20 life" do
                       expect(duel.player1.life).to eq(20)
                       # i.e. the spell has been countered
+                    end
+
+                    it "the stack is empty" do
+                      expect(stack).to be_empty
                     end
                   end
 
@@ -185,6 +211,10 @@ RSpec.describe "Counterspells", type: :game do
 
                       it "we have 20 life" do
                         expect(duel.player1.life).to eq(20)
+                      end
+
+                      it "the stack is empty" do
+                        expect(stack).to be_empty
                       end
                     end
                   end
@@ -204,6 +234,10 @@ RSpec.describe "Counterspells", type: :game do
                       context "when played" do
                         before { game_engine.card_action(play_counter_spell) }
 
+                        it "adds it to the stack" do
+                          expect(stack.map{ |s| s.card }).to eq([instant.card, counter_spell.card, our_counter_spell.card])
+                        end
+
                         it "we still have priority" do
                           expect(duel.priority_player).to eq(duel.player1)
                         end
@@ -220,6 +254,10 @@ RSpec.describe "Counterspells", type: :game do
                           it "we have 21 life" do
                             expect(duel.player1.life).to eq(20)
                             # i.e. the counterspell has been countered
+                          end
+
+                          it "the stack is empty" do
+                            expect(stack).to be_empty
                           end
                         end
                       end
