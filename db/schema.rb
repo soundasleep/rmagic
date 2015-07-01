@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150701045242) do
+ActiveRecord::Schema.define(version: 20150701052037) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -194,10 +194,13 @@ ActiveRecord::Schema.define(version: 20150701045242) do
     t.integer  "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "key"
+    t.integer  "target_id"
   end
 
   add_index "stacks", ["card_id"], name: "index_stacks_on_card_id"
   add_index "stacks", ["duel_id"], name: "index_stacks_on_duel_id"
+  add_index "stacks", ["target_id"], name: "index_stacks_on_target_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "provider"

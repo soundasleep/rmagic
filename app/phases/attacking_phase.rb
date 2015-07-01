@@ -33,6 +33,8 @@ class AttackingPhase < Phase
 
   def setup_phase(game_engine)
     game_engine.clear_mana
+
+    game_engine.resolve_stack
   end
 
 end

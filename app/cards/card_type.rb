@@ -48,6 +48,11 @@ class CardType
     send("do_#{action.key}", game_engine, action.source, action.target)
   end
 
+  def resolve_action(game_engine, action)
+    fail "Cannot resolve 'action'" if action.key == "action"
+    send("resolve_#{action.key}", game_engine, action.card, action.target)
+  end
+
   # TODO remove and replace with .id
   def metaverse_id
     self.class.id

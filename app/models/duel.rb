@@ -48,4 +48,9 @@ class Duel < ActiveRecord::Base
     return phase.changes_player?
   end
 
+  def next_stack_order
+    return 1 if stack.empty?
+    stack.map(&:order).max + 1
+  end
+
 end

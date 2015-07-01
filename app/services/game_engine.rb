@@ -62,6 +62,14 @@ class GameEngine
     action.source.card.card_type.do_action self, action
   end
 
+  def resolve_action(action)
+    # update log
+    # TODO ActionLog.resolve_card_action(duel, action.card.player, action)
+
+    # do the thing
+    action.card.card_type.resolve_action self, action
+  end
+
   def use_mana!(player, zone_card)
     card = zone_card.card.card_type
 
@@ -166,7 +174,7 @@ class GameEngine
     # means we don't need to reload the duel manually
     player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
 
-    # udpate log
+    # update log
     ActionLog.graveyard_card_action(duel, player, zone_card)
 
     # move to graveyard
@@ -183,6 +191,18 @@ class GameEngine
     player.battlefield.create! card: zone_card.card
   end
 
+  def move_into_stack(player, zone_card, action_key, target = nil)
+    # removing it from the collection, rather than object.destroy!,
+    # means we don't need to reload the duel manually
+    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+
+    # update log
+    ActionLog.stack_card_action(duel, player, zone_card)
+
+    # move to stack
+    duel.stack.create! card: zone_card.card, order: duel.next_stack_order, key: action_key, target: target
+  end
+
   def add_effect(player, effect_id, target)
     # add effect
     target.card.effects.create! effect_id: effect_id, order: 1    # TODO calculate order as necessary
@@ -195,6 +215,14 @@ class GameEngine
     duel.players.each do |player|
       player.clear_mana!
     end
+  end
+
+  def resolve_stack
+    duel.stack.each do |action|
+      resolve_action action
+    end
+
+    duel.stack.destroy_all
   end
 
 end

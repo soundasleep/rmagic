@@ -14,6 +14,8 @@ class CleanupPhase < Phase
   def setup_phase(game_engine)
     duel = game_engine.duel
 
+    game_engine.resolve_stack
+
     game_engine.clear_mana
 
     game_engine.apply_attack_damages duel.declared_attackers
