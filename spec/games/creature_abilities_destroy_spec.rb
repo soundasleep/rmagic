@@ -2,15 +2,13 @@ require_relative "setup_game"
 
 RSpec.describe "Creatures with a destroy ability", type: :game do
   let(:duel) { create_game }
-  let(:card) { first_destroy_creature }
+  let(:source) { duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("destroy") }.first }
+  let(:card) { source }
+  let(:target) { duel.player1.battlefield_creatures.first }
 
   before :each do
     create_battlefield_cards Library::Metaverse6.id
     duel.playing_phase!
-  end
-
-  def first_destroy_creature
-    duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("destroy") }.first
   end
 
   def destroy_actions(zone_card)
@@ -21,23 +19,31 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     available_ability_actions("destroy")
   end
 
+  let(:source_actions) { source.card.card_type.actions }
+
   it "has a destroy ability" do
-    battlefield = duel.player1.battlefield.last
-    expect(battlefield.card.card_type.actions).to include("destroy")
+    expect(source_actions).to include("destroy")
   end
 
   it "exist on the battlefield" do
-    expect(duel.player1.battlefield).to include(first_destroy_creature)
+    expect(duel.player1.battlefield).to include(source)
   end
+
+  let(:ability) { PossibleAbility.new(source: card, key: "destroy") }
+  let(:targeted_ability) { PossibleAbility.new(source: card, key: "destroy", target: target) }
+  let(:cost) { card.card.card_type.destroy_cost(game_engine, source, target) }
 
   context "without mana" do
     it "is not enough mana to play" do
-      card = first_destroy_creature
-      expect(duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(false)
+      expect(duel.player1).to_not be_has_mana(cost)
     end
 
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to be(false)
+      expect(game_engine.can_do_action?(ability)).to be(false)
+    end
+
+    it "requires mana and a target" do
+      expect(game_engine.can_do_action?(targeted_ability)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -51,17 +57,16 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     end
 
     it "is enough mana to play" do
-      card = first_destroy_creature
-      expect(duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(true)
+      expect(duel.player1).to be_has_mana(cost)
     end
 
     context "can be played with mana" do
       it "and a target" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))).to be(true)
+        expect(game_engine.can_do_action?(targeted_ability)).to be(true)
       end
 
       it "but not without a target" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to be(false)
+        expect(game_engine.can_do_action?(ability)).to be(false)
       end
     end
 
@@ -107,7 +112,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))
+          game_engine.card_action(targeted_ability)
         end
 
         it "removes our creature" do
@@ -128,8 +133,10 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
       end
 
       context "on their creature" do
+        let(:target) { duel.player2.battlefield_creatures.first }
+
         before :each do
-          game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first))
+          game_engine.card_action(targeted_ability)
         end
 
         it "removes their creature" do
@@ -158,7 +165,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
           let(:target) { duel.player1.battlefield_creatures.second }
 
           before :each do
-            game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: target))
+            game_engine.card_action(targeted_ability)
           end
 
           it "removes the second creature" do
@@ -166,7 +173,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
           end
 
           it "does not remove the activated creature" do
-            expect(duel.player1.battlefield_creatures).to include(first_destroy_creature)
+            expect(duel.player1.battlefield_creatures).to include(source)
           end
 
           it "does not remove their creature" do
