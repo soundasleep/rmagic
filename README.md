@@ -31,6 +31,7 @@ We try to use as few model objects as possible.
 
 * Represents actions as classes/services rather than methods?
 * Support more game phases correctly
+* Counter spells
 * Summoning sickness for activated abilities
 * Sorceries
 * Deck shuffling and drawing

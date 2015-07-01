@@ -2,24 +2,21 @@ require_relative "setup_game"
 
 RSpec.describe "Instants", type: :game do
   let(:duel) { create_game }
-  let(:card) { first_instant }
+  let(:source) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first }
+  let(:instant_ability) { PossibleAbility.new(source: source, key: "instant") }
 
   before :each do
     create_hand_cards Library::Metaverse4.id
     duel.playing_phase!
   end
 
-  def first_instant
-    duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first
-  end
-
   it "do not have play abilities" do
-    expect(card.card.card_type.actions).to_not include("play")
+    expect(source.card.card_type.actions).to_not include("play")
   end
 
   context "available play actions" do
     let(:playable) { game_engine.action_finder.available_actions(duel.player1)[:play] }
-    let(:card_playable) { playable.select{ |a| a.source == card } }
+    let(:card_playable) { playable.select{ |a| a.source == source } }
 
     it "are not listed as an available play action" do
       expect(card_playable).to be_empty
@@ -34,8 +31,8 @@ RSpec.describe "Instants", type: :game do
     available_play_actions("instant")
   end
 
-  it "can be found" do
-    expect(first_instant).to_not be_nil
+  it "exists" do
+    expect(source).to_not be_nil
   end
 
   it "can be played in a phase which can cast instants" do
@@ -44,7 +41,7 @@ RSpec.describe "Instants", type: :game do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to be(false)
+      expect(game_engine.can_do_action?(instant_ability)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -58,14 +55,14 @@ RSpec.describe "Instants", type: :game do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "instant"))).to be(true)
+      expect(game_engine.can_do_action?(instant_ability)).to be(true)
     end
 
     it "is listed as an available action" do
       expect(first_instant_available_actions.length).to eq(1)
 
       action = first_instant_available_actions.first
-      expect(action.source).to eq(card)
+      expect(action.source).to eq(source)
       expect(action.key).to eq("instant")
     end
 
@@ -93,7 +90,7 @@ RSpec.describe "Instants", type: :game do
         expect(duel.player1.life).to eq(20)
         expect(duel.player2.life).to eq(20)
         expect(duel.player1.mana_green).to eq(3)
-        game_engine.card_action(PossibleAbility.new(source: card, key: "instant"))
+        game_engine.card_action(instant_ability)
       end
 
       it "adds life" do
@@ -105,7 +102,7 @@ RSpec.describe "Instants", type: :game do
       end
 
       it "creates an action" do
-        expect(instant_actions(card).map{ |card| card.card }).to eq([card.card])
+        expect(instant_actions(source).map{ |card| card.card }).to eq([source.card])
       end
 
       it "consumes mana" do
