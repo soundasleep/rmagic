@@ -200,7 +200,7 @@ class GameEngine
     ActionLog.stack_card_action(duel, player, zone_card)
 
     # move to stack
-    duel.stack.create! card: zone_card.card, order: duel.next_stack_order, key: action_key, target: target
+    duel.stack.create! card: zone_card.card, player: player, order: duel.next_stack_order, key: action_key, target: target
   end
 
   def add_effect(player, effect_id, target)

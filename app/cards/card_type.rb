@@ -48,9 +48,9 @@ class CardType
     send("do_#{action.key}", game_engine, action.source, action.target)
   end
 
-  def resolve_action(game_engine, action)
-    fail "Cannot resolve 'action'" if action.key == "action"
-    send("resolve_#{action.key}", game_engine, action.card, action.target)
+  def resolve_action(game_engine, stack)
+    fail "Cannot resolve 'stack'" if stack.key == "stack"
+    send("resolve_#{stack.key}", game_engine, stack)
   end
 
   # TODO remove and replace with .id

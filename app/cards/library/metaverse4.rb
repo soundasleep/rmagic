@@ -33,11 +33,11 @@ class Library::Metaverse4 < CardType
   end
 
   # the instant resolves
-  def resolve_instant(game_engine, hand, target = nil)
-    hand.player.add_life!(1)
+  def resolve_instant(game_engine, stack)
+    stack.player.add_life!(1)
 
     # and then put it into the graveyard
-    game_engine.move_into_graveyard hand.player, hand
+    game_engine.move_into_graveyard stack.player, stack
   end
 
 end
