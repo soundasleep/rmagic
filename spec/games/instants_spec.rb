@@ -93,12 +93,38 @@ RSpec.describe "Instants", type: :game do
         game_engine.card_action(instant_ability)
       end
 
-      it "adds life" do
-        expect(duel.player1.life).to eq(20 + 1)
+      context "before passing priority" do
+        it "has had no effect" do
+          expect(duel.player1.life).to eq(20)
+        end
       end
 
-      it "does not add life to the other player" do
-        expect(duel.player2.life).to_not eq(20 + 1)
+      context "after passing priority" do
+        before { pass_priority }
+
+        context "after passing priority" do
+          before { pass_priority }
+
+          it "adds life" do
+            expect(duel.player1.life).to eq(20 + 1)
+          end
+
+          it "does not add life to the other player" do
+            expect(duel.player2.life).to_not eq(20 + 1)
+          end
+        end
+      end
+
+      context "in the next phase" do
+        before { pass_until_next_phase }
+
+        it "adds life" do
+          expect(duel.player1.life).to eq(20 + 1)
+        end
+
+        it "does not add life to the other player" do
+          expect(duel.player2.life).to_not eq(20 + 1)
+        end
       end
 
       it "creates an action" do
@@ -108,7 +134,6 @@ RSpec.describe "Instants", type: :game do
       it "consumes mana" do
         expect(duel.player1.mana_green).to eq(2)
       end
-
     end
   end
 
