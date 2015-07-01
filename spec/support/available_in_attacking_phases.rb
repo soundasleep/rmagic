@@ -1,5 +1,7 @@
 RSpec.shared_examples "available in attacking phases" do
 
+  let(:available_abilities) { available_ability_actions(ability_key) }
+
   context "in our turn" do
     context "in the attacking phase" do
       before :each do

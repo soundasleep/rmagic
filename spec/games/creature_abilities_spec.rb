@@ -19,6 +19,7 @@ RSpec.describe "Creature abilities", type: :game do
 
   it_behaves_like "requires mana"
   it_behaves_like "ability"
+  it_behaves_like "something on the battlefield"
 
   context "with mana" do
     before :each do

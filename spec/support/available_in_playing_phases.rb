@@ -1,5 +1,7 @@
 RSpec.shared_examples "available in playing phases" do
 
+  let(:available_abilities) { available_ability_actions(ability_key) }
+
   context "in our turn" do
     context "in the playing phase" do
       before :each do

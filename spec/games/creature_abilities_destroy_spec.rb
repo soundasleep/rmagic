@@ -18,12 +18,9 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     actions(zone_card.card, "destroy")
   end
 
-  it "exist on the battlefield" do
-    expect(player1.battlefield).to include(source)
-  end
-
   it_behaves_like "requires mana"
   it_behaves_like "targeted ability"
+  it_behaves_like "something on the battlefield"
 
   context "with mana" do
     before :each do

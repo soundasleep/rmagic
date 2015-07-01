@@ -1,5 +1,7 @@
 RSpec.shared_examples "not available in cleanup phases" do
 
+  let(:available_abilities) { available_ability_actions(ability_key) }
+
   context "in our turn" do
     context "in the cleanup phase" do
       before :each do
