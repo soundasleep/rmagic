@@ -40,6 +40,7 @@ We try to use as few model objects as possible.
 * Continuous testing
 * Tests for controllers
 * Mulligans
+* Look into Cucumber or Capybara for integration testing
 
 ## Release 1 goals
 
