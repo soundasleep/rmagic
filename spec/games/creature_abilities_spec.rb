@@ -52,10 +52,4 @@ RSpec.describe "Creature abilities", type: :game do
     end
   end
 
-  it_behaves_like "not available in other turns"
-  it_behaves_like "not available in drawing phase"
-  it_behaves_like "available in playing phase"
-  it_behaves_like "available in attacking phase"
-  it_behaves_like "not available in cleanup phase"
-
 end

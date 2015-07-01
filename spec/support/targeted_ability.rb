@@ -1,6 +1,11 @@
 RSpec.shared_examples "targeted ability" do
   let(:cost) { source.card.card_type.action_cost(game_engine, targeted_ability) }
 
+  it_behaves_like "not available in drawing phases"
+  it_behaves_like "available in playing phases"
+  it_behaves_like "available in attacking phases"
+  it_behaves_like "not available in cleanup phases"
+
   context "the source" do
     let(:source_actions) { source.card.card_type.actions }
 
