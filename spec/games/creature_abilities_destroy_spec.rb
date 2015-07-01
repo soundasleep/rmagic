@@ -2,9 +2,9 @@ require_relative "setup_game"
 
 RSpec.describe "Creatures with a destroy ability", type: :game do
   let(:duel) { create_game }
-  let(:source) { player1.battlefield.select{ |b| b.card.card_type.actions.include?("destroy") }.first }
-  let(:target) { player1.battlefield_creatures.first }
   let(:ability_key) { "destroy" }
+  let(:source) { player1.battlefield.select{ |b| b.card.card_type.actions.include?(ability_key) }.first }
+  let(:target) { player1.battlefield_creatures.first }
   let(:ability) { PossibleAbility.new(source: source, key: ability_key) }
   let(:targeted_ability) { PossibleAbility.new(source: source, key: ability_key, target: target) }
 
@@ -16,8 +16,6 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   def destroy_actions(zone_card)
     actions(zone_card.card, "destroy")
   end
-
-  let(:available_abilities) { available_ability_actions(ability_key) }
 
   it "exist on the battlefield" do
     expect(player1.battlefield).to include(source)
