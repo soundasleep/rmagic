@@ -6,6 +6,7 @@ RSpec.describe "Creature abilities", type: :game do
   let(:source) { player1.battlefield.select{ |b| b.card.card_type.actions.include?(ability_key) }.first }
   let(:target) { player1.battlefield_creatures.first }
   let(:ability) { PossibleAbility.new(source: source, key: ability_key) }
+  let(:available_abilities) { available_ability_actions(ability_key) }
 
   before :each do
     create_battlefield_cards Library::Metaverse3.id
@@ -15,8 +16,6 @@ RSpec.describe "Creature abilities", type: :game do
   def add_life_actions(zone_card)
     actions(zone_card.card, "add_life")
   end
-
-  let(:available_abilities) { available_ability_actions(ability_key) }
 
   it_behaves_like "requires mana"
   it_behaves_like "ability"
@@ -53,150 +52,10 @@ RSpec.describe "Creature abilities", type: :game do
     end
   end
 
-  context "in our turn" do
-    context "in the drawing phase" do
-      before :each do
-        duel.drawing_phase!
-        tap_all_lands
-      end
-
-      it "cannot be activated" do
-        expect(available_abilities).to be_empty
-      end
-    end
-
-    context "in the playing phase" do
-      before :each do
-        duel.playing_phase!
-        tap_all_lands
-      end
-
-      it "can be activated" do
-        expect(available_abilities.length).to eq(1)
-      end
-    end
-
-    context "in the attacking phase" do
-      before :each do
-        duel.attacking_phase!
-        tap_all_lands
-      end
-
-      it "can be activated" do
-        expect(available_abilities.length).to eq(1)
-      end
-    end
-
-    context "in the cleanup phase" do
-      before :each do
-        duel.cleanup_phase!
-        tap_all_lands
-      end
-
-      it "cannot be activated" do
-        expect(available_abilities).to be_empty
-      end
-    end
-  end
-
-  context "in the other player's turn" do
-    before :each do
-      pass_until_next_player
-    end
-
-    context "in the drawing phase" do
-      before :each do
-        duel.drawing_phase!
-        tap_all_lands
-      end
-
-      it "cannot be activated" do
-        expect(available_abilities).to be_empty
-      end
-    end
-
-    context "in the playing phase" do
-      before :each do
-        duel.playing_phase!
-        tap_all_lands
-      end
-
-      it "cannot be activated" do
-        expect(available_abilities).to be_empty
-      end
-    end
-
-    context "in the attacking phase" do
-      before :each do
-        duel.attacking_phase!
-        tap_all_lands
-      end
-
-      it "cannot be activated" do
-        expect(available_abilities).to be_empty
-      end
-    end
-
-    context "in the cleanup phase" do
-      before :each do
-        duel.cleanup_phase!
-        tap_all_lands
-      end
-
-      it "cannot be activated" do
-        expect(available_abilities).to be_empty
-      end
-    end
-
-    context "when we have priority" do
-      before :each do
-        pass_until_current_player_has_priority
-      end
-
-      context "in the drawing phase" do
-        before :each do
-          duel.drawing_phase!
-          tap_all_lands
-        end
-
-        it "cannot be activated" do
-          expect(available_abilities).to be_empty
-        end
-      end
-
-      context "in the playing phase" do
-        before :each do
-          duel.playing_phase!
-          tap_all_lands
-        end
-
-        it "can be activated" do
-          expect(available_abilities.length).to eq(1)
-        end
-      end
-
-      context "in the attacking phase" do
-        before :each do
-          duel.attacking_phase!
-          tap_all_lands
-        end
-
-        it "can be activated" do
-          expect(available_abilities.length).to eq(1)
-        end
-      end
-
-      context "in the cleanup phase" do
-        before :each do
-          duel.cleanup_phase!
-          tap_all_lands
-        end
-
-        it "cannot be activated" do
-          expect(available_abilities).to be_empty
-        end
-      end
-    end
-  end
+  it_behaves_like "not available in other turns"
+  it_behaves_like "not available in drawing phase"
+  it_behaves_like "available in playing phase"
+  it_behaves_like "available in attacking phase"
+  it_behaves_like "not available in cleanup phase"
 
 end

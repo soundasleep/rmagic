@@ -7,6 +7,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   let(:target) { player1.battlefield_creatures.first }
   let(:ability) { PossibleAbility.new(source: source, key: ability_key) }
   let(:targeted_ability) { PossibleAbility.new(source: source, key: ability_key, target: target) }
+  let(:available_abilities) { available_ability_actions(ability_key) }
 
   before :each do
     create_battlefield_cards Library::Metaverse6.id
@@ -112,5 +113,11 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
     end
   end
+
+  it_behaves_like "not available in other turns"
+  it_behaves_like "not available in drawing phase"
+  it_behaves_like "available in playing phase"
+  it_behaves_like "available in attacking phase"
+  it_behaves_like "not available in cleanup phase"
 
 end

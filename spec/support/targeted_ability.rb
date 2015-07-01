@@ -1,6 +1,5 @@
 RSpec.shared_examples "targeted ability" do
   let(:cost) { source.card.card_type.action_cost(game_engine, targeted_ability) }
-  let(:available_abilities) { available_ability_actions(ability_key) }
 
   context "the source" do
     let(:source_actions) { source.card.card_type.actions }

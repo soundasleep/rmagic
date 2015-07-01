@@ -1,6 +1,5 @@
 RSpec.shared_examples "requires mana" do
   let(:cost) { source.card.card_type.action_cost(game_engine, ability) }
-  let(:available_abilities) { available_ability_actions(ability_key) }
 
   context "without mana" do
     it "is not enough mana to play" do
