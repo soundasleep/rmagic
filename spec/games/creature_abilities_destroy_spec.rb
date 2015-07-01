@@ -4,6 +4,9 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   let(:duel) { create_game }
   let(:source) { player1.battlefield.select{ |b| b.card.card_type.actions.include?("destroy") }.first }
   let(:target) { player1.battlefield_creatures.first }
+  let(:ability_key) { "destroy" }
+  let(:ability) { PossibleAbility.new(source: source, key: ability_key) }
+  let(:targeted_ability) { PossibleAbility.new(source: source, key: ability_key, target: target) }
 
   before :each do
     create_battlefield_cards Library::Metaverse6.id
@@ -14,87 +17,18 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     actions(zone_card.card, "destroy")
   end
 
-  let(:source_actions) { source.card.card_type.actions }
-  let(:available_abilities) { available_ability_actions("destroy") }
-
-  it "has a destroy ability" do
-    expect(source_actions).to include("destroy")
-  end
+  let(:available_abilities) { available_ability_actions(ability_key) }
 
   it "exist on the battlefield" do
     expect(player1.battlefield).to include(source)
   end
 
-  let(:ability) { PossibleAbility.new(source: source, key: "destroy") }
-  let(:targeted_ability) { PossibleAbility.new(source: source, key: "destroy", target: target) }
-  let(:cost) { source.card.card_type.destroy_cost(game_engine, source, target) }
-
-  context "without mana" do
-    it "is not enough mana to play" do
-      expect(player1).to_not have_mana(cost)
-    end
-
-    it "requires mana" do
-      expect(game_engine).to_not be_can_do_action(ability)
-    end
-
-    it "requires mana and a target" do
-      expect(game_engine).to_not be_can_do_action(targeted_ability)
-    end
-
-    it "is not listed as an available action" do
-      expect(available_abilities).to be_empty
-    end
-  end
+  it_behaves_like "requires mana"
+  it_behaves_like "targeted ability"
 
   context "with mana" do
     before :each do
       tap_all_lands
-    end
-
-    it "is enough mana to play" do
-      expect(player1).to have_mana(cost)
-    end
-
-    context "can be played with mana" do
-      it "and a target" do
-        expect(game_engine).to be_can_do_action(targeted_ability)
-      end
-
-      it "but not without a target" do
-        expect(game_engine).to_not be_can_do_action(ability)
-      end
-    end
-
-    context "is listed as an available action" do
-      it "of one type" do
-        expect(available_abilities.to_a.uniq{ |u| u.source }.length).to eq(1)
-      end
-
-      it "of two targets" do
-        expect(available_abilities.length).to eq(2)
-      end
-
-      it "with the correct source and key" do
-        available_actions[:play].each do |a|
-          expect(a.source).to eq(source)
-          expect(a.key).to eq("destroy")
-        end
-      end
-    end
-
-    it "all actions have source and key and target specified" do
-      available_actions[:play].each do |a|
-        expect(a.source).to_not be_nil
-        expect(a.key).to_not be_nil
-        expect(a.target).to_not be_nil
-      end
-    end
-
-    it "all actions have a description" do
-      available_actions[:play].each do |a|
-        expect(a.description).to_not be_nil
-      end
     end
 
     context "when activated" do
