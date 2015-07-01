@@ -109,6 +109,15 @@ module SetupGame
     end
   end
 
+  # simple helper methods
+  def player1
+    duel.player1
+  end
+
+  def player2
+    duel.player2
+  end
+
   def pass_until_next_turn
     t = duel.turn
     i = 0
