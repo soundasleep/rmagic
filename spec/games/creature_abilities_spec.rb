@@ -2,69 +2,28 @@ require_relative "setup_game"
 
 RSpec.describe "Creature abilities", type: :game do
   let(:duel) { create_game }
-  let(:card) { first_add_life_creature }
+  let(:ability_key) { "add_life" }
+  let(:source) { player1.battlefield.select{ |b| b.card.card_type.actions.include?(ability_key) }.first }
+  let(:target) { player1.battlefield_creatures.first }
+  let(:ability) { PossibleAbility.new(source: source, key: ability_key) }
 
   before :each do
     create_battlefield_cards Library::Metaverse3.id
     duel.playing_phase!
   end
 
-  def first_add_life_creature
-    duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("add_life") }.first
-  end
-
   def add_life_actions(zone_card)
     actions(zone_card.card, "add_life")
   end
 
-  def first_creature_available_add_life_actions
-    available_ability_actions("add_life")
-  end
+  let(:available_abilities) { available_ability_actions(ability_key) }
 
-  context "without mana" do
-    it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to be(false)
-    end
-
-    it "is not listed as an available action" do
-      expect(first_creature_available_add_life_actions).to be_empty
-    end
-  end
+  it_behaves_like "requires mana"
+  it_behaves_like "ability"
 
   context "with mana" do
     before :each do
       tap_all_lands
-    end
-
-    it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to be(true)
-    end
-
-    it "is listed as an available action" do
-      expect(first_creature_available_add_life_actions.length).to eq(1)
-
-      action = first_creature_available_add_life_actions.first
-      expect(action.source).to eq(card)
-      expect(action.key).to eq("add_life")
-    end
-
-    it "all actions have source and key specified" do
-      available_actions[:ability].each do |a|
-        expect(a.source).to_not be_nil
-        expect(a.key).to_not be_nil
-      end
-    end
-
-    it "all actions have a description" do
-      available_actions[:ability].each do |a|
-        expect(a.description).to_not be_nil
-      end
-    end
-
-    it "all actions do not have a target" do
-      available_actions[:ability].each do |a|
-        expect(a.target).to be_nil
-      end
     end
 
     context "when activated" do
@@ -72,7 +31,7 @@ RSpec.describe "Creature abilities", type: :game do
         expect(duel.player1.life).to eq(20)
         expect(duel.player2.life).to eq(20)
         expect(duel.player1.mana_green).to eq(3)
-        game_engine.card_action(PossibleAbility.new(source: card, key: "add_life"))
+        game_engine.card_action(PossibleAbility.new(source: source, key: "add_life"))
       end
 
       it "adds life" do
@@ -84,7 +43,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "creates an action" do
-        expect(add_life_actions(card).map{ |card| card.card }).to eq([card.card])
+        expect(add_life_actions(source).map{ |card| card.card }).to eq([source.card])
       end
 
       it "consumes mana" do
@@ -102,7 +61,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "cannot be activated" do
-        expect(first_creature_available_add_life_actions).to be_empty
+        expect(available_abilities).to be_empty
       end
     end
 
@@ -113,7 +72,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "can be activated" do
-        expect(first_creature_available_add_life_actions.length).to eq(1)
+        expect(available_abilities.length).to eq(1)
       end
     end
 
@@ -124,7 +83,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "can be activated" do
-        expect(first_creature_available_add_life_actions.length).to eq(1)
+        expect(available_abilities.length).to eq(1)
       end
     end
 
@@ -135,7 +94,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "cannot be activated" do
-        expect(first_creature_available_add_life_actions).to be_empty
+        expect(available_abilities).to be_empty
       end
     end
   end
@@ -152,7 +111,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "cannot be activated" do
-        expect(first_creature_available_add_life_actions).to be_empty
+        expect(available_abilities).to be_empty
       end
     end
 
@@ -163,7 +122,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "cannot be activated" do
-        expect(first_creature_available_add_life_actions).to be_empty
+        expect(available_abilities).to be_empty
       end
     end
 
@@ -174,7 +133,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "cannot be activated" do
-        expect(first_creature_available_add_life_actions).to be_empty
+        expect(available_abilities).to be_empty
       end
     end
 
@@ -185,7 +144,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "cannot be activated" do
-        expect(first_creature_available_add_life_actions).to be_empty
+        expect(available_abilities).to be_empty
       end
     end
 
@@ -201,7 +160,7 @@ RSpec.describe "Creature abilities", type: :game do
         end
 
         it "cannot be activated" do
-          expect(first_creature_available_add_life_actions).to be_empty
+          expect(available_abilities).to be_empty
         end
       end
 
@@ -212,7 +171,7 @@ RSpec.describe "Creature abilities", type: :game do
         end
 
         it "can be activated" do
-          expect(first_creature_available_add_life_actions.length).to eq(1)
+          expect(available_abilities.length).to eq(1)
         end
       end
 
@@ -223,7 +182,7 @@ RSpec.describe "Creature abilities", type: :game do
         end
 
         it "can be activated" do
-          expect(first_creature_available_add_life_actions.length).to eq(1)
+          expect(available_abilities.length).to eq(1)
         end
       end
 
@@ -234,7 +193,7 @@ RSpec.describe "Creature abilities", type: :game do
         end
 
         it "cannot be activated" do
-          expect(first_creature_available_add_life_actions).to be_empty
+          expect(available_abilities).to be_empty
         end
       end
     end
