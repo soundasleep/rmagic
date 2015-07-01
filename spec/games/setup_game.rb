@@ -104,7 +104,7 @@ module SetupGame
 
   def tap_all_lands
     # tap all battlefield lands
-    duel.player1.battlefield_lands.each do |b|
+    duel.priority_player.battlefield_lands.each do |b|
       game_engine.card_action PossibleAbility.new(source: b, key: "tap")
     end
   end
@@ -139,6 +139,21 @@ module SetupGame
       assert_operator i, :<, 100, "it took too long to get to the next priority"
       game_engine.pass
     end
+  end
+
+  def pass_until_next_phase
+    c = duel.phase_number
+    i = 0
+
+    while duel.phase_number == c do
+      i += 1
+      assert_operator i, :<, 100, "it took too long to get to the next phase"
+      game_engine.pass
+    end
+  end
+
+  def pass_priority
+    game_engine.pass
   end
 
 end
