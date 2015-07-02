@@ -75,6 +75,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
       context "on our first creature" do
         before :each do
           game_engine.card_action(PossiblePlay.new(source: card, key: "instant", target: targets.first))
+          pass_until_next_phase
         end
 
         it "removes our creature from the graveyard" do
@@ -89,6 +90,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
       context "on our second creature" do
         before :each do
           game_engine.card_action(PossiblePlay.new(source: card, key: "instant", target: targets.second))
+          pass_until_next_phase
         end
 
         it "removes our creature from the graveyard" do

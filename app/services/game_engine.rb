@@ -215,6 +215,8 @@ class GameEngine
       if target.has_zone?
         if target.zone.is_battlefield?
           stack.battlefield_targets.create! target: target
+        elsif target.zone.is_graveyard?
+          stack.graveyard_targets.create! target: target
         else
           fail "Unknown target zone #{target.zone}"
         end

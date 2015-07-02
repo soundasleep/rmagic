@@ -6,6 +6,7 @@ class Stack < ActiveRecord::Base
   belongs_to :player
 
   has_many :battlefield_targets, class_name: "StackBattlefieldTarget", dependent: :destroy
+  has_many :graveyard_targets, class_name: "StackGraveyardTarget", dependent: :destroy
   has_many :player_targets, class_name: "StackPlayerTarget", dependent: :destroy
 
   validates :order, presence: true
