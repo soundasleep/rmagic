@@ -22,6 +22,15 @@ class CardType
     false
   end
 
+  def is_instant?
+    false
+  end
+
+  def playing_goes_onto_stack?(key)
+    # this could also be split into send_*()
+    is_instant?
+  end
+
   def mana_cost
     {}
   end
@@ -31,7 +40,7 @@ class CardType
   end
 
   def actions
-    methods.grep(/^do_/).map{ |m| m[3..-1] } - ["action"]
+    do_actions + resolve_actions
   end
 
   def can_do_action?(game_engine, action)
@@ -45,7 +54,22 @@ class CardType
 
   def do_action(game_engine, action)
     fail "Cannot do 'action'" if action.key == "action"
-    send("do_#{action.key}", game_engine, action.source, action.target)
+
+    if playing_goes_onto_stack?(action.key)
+      # we don't want to call do_() directly
+      game_engine.move_into_stack action.source.player, action.source, action.key, action.target
+
+      # and priority returns to the current player
+      game_engine.duel.reset_priority!
+    else
+      # it doesn't affect the stack at all
+      send("do_#{action.key}", game_engine, action.source, action.target)
+    end
+  end
+
+  def resolve_action(game_engine, stack)
+    fail "Cannot resolve 'stack'" if stack.key == "action"
+    send("resolve_#{stack.key}", game_engine, stack)
   end
 
   # TODO remove and replace with .id
@@ -60,5 +84,14 @@ class CardType
   def id
     metaverse_id
   end
+
+  private
+    def do_actions
+      methods.grep(/^(do)_/).map{ |m| m["do_".length..-1] } - ["action"]
+    end
+
+    def resolve_actions
+      methods.grep(/^(resolve)_/).map{ |m| m["resolve_".length..-1] } - ["action"]
+    end
 
 end

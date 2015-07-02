@@ -52,14 +52,28 @@ class GameEngine
   end
 
   def card_action(action)
+    player = action.source.player
+    cost = action.source.card.card_type.action_cost(self, action)
+    if !player.has_mana?(cost)
+      fail "Player #{player.to_json} can not pay for #{cost} with #{player.mana}"
+    end
+
     # use mana
-    action.source.player.use_mana! action.source.card.card_type.action_cost(self, action)
+    player.use_mana! cost
 
     # update log
-    ActionLog.card_action(duel, action.source.player, action)
+    ActionLog.card_action(duel, player, action)
 
     # do the thing
     action.source.card.card_type.do_action self, action
+  end
+
+  def resolve_action(action)
+    # update log
+    # TODO ActionLog.resolve_card_action(duel, action.card.player, action)
+
+    # do the thing
+    action.card.card_type.resolve_action self, action
   end
 
   def use_mana!(player, zone_card)
@@ -161,12 +175,17 @@ class GameEngine
     move_into_graveyard zone_card.player, zone_card
   end
 
-  def move_into_graveyard(player, zone_card)
+  def remove_from_all_zones(player, zone_card)
     # removing it from the collection, rather than object.destroy!,
     # means we don't need to reload the duel manually
     player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+    duel.zones.select{ |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+  end
 
-    # udpate log
+  def move_into_graveyard(player, zone_card)
+    remove_from_all_zones(player, zone_card)
+
+    # update log
     ActionLog.graveyard_card_action(duel, player, zone_card)
 
     # move to graveyard
@@ -174,13 +193,37 @@ class GameEngine
   end
 
   def move_into_battlefield(player, zone_card)
-    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+    remove_from_all_zones(player, zone_card)
 
     # update log
     ActionLog.battlefield_card_action(duel, player, zone_card)
 
     # move to graveyard
     player.battlefield.create! card: zone_card.card
+  end
+
+  def move_into_stack(player, zone_card, action_key, target = nil)
+    remove_from_all_zones(player, zone_card)
+
+    # update log
+    ActionLog.stack_card_action(duel, player, zone_card)
+
+    # move to stack
+    stack = duel.stack.create! card: zone_card.card, player: player, order: duel.next_stack_order, key: action_key
+
+    if target
+      if target.has_zone?
+        if target.zone.is_battlefield?
+          stack.battlefield_targets.create! target: target
+        elsif target.zone.is_graveyard?
+          stack.graveyard_targets.create! target: target
+        else
+          fail "Unknown target zone #{target.zone}"
+        end
+      else
+        stack.player_targets.create! target: target
+      end
+    end
   end
 
   def add_effect(player, effect_id, target)
@@ -195,6 +238,23 @@ class GameEngine
     duel.players.each do |player|
       player.clear_mana!
     end
+  end
+
+  def resolve_stack
+    i = 0
+
+    # stack is in bottom-top order
+    while !duel.stack.empty? do
+      # the actions may modify the stack itself, so we loop instead of each
+      target = duel.stack.reverse.first
+
+      resolve_action target
+
+      i += 1
+      fail("Resolving the stack never completed after #{i} iterations") if i > 100
+    end
+
+    duel.stack.destroy_all
   end
 
 end

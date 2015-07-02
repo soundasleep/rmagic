@@ -95,6 +95,8 @@ RSpec.describe "Instants destroy", type: :game do
       context "on our creature" do
         before :each do
           game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))
+          pass_until_next_phase
+          duel.reload     # TODO it would be nice to remove this
         end
 
         it "removes our creature" do
@@ -108,15 +110,13 @@ RSpec.describe "Instants destroy", type: :game do
         it "creates an action" do
           expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
         end
-
-        it "consumes mana" do
-          expect(duel.player1.mana_green).to eq(2)
-        end
       end
 
       context "on their creature" do
         before :each do
           game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first))
+          pass_until_next_phase
+          duel.reload     # TODO it would be nice to remove this
         end
 
         it "removes their creature" do
@@ -129,10 +129,6 @@ RSpec.describe "Instants destroy", type: :game do
 
         it "creates an action" do
           expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
-        end
-
-        it "consumes mana" do
-          expect(duel.player1.mana_green).to eq(2)
         end
       end
 

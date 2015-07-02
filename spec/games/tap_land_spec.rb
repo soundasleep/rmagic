@@ -105,15 +105,28 @@ RSpec.describe "Tapping lands", type: :game do
     expect(duel.turn).to_not eq(turn)
   end
 
-  it "tapped mana disappears after a pass" do
-    expect(duel.player1.mana_green).to eq(0)
+  context "tapped mana" do
+    before { tap_all_lands }
 
-    tap_all_lands
-    expect(duel.player1.mana_green).to eq(3)
+    it "exists" do
+      expect(duel.player1.mana_green).to eq(3)
+    end
 
-    game_engine.pass
+    context "after passing to the next player in this phase" do
+      before { game_engine.pass }
 
-    expect(duel.player1.mana_green).to eq(0)
+      it "persists" do
+        expect(duel.player1.mana_green).to eq(3)
+      end
+    end
+
+    context "after passing to the next phase" do
+      before { pass_until_next_phase }
+
+      it "is removed" do
+        expect(duel.player1.mana_green).to eq(0)
+      end
+    end
   end
 
 end

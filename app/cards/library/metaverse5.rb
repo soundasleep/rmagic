@@ -31,11 +31,11 @@ class Library::Metaverse5 < CardType
   end
 
   # an instant
-  def do_destroy(game_engine, hand, target = nil)
-    game_engine.destroy target
+  def resolve_destroy(game_engine, stack)
+    game_engine.destroy stack.battlefield_targets.first.target
 
     # and then put it into the graveyard
-    game_engine.move_into_graveyard hand.player, hand
+    game_engine.move_into_graveyard stack.player, stack
   end
 
 end

@@ -26,4 +26,8 @@ class Phase
   def changes_player?
     false
   end
+
+  def ==(phase)
+    phase.is_a?(Phase) && phase.class.name == self.class.name
+  end
 end

@@ -22,7 +22,7 @@ class DuelController < ApplicationController
     # TODO shuffle deck
     # TODO mulligans, pre-game setup
 
-    duel.save!
+    duel.save!      # TODO remove
 
     # execute the first phase of the game
     duel.phase.setup_phase(game_engine)
@@ -78,7 +78,7 @@ class DuelController < ApplicationController
       game_engine.declare_attackers attackers
     end
     game_engine.pass
-    duel.save!
+    duel.save!    # TODO remove
     redirect_to duel_path duel
   end
 

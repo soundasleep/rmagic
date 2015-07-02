@@ -5,6 +5,7 @@ class Duel < ActiveRecord::Base
   has_many :declared_attackers, dependent: :destroy
   has_many :declared_defenders, dependent: :destroy
   has_many :action_logs, dependent: :destroy
+  has_many :stack, dependent: :destroy
 
   validates :player1, :player2, :turn, :first_player_number,
       :current_player_number, :priority_player_number,
@@ -38,6 +39,10 @@ class Duel < ActiveRecord::Base
     players[current_player_number - 1]
   end
 
+  def reset_priority!
+    update! priority_player_number: current_player_number
+  end
+
   def phase
     phase_number.classify.constantize.new
   end
@@ -45,6 +50,15 @@ class Duel < ActiveRecord::Base
   def next_phase!
     update! phase_number: phase.next_phase.to_sym
     return phase.changes_player?
+  end
+
+  def next_stack_order
+    return 1 if stack.empty?
+    stack.map(&:order).max + 1
+  end
+
+  def zones
+    [ stack ]
   end
 
 end

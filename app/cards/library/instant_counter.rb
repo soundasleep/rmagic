@@ -31,12 +31,12 @@ class Library::InstantCounter < CardType
   end
 
   # an instant
-  def do_counter(game_engine, hand, target = nil)
+  def resolve_counter(game_engine, stack)
     # add an effect
-    game_engine.add_effect hand.player, Effects::TemporaryCounter.id, target
+    game_engine.add_effect stack.player, Effects::TemporaryCounter.id, stack.battlefield_targets.first.target
 
     # and then put it into the graveyard
-    game_engine.move_into_graveyard hand.player, hand
+    game_engine.move_into_graveyard stack.player, stack
   end
 
   def self.id

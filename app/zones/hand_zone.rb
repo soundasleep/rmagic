@@ -7,4 +7,8 @@ class HandZone < Zone
     true
   end
 
+  def is_hand?
+    true
+  end
+
 end

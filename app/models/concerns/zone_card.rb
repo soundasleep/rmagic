@@ -10,4 +10,9 @@ module ZoneCard
   def is_player?
     false
   end
+
+  def has_zone?
+    true
+  end
+
 end

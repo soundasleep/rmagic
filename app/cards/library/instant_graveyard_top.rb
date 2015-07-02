@@ -34,12 +34,12 @@ class Library::InstantGraveyardTop < CardType
   end
 
   # an instant
-  def do_instant(game_engine, hand, target = nil)
+  def resolve_instant(game_engine, stack)
     # put target into the battlefield
-    game_engine.move_into_battlefield hand.player, target
+    game_engine.move_into_battlefield stack.player, stack.graveyard_targets.first.target
 
     # and then put it into the graveyard
-    game_engine.move_into_graveyard hand.player, hand
+    game_engine.move_into_graveyard stack.player, stack
   end
 
   def self.id
