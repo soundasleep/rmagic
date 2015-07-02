@@ -23,9 +23,8 @@ class Library::CounterSpell < CardType
 
   # ignoring mana costs
   def can_counter?(game_engine, hand, target = nil)
-    return target != nil &&
-      target.is_card? &&
-      target.card.card_type.is_spell? &&
+    return target == nil &&
+      !game_engine.duel.stack.empty? &&
       can_play_instant?(game_engine, hand)
   end
 
