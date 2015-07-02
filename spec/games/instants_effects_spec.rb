@@ -127,6 +127,7 @@ RSpec.describe "Instants effects", type: :game do
       context "on our creature" do
         before :each do
           game_engine.card_action(PossiblePlay.new(source: card, key: "counter", target: duel.player1.battlefield_creatures.first))
+          pass_until_next_phase
         end
 
         context "our creature" do
@@ -198,15 +199,12 @@ RSpec.describe "Instants effects", type: :game do
         it "creates an action" do
           expect(counter_actions(card).map{ |card| card.card }).to eq([card.card])
         end
-
-        it "consumes mana" do
-          expect(duel.player1.mana_green).to eq(2)
-        end
       end
 
       context "on their creature" do
         before :each do
           game_engine.card_action(PossiblePlay.new(source: card, key: "counter", target: duel.player2.battlefield_creatures.first))
+          pass_until_next_phase
         end
 
         context "their creature" do
