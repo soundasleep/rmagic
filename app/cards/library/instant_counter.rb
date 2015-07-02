@@ -31,7 +31,7 @@ class Library::InstantCounter < CardType
   end
 
   # an instant
-  def do_counter(game_engine, hand, target = nil)
+  def resolve_counter(game_engine, hand, target = nil)
     # add an effect
     game_engine.add_effect hand.player, Effects::TemporaryCounter.id, target
 

@@ -34,7 +34,7 @@ class Library::InstantGraveyardTop < CardType
   end
 
   # an instant
-  def do_instant(game_engine, hand, target = nil)
+  def resolve_instant(game_engine, hand, target = nil)
     # put target into the battlefield
     game_engine.move_into_battlefield hand.player, target
 

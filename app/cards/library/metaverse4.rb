@@ -27,14 +27,6 @@ class Library::Metaverse4 < CardType
       can_play_instant?(game_engine, hand)
   end
 
-  # an instant
-  def do_instant(game_engine, hand, target = nil)
-    game_engine.move_into_stack hand.player, hand, "instant", target
-
-    # and priority returns to the current player
-    game_engine.duel.reset_priority!
-  end
-
   # the instant resolves
   def resolve_instant(game_engine, stack)
     stack.player.add_life!(1)

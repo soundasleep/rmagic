@@ -31,7 +31,7 @@ class Library::Metaverse5 < CardType
   end
 
   # an instant
-  def do_destroy(game_engine, hand, target = nil)
+  def resolve_destroy(game_engine, hand, target = nil)
     game_engine.destroy target
 
     # and then put it into the graveyard

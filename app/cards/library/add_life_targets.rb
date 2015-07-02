@@ -29,7 +29,7 @@ class Library::AddLifeTargets < CardType
   end
 
   # an instant
-  def do_instant_player(game_engine, hand, target = nil)
+  def resolve_instant_player(game_engine, hand, target = nil)
     target.add_life!(1)
 
     # and then put it into the graveyard
@@ -58,7 +58,7 @@ class Library::AddLifeTargets < CardType
   end
 
   # an instant
-  def do_instant_creature(game_engine, hand, target = nil)
+  def resolve_instant_creature(game_engine, hand, target = nil)
     # add an effect
     game_engine.add_effect hand.player, Effects::AddOneToughness.id, target
 

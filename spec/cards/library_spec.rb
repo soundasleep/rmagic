@@ -33,6 +33,32 @@ RSpec.describe Library, type: :card do
         expect(card_type.new.to_text).to_not be_nil
       end
     end
+
+    context "actions that go onto the stack" do
+      it "do not have a #do_ method defined" do
+        card_types.values.each do |card_type|
+          card = card_type.new
+          card.actions.each do |a|
+            if card.playing_goes_onto_stack?(a)
+              expect(card.methods.map(&:to_s)).to_not include("do_#{a}"), "#{card_type}: Action #{a} which resolves on the stack should not have a `do_#{a}`"
+            end
+          end
+        end
+      end
+    end
+
+    context "actions that do not go onto the stack" do
+      it "do not have a #resolve_ method defined" do
+        card_types.values.each do |card_type|
+          card = card_type.new
+          card.actions.each do |a|
+            if !card.playing_goes_onto_stack?(a)
+              expect(card.methods.map(&:to_s)).to_not include("resolve_#{a}"), "#{card_type}: Action #{a} which does not interact on the stack should not have a `resolve_#{a}`"
+            end
+          end
+        end
+      end
+    end
   end
 
   context "effects" do

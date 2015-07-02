@@ -29,14 +29,6 @@ class Library::CounterSpell < CardType
       can_play_instant?(game_engine, hand)
   end
 
-  # an instant
-  def do_counter(game_engine, hand, target = nil)
-    game_engine.move_into_stack hand.player, hand, "counter", target
-
-    # and priority returns to the current player
-    game_engine.duel.reset_priority!
-  end
-
   # the instant resolves
   def resolve_counter(game_engine, stack)
     # the stack is in bottom-top order
