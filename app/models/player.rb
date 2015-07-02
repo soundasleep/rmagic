@@ -39,13 +39,14 @@ class Player < ActiveRecord::Base
   end
 
   def set_mana!(mana)
-    self.mana_green = mana[:green]
-    self.mana_blue = mana[:blue]
-    self.mana_red = mana[:red]
-    self.mana_white = mana[:white]
-    self.mana_black = mana[:black]
-    self.mana_colourless = mana[:colourless]
-    self.save!
+    update!({
+      mana_green: mana[:green],
+      mana_blue: mana[:blue],
+      mana_red: mana[:red],
+      mana_white: mana[:white],
+      mana_black: mana[:black],
+      mana_colourless: mana[:colourless]
+    })
   end
 
   def mana_pool

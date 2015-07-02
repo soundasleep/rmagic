@@ -19,8 +19,6 @@ module SetupGame
       create_card duel.player2.battlefield, Library::Forest.id
     end
 
-    duel.save!
-
     duel
   end
 
