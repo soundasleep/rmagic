@@ -169,10 +169,17 @@ class GameEngine
     move_into_graveyard zone_card.player, zone_card
   end
 
-  def move_into_graveyard(player, zone_card)
+  def remove_from_all_zones(player, zone_card)
     # removing it from the collection, rather than object.destroy!,
     # means we don't need to reload the duel manually
     player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+    duel.zones.select{ |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+  end
+
+  def move_into_graveyard(player, zone_card)
+    puts "Moving #{zone_card.card.to_json} into graveyard"
+
+    remove_from_all_zones(player, zone_card)
 
     # update log
     ActionLog.graveyard_card_action(duel, player, zone_card)
@@ -182,7 +189,7 @@ class GameEngine
   end
 
   def move_into_battlefield(player, zone_card)
-    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+    remove_from_all_zones(player, zone_card)
 
     # update log
     ActionLog.battlefield_card_action(duel, player, zone_card)
@@ -192,15 +199,13 @@ class GameEngine
   end
 
   def move_into_stack(player, zone_card, action_key, target = nil)
-    # removing it from the collection, rather than object.destroy!,
-    # means we don't need to reload the duel manually
-    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+    remove_from_all_zones(player, zone_card)
 
     # update log
     ActionLog.stack_card_action(duel, player, zone_card)
 
     # move to stack
-    duel.stack.create! card: zone_card.card, player: player, order: duel.next_stack_order, key: action_key, target: target
+    duel.stack.create! card: zone_card.card, player: player, order: duel.next_stack_order, key: action_key
   end
 
   def add_effect(player, effect_id, target)
@@ -218,8 +223,18 @@ class GameEngine
   end
 
   def resolve_stack
-    duel.stack.each do |action|
-      resolve_action action
+    i = 0
+
+    # stack is in bottom-top order
+    while !duel.stack.empty? do
+      # the actions may modify the stack itself, so we loop instead of each
+      target = duel.stack.reverse.first
+      puts "Resolving #{target.to_json}"
+
+      resolve_action target
+
+      i += 1
+      fail("Resolving the stack never completed after #{i} iterations") if i > 100
     end
 
     duel.stack.destroy_all

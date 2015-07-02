@@ -9,6 +9,7 @@ RSpec.describe "The stack", type: :game do
 
   before :each do
     create_hand_cards Library::Metaverse4.id
+    create_hand_cards Library::CounterSpell.id
     duel.playing_phase!
   end
 
@@ -39,6 +40,24 @@ RSpec.describe "The stack", type: :game do
 
         it "contains the card" do
           expect(stack.map{ |s| s.card }).to eq([source.card])
+        end
+      end
+
+        context "our counterspell" do
+        let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
+        let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+
+        context "when played" do
+          before { game_engine.card_action(play_counter_spell) }
+
+          it "contains both cards" do
+            expect(stack.map{ |s| s.card }).to eq([source.card, counter_spell.card])
+          end
+
+          it "contains the cards in order" do
+            expect(stack.first.card).to eq(source.card)
+            expect(stack.second.card).to eq(counter_spell.card)
+          end
         end
       end
 

@@ -32,12 +32,20 @@ class Library::CounterSpell < CardType
   # an instant
   def do_counter(game_engine, hand, target = nil)
     game_engine.move_into_stack hand.player, hand, "counter", target
+
+    # and priority returns to the current player
+    game_engine.duel.reset_priority!
   end
 
   # the instant resolves
   def resolve_counter(game_engine, stack)
-    # move the target spell into the graveyard
-    game_engine.move_into_graveyard stack.player, stack.target
+    # the stack is in bottom-top order
+    target = game_engine.duel.stack.reverse.second
+
+    fail("Trying to counter ourselves") if target == stack
+
+    # move the next spell into the graveyard
+    game_engine.move_into_graveyard stack.player, target
 
     # and then put this into the graveyard
     game_engine.move_into_graveyard stack.player, stack

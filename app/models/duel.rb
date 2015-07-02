@@ -39,6 +39,10 @@ class Duel < ActiveRecord::Base
     players[current_player_number - 1]
   end
 
+  def reset_priority!
+    update! priority_player_number: current_player_number
+  end
+
   def phase
     phase_number.classify.constantize.new
   end
@@ -51,6 +55,10 @@ class Duel < ActiveRecord::Base
   def next_stack_order
     return 1 if stack.empty?
     stack.map(&:order).max + 1
+  end
+
+  def zones
+    [ stack ]
   end
 
 end

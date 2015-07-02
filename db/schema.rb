@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150701052305) do
+ActiveRecord::Schema.define(version: 20150701231610) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
