@@ -44,6 +44,14 @@ class DuelController < ApplicationController
     redirect_to duel_path duel
   end
 
+  # maybe refactor into resources e.g.
+  # POST /duel/123/turn/create/[source]/[key]/[target]?
+  # POST /duel/123/turn/play/[source]/[key]/[target]?
+  # POST /duel/123/play/[source]/[key]/[target]?
+  # e.g. GET /duel/123/player/1/battlefield.json
+  #
+  # POST /duel/123/player/1/hand/123/play?key="do something"
+  # - this maps nicely to getting child resources through .json
   def play
     game_engine.card_action PossiblePlay.new(
       source: Hand.find(params[:hand]),

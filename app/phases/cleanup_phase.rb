@@ -12,6 +12,7 @@ class CleanupPhase < Phase
   end
 
   def setup_phase(game_engine)
+    # TODO each of these could be moved into services
     duel = game_engine.duel
 
     game_engine.resolve_stack

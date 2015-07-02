@@ -12,6 +12,7 @@ class ActionFinder
   end
 
   # list all available actions for the given player
+  # TODO split out into available_play_actions
   def available_actions(player)
     {
       play: playable_cards(player),      # from hand - TODO maybe rename 'hand'

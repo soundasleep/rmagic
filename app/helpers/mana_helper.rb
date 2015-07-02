@@ -1,4 +1,5 @@
 # TODO remove this out of /helpers - /helpers is for rails views only?
+# maybe /resources
 module ManaHelper
   def zero_mana
     {
