@@ -23,4 +23,8 @@ module Playable
     stack.card.update! turn_played: game_engine.duel.turn
   end
 
+  def playing_play_goes_onto_stack?
+    true
+  end
+
 end

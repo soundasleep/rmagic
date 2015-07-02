@@ -29,6 +29,10 @@ class Library::CounterSpell < CardType
       can_play_instant?(game_engine, hand)
   end
 
+  def playing_counter_goes_onto_stack?
+    true
+  end
+
   # the instant resolves
   def resolve_counter(game_engine, stack)
     # the stack is in bottom-top order

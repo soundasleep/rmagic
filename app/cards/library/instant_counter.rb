@@ -30,6 +30,10 @@ class Library::InstantCounter < CardType
         can_play_instant?(game_engine, hand)
   end
 
+  def playing_counter_goes_onto_stack?
+    true
+  end
+
   # an instant
   def resolve_counter(game_engine, stack)
     # add an effect

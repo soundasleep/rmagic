@@ -46,6 +46,10 @@ class Library::AddLifeActivated < CardType
     zone_card.player.add_life!(1)
   end
 
+  def playing_add_life_goes_onto_stack?
+    false
+  end
+
   def self.id
     12
   end

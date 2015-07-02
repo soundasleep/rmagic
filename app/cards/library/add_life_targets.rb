@@ -28,6 +28,10 @@ class Library::AddLifeTargets < CardType
       can_play_instant?(game_engine, hand)
   end
 
+  def playing_instant_player_goes_onto_stack?
+    true
+  end
+
   # an instant
   def resolve_instant_player(game_engine, stack)
     player = stack.player_targets.first.target
@@ -35,12 +39,6 @@ class Library::AddLifeTargets < CardType
 
     # and then put it into the graveyard
     game_engine.move_into_graveyard stack.player, stack
-  end
-
-  def counter_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
   end
 
   def instant_creature_cost(game_engine, hand, target = nil)
@@ -56,6 +54,10 @@ class Library::AddLifeTargets < CardType
         target.player.battlefield.include?(target) &&
         target.card.card_type.is_creature? &&
         can_play_instant?(game_engine, hand)
+  end
+
+  def playing_instant_creature_goes_onto_stack?
+    true
   end
 
   # an instant

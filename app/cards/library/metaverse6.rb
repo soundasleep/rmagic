@@ -36,6 +36,10 @@ class Library::Metaverse6 < CardType
         can_creature_ability?(game_engine, hand)
   end
 
+  def playing_destroy_goes_onto_stack?
+    false
+  end
+
   # an instant
   def do_destroy(game_engine, hand, target = nil)
     game_engine.destroy target

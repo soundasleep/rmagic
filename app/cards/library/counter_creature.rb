@@ -29,6 +29,10 @@ class Library::CounterCreature < CardType
       can_play_instant?(game_engine, hand)
   end
 
+  def playing_counter_creature_goes_onto_stack?
+    true
+  end
+
   # the instant resolves
   def resolve_counter_creature(game_engine, stack)
     # the stack is in bottom-top order

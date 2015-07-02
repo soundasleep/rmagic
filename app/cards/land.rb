@@ -19,9 +19,17 @@ module Land
         battlefield.zone.cards_are_tappable?
   end
 
+  def playing_tap_goes_onto_stack?
+    false
+  end
+
   def can_untap?(game_engine, battlefield, target = nil)
     return target == nil &&
         false # we can never manually untap lands
+  end
+
+  def playing_untap_goes_onto_stack?
+    false
   end
 
   def tap_cost(game_engine, battlefield, target = nil)
