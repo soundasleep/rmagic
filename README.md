@@ -1,4 +1,4 @@
-rmagic
+rmagic [![Code Climate](https://codeclimate.com/github/soundasleep/rmagic/badges/gpa.svg)](https://codeclimate.com/github/soundasleep/rmagic)
 ======
 
 *rmagic* is a Ruby on Rails implementation of Magic the Gathering.
