@@ -40,20 +40,6 @@ RSpec.describe "Creature activated abilities", type: :game do
         game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
       end
 
-      it "adds a creature to the battlefield" do
-        expect(creature).to_not be_nil
-      end
-
-      it "is turn 1" do
-        expect(duel.turn).to eq(1)
-      end
-
-      context "the creature" do
-        it "is played on turn 1" do
-          expect(creature.card.turn_played).to eq(1)
-        end
-      end
-
       it "consumes mana" do
         expect(duel.player1.mana_green).to eq(1)
       end
@@ -62,9 +48,27 @@ RSpec.describe "Creature activated abilities", type: :game do
         expect(duel.player1.hand).to be_empty
       end
 
-      context "the activated ability" do
-        it "cannot be played" do
-          expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+      context "after passing to the next phase" do
+        before { pass_until_next_phase }
+
+        it "adds a creature to the battlefield" do
+          expect(creature).to_not be_nil
+        end
+
+        it "is turn 1" do
+          expect(duel.turn).to eq(1)
+        end
+
+        context "the creature" do
+          it "is played on turn 1" do
+            expect(creature.card.turn_played).to eq(1)
+          end
+        end
+
+        context "the activated ability" do
+          it "cannot be played" do
+            expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+          end
         end
       end
 

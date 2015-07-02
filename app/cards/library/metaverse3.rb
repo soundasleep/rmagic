@@ -32,6 +32,10 @@ class Library::Metaverse3 < CardType
         can_creature_ability?(game_engine, zone_card)
   end
 
+  def playing_add_life_goes_onto_stack?
+    false
+  end
+
   # an instant
   def do_add_life(game_engine, zone_card, target = nil)
     zone_card.player.add_life!(1)

@@ -44,6 +44,14 @@ RSpec.describe "Creatures", type: :game do
       tap_all_lands
     end
 
+    def played_creatures(player)
+      player.battlefield.select{ |b| b.card.turn_played != 0 }
+    end
+
+    it "we have 3 mana" do
+      expect(duel.player1.mana_green).to eq(3)
+    end
+
     it "can be played with mana" do
       expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
     end
@@ -75,28 +83,33 @@ RSpec.describe "Creatures", type: :game do
       end
     end
 
-    context "when played" do
-      def played_creatures(player)
-        player.battlefield.select{ |b| b.card.turn_played != 0 }
-      end
+    it "player 1 has no played creatures" do
+      expect(played_creatures(duel.player1)).to be_empty
+    end
 
+    it "player 2 has no played creatures" do
+    expect(played_creatures(duel.player2)).to be_empty
+    end
+
+    context "when played" do
       before :each do
-        expect(played_creatures(duel.player1)).to be_empty
-        expect(played_creatures(duel.player2)).to be_empty
-        expect(duel.player1.mana_green).to eq(3)
         game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
       end
 
-      it "adds a creature to the battlefield" do
-        expect(played_creatures(duel.player1).map{ |c| c.card }).to eq([card.card])
-      end
+      context "after passing to the next phase" do
+        before { pass_until_next_phase }
 
-      it "does not add a creature for the other player" do
-        expect(played_creatures(duel.player2).map{ |c| c.card }).to be_empty
-      end
+        it "adds a creature to the battlefield" do
+          expect(played_creatures(duel.player1).map{ |c| c.card }).to eq([card.card])
+        end
 
-      it "creates an action" do
-        expect(play_actions(card).map{ |card| card.card }).to eq([card.card])
+        it "does not add a creature for the other player" do
+          expect(played_creatures(duel.player2).map{ |c| c.card }).to be_empty
+        end
+
+        it "creates an action" do
+          expect(play_actions(card).map{ |card| card.card }).to eq([card.card])
+        end
       end
 
       it "consumes mana" do

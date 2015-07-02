@@ -27,8 +27,7 @@ class CardType
   end
 
   def playing_goes_onto_stack?(key)
-    # this could also be split into send_*()
-    is_instant?
+    send("playing_#{key}_goes_onto_stack?")
   end
 
   def mana_cost

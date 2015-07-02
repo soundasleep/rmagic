@@ -30,6 +30,10 @@ class Library::Metaverse5 < CardType
         can_play_instant?(game_engine, hand)
   end
 
+  def playing_destroy_goes_onto_stack?
+    true
+  end
+
   # an instant
   def resolve_destroy(game_engine, stack)
     game_engine.destroy stack.battlefield_targets.first.target

@@ -1,8 +1,8 @@
-class Library::CounterSpell < CardType
+class Library::CounterCreature < CardType
   include PlayableInstant
 
   def name
-    "Counter spell"
+    "Counter creature"
   end
 
   def is_instant?
@@ -15,26 +15,26 @@ class Library::CounterSpell < CardType
     }
   end
 
-  def counter_cost(game_engine, hand, target = nil)
+  def counter_creature_cost(game_engine, hand, target = nil)
     return {
       colourless: 1
     }
   end
 
   # ignoring mana costs
-  def can_counter?(game_engine, hand, target = nil)
+  def can_counter_creature?(game_engine, hand, target = nil)
     return target == nil &&
       !game_engine.duel.stack.empty? &&
-      !game_engine.duel.stack.last.card.card_type.is_creature? &&
+      game_engine.duel.stack.last.card.card_type.is_creature? &&
       can_play_instant?(game_engine, hand)
   end
 
-  def playing_counter_goes_onto_stack?
+  def playing_counter_creature_goes_onto_stack?
     true
   end
 
   # the instant resolves
-  def resolve_counter(game_engine, stack)
+  def resolve_counter_creature(game_engine, stack)
     # the stack is in bottom-top order
     target = game_engine.duel.stack.reverse.second
 
@@ -48,7 +48,7 @@ class Library::CounterSpell < CardType
   end
 
   def self.id
-    15
+    14
   end
 
 end

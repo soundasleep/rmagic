@@ -7,4 +7,8 @@ module CreatureAbility
         hand.card.can_ability?
   end
 
+  def playing_creature_ability_goes_onto_stack?
+    false
+  end
+
 end

@@ -33,6 +33,10 @@ class Library::InstantGraveyardTop < CardType
         can_play_instant?(game_engine, hand)
   end
 
+  def playing_instant_goes_onto_stack?
+    true
+  end
+
   # an instant
   def resolve_instant(game_engine, stack)
     # put target into the battlefield

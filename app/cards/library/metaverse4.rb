@@ -27,6 +27,10 @@ class Library::Metaverse4 < CardType
       can_play_instant?(game_engine, hand)
   end
 
+  def playing_instant_goes_onto_stack?
+    true
+  end
+
   # the instant resolves
   def resolve_instant(game_engine, stack)
     stack.player.add_life!(1)
