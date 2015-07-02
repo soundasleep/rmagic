@@ -14,6 +14,8 @@ The engine barely supports anything at the moment, but it's a start.
 * Instants from cards, abilities from creatures, targeting both cards and players
 * Temporary effects modifying power/toughness on creatures
 * Activated abilities considering summoning sickness
+* Spells (not creatures) interact on the stack
+* Counter spells
 
 ## ActiveRecord concepts
 
@@ -31,8 +33,8 @@ We try to use as few model objects as possible.
 
 * Represents actions as classes/services rather than methods?
 * Support more game phases correctly
-* Counter spells
 * Summoning sickness for activated abilities
+* Creatures interact on the stack and can be countered
 * Sorceries
 * Deck shuffling and drawing
 * Random first player
