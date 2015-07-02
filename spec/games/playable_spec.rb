@@ -68,34 +68,42 @@ RSpec.describe "Playable", type: :game do
         game_engine.card_action PossiblePlay.new(source: @card, key: "play")
       end
 
-      it "creates an action" do
-        expect(actions(@card.card, "play").map{ |c| c.card }).to eq([ @card.card ])
-      end
-
-      it "puts a creature on the battlefield" do
-        expect(battlefield_creatures).to eq([@card.card])
-      end
-
       it "we're on turn 1" do
         expect(duel.turn).to eq(1)
       end
 
-      it "stores when the card was played" do
-        expect(battlefield_creatures.first.turn_played).to eq(1)
+      it "creates an action" do
+        expect(actions(@card.card, "play").map{ |c| c.card }).to eq([ @card.card ])
       end
 
-      context "gives it summoning sickness" do
-        it "and it cannot attack in the current turn" do
-          duel.attacking_phase!
+      context "in the next phase" do
+        before { pass_until_next_phase }
 
-          expect(available_attackers).to eq([])
+        it "puts a creature on the battlefield" do
+          expect(battlefield_creatures).to eq([@card.card])
         end
 
-        it "but can attack in the next turn" do
-          pass_until_next_turn
+        it "we're on turn 1" do
+          expect(duel.turn).to eq(1)
+        end
 
-          duel.attacking_phase!
-          expect(available_attackers.map{ |b| b.card }).to eq([@card.card])
+        it "stores when the card was played" do
+          expect(battlefield_creatures.first.turn_played).to eq(1)
+        end
+
+        context "gives it summoning sickness" do
+          it "and it cannot attack in the current turn" do
+            duel.attacking_phase!
+
+            expect(available_attackers).to eq([])
+          end
+
+          it "but can attack in the next turn" do
+            pass_until_next_turn
+
+            duel.attacking_phase!
+            expect(available_attackers.map{ |b| b.card }).to eq([@card.card])
+          end
         end
       end
     end

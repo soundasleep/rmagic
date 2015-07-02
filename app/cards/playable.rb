@@ -16,6 +16,7 @@ module Playable
 
   # ability mana cost has already been consumed
   def resolve_play(game_engine, stack)
+    # TODO maybe each of these resolve actions can be moved into services
     # put it into the battlefield
     game_engine.move_into_battlefield stack.player, stack
 
