@@ -13,6 +13,8 @@ class PhaseManager
 
   # The current player has passed the turn; move the priority to the next player if necessary
   def pass!
+    previous_phase = duel.phase
+
     # add to action log
     ActionLog.pass_action(duel, duel.priority_player)
 
@@ -38,7 +40,9 @@ class PhaseManager
 
     duel.save!      # TODO replace with update!
 
-    duel.phase.setup_phase game_engine
+    if duel.phase != previous_phase
+      duel.phase.setup_phase game_engine
+    end
 
     # do the AI if necessary
     if duel.priority_player.is_ai?

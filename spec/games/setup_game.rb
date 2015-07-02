@@ -103,6 +103,10 @@ module SetupGame
   end
 
   def tap_all_lands
+    # check we have lands to tap
+    # if this fails, the test probably can be cleaned up
+    expect(duel.priority_player.battlefield_lands.select { |b| !b.card.is_tapped? }).to_not be_empty, "Player #{duel.priority_player.name} had no untapped lands"
+
     # tap all battlefield lands
     duel.priority_player.battlefield_lands.each do |b|
       game_engine.card_action PossibleAbility.new(source: b, key: "tap")
