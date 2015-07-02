@@ -146,10 +146,10 @@ module SetupGame
   end
 
   def pass_until_next_phase
-    c = duel.phase_number
+    c = duel.phase
     i = 0
 
-    while duel.phase_number == c do
+    while duel.phase == c do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next phase"
       game_engine.pass

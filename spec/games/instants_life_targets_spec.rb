@@ -123,56 +123,13 @@ RSpec.describe "Instants add life to targets", type: :game do
 
       context "when activated" do
         context "on our player" do
+          let(:our_player) { duel.player1 }
+
           before :each do
             game_engine.card_action(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1))
-            pass_until_next_phase
           end
 
           context "our player" do
-            let(:our_player) { duel.player1 }
-
-            it "exists" do
-              expect(our_player).to_not be_nil
-            end
-
-            it "has 21 life" do
-              expect(our_player.life).to eq(20 + 1)
-            end
-
-            context "in the next phase" do
-              before :each do
-                pass_until_current_player_has_priority
-              end
-
-              it "still has 21 life" do
-                expect(our_player.life).to eq(20 + 1)
-              end
-            end
-
-            context "in the next players turn" do
-              before :each do
-                pass_until_next_player
-              end
-
-              it "still has 21 life" do
-                expect(our_player.life).to eq(20 + 1)
-              end
-            end
-
-            context "in our next turn" do
-              before :each do
-                pass_until_next_player
-              end
-
-              it "still has 21 life" do
-                expect(our_player.life).to eq(20 + 1)
-              end
-            end
-          end
-
-          context "their player" do
-            let(:our_player) { duel.player2 }
-
             it "exists" do
               expect(our_player).to_not be_nil
             end
@@ -180,79 +137,66 @@ RSpec.describe "Instants add life to targets", type: :game do
             it "has 20 life" do
               expect(our_player.life).to eq(20)
             end
-          end
 
-          it "creates an action" do
-            expect(instant_player_actions(card).map{ |card| card.card }).to eq([card.card])
-          end
-
-          it "consumes mana" do
-            expect(duel.player1.mana_green).to eq(2)
-          end
-        end
-
-        context "on our player" do
-          before :each do
-            game_engine.card_action(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1))
-            pass_until_next_phase
-          end
-
-          context "our player" do
-            let(:our_player) { duel.player1 }
-
-            it "exists" do
-              expect(our_player).to_not be_nil
-            end
-
-            it "has 21 life" do
-              expect(our_player.life).to eq(20 + 1)
+            it "has used mana" do
+              expect(duel.player1.mana_green).to eq(2)
             end
 
             context "in the next phase" do
               before :each do
-                pass_until_current_player_has_priority
+                pass_until_next_phase
+                our_player.reload
               end
 
-              it "still has 21 life" do
+              it "the stack is empty" do
+                expect(duel.stack).to be_empty
+              end
+
+              it "has 21 life" do
+                # our_player.reload
                 expect(our_player.life).to eq(20 + 1)
+              end
+
+              it "creates an action" do
+                expect(instant_player_actions(card).map{ |card| card.card }).to eq([card.card])
               end
             end
 
             context "in the next players turn" do
               before :each do
                 pass_until_next_player
+                our_player.reload
               end
 
               it "still has 21 life" do
                 expect(our_player.life).to eq(20 + 1)
               end
-            end
 
-            context "in our next turn" do
-              before :each do
-                pass_until_next_player
-              end
+              context "in our next turn" do
+                before :each do
+                  pass_until_next_player
+                  our_player.reload
+                end
 
-              it "still has 21 life" do
-                expect(our_player.life).to eq(20 + 1)
+                it "still has 21 life" do
+                  expect(our_player.life).to eq(20 + 1)
+                end
               end
             end
           end
 
           context "their player" do
-            let(:our_player) { duel.player2 }
+            let(:their_player) { duel.player2 }
 
             it "exists" do
-              expect(our_player).to_not be_nil
+              expect(their_player).to_not be_nil
             end
 
             it "has 20 life" do
-              expect(our_player.life).to eq(20)
+              expect(their_player.life).to eq(20)
             end
           end
-
         end
-
       end
     end
 

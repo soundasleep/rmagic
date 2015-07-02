@@ -5,7 +5,8 @@ class Stack < ActiveRecord::Base
   belongs_to :card
   belongs_to :player
 
-  has_many :battlefield_targets, class_name: "StackBattlefieldTarget"
+  has_many :battlefield_targets, class_name: "StackBattlefieldTarget", dependent: :destroy
+  has_many :player_targets, class_name: "StackPlayerTarget", dependent: :destroy
 
   validates :order, presence: true
   validates :duel, :card, :player, presence: true

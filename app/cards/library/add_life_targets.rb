@@ -29,11 +29,12 @@ class Library::AddLifeTargets < CardType
   end
 
   # an instant
-  def resolve_instant_player(game_engine, hand, target = nil)
-    target.add_life!(1)
+  def resolve_instant_player(game_engine, stack)
+    player = stack.player_targets.first.target
+    player.add_life!(1)
 
     # and then put it into the graveyard
-    game_engine.move_into_graveyard hand.player, hand
+    game_engine.move_into_graveyard stack.player, stack
   end
 
   def counter_cost(game_engine, hand, target = nil)
