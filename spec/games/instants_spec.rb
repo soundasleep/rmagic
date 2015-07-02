@@ -188,6 +188,10 @@ RSpec.describe "Instants", type: :game do
       pass_until_next_player
     end
 
+    it "we do not have priority" do
+      expect(duel.priority_player).to_not eq(duel.player1)
+    end
+
     context "in the drawing phase" do
       before :each do
         duel.drawing_phase!

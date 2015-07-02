@@ -25,10 +25,8 @@ class PhaseManager
       next_player = duel.next_phase!
 
       if next_player
-        duel.update!({
-          current_player_number: (duel.current_player_number % duel.players.count) + 1,
-          priority_player_number: duel.current_player_number
-        })
+        duel.update! current_player_number: (duel.current_player_number % duel.players.count) + 1
+        duel.update! priority_player_number: duel.current_player_number
 
         if duel.current_player_number == duel.first_player_number
           # next turn

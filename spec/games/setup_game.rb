@@ -128,7 +128,7 @@ module SetupGame
 
     while duel.current_player == c do
       i += 1
-      assert_operator i, :<, 100, "it took too long to get to the next turn"
+      assert_operator i, :<, 100, "it took too long to get to the next player"
       game_engine.pass
     end
   end
