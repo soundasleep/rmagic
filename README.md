@@ -35,6 +35,7 @@ We try to use as few model objects as possible.
 * Support more game phases correctly
 * Summoning sickness for activated abilities
 * Creatures interact on the stack and can be countered
+* Render the cards on the stack in the web interface
 * Sorceries
 * Deck shuffling and drawing
 * Random first player
