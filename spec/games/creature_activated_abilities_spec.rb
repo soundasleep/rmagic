@@ -10,29 +10,11 @@ RSpec.describe "Creature activated abilities", type: :game do
     duel.playing_phase!
   end
 
-  context "before playing the creature" do
-    it "the battlefield is empty" do
-      expect(creature).to be_nil
-    end
-  end
-
-  context "without mana" do
-    it "requires mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(false)
-    end
-  end
+  it_behaves_like "playable creature from hand"
 
   context "with mana" do
     before :each do
       tap_all_lands
-    end
-
-    it "provides 3 green mana" do
-      expect(duel.player1.mana_green).to eq(3)
-    end
-
-    it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
     end
 
     context "when played" do
@@ -40,31 +22,11 @@ RSpec.describe "Creature activated abilities", type: :game do
         game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
       end
 
-      it "adds a creature to the battlefield" do
-        expect(creature).to_not be_nil
-      end
-
-      it "is turn 1" do
-        expect(duel.turn).to eq(1)
-      end
-
-      context "the creature" do
-        it "is played on turn 1" do
-          expect(creature.card.turn_played).to eq(1)
-        end
-      end
-
-      it "consumes mana" do
-        expect(duel.player1.mana_green).to eq(1)
-      end
-
-      it "removes the creature from the hand" do
-        expect(duel.player1.hand).to be_empty
-      end
+      let(:ability) { PossibleAbility.new(source: creature, key: "add_life") }
 
       context "the activated ability" do
         it "cannot be played" do
-          expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+          expect(game_engine.can_do_action?(ability)).to be(false)
         end
       end
 
@@ -102,7 +64,7 @@ RSpec.describe "Creature activated abilities", type: :game do
 
         context "the activated ability" do
           it "cannot be played" do
-            expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+            expect(game_engine.can_do_action?(ability)).to be(false)
           end
 
           context "after being tapped manually" do
@@ -111,13 +73,13 @@ RSpec.describe "Creature activated abilities", type: :game do
             end
 
             it "cannot be played" do
-              expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+              expect(game_engine.can_do_action?(ability)).to be(false)
             end
           end
 
           context "without mana" do
             it "cannot be activated" do
-              expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(false)
+              expect(game_engine.can_do_action?(ability)).to be(false)
             end
           end
 
@@ -129,7 +91,7 @@ RSpec.describe "Creature activated abilities", type: :game do
             end
 
             it "can be activated" do
-              expect(game_engine.can_do_action?(PossibleAbility.new(source: creature, key: "add_life"))).to be(true)
+              expect(game_engine.can_do_action?(ability)).to be(true)
             end
 
             it "the player still has 20 life" do
@@ -138,7 +100,7 @@ RSpec.describe "Creature activated abilities", type: :game do
 
             context "when activated" do
               before :each do
-                game_engine.card_action(PossibleAbility.new(source: creature, key: "add_life"))
+                game_engine.card_action(ability)
               end
 
               it "the card is tapped" do
