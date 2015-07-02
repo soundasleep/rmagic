@@ -15,12 +15,12 @@ module Playable
   end
 
   # ability mana cost has already been consumed
-  def do_play(game_engine, hand, target = nil)
+  def resolve_play(game_engine, stack)
     # put it into the battlefield
-    game_engine.move_into_battlefield hand.player, hand
+    game_engine.move_into_battlefield stack.player, stack
 
     # save the turn it was played
-    hand.card.update! turn_played: game_engine.duel.turn
+    stack.card.update! turn_played: game_engine.duel.turn
   end
 
 end

@@ -55,6 +55,8 @@ class GameEngine
   end
 
   def card_action(action)
+    fail "Cannot do an action #{action} on an empty source" unless action.source
+
     player = action.source.player
     cost = action.source.card.card_type.action_cost(self, action)
     if !player.has_mana?(cost)
