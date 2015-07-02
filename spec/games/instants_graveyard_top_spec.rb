@@ -107,6 +107,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
       context "on our creature" do
         before :each do
           game_engine.card_action(PossiblePlay.new(source: card, key: "instant", target: target))
+          pass_until_next_phase
         end
 
         it "removes our creature from the graveyard" do
@@ -124,12 +125,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
         it "creates an action" do
           expect(instant_actions(card).map{ |card| card.card }).to eq([card.card])
         end
-
-        it "consumes mana" do
-          expect(duel.player1.mana_green).to eq(2)
-        end
       end
-
     end
   end
 
