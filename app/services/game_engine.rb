@@ -177,8 +177,6 @@ class GameEngine
   end
 
   def move_into_graveyard(player, zone_card)
-    puts "Moving #{zone_card.card.to_json} into graveyard"
-
     remove_from_all_zones(player, zone_card)
 
     # update log
@@ -229,7 +227,6 @@ class GameEngine
     while !duel.stack.empty? do
       # the actions may modify the stack itself, so we loop instead of each
       target = duel.stack.reverse.first
-      puts "Resolving #{target.to_json}"
 
       resolve_action target
 

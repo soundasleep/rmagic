@@ -57,7 +57,7 @@ class CardType
 
     if playing_goes_onto_stack?(action.key)
       # we don't want to call do_() directly
-      game_engine.move_into_stack action.source.player, action.source, action.source, action.target
+      game_engine.move_into_stack action.source.player, action.source, action.key, action.target
 
       # and priority returns to the current player
       game_engine.duel.reset_priority!
