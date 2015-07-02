@@ -33,7 +33,7 @@ class Library::InstantCounter < CardType
   # an instant
   def resolve_counter(game_engine, stack)
     # add an effect
-    game_engine.add_effect stack.player, Effects::TemporaryCounter.id, stack.targets.first.target
+    game_engine.add_effect stack.player, Effects::TemporaryCounter.id, stack.battlefield_targets.first.target
 
     # and then put it into the graveyard
     game_engine.move_into_graveyard stack.player, stack

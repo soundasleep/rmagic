@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702031813) do
+ActiveRecord::Schema.define(version: 20150702033436) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -188,15 +188,15 @@ ActiveRecord::Schema.define(version: 20150702031813) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
-  create_table "stack_targets", force: :cascade do |t|
+  create_table "stack_battlefield_targets", force: :cascade do |t|
     t.integer  "stack_id"
     t.integer  "target_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "stack_targets", ["stack_id"], name: "index_stack_targets_on_stack_id"
-  add_index "stack_targets", ["target_id"], name: "index_stack_targets_on_target_id"
+  add_index "stack_battlefield_targets", ["stack_id"], name: "index_stack_battlefield_targets_on_stack_id"
+  add_index "stack_battlefield_targets", ["target_id"], name: "index_stack_battlefield_targets_on_target_id"
 
   create_table "stacks", force: :cascade do |t|
     t.integer  "duel_id"

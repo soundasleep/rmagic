@@ -7,4 +7,8 @@ class BattlefieldZone < Zone
     true
   end
 
+  def is_battlefield?
+    true
+  end
+
 end

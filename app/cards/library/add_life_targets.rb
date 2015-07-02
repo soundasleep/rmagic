@@ -58,12 +58,12 @@ class Library::AddLifeTargets < CardType
   end
 
   # an instant
-  def resolve_instant_creature(game_engine, hand, target = nil)
+  def resolve_instant_creature(game_engine, stack)
     # add an effect
-    game_engine.add_effect hand.player, Effects::AddOneToughness.id, target
+    game_engine.add_effect stack.player, Effects::AddOneToughness.id, stack.battlefield_targets.first.target
 
     # and then put it into the graveyard
-    game_engine.move_into_graveyard hand.player, hand
+    game_engine.move_into_graveyard stack.player, stack
   end
 
   def self.id

@@ -125,6 +125,7 @@ RSpec.describe "Instants add life to targets", type: :game do
         context "on our player" do
           before :each do
             game_engine.card_action(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1))
+            pass_until_next_phase
           end
 
           context "our player" do
@@ -193,6 +194,7 @@ RSpec.describe "Instants add life to targets", type: :game do
         context "on our player" do
           before :each do
             game_engine.card_action(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1))
+            pass_until_next_phase
           end
 
           context "our player" do
@@ -289,6 +291,7 @@ RSpec.describe "Instants add life to targets", type: :game do
         context "on our creature" do
           before :each do
             game_engine.card_action(PossiblePlay.new(source: card, key: "instant_creature", target: our_creature))
+            pass_until_next_phase
           end
 
           context "our creature" do

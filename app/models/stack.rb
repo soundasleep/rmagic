@@ -5,7 +5,7 @@ class Stack < ActiveRecord::Base
   belongs_to :card
   belongs_to :player
 
-  has_many :targets, class_name: "StackTarget"
+  has_many :battlefield_targets, class_name: "StackBattlefieldTarget"
 
   validates :order, presence: true
   validates :duel, :card, :player, presence: true

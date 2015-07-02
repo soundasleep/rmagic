@@ -146,4 +146,8 @@ class Player < ActiveRecord::Base
     "Player #{name}"
   end
 
+  def has_zone?
+    false
+  end
+
 end

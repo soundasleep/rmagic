@@ -212,7 +212,15 @@ class GameEngine
     stack = duel.stack.create! card: zone_card.card, player: player, order: duel.next_stack_order, key: action_key
 
     if target
-      stack.targets.create! target: target
+      if target.has_zone?
+        if target.zone.is_battlefield?
+          stack.battlefield_targets.create! target: target
+        else
+          fail "Unknown target zone #{target.zone}"
+        end
+      else
+        stack.player_targets.create! target: target
+      end
     end
   end
 
