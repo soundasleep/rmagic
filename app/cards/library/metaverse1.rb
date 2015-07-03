@@ -18,10 +18,7 @@ class Library::Metaverse1 < CardType
   end
 
   def mana_cost
-    {
-      green: 1,
-      colourless: 1
-    }
+    Mana.new green: 1, colourless: 1
   end
 
 end

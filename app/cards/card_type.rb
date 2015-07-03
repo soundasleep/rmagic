@@ -1,6 +1,4 @@
 class CardType
-  include ManaHelper
-
   def to_text
     "#{name} #{cost_string}"
   end
@@ -31,11 +29,11 @@ class CardType
   end
 
   def mana_cost
-    {}
+    Mana.new
   end
 
   def cost_string
-    mana_cost_string(mana_cost)
+    mana_cost.to_s
   end
 
   def actions

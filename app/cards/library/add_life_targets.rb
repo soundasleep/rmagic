@@ -10,15 +10,11 @@ class Library::AddLifeTargets < CardType
   end
 
   def mana_cost
-    {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   def instant_player_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs
@@ -42,9 +38,7 @@ class Library::AddLifeTargets < CardType
   end
 
   def instant_creature_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs

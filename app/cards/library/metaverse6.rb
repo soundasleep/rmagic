@@ -15,16 +15,11 @@ class Library::Metaverse6 < CardType
   end
 
   def mana_cost
-    {
-      green: 1,
-      colourless: 1
-    }
+    Mana.new green: 1, colourless: 1
   end
 
   def destroy_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs

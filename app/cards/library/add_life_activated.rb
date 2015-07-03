@@ -15,16 +15,11 @@ class Library::AddLifeActivated < CardType
   end
 
   def mana_cost
-    {
-      green: 1,
-      colourless: 1
-    }
+    Mana.new green: 1, colourless: 1
   end
 
   def add_life_cost(game_engine, zone_card, target = nil)
-    return {
-      green: 1
-    }
+    Mana.new green: 1
   end
 
   def can_add_life?(game_engine, zone_card, target = nil)

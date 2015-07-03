@@ -55,11 +55,11 @@ module Land
   end
 
   def tap_cost(game_engine, battlefield, target = nil)
-    zero_mana
+    Mana.new
   end
 
   def untap_cost(game_engine, battlefield, target = nil)
-    zero_mana
+    Mana.new
   end
 
   def do_tap(game_engine, battlefield, target = nil)
