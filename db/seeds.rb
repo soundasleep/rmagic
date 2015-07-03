@@ -64,7 +64,7 @@ deck = system.premade_decks.create! name: "Fate"
 # create_card deck, Library::CurseOfTheSwine
 # create_card deck, Library::Griptide, 2
 # create_card deck, Library::JacesIngenuity, 2
-# create_card deck, Library::Negate, 2
+create_card deck, Library::Negate, 2
 # create_card deck, Library::PinToTheEarth, 2
 # create_card deck, Library::VoyagesEnd
 
