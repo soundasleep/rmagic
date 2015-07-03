@@ -29,7 +29,7 @@ class Library::AddLifeActivated < CardType
 
   def can_add_life?(game_engine, zone_card, target = nil)
     return target == nil &&
-        zone_card.card.can_tap? &&
+        !zone_card.card.is_tapped? &&
         game_engine.duel.turn > zone_card.card.turn_played &&
         game_engine.duel.priority_player == zone_card.player &&
         game_engine.duel.phase.can_tap? &&

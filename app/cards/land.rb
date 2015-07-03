@@ -38,7 +38,7 @@ module Land
     return target == nil &&
         game_engine.duel.priority_player == battlefield.player &&
         game_engine.duel.phase.can_tap? &&
-        battlefield.card.can_tap? &&
+        !battlefield.card.is_tapped? &&
         battlefield.zone.cards_are_tappable?
   end
 

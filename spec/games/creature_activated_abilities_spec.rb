@@ -98,10 +98,6 @@ RSpec.describe "Creature activated abilities", type: :game do
           it "is not tapped" do
             expect(creature.card.is_tapped?).to be(false)
           end
-
-          it "can be tapped manually" do
-            expect(creature.card.can_tap?).to be(true)
-          end
         end
 
         context "the activated ability" do
@@ -147,14 +143,6 @@ RSpec.describe "Creature activated abilities", type: :game do
 
               it "the card is tapped" do
                 expect(creature.card.is_tapped?).to be(true)
-              end
-
-              it "the card cannot be tapped" do
-                expect(creature.card.can_tap?).to be(false)
-              end
-
-              it "adds life to the current player" do
-                expect(player.life).to eq(20 + 1)
               end
             end
           end

@@ -40,15 +40,6 @@ class Card < ActiveRecord::Base
 
   delegate :action_text, to: :card_type
 
-  # TODO remove - seems unnecessary, since this has no context information
-  def can_tap?
-    !is_tapped?
-  end
-
-  def can_untap?
-    is_tapped?
-  end
-
   def tap_card!
     fail "card is already tapped" if is_tapped?
     update! is_tapped: true
