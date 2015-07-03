@@ -1,6 +1,5 @@
 require_relative "setup_game"
 
-# TODO maybe all of these .describe labels should be the same?
 RSpec.describe "Counterspells on creatures", type: :game do
   let(:duel) { create_game }
 

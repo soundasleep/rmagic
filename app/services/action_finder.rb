@@ -15,9 +15,9 @@ class ActionFinder
   # TODO split out into available_play_actions
   def available_actions(player)
     {
-      play: playable_cards(player),      # from hand - TODO maybe rename 'hand'
-      defend: defendable_cards(player),  # from battlefield
-      ability: ability_cards(player)     # from battlefield - TODO maybe rename 'battlefield'
+      play: playable_cards(player),      # from hand
+      ability: ability_cards(player),     # from battlefield
+      defend: defendable_cards(player)  # from battlefield
     }
   end
 

@@ -38,7 +38,6 @@ class GameEngine
     end
   end
 
-  # TODO move each of these phase activities into phase objects?
   # TODO move each of these into services! then we can test each of the services
   # individually
   # services return true, false etc - easier to test pass/failure
