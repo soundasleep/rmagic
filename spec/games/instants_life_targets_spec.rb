@@ -77,14 +77,14 @@ RSpec.describe "Instants add life to targets", type: :game do
         end
 
         it "with the correct source" do
-          available_actions[:play].each do |a|
+          playable_cards(duel.player1).each do |a|
             expect(a.source).to eq(card)
           end
         end
       end
 
       it "all actions have source and key and target specified" do
-        available_actions[:play].each do |a|
+        playable_cards(duel.player1).each do |a|
           expect(a.source).to_not be_nil
           expect(a.key).to_not be_nil
           expect(a.target).to_not be_nil
@@ -92,7 +92,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       end
 
       it "all actions have a description" do
-        available_actions[:play].each do |a|
+        playable_cards(duel.player1).each do |a|
           expect(a.description).to_not be_nil
         end
       end

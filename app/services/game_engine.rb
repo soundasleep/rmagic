@@ -16,11 +16,6 @@ class GameEngine
     PhaseManager.new(self)
   end
 
-  # list all available actions for the given player
-  def available_actions(player)
-    action_finder.available_actions(player)
-  end
-
   def can_do_action?(action)
     action.source.card.card_type.can_do_action?(self, action) &&
       action.source.player.has_mana?(action.source.card.card_type.action_cost(self, action))

@@ -60,9 +60,10 @@ module SetupGame
     game_engine.available_attackers(duel.current_player)
   end
 
-  def available_actions
-    game_engine.available_actions(duel.player1)
-  end
+  delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder
+  delegate :action_finder, to: :game_engine
+
+  # TODO add delegate of duel.player1, duel.player2 to player1, player2
 
   def actions(card, action)
     duel.action_logs.where card_action: action, card: card
@@ -89,11 +90,11 @@ module SetupGame
   end
 
   def available_ability_actions(index)
-    available_actions[:ability].select { |action| action.key == index }
+    ability_cards(duel.player1).select { |action| action.key == index }
   end
 
   def available_play_actions(index)
-    available_actions[:play].select { |action| action.key == index }
+    playable_cards(duel.player1).select { |action| action.key == index }
   end
 
   def game_engine

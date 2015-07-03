@@ -73,20 +73,20 @@ RSpec.describe "Lands", type: :game do
     end
 
     it "all actions have source and key specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.source).to_not be_nil
         expect(a.key).to_not be_nil
       end
     end
 
     it "all actions do not have a target" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.target).to be_nil
       end
     end
 
     it "all actions have a description specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.description).to_not be_nil
       end
     end
