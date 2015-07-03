@@ -1,4 +1,4 @@
-rmagic [![Build Status](https://travis-ci.org/soundasleep/rmagic.svg?branch=master)](https://travis-ci.org/soundasleep/rmagic) [![Code Climate](https://codeclimate.com/github/soundasleep/rmagic/badges/gpa.svg)](https://codeclimate.com/github/soundasleep/rmagic) [![Code Climate](https://codeclimate.com/github/soundasleep/rmagic/badges/gpa.svg)](https://codeclimate.com/github/soundasleep/rmagic)
+rmagic [![Build Status](https://travis-ci.org/soundasleep/rmagic.svg?branch=master)](https://travis-ci.org/soundasleep/rmagic) [![Code Climate](https://codeclimate.com/github/soundasleep/rmagic/badges/gpa.svg)](https://codeclimate.com/github/soundasleep/rmagic) [![Test Coverage](https://codeclimate.com/github/soundasleep/rmagic/badges/coverage.svg)](https://codeclimate.com/github/soundasleep/rmagic/coverage)
 ======
 
 *rmagic* is a Ruby on Rails implementation of Magic the Gathering.
