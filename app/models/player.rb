@@ -6,8 +6,6 @@ class Player < ActiveRecord::Base
   has_many :battlefield, dependent: :destroy
   has_many :graveyard, -> { order(order: :desc) }, dependent: :destroy
 
-  has_many :stack, dependent: :destroy # TODO ??? remove this?
-
   validates :life, :name, :mana_blue, :mana_green,
       :mana_red, :mana_white, :mana_black,
       :mana_colourless, presence: true
