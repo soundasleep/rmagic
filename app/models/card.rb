@@ -71,4 +71,9 @@ class Card < ActiveRecord::Base
     effects.inject(card_type.toughness) { |n, effect| effect.effect_type.modify_toughness(n) }
   end
 
+  def next_effect_order
+    return 1 if effects.empty?
+    effects.map(&:order).max + 1
+  end
+
 end
