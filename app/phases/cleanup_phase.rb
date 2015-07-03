@@ -32,7 +32,7 @@ class CleanupPhase < Phase
     # remove all temporary effects
     duel.players.each do |p|
       p.battlefield.each do |b|
-        b.card.effects.select { |e| e.effect_type.temporary? }.each do |e|
+        b.card.effects.select { |e| e.effect_type.until_end_of_turn? }.each do |e|
           b.card.effects.destroy e
         end
       end

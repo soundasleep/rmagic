@@ -11,7 +11,7 @@ class Effects::AddOneToughness < EffectType
     2
   end
 
-  def temporary?
+  def until_end_of_turn?
     false
   end
 

@@ -12,8 +12,7 @@ class EffectType
     n
   end
 
-  # TODO replace with until_end_of_turn? etc
-  def temporary?
+  def until_end_of_turn?
     true
   end
 
