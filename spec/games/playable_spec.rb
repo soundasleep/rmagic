@@ -36,7 +36,7 @@ RSpec.describe "Playable", type: :game do
   end
 
   it "without tapping, we can't play anything" do
-    expect(available_actions[:play]).to be_empty
+    expect(playable_cards(duel.player1)).to be_empty
   end
 
   context "tapping all lands on our turn" do
@@ -53,11 +53,11 @@ RSpec.describe "Playable", type: :game do
     end
 
     it "allows us to play a creature" do
-      expect(available_actions[:play].map { |h| h.source.card }).to eq([hand.first!.card])
+      expect(playable_cards(duel.player1).map { |h| h.source.card }).to eq([hand.first!.card])
     end
 
     it "allows us to play a creature with the play action" do
-      expect(available_actions[:play].map { |h| h.key }).to eq(["play"])
+      expect(playable_cards(duel.player1).map { |h| h.key }).to eq(["play"])
     end
 
     context "playing a creature" do
@@ -114,7 +114,7 @@ RSpec.describe "Playable", type: :game do
   end
 
   def battlefield_can_be_tapped
-    available_actions[:ability].select{ |a| a.key == "tap" }.map{ |a| a.source.card }
+    ability_cards(duel.player1).select{ |a| a.key == "tap" }.map{ |a| a.source.card }
   end
 
   it "lands can be tapped" do
@@ -131,7 +131,7 @@ RSpec.describe "Playable", type: :game do
     duel.current_player_number = 2
     duel.save!
 
-    expect(available_actions[:play].map { |h| h.card }).to be_empty
+    expect(playable_cards(duel.player1).map { |h| h.card }).to be_empty
   end
 
   it "we can't play a creature if it's not our priority, even with tapping" do
@@ -140,7 +140,7 @@ RSpec.describe "Playable", type: :game do
 
     tap_all_lands
 
-    expect(available_actions[:play].map { |h| h.card }).to be_empty
+    expect(playable_cards(duel.player1).map { |h| h.card }).to be_empty
   end
 
   it "we can't play a creature if it's not our turn, even with tapping" do
@@ -149,7 +149,7 @@ RSpec.describe "Playable", type: :game do
 
     tap_all_lands
 
-    expect(available_actions[:play].map { |h| h.card }).to be_empty
+    expect(playable_cards(duel.player1).map { |h| h.card }).to be_empty
   end
 
 end

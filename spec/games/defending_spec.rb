@@ -19,7 +19,7 @@ RSpec.describe "Defending", type: :game do
   end
 
   it "each defender can defend one attacker if only one attacks" do
-    defends = game_engine.available_actions(duel.player2)[:defend]
+    defends = action_finder.defendable_cards(duel.player2)
 
     expect(defends.count).to eq(2)
   end
@@ -33,7 +33,7 @@ RSpec.describe "Defending", type: :game do
   end
 
   context "when finding possible defenders" do
-    let(:defends) { game_engine.available_actions(duel.player2)[:defend] }
+    let(:defends) { action_finder.defendable_cards(duel.player2) }
     let(:defender) { defends.first }
 
     it "a declared defender creates an action" do
@@ -64,7 +64,7 @@ RSpec.describe "Defending", type: :game do
       end
 
       it "the defender does not come up as another available defend option" do
-        game_engine.available_actions(duel.player2)[:defend].each do |defend|
+        action_finder.defendable_cards(duel.player2).each do |defend|
           expect(defend.target).to_not eq(defend.source)
         end
       end

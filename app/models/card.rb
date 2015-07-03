@@ -40,15 +40,6 @@ class Card < ActiveRecord::Base
 
   delegate :action_text, to: :card_type
 
-  # TODO remove - seems unnecessary, since this has no context information
-  def can_tap?
-    !is_tapped?
-  end
-
-  def can_untap?
-    is_tapped?
-  end
-
   def tap_card!
     fail "card is already tapped" if is_tapped?
     update! is_tapped: true
@@ -72,25 +63,17 @@ class Card < ActiveRecord::Base
     update! damage: damage + n
   end
 
-  # TODO remove these unused methods
-  def can_play?
-    true
-  end
-
-  def can_instant?
-    true
-  end
-
-  def can_ability?
-    true
-  end
-
   def power
     effects.inject(card_type.power) { |n, effect| effect.effect_type.modify_power(n) }
   end
 
   def toughness
     effects.inject(card_type.toughness) { |n, effect| effect.effect_type.modify_toughness(n) }
+  end
+
+  def next_effect_order
+    return 1 if effects.empty?
+    effects.map(&:order).max + 1
   end
 
 end

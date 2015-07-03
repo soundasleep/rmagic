@@ -9,16 +9,11 @@ class GameEngine
   end
 
   def action_finder
-    ActionFinder.new(self)
+    @action_finder ||= ActionFinder.new(self)
   end
 
   def phase_manager
-    PhaseManager.new(self)
-  end
-
-  # list all available actions for the given player
-  def available_actions(player)
-    action_finder.available_actions(player)
+    @phase_manager ||= PhaseManager.new(self)
   end
 
   def can_do_action?(action)
@@ -38,7 +33,6 @@ class GameEngine
     end
   end
 
-  # TODO move each of these phase activities into phase objects?
   # TODO move each of these into services! then we can test each of the services
   # individually
   # services return true, false etc - easier to test pass/failure
@@ -231,12 +225,12 @@ class GameEngine
     end
   end
 
-  def add_effect(player, effect_id, target)
+  def add_effect(player, effect_type, target)
     # add effect
-    target.card.effects.create! effect_id: effect_id, order: 1    # TODO calculate order as necessary
+    target.card.effects.create! effect_id: effect_type.effect_id, order: target.card.next_effect_order
 
     # update log
-    ActionLog.effect_action(duel, player, target, effect_id)
+    ActionLog.effect_action(duel, player, target, effect_type.effect_id)
   end
 
   def clear_mana

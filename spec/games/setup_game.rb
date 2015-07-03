@@ -10,15 +10,13 @@ module SetupGame
     duel = Duel.create!(player1: player1, player2: player2)
 
     2.times do
-      # TODO replace with Library::Metaverse1
-      create_order_card duel.player1.deck, Library::Metaverse1.id, duel.player1.next_deck_order
-      create_order_card duel.player2.deck, Library::Metaverse1.id, duel.player2.next_deck_order
+      create_order_card duel.player1.deck, Library::Metaverse1, duel.player1.next_deck_order
+      create_order_card duel.player2.deck, Library::Metaverse1, duel.player2.next_deck_order
     end
 
     3.times do
-      # TODO replace with Library::Forest
-      create_card duel.player1.battlefield, Library::Forest.id
-      create_card duel.player2.battlefield, Library::Forest.id
+      create_card duel.player1.battlefield, Library::Forest
+      create_card duel.player2.battlefield, Library::Forest
     end
 
     duel
@@ -26,45 +24,45 @@ module SetupGame
 
   def create_creatures
     3.times do
-      create_card duel.player1.battlefield, Library::Metaverse1.id
+      create_card duel.player1.battlefield, Library::Metaverse1
     end
     2.times do
-      create_card duel.player2.battlefield, Library::Metaverse1.id
+      create_card duel.player2.battlefield, Library::Metaverse1
     end
   end
 
-  def create_card(zone, metaverse_id)
-    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+  def create_card(zone, card_type)
+    card = Card.create!( metaverse_id: card_type.metaverse_id, turn_played: 0 )
     zone.create! card: card
   end
 
-  def create_order_card(zone, metaverse_id, order)
-    card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
+  def create_order_card(zone, card_type, order)
+    card = Card.create!( metaverse_id: card_type.metaverse_id, turn_played: 0 )
     zone.create! card: card, order: order
   end
 
-  def create_hand_cards(metaverse_id)
-    create_card duel.player1.hand, metaverse_id
-    create_card duel.player2.hand, metaverse_id
+  def create_hand_cards(card_type)
+    create_card duel.player1.hand, card_type
+    create_card duel.player2.hand, card_type
   end
 
-  def create_battlefield_cards(metaverse_id)
-    create_card duel.player1.battlefield, metaverse_id
-    create_card duel.player2.battlefield, metaverse_id
+  def create_battlefield_cards(card_type)
+    create_card duel.player1.battlefield, card_type
+    create_card duel.player2.battlefield, card_type
   end
 
-  def create_graveyard_cards(metaverse_id)
-    create_order_card duel.player1.graveyard, metaverse_id, duel.player1.next_graveyard_order
-    create_order_card duel.player2.graveyard, metaverse_id, duel.player2.next_graveyard_order
+  def create_graveyard_cards(card_type)
+    create_order_card duel.player1.graveyard, card_type, duel.player1.next_graveyard_order
+    create_order_card duel.player2.graveyard, card_type, duel.player2.next_graveyard_order
   end
 
   def available_attackers
     game_engine.available_attackers(duel.current_player)
   end
 
-  def available_actions
-    game_engine.available_actions(duel.player1)
-  end
+  delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder
+  delegate :action_finder, to: :game_engine
+  delegate :player1, :player2, to: :duel
 
   def actions(card, action)
     duel.action_logs.where card_action: action, card: card
@@ -91,11 +89,11 @@ module SetupGame
   end
 
   def available_ability_actions(index)
-    available_actions[:ability].select { |action| action.key == index }
+    ability_cards(player1).select { |action| action.key == index }
   end
 
   def available_play_actions(index)
-    available_actions[:play].select { |action| action.key == index }
+    playable_cards(player1).select { |action| action.key == index }
   end
 
   def game_engine
@@ -138,7 +136,7 @@ module SetupGame
   def pass_until_current_player_has_priority
     i = 0
 
-    while duel.priority_player != duel.player1 do
+    while duel.priority_player != player1 do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next priority"
       game_engine.pass

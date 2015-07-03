@@ -6,12 +6,10 @@ class Library::Island < CardType
   end
 
   def mana_provided
-    {
-      blue: 1
-    }
+    Mana.new blue: 1
   end
 
-  def self.id
+  def self.metaverse_id
     11
   end
 

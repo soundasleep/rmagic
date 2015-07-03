@@ -10,15 +10,11 @@ class Library::AddLifeTargets < CardType
   end
 
   def mana_cost
-    {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   def instant_player_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs
@@ -42,9 +38,7 @@ class Library::AddLifeTargets < CardType
   end
 
   def instant_creature_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs
@@ -63,13 +57,13 @@ class Library::AddLifeTargets < CardType
   # an instant
   def resolve_instant_creature(game_engine, stack)
     # add an effect
-    game_engine.add_effect stack.player, Effects::AddOneToughness.id, stack.battlefield_targets.first.target
+    game_engine.add_effect stack.player, Effects::AddOneToughness, stack.battlefield_targets.first.target
 
     # and then put it into the graveyard
     game_engine.move_into_graveyard stack.player, stack
   end
 
-  def self.id
+  def self.metaverse_id
     8
   end
 

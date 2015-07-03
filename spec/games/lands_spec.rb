@@ -5,7 +5,7 @@ RSpec.describe "Lands", type: :game do
   let(:card) { first_hand_land }
 
   before :each do
-    create_hand_cards Library::Forest.id
+    create_hand_cards Library::Forest
     duel.playing_phase!
   end
 
@@ -73,20 +73,20 @@ RSpec.describe "Lands", type: :game do
     end
 
     it "all actions have source and key specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.source).to_not be_nil
         expect(a.key).to_not be_nil
       end
     end
 
     it "all actions do not have a target" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.target).to be_nil
       end
     end
 
     it "all actions have a description specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.description).to_not be_nil
       end
     end
@@ -123,7 +123,7 @@ RSpec.describe "Lands", type: :game do
         let(:can_be_played) { game_engine.can_do_action?(PossiblePlay.new(source: second_land, key: "play")) }
 
         before :each do
-          create_hand_cards Library::Forest.id
+          create_hand_cards Library::Forest
         end
 
         it "we have one card in hand" do

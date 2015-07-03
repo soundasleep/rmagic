@@ -1,6 +1,4 @@
 class CardType
-  include ManaHelper
-
   def to_text
     "#{name} #{cost_string}"
   end
@@ -31,11 +29,11 @@ class CardType
   end
 
   def mana_cost
-    {}
+    Mana.new
   end
 
   def cost_string
-    mana_cost_string(mana_cost)
+    mana_cost.to_s
   end
 
   def actions
@@ -71,17 +69,12 @@ class CardType
     send("resolve_#{stack.key}", game_engine, stack)
   end
 
-  # TODO remove and replace with .id
   def metaverse_id
-    self.class.id
+    self.class.metaverse_id
   end
 
-  def self.id
+  def self.metaverse_id
     name.split(/[^0-9]/).last.to_i
-  end
-
-  def id
-    metaverse_id
   end
 
   private

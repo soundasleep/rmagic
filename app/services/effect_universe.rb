@@ -20,6 +20,6 @@ class EffectUniverse
   end
 
   def all
-    library.card_types.values
+    library.effect_types.values
   end
 end

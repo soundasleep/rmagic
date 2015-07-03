@@ -6,12 +6,12 @@ module Playable
 
   # ignoring mana costs
   def can_play?(game_engine, hand, target = nil)
+    # TODO move these into testable, composable conditions
     return target == nil &&
         game_engine.duel.priority_player == hand.player &&
         game_engine.duel.current_player == hand.player &&
         game_engine.duel.phase.can_play? &&
-        hand.zone.can_play_from? &&
-        hand.card.can_play?
+        hand.zone.can_play_from?
   end
 
   # ability mana cost has already been consumed

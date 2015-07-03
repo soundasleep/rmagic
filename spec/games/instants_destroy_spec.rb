@@ -5,8 +5,8 @@ RSpec.describe "Instants destroy", type: :game do
   let(:card) { first_destroy }
 
   before :each do
-    create_battlefield_cards Library::Metaverse1.id
-    create_hand_cards Library::Metaverse5.id
+    create_battlefield_cards Library::Metaverse1
+    create_hand_cards Library::Metaverse5
     duel.playing_phase!
   end
 
@@ -65,7 +65,7 @@ RSpec.describe "Instants destroy", type: :game do
       end
 
       it "with the correct source and key" do
-        available_actions[:play].each do |a|
+        playable_cards(duel.player1).each do |a|
           expect(a.source).to eq(card)
           expect(a.key).to eq("destroy")
         end
@@ -73,7 +73,7 @@ RSpec.describe "Instants destroy", type: :game do
     end
 
     it "all actions have source and key and target specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.source).to_not be_nil
         expect(a.key).to_not be_nil
         expect(a.target).to_not be_nil
@@ -81,7 +81,7 @@ RSpec.describe "Instants destroy", type: :game do
     end
 
     it "all actions have a description" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.description).to_not be_nil
       end
     end

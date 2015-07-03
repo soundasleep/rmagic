@@ -11,15 +11,11 @@ class Library::InstantGraveyardAny < CardType
   end
 
   def mana_cost
-    {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   def instant_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs
@@ -45,7 +41,7 @@ class Library::InstantGraveyardAny < CardType
     game_engine.move_into_graveyard stack.player, stack
   end
 
-  def self.id
+  def self.metaverse_id
     10
   end
 

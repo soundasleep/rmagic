@@ -5,7 +5,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   let(:card) { first_destroy_creature }
 
   before :each do
-    create_battlefield_cards Library::Metaverse6.id
+    create_battlefield_cards Library::Metaverse6
     duel.playing_phase!
   end
 
@@ -75,7 +75,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
       end
 
       it "with the correct source and key" do
-        available_actions[:play].each do |a|
+        playable_cards(duel.player1).each do |a|
           expect(a.source).to eq(card)
           expect(a.key).to eq("destroy")
         end
@@ -83,7 +83,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     end
 
     it "all actions have source and key and target specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.source).to_not be_nil
         expect(a.key).to_not be_nil
         expect(a.target).to_not be_nil
@@ -91,7 +91,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     end
 
     it "all actions have a description" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.description).to_not be_nil
       end
     end
@@ -151,7 +151,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "after adding another creature" do
         before :each do
-          create_battlefield_cards Library::Metaverse1.id
+          create_battlefield_cards Library::Metaverse1
         end
 
         context "targeting the second creature" do

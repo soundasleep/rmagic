@@ -45,13 +45,13 @@ RSpec.describe "Attacking", type: :game do
       end
 
       it "we can declare two defenders (from player 2)" do
-        defends = game_engine.available_actions(duel.player2)[:defend]
+        defends = defendable_cards(duel.player2)
 
         expect(defends.to_a.uniq{ |d| d.source }.count).to eq(2)
       end
 
       context "defenders" do
-        let(:defenders) { game_engine.available_actions(duel.player2)[:defend] }
+        let(:defenders) { defendable_cards(duel.player2) }
 
         it "each have a source and target" do
           defenders.each do |d|
@@ -117,11 +117,11 @@ RSpec.describe "Attacking", type: :game do
     end
 
     it "a player can't defend when they're still attacking" do
-      expect(game_engine.available_actions(duel.player2)[:defend]).to be_empty
+      expect(defendable_cards(duel.player2)).to be_empty
       game_engine.pass
 
       # but the next player can
-      expect( game_engine.available_actions(duel.player2)[:defend] ).not_to be_empty
+      expect( defendable_cards(duel.player2) ).not_to be_empty
     end
 
     it "if no defenders are declared, then attacks hit the player" do

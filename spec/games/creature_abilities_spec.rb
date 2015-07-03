@@ -5,7 +5,7 @@ RSpec.describe "Creature abilities", type: :game do
   let(:card) { first_add_life_creature }
 
   before :each do
-    create_battlefield_cards Library::Metaverse3.id
+    create_battlefield_cards Library::Metaverse3
     duel.playing_phase!
   end
 
@@ -49,20 +49,20 @@ RSpec.describe "Creature abilities", type: :game do
     end
 
     it "all actions have source and key specified" do
-      available_actions[:ability].each do |a|
+      ability_cards(duel.player1).each do |a|
         expect(a.source).to_not be_nil
         expect(a.key).to_not be_nil
       end
     end
 
     it "all actions have a description" do
-      available_actions[:ability].each do |a|
+      ability_cards(duel.player1).each do |a|
         expect(a.description).to_not be_nil
       end
     end
 
     it "all actions do not have a target" do
-      available_actions[:ability].each do |a|
+      ability_cards(duel.player1).each do |a|
         expect(a.target).to be_nil
       end
     end

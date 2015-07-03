@@ -6,7 +6,7 @@ RSpec.describe "Instants", type: :game do
   let(:instant_ability) { PossibleAbility.new(source: source, key: "instant") }
 
   before :each do
-    create_hand_cards Library::Metaverse4.id
+    create_hand_cards Library::Metaverse4
     duel.playing_phase!
   end
 
@@ -15,7 +15,7 @@ RSpec.describe "Instants", type: :game do
   end
 
   context "available play actions" do
-    let(:playable) { game_engine.action_finder.available_actions(duel.player1)[:play] }
+    let(:playable) { playable_cards(duel.player1) }
     let(:card_playable) { playable.select{ |a| a.source == source } }
 
     it "are not listed as an available play action" do
@@ -67,20 +67,20 @@ RSpec.describe "Instants", type: :game do
     end
 
     it "all actions have source and key specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.source).to_not be_nil
         expect(a.key).to_not be_nil
       end
     end
 
     it "all actions have a description" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.description).to_not be_nil
       end
     end
 
     it "all actions do not have a target" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.target).to be_nil
       end
     end

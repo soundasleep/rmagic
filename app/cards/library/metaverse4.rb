@@ -10,15 +10,11 @@ class Library::Metaverse4 < CardType
   end
 
   def mana_cost
-    {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   def instant_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs

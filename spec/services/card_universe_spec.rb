@@ -5,14 +5,14 @@ RSpec.describe CardUniverse, type: :service do
 
   context "#find_metaverse" do
     context "metaverse 1" do
-      let(:card) { service.find_metaverse(Library::Metaverse1.id) }
+      let(:card) { service.find_metaverse(Library::Metaverse1.metaverse_id) }
 
       it "exists" do
         expect(card).to_not be(false)
       end
 
       it "has ID 1" do
-        expect(card.metaverse_id).to eq(Library::Metaverse1.id)
+        expect(card.metaverse_id).to eq(Library::Metaverse1.metaverse_id)
       end
     end
 
@@ -37,9 +37,9 @@ RSpec.describe CardUniverse, type: :service do
     end
 
     context "each card" do
-      it "has an id" do
+      it "has a metaverse id" do
         all.each do |card|
-          expect(card.id).to_not be_nil
+          expect(card.metaverse_id).to_not be_nil
         end
       end
     end

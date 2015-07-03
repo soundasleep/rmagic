@@ -11,8 +11,8 @@ RSpec.describe "Priority", type: :game do
   let(:stack) { duel.stack }
 
   before :each do
-    create_hand_cards Library::Metaverse4.id
-    create_hand_cards Library::CounterSpell.id
+    create_hand_cards Library::Metaverse4
+    create_hand_cards Library::CounterSpell
   end
 
   context "a normal instant" do
@@ -168,9 +168,6 @@ RSpec.describe "Priority", type: :game do
                         expect(duel).to be_playing_phase
                       end
                     end
-
-                    # TODO add test to check that playing 2 counterspells each
-                    # keeps the phase in the playing phase
 
                     context "when played" do
                       before { game_engine.card_action(another_counter_spell) }

@@ -1,7 +1,7 @@
 %h1 All cards
 
 %ul
-  - @cards.sort_by(&:id).each do |card|
+  - @cards.sort_by(&:metaverse_id).each do |card|
     %li
-      %strong= card.id
-      = link_to card.new.name, card_path(card.id)
+      %strong= card.metaverse_id
+      = link_to card.new.name, card_path(card.metaverse_id)

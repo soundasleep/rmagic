@@ -1,12 +1,8 @@
 class Player < ActiveRecord::Base
-  include ManaHelper
-
   has_many :deck, -> { order(order: :desc) }, dependent: :destroy
   has_many :hand, dependent: :destroy
   has_many :battlefield, dependent: :destroy
   has_many :graveyard, -> { order(order: :desc) }, dependent: :destroy
-
-  has_many :stack, dependent: :destroy # TODO ??? remove this?
 
   validates :life, :name, :mana_blue, :mana_green,
       :mana_red, :mana_white, :mana_black,
@@ -31,57 +27,50 @@ class Player < ActiveRecord::Base
   end
 
   def mana
-    mana_cost_string mana_pool
+    mana_pool.to_s
   end
 
   def clear_mana!
-    set_mana! zero_mana
+    set_mana! Mana.new
   end
 
   def set_mana!(mana)
     update!({
-      mana_green: mana[:green],
-      mana_blue: mana[:blue],
-      mana_red: mana[:red],
-      mana_white: mana[:white],
-      mana_black: mana[:black],
-      mana_colourless: mana[:colourless]
+      mana_green: mana.green,
+      mana_blue: mana.blue,
+      mana_red: mana.red,
+      mana_white: mana.white,
+      mana_black: mana.black,
+      mana_colourless: mana.colourless
     })
   end
 
   def mana_pool
-    {
+    Mana.new({
       green: mana_green,
       blue: mana_blue,
       red: mana_red,
       white: mana_red,
       black: mana_black,
       colourless: mana_colourless
-    }
+    })
   end
 
   def has_mana?(cost)
-    cost = zero_mana.merge(cost)
-    pool = mana_pool
-
-    use_mana_from_pool(cost, pool).present?
+    mana_pool.use(cost).present?
   end
 
   def use_mana!(cost)
-    cost = zero_mana.merge(cost)
-    pool = mana_pool
-
-    result = use_mana_from_pool(cost, pool)
+    result = mana_pool.use(cost)
     fail "Could not use mana #{cost} from #{pool}" unless result
 
     set_mana! result
   end
 
   def add_mana!(cost)
-    cost = zero_mana.merge(cost)
-    pool = mana_pool
+    result = mana_pool.add(cost)
 
-    set_mana! add_mana_to_pool(cost, pool)
+    set_mana! result
   end
 
   def add_life!(n)
@@ -92,7 +81,6 @@ class Player < ActiveRecord::Base
     update! life: life - n
   end
 
-  # TODO move these into a (testable) helper?
   def battlefield_creatures
     select_creatures battlefield
   end

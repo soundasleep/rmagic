@@ -5,14 +5,14 @@ RSpec.describe "Defending with effects", type: :game do
   let(:target) { duel.player1.battlefield_creatures.first }
 
   before :each do
-    create_battlefield_cards Library::Metaverse1.id
-    game_engine.add_effect duel.player1, Effects::TemporaryCounter.id, target
+    create_battlefield_cards Library::Metaverse1
+    game_engine.add_effect duel.player1, Effects::TemporaryCounter, target
     duel.attacking_phase!
   end
 
   context "when declaring one attacker" do
     let(:attacker) { available_attackers.first }
-    let(:defends) { game_engine.available_actions(duel.player2)[:defend] }
+    let(:defends) { defendable_cards(duel.player2) }
 
     before :each do
       game_engine.declare_attackers [attacker]

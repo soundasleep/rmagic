@@ -10,15 +10,11 @@ class Library::CounterSpell < CardType
   end
 
   def mana_cost
-    {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   def counter_cost(game_engine, hand, target = nil)
-    return {
-      colourless: 1
-    }
+    Mana.new colourless: 1
   end
 
   # ignoring mana costs
@@ -47,7 +43,7 @@ class Library::CounterSpell < CardType
     game_engine.move_into_graveyard stack.player, stack
   end
 
-  def self.id
+  def self.metaverse_id
     15
   end
 

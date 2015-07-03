@@ -1,5 +1,4 @@
 module Land
-  # TODO include ActivatedAbility?
 
   def is_land?
     true
@@ -16,7 +15,6 @@ module Land
         game_engine.duel.current_player == hand.player &&
         game_engine.duel.phase.can_play? &&
         hand.zone.can_play_from? &&
-        hand.card.can_play? &&
         !has_played_a_land?(hand.player, game_engine.duel.turn)
   end
 
@@ -38,7 +36,7 @@ module Land
     return target == nil &&
         game_engine.duel.priority_player == battlefield.player &&
         game_engine.duel.phase.can_tap? &&
-        battlefield.card.can_tap? &&
+        !battlefield.card.is_tapped? &&
         battlefield.zone.cards_are_tappable?
   end
 
@@ -56,11 +54,11 @@ module Land
   end
 
   def tap_cost(game_engine, battlefield, target = nil)
-    zero_mana
+    Mana.new
   end
 
   def untap_cost(game_engine, battlefield, target = nil)
-    zero_mana
+    Mana.new
   end
 
   def do_tap(game_engine, battlefield, target = nil)

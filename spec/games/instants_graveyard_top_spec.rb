@@ -5,8 +5,8 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
   let(:card) { first_instant }
 
   before :each do
-    create_graveyard_cards Library::Metaverse1.id
-    create_hand_cards Library::InstantGraveyardTop.id
+    create_graveyard_cards Library::Metaverse1
+    create_hand_cards Library::InstantGraveyardTop
     duel.playing_phase!
   end
 
@@ -71,21 +71,21 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
       end
 
       it "with the correct source and key" do
-        available_actions[:play].each do |a|
+        playable_cards(duel.player1).each do |a|
           expect(a.source).to eq(card)
           expect(a.key).to eq("instant")
         end
       end
 
       it "with only our targets" do
-        available_actions[:play].each do |a|
+        playable_cards(duel.player1).each do |a|
           expect(a.target.player).to eq(duel.player1)
         end
       end
     end
 
     it "all actions have source and key and target specified" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.source).to_not be_nil
         expect(a.key).to_not be_nil
         expect(a.target).to_not be_nil
@@ -93,7 +93,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
     end
 
     it "all actions have a description" do
-      available_actions[:play].each do |a|
+      playable_cards(duel.player1).each do |a|
         expect(a.description).to_not be_nil
       end
     end
@@ -131,20 +131,20 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
 
   context "with another creature in the graveyard" do
     before :each do
-      create_graveyard_cards Library::Metaverse3.id
+      create_graveyard_cards Library::Metaverse3
     end
 
     context "graveyard cards" do
       let(:order) { duel.player1.graveyard.map(&:order) }
       let(:uniques) { order.uniq }
-      let(:order_ids) { duel.player1.graveyard.map(&:card).map(&:card_type).map(&:metaverse_id) }
+      let(:order_classes) { duel.player1.graveyard.map(&:card).map(&:card_type).map(&:class) }
 
       it "each have a unique order" do
         expect(order).to eq(uniques)
       end
 
       it "are in increasing order based on time added" do
-        expect(order_ids).to eq([ Library::Metaverse1.id, Library::Metaverse3.id ])
+        expect(order_classes).to eq([ Library::Metaverse1, Library::Metaverse3 ])
       end
     end
 
@@ -167,14 +167,14 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
         end
 
         it "with the correct source and key" do
-          available_actions[:play].each do |a|
+          playable_cards(duel.player1).each do |a|
             expect(a.source).to eq(card)
             expect(a.key).to eq("instant")
           end
         end
 
         it "with only our target" do
-          expect(available_actions[:play].first.target).to eq(target)
+          expect(playable_cards(duel.player1).first.target).to eq(target)
         end
       end
     end
@@ -182,7 +182,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
 
   context "with a land in the graveyard" do
     before :each do
-      create_graveyard_cards Library::Forest.id
+      create_graveyard_cards Library::Forest
     end
 
     context "with mana" do
@@ -204,7 +204,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
         end
 
         it "with only our target" do
-          expect(available_actions[:play].first.target).to eq(target)
+          expect(playable_cards(duel.player1).first.target).to eq(target)
         end
       end
     end

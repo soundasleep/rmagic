@@ -6,12 +6,10 @@ class Library::Forest < CardType
   end
 
   def mana_provided
-    {
-      green: 1
-    }
+    Mana.new green: 1
   end
 
-  def self.id
+  def self.metaverse_id
     2
   end
 

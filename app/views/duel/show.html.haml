@@ -2,7 +2,7 @@
   = submit_tag "Pass"
 
 / possible actions
-- available_actions[:play].each do |hand|
+- playable_cards.each do |hand|
   = form_tag(play_duel_url(@duel)) do |f|
     = hidden_field_tag "hand", hand.source.id
     = hidden_field_tag "key", hand.key
@@ -14,7 +14,7 @@
       %small
         = hand.source.card.id
 
-- available_actions[:ability].each do |ability|
+- ability_cards.each do |ability|
   = form_tag(ability_duel_url(@duel)) do |f|
     = hidden_field_tag "battlefield", ability.source.id
     = hidden_field_tag "key", ability.key
@@ -37,7 +37,7 @@
           = a.to_text
     = submit_tag "Declare attackers and pass"
 
-- available_actions[:defend].each do |defend|
+- defendable_cards.each do |defend|
   = form_tag(defend_duel_url(@duel)) do |f|
     = hidden_field_tag "source", defend.source.id
     = hidden_field_tag "target", defend.target.id

@@ -13,9 +13,9 @@ RSpec.describe "Defending Groups", type: :game do
 
     game_engine.pass
 
-    defends = game_engine.available_actions(duel.player2)[:defend]
+    defends = action_finder.defendable_cards(duel.player2)
     game_engine.declare_defender defends.first
-    defends = game_engine.available_actions(duel.player2)[:defend]
+    defends = action_finder.defendable_cards(duel.player2)
     game_engine.declare_defender defends.first
   end
 
