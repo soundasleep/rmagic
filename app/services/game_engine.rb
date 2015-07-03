@@ -9,11 +9,11 @@ class GameEngine
   end
 
   def action_finder
-    ActionFinder.new(self)
+    @action_finder ||= ActionFinder.new(self)
   end
 
   def phase_manager
-    PhaseManager.new(self)
+    @phase_manager ||= PhaseManager.new(self)
   end
 
   def can_do_action?(action)
