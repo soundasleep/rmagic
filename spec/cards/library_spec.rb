@@ -16,15 +16,9 @@ RSpec.describe Library, type: :card do
       end
     end
 
-    it "each have an id equal to metaverse id" do
+    it "each have a class metaverse id equal to metaverse id" do
       card_types.each do |id, card_type|
-        expect(card_type.new.metaverse_id).to eq(card_type.new.id)
-      end
-    end
-
-    it "each have a class id equal to metaverse id" do
-      card_types.each do |id, card_type|
-        expect(card_type.new.metaverse_id).to eq(card_type.new.class.id)
+        expect(card_type.new.metaverse_id).to eq(card_type.new.class.metaverse_id)
       end
     end
 
@@ -74,15 +68,9 @@ RSpec.describe Library, type: :card do
       end
     end
 
-    it "each have an id equal to effect id" do
+    it "each have a class effect id equal to effect id" do
       effect_types.each do |id, effect|
-        expect(effect.new.effect_id).to eq(effect.new.id)
-      end
-    end
-
-    it "each have a class id equal to effect id" do
-      effect_types.each do |id, effect|
-        expect(effect.new.effect_id).to eq(effect.new.class.id)
+        expect(effect.new.effect_id).to eq(effect.new.class.effect_id)
       end
     end
 
@@ -93,12 +81,12 @@ RSpec.describe Library, type: :card do
     end
   end
 
-  context "#duplicates" do
+  context "#duplicate_metaverses" do
     context "with duplicates" do
       let(:duplicates) { [Library::Metaverse1, Library::Forest, Library::Metaverse1] }
 
       it "returns a value" do
-        expect(library.duplicates(duplicates)).to eq(Library::Metaverse1.id)
+        expect(library.duplicate_metaverses(duplicates)).to eq(Library::Metaverse1.metaverse_id)
       end
     end
 
@@ -106,7 +94,7 @@ RSpec.describe Library, type: :card do
       let(:duplicates) { [Library::Metaverse1, Library::Forest] }
 
       it "returns nil" do
-        expect(library.duplicates(duplicates)).to be(nil)
+        expect(library.duplicate_metaverses(duplicates)).to be(nil)
       end
     end
   end

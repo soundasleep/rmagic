@@ -5,8 +5,8 @@ RSpec.describe "Instants effects", type: :game do
   let(:card) { first_counter }
 
   before :each do
-    create_battlefield_cards Library::Metaverse1.id
-    create_hand_cards Library::InstantCounter.id
+    create_battlefield_cards Library::Metaverse1
+    create_hand_cards Library::InstantCounter
     duel.playing_phase!
   end
 

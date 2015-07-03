@@ -231,12 +231,12 @@ class GameEngine
     end
   end
 
-  def add_effect(player, effect_id, target)
+  def add_effect(player, effect_type, target)
     # add effect
-    target.card.effects.create! effect_id: effect_id, order: 1    # TODO calculate order as necessary
+    target.card.effects.create! effect_id: effect_type.effect_id, order: 1    # TODO calculate order as necessary
 
     # update log
-    ActionLog.effect_action(duel, player, target, effect_id)
+    ActionLog.effect_action(duel, player, target, effect_type.effect_id)
   end
 
   def clear_mana

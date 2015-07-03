@@ -6,7 +6,7 @@ RSpec.describe "Creature activated abilities", type: :game do
   let(:creature) { duel.player1.battlefield.select{ |b| b.card.card_type.actions.include?("add_life") }.first }
 
   before :each do
-    create_hand_cards Library::AddLifeActivated.id
+    create_hand_cards Library::AddLifeActivated
     duel.playing_phase!
   end
 

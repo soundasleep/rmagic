@@ -5,7 +5,7 @@ RSpec.describe "Lands", type: :game do
   let(:card) { first_hand_land }
 
   before :each do
-    create_hand_cards Library::Forest.id
+    create_hand_cards Library::Forest
     duel.playing_phase!
   end
 
@@ -123,7 +123,7 @@ RSpec.describe "Lands", type: :game do
         let(:can_be_played) { game_engine.can_do_action?(PossiblePlay.new(source: second_land, key: "play")) }
 
         before :each do
-          create_hand_cards Library::Forest.id
+          create_hand_cards Library::Forest
         end
 
         it "we have one card in hand" do

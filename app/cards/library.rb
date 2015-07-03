@@ -15,7 +15,7 @@ class Library
 
     fail("Found duplicate card type ID #{duplicates(cards)}") if duplicates(cards)
 
-    Hash[cards.map { |card| [card.id, card] }]
+    Hash[cards.map { |card| [card.metaverse_id, card] }]
   end
 
   def effect_types
@@ -34,11 +34,19 @@ class Library
 
     fail("Found duplicate effect type ID #{duplicates(effects)}") if duplicates(effects)
 
-    Hash[effects.map { |effect| [effect.id, effect] }]
+    Hash[effects.map { |effect| [effect.effect_id, effect] }]
   end
 
   def duplicates(collection)
-    ids = collection.map(&:id)
-    ids.detect { |e| ids.rindex(e) != ids.index(e) }
+    collection.detect { |e| collection.rindex(e) != collection.index(e) }
   end
+
+  def duplicate_metaverses(collection)
+    duplicates(collection.map(&:metaverse_id))
+  end
+
+  def duplicate_effects(collection)
+    duplicates(collection.map(&:effect_id))
+  end
+
 end

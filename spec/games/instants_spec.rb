@@ -6,7 +6,7 @@ RSpec.describe "Instants", type: :game do
   let(:instant_ability) { PossibleAbility.new(source: source, key: "instant") }
 
   before :each do
-    create_hand_cards Library::Metaverse4.id
+    create_hand_cards Library::Metaverse4
     duel.playing_phase!
   end
 

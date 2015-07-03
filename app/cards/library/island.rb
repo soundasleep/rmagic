@@ -11,7 +11,7 @@ class Library::Island < CardType
     }
   end
 
-  def self.id
+  def self.metaverse_id
     11
   end
 

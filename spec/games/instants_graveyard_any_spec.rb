@@ -5,9 +5,9 @@ RSpec.describe "Instants returning any graveyard", type: :game do
   let(:card) { first_instant }
 
   before :each do
-    create_graveyard_cards Library::Metaverse1.id
-    create_graveyard_cards Library::Metaverse3.id
-    create_hand_cards Library::InstantGraveyardAny.id
+    create_graveyard_cards Library::Metaverse1
+    create_graveyard_cards Library::Metaverse3
+    create_hand_cards Library::InstantGraveyardAny
     duel.playing_phase!
   end
 

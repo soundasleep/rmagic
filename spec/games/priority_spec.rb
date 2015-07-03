@@ -11,8 +11,8 @@ RSpec.describe "Priority", type: :game do
   let(:stack) { duel.stack }
 
   before :each do
-    create_hand_cards Library::Metaverse4.id
-    create_hand_cards Library::CounterSpell.id
+    create_hand_cards Library::Metaverse4
+    create_hand_cards Library::CounterSpell
   end
 
   context "a normal instant" do

@@ -7,7 +7,7 @@ class Effects::AddOneToughness < EffectType
     n + 1
   end
 
-  def self.id
+  def self.effect_id
     2
   end
 

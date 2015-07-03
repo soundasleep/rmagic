@@ -5,7 +5,7 @@ RSpec.describe "Creature abilities", type: :game do
   let(:card) { first_add_life_creature }
 
   before :each do
-    create_battlefield_cards Library::Metaverse3.id
+    create_battlefield_cards Library::Metaverse3
     duel.playing_phase!
   end
 

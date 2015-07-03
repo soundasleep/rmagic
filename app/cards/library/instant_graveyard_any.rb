@@ -45,7 +45,7 @@ class Library::InstantGraveyardAny < CardType
     game_engine.move_into_graveyard stack.player, stack
   end
 
-  def self.id
+  def self.metaverse_id
     10
   end
 

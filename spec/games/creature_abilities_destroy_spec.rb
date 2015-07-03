@@ -5,7 +5,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   let(:card) { first_destroy_creature }
 
   before :each do
-    create_battlefield_cards Library::Metaverse6.id
+    create_battlefield_cards Library::Metaverse6
     duel.playing_phase!
   end
 
@@ -151,7 +151,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "after adding another creature" do
         before :each do
-          create_battlefield_cards Library::Metaverse1.id
+          create_battlefield_cards Library::Metaverse1
         end
 
         context "targeting the second creature" do

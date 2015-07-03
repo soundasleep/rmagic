@@ -50,7 +50,7 @@ class Library::AddLifeActivated < CardType
     false
   end
 
-  def self.id
+  def self.metaverse_id
     12
   end
 

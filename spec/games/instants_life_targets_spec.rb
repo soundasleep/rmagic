@@ -5,8 +5,8 @@ RSpec.describe "Instants add life to targets", type: :game do
   let(:card) { first_instant_player }
 
   before :each do
-    create_battlefield_cards Library::Metaverse1.id
-    create_hand_cards Library::AddLifeTargets.id
+    create_battlefield_cards Library::Metaverse1
+    create_hand_cards Library::AddLifeTargets
     duel.playing_phase!
   end
 

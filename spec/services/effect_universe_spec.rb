@@ -37,9 +37,9 @@ RSpec.describe EffectUniverse, type: :service do
     end
 
     context "each effect" do
-      it "has an id" do
+      it "has an effect id" do
         all.each do |effect|
-          expect(effect.id).to_not be_nil
+          expect(effect.effect_id).to_not be_nil
         end
       end
     end

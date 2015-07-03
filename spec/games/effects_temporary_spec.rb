@@ -14,13 +14,13 @@ RSpec.describe "Temporary effects", type: :game do
 
   context "created manually" do
     before :each do
-      our_creature.effects.create! effect_id: Effects::TemporaryCounter.id, order: 1
+      our_creature.effects.create! effect_id: Effects::TemporaryCounter.effect_id, order: 1
     end
 
     let(:effect) { our_creature.effects.first }
 
-    it "has a valid id" do
-      expect(Effects::TemporaryCounter.id).to_not be_nil
+    it "has a valid effect id" do
+      expect(Effects::TemporaryCounter.effect_id).to_not be_nil
     end
 
     it "adds an effect to the card" do

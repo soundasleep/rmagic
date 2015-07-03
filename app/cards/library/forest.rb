@@ -11,7 +11,7 @@ class Library::Forest < CardType
     }
   end
 
-  def self.id
+  def self.metaverse_id
     2
   end
 
