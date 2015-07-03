@@ -62,8 +62,7 @@ module SetupGame
 
   delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder
   delegate :action_finder, to: :game_engine
-
-  # TODO add delegate of duel.player1, duel.player2 to player1, player2
+  delegate :player1, :player2, to: :duel
 
   def actions(card, action)
     duel.action_logs.where card_action: action, card: card
@@ -90,11 +89,11 @@ module SetupGame
   end
 
   def available_ability_actions(index)
-    ability_cards(duel.player1).select { |action| action.key == index }
+    ability_cards(player1).select { |action| action.key == index }
   end
 
   def available_play_actions(index)
-    playable_cards(duel.player1).select { |action| action.key == index }
+    playable_cards(player1).select { |action| action.key == index }
   end
 
   def game_engine
@@ -137,7 +136,7 @@ module SetupGame
   def pass_until_current_player_has_priority
     i = 0
 
-    while duel.priority_player != duel.player1 do
+    while duel.priority_player != player1 do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next priority"
       game_engine.pass
