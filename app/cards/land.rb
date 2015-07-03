@@ -16,7 +16,6 @@ module Land
         game_engine.duel.current_player == hand.player &&
         game_engine.duel.phase.can_play? &&
         hand.zone.can_play_from? &&
-        hand.card.can_play? &&
         !has_played_a_land?(hand.player, game_engine.duel.turn)
   end
 

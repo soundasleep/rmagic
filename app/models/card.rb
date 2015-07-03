@@ -63,19 +63,6 @@ class Card < ActiveRecord::Base
     update! damage: damage + n
   end
 
-  # TODO remove these unused methods
-  def can_play?
-    true
-  end
-
-  def can_instant?
-    true
-  end
-
-  def can_ability?
-    true
-  end
-
   def power
     effects.inject(card_type.power) { |n, effect| effect.effect_type.modify_power(n) }
   end
