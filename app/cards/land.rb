@@ -1,5 +1,4 @@
 module Land
-  # TODO include ActivatedAbility?
 
   def is_land?
     true

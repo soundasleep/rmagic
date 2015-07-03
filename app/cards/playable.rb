@@ -6,6 +6,7 @@ module Playable
 
   # ignoring mana costs
   def can_play?(game_engine, hand, target = nil)
+    # TODO move these into testable, composable conditions
     return target == nil &&
         game_engine.duel.priority_player == hand.player &&
         game_engine.duel.current_player == hand.player &&

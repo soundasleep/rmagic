@@ -81,7 +81,6 @@ class Player < ActiveRecord::Base
     update! life: life - n
   end
 
-  # TODO move these into a (testable) helper?
   def battlefield_creatures
     select_creatures battlefield
   end
