@@ -90,11 +90,19 @@ class DuelController < ApplicationController
     redirect_to duel_path duel
   end
 
-  helper_method :available_actions, :available_attackers
-  helper_method :get_target_type
+  helper_method :playable_cards, :ability_cards, :defendable_cards
+  helper_method :available_attackers, :get_target_type
 
-  def available_actions
-    game_engine.available_actions duel.player1
+  def playable_cards
+    game_engine.playable_cards duel.player1
+  end
+
+  def ability_cards
+    game_engine.ability_cards duel.player1
+  end
+
+  def defendable_cards
+    game_engine.defendable_cards duel.player1
   end
 
   def available_attackers

@@ -46,7 +46,13 @@ We try to use as few model objects as possible.
 
 ## Release 1 goals
 
-* Supports Fate vs Fury deck
+* Supports [Fate vs Fury](http://sales.starcitygames.com/carddisplay.php?product=695013) deck
+* Flying, reach
+* Scry
+* Distribute damage
+* Search through library
+* Discard a card
+* Event triggers
 
 ## Release 2 goals
 
