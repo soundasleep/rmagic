@@ -52,6 +52,7 @@ We try to use as few model objects as possible.
 * Distribute damage
 * Search through library
 * Discard a card
+* Devotion
 * Event triggers
 
 ## Release 2 goals

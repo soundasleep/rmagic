@@ -26,7 +26,7 @@ deck = system.premade_decks.create! name: "Fury"
 # create_card deck, Library::IllTemperedCyclops, 2
 # create_card deck, Library::KarametrasAcolyte, 3
 # create_card deck, Library::NemesisOfMortals, 2
-# create_card deck, Library::NessianCourser
+create_card deck, Library::NessianCourser
 # create_card deck, Library::NessianGameWarden, 3
 # create_card deck, Library::NyleasDisciple, 3
 # create_card deck, Library::ReclamationSage, 2
