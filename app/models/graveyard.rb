@@ -4,7 +4,7 @@ class Graveyard < ActiveRecord::Base
   belongs_to :player
   belongs_to :card
 
-  # TODO   validates :order, presence: true
+  validates :order, presence: true
   validates :player, :card, presence: true
   validates :card, uniqueness: true
 
