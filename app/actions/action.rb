@@ -8,6 +8,6 @@ class Action
   end
 
   def explain(game_engine, stack)
-    "#{name} on #{game_engine} with #{stack}"
+    "#{name}"
   end
 end
