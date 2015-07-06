@@ -23,7 +23,7 @@ module Land
   end
 
   # ignoring mana costs
-  def can_play?(game_engine, hand, target = nil)
+  def can_play?
     return LandPlayCondition.new
   end
 
@@ -46,7 +46,7 @@ module Land
   end
 
   # ability mana cost has already been consumed
-  def do_play(game_engine, hand, target = nil)
+  def do_play
     return LandPlayAction.new
   end
 
@@ -63,7 +63,7 @@ module Land
     end
   end
 
-  def can_tap?(game_engine, battlefield, target = nil)
+  def can_tap?
     return LandTapCondition.new
   end
 
@@ -81,7 +81,7 @@ module Land
     end
   end
 
-  def can_untap?(game_engine, battlefield, target = nil)
+  def can_untap?
     return LandUntapCondition.new
   end
 
@@ -110,7 +110,7 @@ module Land
     end
   end
 
-  def do_tap(game_engine, battlefield, target = nil)
+  def do_tap
     return LandTapAction.new
   end
 
@@ -125,7 +125,7 @@ module Land
     end
   end
 
-  def do_untap(game_engine, battlefield, target = nil)
+  def do_untap
     return LandUntapAction.new
   end
 

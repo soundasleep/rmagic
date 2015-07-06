@@ -39,7 +39,7 @@ class Library::AddLifeActivated < CardType
     end
   end
 
-  def can_add_life?(game_engine, zone_card, target = nil)
+  def can_add_life?
     return AddLifeActivatedCondition.new
 
     # return TextualConditions.new([
@@ -72,7 +72,7 @@ class Library::AddLifeActivated < CardType
   end
 
   # an instant
-  def do_add_life(game_engine, zone_card, target = nil)
+  def do_add_life
     return AddLifeActivatedAction.new
 
     # return TextualActions.new([

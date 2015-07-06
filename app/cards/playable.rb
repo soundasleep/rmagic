@@ -18,9 +18,8 @@ module Playable
     end
   end
 
-
   # ignoring mana costs
-  def can_play?(game_engine, hand, target = nil)
+  def can_play?
     return PlayCondition.new
   end
 
@@ -36,7 +35,7 @@ module Playable
   end
 
   # ability mana cost has already been consumed
-  def resolve_play(game_engine, stack)
+  def resolve_play
     PlayAction.new
   end
 
