@@ -12,6 +12,7 @@ class PossibleAction
     "#{action_description} #{key} of #{source.to_text}#{target_text}"
   end
 
+  # TODO refactor out of here!!!
   class PossibleActionConditions
     attr_reader :action
 
@@ -25,6 +26,7 @@ class PossibleAction
 
     delegate :name, to: :get_conditions
 
+    # TODO refactor out of here!!!
     class EvaluatableConditions
       attr_reader :conditions, :game_engine
 
@@ -49,6 +51,55 @@ class PossibleAction
 
   def conditions
     PossibleActionConditions.new self
+  end
+
+  # TODO refactor out of here!!!
+  class PossibleActionActions
+    attr_reader :action
+
+    def initialize(action)
+      @action = action
+    end
+
+    def get_actions
+      action.source.card.card_type.get_actions action.key
+    end
+
+    delegate :name, to: :get_actions
+
+    # TODO refactor out of here!!!
+    class ExecutableActions
+      attr_reader :actions, :game_engine
+
+      def initialize(actions, game_engine)
+        @actions = actions
+        @game_engine = game_engine
+      end
+
+      def execute
+        actions.get_actions.execute game_engine, actions.action
+      end
+
+      def explain
+        actions.get_actions.explain game_engine, actions.action
+      end
+    end
+
+    def execute_with(game_engine)
+      ExecutableActions.new self, game_engine
+    end
+  end
+
+  def actions
+    PossibleActionActions.new self
+  end
+
+  def player
+    source.player
+  end
+
+  def card
+    source.card
   end
 
   private

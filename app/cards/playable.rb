@@ -50,7 +50,7 @@ module Playable
   end
 
   # ability mana cost has already been consumed
-  def resolve_play
+  def do_play
     PlayAction.new
   end
 

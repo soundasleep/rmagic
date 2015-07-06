@@ -80,13 +80,9 @@ class CardType
     end
   end
 
-  def get_resolve_actions(action_key)
-    send("resolve_#{action_key}")
-  end
-
   def resolve_action(game_engine, stack)
     fail "Cannot resolve 'stack'" if stack.key == "action"
-    executor = get_resolve_actions(stack.key)
+    executor = get_actions(stack.key)
 
     fail "Action #{executor} for #{stack.key} on #{stack.card.card_type} does not have execute method" unless executor.respond_to? :execute
 
