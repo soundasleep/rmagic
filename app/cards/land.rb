@@ -8,14 +8,23 @@ module Land
     mana_cost
   end
 
+  class LandPlayCondition < Condition
+    def evaluate(game_engine, stack)
+      target = stack.target
+      hand = stack.source
+
+      return target == nil &&
+          game_engine.duel.priority_player == hand.player &&
+          game_engine.duel.current_player == hand.player &&
+          game_engine.duel.phase.can_play? &&
+          hand.zone.can_play_from? &&
+          !has_played_a_land?(hand.player, game_engine.duel.turn)
+    end
+  end
+
   # ignoring mana costs
   def can_play?(game_engine, hand, target = nil)
-    return target == nil &&
-        game_engine.duel.priority_player == hand.player &&
-        game_engine.duel.current_player == hand.player &&
-        game_engine.duel.phase.can_play? &&
-        hand.zone.can_play_from? &&
-        !has_played_a_land?(hand.player, game_engine.duel.turn)
+    return LandPlayCondition.new
   end
 
   # 305.1  Playing a land is a special action; it doesn’t use the stack (see rule 115)
@@ -23,30 +32,57 @@ module Land
     false
   end
 
+  class LandPlayAction < Action
+    def execute(game_engine, stack)
+      target = stack.target
+      hand = stack.source
+
+      # put it into the battlefield
+      game_engine.move_into_battlefield hand.player, hand
+
+      # save the turn it was played
+      hand.card.update! turn_played: game_engine.duel.turn
+    end
+  end
+
   # ability mana cost has already been consumed
   def do_play(game_engine, hand, target = nil)
-    # put it into the battlefield
-    game_engine.move_into_battlefield hand.player, hand
+    return LandPlayAction.new
+  end
 
-    # save the turn it was played
-    hand.card.update! turn_played: game_engine.duel.turn
+  class LandTapCondition < Condition
+    def evaluate(game_engine, stack)
+      target = stack.target
+      battlefield = stack.source
+
+      return target == nil &&
+          game_engine.duel.priority_player == battlefield.player &&
+          game_engine.duel.phase.can_tap? &&
+          !battlefield.card.is_tapped? &&
+          battlefield.zone.cards_are_tappable?
+    end
   end
 
   def can_tap?(game_engine, battlefield, target = nil)
-    return target == nil &&
-        game_engine.duel.priority_player == battlefield.player &&
-        game_engine.duel.phase.can_tap? &&
-        !battlefield.card.is_tapped? &&
-        battlefield.zone.cards_are_tappable?
+    return LandTapCondition.new
   end
 
   def playing_tap_goes_onto_stack?
     false
   end
 
+  class LandUntapCondition < Condition
+    def evaluate(game_engine, stack)
+      target = stack.target
+      battlefield = stack.source
+
+      return target == nil &&
+          false # we can never manually untap lands
+    end
+  end
+
   def can_untap?(game_engine, battlefield, target = nil)
-    return target == nil &&
-        false # we can never manually untap lands
+    return LandUntapCondition.new
   end
 
   def playing_untap_goes_onto_stack?
@@ -61,17 +97,36 @@ module Land
     Mana.new
   end
 
-  def do_tap(game_engine, battlefield, target = nil)
-    fail "Cannot tap #{battlefield.card}: already tapped" if battlefield.card.is_tapped?
+  class LandTapAction < Action
+    def execute(game_engine, stack)
+      target = stack.target
+      battlefield = stack.source
+      card_type = stack.source.card.card_type
 
-    battlefield.card.tap_card!
-    battlefield.player.add_mana! mana_provided
+      fail "Cannot tap #{battlefield.card}: already tapped" if battlefield.card.is_tapped?
+
+      battlefield.card.tap_card!
+      battlefield.player.add_mana! card_type.mana_provided
+    end
+  end
+
+  def do_tap(game_engine, battlefield, target = nil)
+    return LandTapAction.new
+  end
+
+  class LandUntapAction < Action
+    def execute(game_engine, stack)
+      target = stack.target
+      battlefield = stack.source
+
+      fail "Cannot untap #{battlefield.card}: already untapped" if !battlefield.card.is_tapped?
+
+      battlefield.card.untap_card!
+    end
   end
 
   def do_untap(game_engine, battlefield, target = nil)
-    fail "Cannot untap #{battlefield.card}: already untapped" if !battlefield.card.is_tapped?
-
-    battlefield.card.untap_card!
+    return LandUntapAction.new
   end
 
   def has_played_a_land?(player, turn)

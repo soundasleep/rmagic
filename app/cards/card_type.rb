@@ -41,7 +41,11 @@ class CardType
   end
 
   def can_do_action?(game_engine, action)
-    send("can_#{action.key}?", game_engine, action.source, action.target)
+    condition = send("can_#{action.key}?", game_engine, action.source, action.target)
+
+    fail "Condition #{condition} for #{action.key} on #{action.source} does not have evaluate method" unless condition.respond_to? :evaluate
+
+    condition.send(:evaluate, game_engine, action)
   end
 
   def action_cost(game_engine, action)
@@ -60,13 +64,21 @@ class CardType
       game_engine.duel.reset_priority!
     else
       # it doesn't affect the stack at all
-      send("do_#{action.key}", game_engine, action.source, action.target)
+      executor = send("do_#{action.key}", game_engine, action.source, action.target)
+
+      fail "Action #{executor} for #{action.key} on #{action.source} does not have execute method" unless executor.respond_to? :execute
+
+      executor.send(:execute, game_engine, action)
     end
   end
 
   def resolve_action(game_engine, stack)
     fail "Cannot resolve 'stack'" if stack.key == "action"
-    send("resolve_#{stack.key}", game_engine, stack)
+    executor = send("resolve_#{stack.key}", game_engine, stack)
+
+    fail "Action #{executor} for #{stack.key} on #{stack.card.card_type} does not have execute method" unless executor.respond_to? :execute
+
+    executor.send(:execute, game_engine, stack)
   end
 
   def metaverse_id
