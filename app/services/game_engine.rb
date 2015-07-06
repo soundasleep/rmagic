@@ -18,6 +18,7 @@ class GameEngine
 
   def can_do_action?(action)
     action.source.card.card_type.can_do_action?(self, action) &&
+      # TODO remove the has_mana? - this has been moved to the condition evaluators
       action.source.player.has_mana?(action.source.card.card_type.action_cost(self, action))
   end
 

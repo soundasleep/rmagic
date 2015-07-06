@@ -40,8 +40,12 @@ class CardType
     do_actions + resolve_actions
   end
 
+  def get_conditions(action_key)
+    send("can_#{action_key}?")
+  end
+
   def can_do_action?(game_engine, action)
-    condition = send("can_#{action.key}?")
+    condition = get_conditions(action.key)
 
     fail "Condition #{condition} for #{action.key} on #{action.source} does not have evaluate method" unless condition.respond_to? :evaluate
 
@@ -51,6 +55,10 @@ class CardType
   def action_cost(game_engine, action)
     fail "Cannot get cost of 'action'" if action.key == "action"
     send("#{action.key}_cost", game_engine, action.source, action.target)
+  end
+
+  def get_actions(action_key)
+    send("do_#{action_key}")
   end
 
   def do_action(game_engine, action)
@@ -64,7 +72,7 @@ class CardType
       game_engine.duel.reset_priority!
     else
       # it doesn't affect the stack at all
-      executor = send("do_#{action.key}")
+      executor = get_actions(action.key)
 
       fail "Action #{executor} for #{action.key} on #{action.source} does not have execute method" unless executor.respond_to? :execute
 
@@ -72,9 +80,13 @@ class CardType
     end
   end
 
+  def get_resolve_actions(action_key)
+    send("resolve_#{action_key}")
+  end
+
   def resolve_action(game_engine, stack)
     fail "Cannot resolve 'stack'" if stack.key == "action"
-    executor = send("resolve_#{stack.key}")
+    executor = get_resolve_actions(stack.key)
 
     fail "Action #{executor} for #{stack.key} on #{stack.card.card_type} does not have execute method" unless executor.respond_to? :execute
 

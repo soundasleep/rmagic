@@ -8,13 +8,28 @@ module Playable
     def evaluate(game_engine, stack)
       target = stack.target
       hand = stack.source
+      play_cost = stack.source.card.card_type.play_cost(game_engine, hand, target)
 
       # TODO move these into testable, composable conditions
       return target == nil &&
+          hand.player.has_mana?(play_cost) &&
           game_engine.duel.priority_player == hand.player &&
           game_engine.duel.current_player == hand.player &&
           game_engine.duel.phase.can_play? &&
           hand.zone.can_play_from?
+    end
+
+    def explain(game_engine, stack)
+      target = stack.target
+      hand = stack.source
+      play_cost = stack.source.card.card_type.play_cost(game_engine, hand, target)
+
+      "return target == nil (#{target == nil}) &&
+          hand.player.has_mana?(play_cost) (#{hand.player.has_mana?(play_cost)}) &&
+          game_engine.duel.priority_player == hand.player (#{game_engine.duel.priority_player == hand.player}) &&
+          game_engine.duel.current_player == hand.player (#{game_engine.duel.current_player == hand.player}) &&
+          game_engine.duel.phase.can_play? (#{game_engine.duel.phase.can_play?}) &&
+          hand.zone.can_play_from? (#{hand.zone.can_play_from?})"
     end
   end
 

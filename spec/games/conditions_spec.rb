@@ -24,19 +24,15 @@ RSpec.describe "Conditions", type: :game do
         expect(conditions.name).to_not be_nil
       end
 
-      it "has a description" do
-        expect(conditions.description).to_not be_nil
-      end
-
       context "when evaluating" do
         let(:result) { conditions.evaluate_with(game_engine) }
 
         it "evaluates to false" do
-          expect(result.evaluate).to be(false)
+          expect(result.evaluate).to be(false), result.explain
         end
 
         it "returns a description of why" do
-          expect(result.describe).to_not be_empty
+          expect(result.explain).to_not be_empty
         end
       end
     end
@@ -58,19 +54,15 @@ RSpec.describe "Conditions", type: :game do
         expect(conditions.name).to_not be_nil
       end
 
-      it "has a description" do
-        expect(conditions.description).to_not be_nil
-      end
-
       context "when evaluating" do
         let(:result) { conditions.evaluate_with(game_engine) }
 
         it "evaluates to true" do
-          expect(result.evaluate).to be(true)
+          expect(result.evaluate).to be(true), result.explain
         end
 
         it "returns a description of why" do
-          expect(result.describe).to_not be_empty
+          expect(result.explain).to_not be_empty
         end
       end
     end
@@ -95,19 +87,15 @@ RSpec.describe "Conditions", type: :game do
               expect(conditions.name).to_not be_nil
             end
 
-            it "has a description" do
-              expect(conditions.description).to_not be_nil
-            end
-
             context "when evaluating" do
               let(:result) { conditions.evaluate_with(game_engine) }
 
               it "evaluates to false" do
-                expect(result.evaluate).to be(false)
+                expect(result.evaluate).to be(false), result.explain
               end
 
               it "returns a description of why" do
-                expect(result.describe).to_not be_empty
+                expect(result.explain).to_not be_empty
               end
             end
           end
@@ -137,19 +125,15 @@ RSpec.describe "Conditions", type: :game do
                 expect(conditions.name).to_not be_nil
               end
 
-              it "has a description" do
-                expect(conditions.description).to_not be_nil
-              end
-
               context "when evaluating" do
                 let(:result) { conditions.evaluate_with(game_engine) }
 
-                it "evaluates to false" do
-                  expect(result.evaluate).to be(false)
+                it "evaluates to true" do
+                  expect(result.evaluate).to be(true), result.explain
                 end
 
                 it "returns a description of why" do
-                  expect(result.describe).to_not be_empty
+                  expect(result.explain).to_not be_empty
                 end
               end
             end

@@ -1,9 +1,13 @@
 class Condition
-  def evalaute
+  def name
+    self.class.name
+  end
+
+  def evaluate(game_engine, stack)
     fail "Not implemented"
   end
 
-  def to_s
-    fail "Not implemented"
+  def explain(game_engine, stack)
+    "#{name} on #{game_engine} with #{stack}"
   end
 end
