@@ -9,7 +9,7 @@ module Playable
     def evaluate(game_engine, stack)
       target = stack.target
       hand = stack.source
-      play_cost = stack.source.card.card_type.play_cost(game_engine, hand, target)
+      # play_cost = stack.source.card.card_type.play_cost(game_engine, hand, target)
 
       # TODO move these into testable, composable conditions
       return target == nil &&

@@ -21,7 +21,6 @@ class Library::AddLifeTargets < CardType
   def can_instant_player?
     TextualConditions.new(
       "target is a player",
-      "we have priority",
       "we can play an instant",
     )
   end
@@ -47,7 +46,6 @@ class Library::AddLifeTargets < CardType
       "target is a card",
       "target is in their battlefield",
       "target card is a creature",
-      "we have priority",
       "we can play an instant",
     )
   end

@@ -23,7 +23,6 @@ class Library::Negate < CardType
       "not targeted",
       "the stack is not empty",
       "the card on the top of the stack is a creature",
-      "we have priority",
       "we can play an instant",
     )
   end

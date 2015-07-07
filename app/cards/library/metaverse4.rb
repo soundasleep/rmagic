@@ -20,7 +20,6 @@ class Library::Metaverse4 < CardType
   def can_instant?
     TextualConditions.new(
       "not targeted",
-      "we have priority",
       "we can play an instant",
     )
   end

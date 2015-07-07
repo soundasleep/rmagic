@@ -22,7 +22,6 @@ class Library::Metaverse5 < CardType
       "target is a card",
       "target is in their battlefield",
       "target card is a creature",
-      "we have priority",
       "we can play an instant",
     )
   end

@@ -24,7 +24,6 @@ class Library::InstantGraveyardAny < CardType
       "target is in their graveyard",
       "target card is a creature",
       "we control the target",
-      "we have priority",
       "we can play an instant",
     )
   end

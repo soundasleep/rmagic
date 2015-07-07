@@ -25,7 +25,6 @@ class Library::InstantGraveyardTop < CardType
       "target card is a creature",
       "target is the first creature in their graveyard",
       "we control the target",
-      "we have priority",
       "we can play an instant",
     )
   end
