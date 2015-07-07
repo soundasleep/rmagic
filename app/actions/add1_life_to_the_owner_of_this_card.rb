@@ -3,7 +3,7 @@
 class Add1LifeToTheOwnerOfThisCard < Action
 
   def execute(game_engine, stack)
-    stack.source.player.add_life! 1
+    stack.player.add_life! 1
   end
 
 end

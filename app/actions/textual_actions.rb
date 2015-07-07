@@ -19,6 +19,7 @@ class TextualActions < Condition
 
   private
 
+    # TODO cache?
     def parse_actions
       actions.map do |string|
         string.tr(" ", "_").camelize.constantize.new

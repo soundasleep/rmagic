@@ -1,4 +1,4 @@
-class AddTheTemporaryCounterToTheTargetBattlefieldCreature < Action
+class AddTheTemporaryCounterEffectToTheTargetBattlefieldCreature < Action
 
   def execute(game_engine, stack)
     # add an effect

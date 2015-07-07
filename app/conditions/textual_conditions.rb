@@ -19,6 +19,7 @@ class TextualConditions < Condition
 
   private
 
+    # TODO cache?
     def parse_conditions
       conditions.map do |string|
         string.tr(" ", "_").camelize.constantize.new
