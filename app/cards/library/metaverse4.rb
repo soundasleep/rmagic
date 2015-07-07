@@ -18,9 +18,12 @@ class Library::Metaverse4 < CardType
   end
 
   # ignoring mana costs
-  def can_instant?(game_engine, hand, target = nil)
-    return target == nil &&
-      can_play_instant?(game_engine, hand)
+  def can_instant?
+    TextualConditions.new(
+      "not targeted",
+      "we have priority",
+      "we can play an instant",
+    )
   end
 
   def playing_instant_goes_onto_stack?

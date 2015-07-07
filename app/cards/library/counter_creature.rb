@@ -18,11 +18,14 @@ class Library::CounterCreature < CardType
   end
 
   # ignoring mana costs
-  def can_counter_creature?(game_engine, hand, target = nil)
-    return target == nil &&
-      !game_engine.duel.stack.empty? &&
-      game_engine.duel.stack.last.card.card_type.is_creature? &&
-      can_play_instant?(game_engine, hand)
+  def can_counter_creature?
+    TextualConditions.new(
+      "not targeted",
+      "the stack is not empty",
+      "the card on the top of the stack is a creature",
+      "we have priority",
+      "we can play an instant",
+    )
   end
 
   def playing_counter_creature_goes_onto_stack?

@@ -18,10 +18,12 @@ class Library::AddLifeTargets < CardType
   end
 
   # ignoring mana costs
-  def can_instant_player?(game_engine, hand, target = nil)
-    return target != nil &&
-      target.is_player? &&
-      can_play_instant?(game_engine, hand)
+  def can_instant_player?
+    TextualConditions.new(
+      "target is a player",
+      "we have priority",
+      "we can play an instant",
+    )
   end
 
   def playing_instant_player_goes_onto_stack?
@@ -42,12 +44,14 @@ class Library::AddLifeTargets < CardType
   end
 
   # ignoring mana costs
-  def can_instant_creature?(game_engine, hand, target = nil)
-    return target != nil &&
-        target.is_card? &&
-        target.player.battlefield.include?(target) &&
-        target.card.card_type.is_creature? &&
-        can_play_instant?(game_engine, hand)
+  def can_instant_creature?
+    TextualConditions.new(
+      "target is a card",
+      "target is in their battlefield",
+      "target card is a creature",
+      "we have priority",
+      "we can play an instant",
+    )
   end
 
   def playing_instant_creature_goes_onto_stack?

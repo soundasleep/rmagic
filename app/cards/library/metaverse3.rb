@@ -1,6 +1,5 @@
 class Library::Metaverse3 < CardType
   include Creature
-  include CreatureAbility
 
   def name
     "Creature with add life to owner"
@@ -22,9 +21,12 @@ class Library::Metaverse3 < CardType
     Mana.new green: 1
   end
 
-  def can_add_life?(game_engine, zone_card, target = nil)
-    return target == nil &&
-        can_creature_ability?(game_engine, zone_card)
+  def can_add_life?
+    TextualConditions.new(
+      "not targeted",
+      "we have priority",
+      "we can use card abilities",
+    )
   end
 
   def playing_add_life_goes_onto_stack?

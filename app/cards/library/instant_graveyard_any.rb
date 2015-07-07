@@ -19,13 +19,15 @@ class Library::InstantGraveyardAny < CardType
   end
 
   # ignoring mana costs
-  def can_instant?(game_engine, hand, target = nil)
-    return target != nil &&
-        target.is_card? &&
-        target.player.graveyard.include?(target) &&
-        target.player == hand.player &&
-        target.card.card_type.is_creature? &&
-        can_play_instant?(game_engine, hand)
+  def can_instant?
+    TextualConditions.new(
+      "target is a card",
+      "target is in their graveyard",
+      "target card is a creature",
+      "we control the target",
+      "we have priority",
+      "we can play an instant",
+    )
   end
 
   def playing_instant_goes_onto_stack?

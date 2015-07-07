@@ -18,7 +18,7 @@ class Library::Metaverse5 < CardType
   end
 
   # ignoring mana costs
-  def can_destroy?(game_engine, hand, target = nil)
+  def can_destroy?
     return target != nil &&
         target.is_card? &&
         target.player.battlefield.include?(target) &&

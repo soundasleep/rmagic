@@ -1,6 +1,5 @@
 class Library::Metaverse6 < CardType
   include Creature
-  include CreatureAbility
 
   def name
     "Creature with activated abilities"
@@ -23,12 +22,14 @@ class Library::Metaverse6 < CardType
   end
 
   # ignoring mana costs
-  def can_destroy?(game_engine, hand, target = nil)
-    return target != nil &&
-        target.is_card? &&
-        target.player.battlefield.include?(target) &&
-        target.card.card_type.is_creature? &&
-        can_creature_ability?(game_engine, hand)
+  def can_destroy?
+    TextualConditions.new(
+      "target is a card",
+      "target is in their battlefield",
+      "target card is a creature",
+      "we have priority",
+      "we can use card abilities",
+    )
   end
 
   def playing_destroy_goes_onto_stack?

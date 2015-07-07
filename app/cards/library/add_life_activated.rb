@@ -1,6 +1,5 @@
 class Library::AddLifeActivated < CardType
   include Creature
-  include CreatureAbility
 
   def name
     "Creature with activated add life to owner"
@@ -18,20 +17,24 @@ class Library::AddLifeActivated < CardType
     Mana.new green: 1, colourless: 1
   end
 
+  # TODO replace parameters with (stack)
+  # TODO implement Actionable interface as a superclass for Stack & PossibleAction
   def add_life_cost(game_engine, zone_card, target = nil)
     Mana.new green: 1
   end
 
+  # TODO maybe rename to conditions_for_add_life
   def can_add_life?
     TextualConditions.new(
       "not targeted",
       "this card does not have summoning sickness",
-      "it is our turn",
+      "we have priority",
       "this card can be tapped",
       "we can use card abilities",
     )
   end
 
+  # TODO maybe rename to actions_for_add_life
   # an instant
   def do_add_life
     TextualActions.new(
