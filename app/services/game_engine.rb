@@ -185,8 +185,7 @@ class GameEngine
       zone.select { |z| z.card == card }.each { |e| e.destroy }
     end
 
-    # TODO can we please remove these?
-    player.reload
+    # It would be nice to get rid of this one day.
     duel.reload
   end
 
@@ -233,8 +232,7 @@ class GameEngine
       end
     end
 
-    # TODO can we please remove these?
-    player.reload
+    # It would be nice to get rid of this one day.
     duel.reload
   end
 
