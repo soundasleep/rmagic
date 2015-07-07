@@ -1,13 +1,18 @@
 class TextualConditions < Condition
-  attr_reader :conditions
+  attr_reader :conditions, :my_caller
 
   def initialize(*args)
     @conditions = args
+    @my_caller = caller(1, 1)
   end
 
   def evaluate(game_engine, stack)
     parse_conditions.all? do |condition|
-      condition.evaluate(game_engine, stack)
+      begin
+        condition.evaluate(game_engine, stack)
+      rescue => e
+        raise Exception.new("Could not execute condition #{condition} on #{self} from #{my_caller}: #{e}")
+      end
     end
   end
 

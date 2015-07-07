@@ -7,25 +7,24 @@ class TextualActions < Condition
   end
 
   def execute(game_engine, stack)
-    parse_actions.all? do |condition|
+    parse_actions.all? do |action|
       begin
-        condition.execute(game_engine, stack)
+        action.execute(game_engine, stack)
       rescue => e
-        # TODO maybe have our own exception class
-        raise Exception.new("Could not execute condition #{condition} on #{self} from #{my_caller}: #{e}")
+        raise Exception.new("Could not execute action #{action} on #{self} from #{my_caller}: #{e}")
       end
     end
   end
 
   def explain(game_engine, stack)
-    parse_actions.map do |condition|
-      "(" + condition.explain(game_engine, stack) + ")"
+    parse_actions.map do |action|
+      "(" + action.explain(game_engine, stack) + ")"
     end.join(",\n")
   end
 
   def describe
-    parse_actions.map do |condition|
-      condition.describe
+    parse_actions.map do |action|
+      action.describe
     end.join(", ")
   end
 
