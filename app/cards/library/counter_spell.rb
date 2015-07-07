@@ -1,10 +1,8 @@
 class Library::CounterSpell < CardType
+  include Instant
+
   def name
     "Counter spell"
-  end
-
-  def is_instant?
-    true
   end
 
   def mana_cost

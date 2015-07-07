@@ -1,10 +1,8 @@
 class Library::InstantCounter < CardType
+  include Instant
+
   def name
     "Instant temporary counter on creature"
-  end
-
-  def is_instant?
-    true
   end
 
   def mana_cost

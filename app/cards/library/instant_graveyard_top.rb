@@ -1,10 +1,8 @@
 class Library::InstantGraveyardTop < CardType
+  include Instant
+
   def name
     "Instant return top of graveyard"
-  end
-
-  def is_instant?
-    true
   end
 
   def mana_cost

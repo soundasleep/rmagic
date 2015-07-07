@@ -1,10 +1,8 @@
 class Library::Negate < CardType
+  include Instant
+
   def name
     "Negate"
-  end
-
-  def is_instant?
-    true
   end
 
   def mana_cost

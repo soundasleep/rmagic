@@ -1,10 +1,8 @@
 class Library::Metaverse4 < CardType
+  include Instant
+
   def name
     "Instant add life to owner"
-  end
-
-  def is_instant?
-    true
   end
 
   def mana_cost

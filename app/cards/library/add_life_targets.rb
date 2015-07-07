@@ -1,10 +1,8 @@
 class Library::AddLifeTargets < CardType
+  include Instant
+
   def name
     "Permanently add life to creature or player"
-  end
-
-  def is_instant?
-    true
   end
 
   def mana_cost

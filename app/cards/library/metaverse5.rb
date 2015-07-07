@@ -1,10 +1,8 @@
 class Library::Metaverse5 < CardType
+  include Instant
+
   def name
     "Instant destroy creature"
-  end
-
-  def is_instant?
-    true
   end
 
   def mana_cost
