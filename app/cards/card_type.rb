@@ -65,21 +65,15 @@ class CardType
     fail "Cannot do 'action'" if action.key == "action"
 
     if playing_goes_onto_stack?(action.key)
-      # TODO this could be implemented as an Action itself!
-      # e.g. 'put onto stack', 'reset priority'
-      # we don't want to call do_() directly
-      game_engine.move_into_stack action.source.player, action.source, action.key, action.target
-
-      # and priority returns to the current player
-      game_engine.duel.reset_priority!
+      executor = PutOntoStack.new
     else
       # it doesn't affect the stack at all
       executor = actions_for(action.key)
-
-      fail "Action #{executor} for #{action.key} on #{action.source} does not have execute method" unless executor.respond_to? :execute
-
-      executor.send(:execute, game_engine, action)
     end
+
+    fail "Action #{executor} for #{action.key} on #{action.source} does not have execute method" unless executor.respond_to? :execute
+
+    executor.send(:execute, game_engine, action)
   end
 
   def resolve_action(game_engine, stack)

@@ -232,6 +232,10 @@ class GameEngine
         stack.player_targets.create! target: target
       end
     end
+
+    # TODO can we please remove these?
+    player.reload
+    duel.reload
   end
 
   def add_effect(player, effect_type, target)

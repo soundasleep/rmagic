@@ -23,6 +23,9 @@
         %li
           %strong= a
 
+          - if @card.playing_goes_onto_stack?(a)
+            %i (resolves on the stack)
+
           %dl
             %dt Conditions
             %dd= @card.conditions_for(a).describe
