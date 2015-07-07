@@ -12,7 +12,7 @@ class Library::Negate < CardType
   end
 
   # TODO add library test to check that all actions have an associated cost defined
-  def counter_creature_cost(game_engine, action)
+  def counter_creature_cost
     mana_cost
   end
 

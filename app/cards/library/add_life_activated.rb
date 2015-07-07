@@ -17,12 +17,10 @@ class Library::AddLifeActivated < CardType
     Mana.new green: 1, colourless: 1
   end
 
-  # TODO implement Actionable interface as a superclass for Stack & PossibleAction
-  def add_life_cost(game_engine, action)
+  def add_life_cost
     Mana.new green: 1
   end
 
-  # TODO maybe rename to conditions_for_add_life
   def can_add_life?
     TextualConditions.new(
       "not targeted",
@@ -33,8 +31,6 @@ class Library::AddLifeActivated < CardType
     )
   end
 
-  # TODO maybe rename to actions_for_add_life
-  # an instant
   def do_add_life
     TextualActions.new(
       "tap this card",

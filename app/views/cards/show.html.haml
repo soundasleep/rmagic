@@ -27,6 +27,9 @@
             %i (resolves on the stack)
 
           %dl
+            %dt Cost
+            %dd= @card.action_cost(a)
+
             %dt Conditions
             %dd= @card.conditions_for(a).describe
 

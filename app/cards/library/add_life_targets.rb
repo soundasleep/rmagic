@@ -11,7 +11,7 @@ class Library::AddLifeTargets < CardType
     Mana.new colourless: 1
   end
 
-  def instant_player_cost(game_engine, action)
+  def instant_player_cost
     Mana.new colourless: 1
   end
 
@@ -34,7 +34,7 @@ class Library::AddLifeTargets < CardType
     )
   end
 
-  def instant_creature_cost(game_engine, action)
+  def instant_creature_cost
     Mana.new colourless: 1
   end
 

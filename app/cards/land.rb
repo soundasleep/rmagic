@@ -4,7 +4,7 @@ module Land
     true
   end
 
-  def play_cost(game_engine, action)
+  def play_cost
     mana_cost
   end
 
@@ -43,7 +43,7 @@ module Land
     false
   end
 
-  def tap_cost(game_engine, action)
+  def tap_cost
     Mana.new
   end
 
@@ -65,7 +65,7 @@ module Land
     false
   end
 
-  def untap_cost(game_engine, action)
+  def untap_cost
     Mana.new
   end
 

@@ -11,7 +11,7 @@ class Library::InstantCounter < CardType
     Mana.new colourless: 1
   end
 
-  def counter_cost(game_engine, action)
+  def counter_cost
     Mana.new colourless: 1
   end
 

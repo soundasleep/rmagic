@@ -11,7 +11,7 @@ class Library::InstantGraveyardAny < CardType
     Mana.new colourless: 1
   end
 
-  def instant_cost(game_engine, action)
+  def instant_cost
     Mana.new colourless: 1
   end
 

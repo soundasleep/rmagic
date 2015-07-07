@@ -1,6 +1,6 @@
 module Playable
 
-  def play_cost(game_engine, action)
+  def play_cost
     mana_cost
   end
 

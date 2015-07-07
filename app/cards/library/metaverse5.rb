@@ -11,7 +11,7 @@ class Library::Metaverse5 < CardType
     Mana.new colourless: 1
   end
 
-  def destroy_cost(game_engine, action)
+  def destroy_cost
     Mana.new colourless: 1
   end
 

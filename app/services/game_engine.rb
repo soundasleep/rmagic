@@ -18,7 +18,7 @@ class GameEngine
 
   def can_do_action?(action)
     action.source.card.card_type.can_do_action?(self, action) &&
-      action.source.player.has_mana?(action.source.card.card_type.action_cost(self, action))
+      action.source.player.has_mana?(action.source.card.card_type.action_cost(action.key))
   end
 
   def available_attackers(player)
@@ -52,7 +52,7 @@ class GameEngine
     fail "Cannot do an action #{action} on an empty source" unless action.source
 
     player = action.source.player
-    cost = action.source.card.card_type.action_cost(self, action)
+    cost = action.source.card.card_type.action_cost(action.key)
     if !player.has_mana?(cost)
       fail "Player #{player.to_json} can not pay for #{cost} with #{player.mana}"
     end

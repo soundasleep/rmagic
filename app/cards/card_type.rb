@@ -49,8 +49,8 @@ class CardType
     conditions_for(action.key).send(:evaluate, game_engine, action)
   end
 
-  def action_cost(game_engine, action)
-    send("#{action.key}_cost", game_engine, action)
+  def action_cost(action_key)
+    send("#{action_key}_cost")
   end
 
   def actions_for(action_key)

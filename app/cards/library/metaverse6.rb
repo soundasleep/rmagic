@@ -17,7 +17,7 @@ class Library::Metaverse6 < CardType
     Mana.new green: 1, colourless: 1
   end
 
-  def destroy_cost(game_engine, action)
+  def destroy_cost
     Mana.new colourless: 1
   end
 
