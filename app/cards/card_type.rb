@@ -41,6 +41,7 @@ class CardType
   end
 
   def conditions_for(action_key)
+    # TODO should this be renamed to conditions_for_KEY?
     send("can_#{action_key}?")
   end
 
@@ -53,6 +54,7 @@ class CardType
   end
 
   def actions_for(action_key)
+    # TODO should this be renamed to actions_for_KEY?
     send("do_#{action_key}")
   end
 

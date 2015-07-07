@@ -4,7 +4,6 @@ module Playable
     mana_cost
   end
 
-  # TODO should this be renamed to get_play_conditions?
   def can_play?
     TextualConditions.new(
       "not targeted",
@@ -15,7 +14,6 @@ module Playable
   end
 
   # ability mana cost has already been consumed
-  # TODO should this be renamed to get_play_actions?
   def do_play
     TextualActions.new(
       "play this card",
