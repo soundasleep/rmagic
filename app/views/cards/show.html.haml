@@ -20,4 +20,18 @@
   %dd
     %ul
       - @card.actions.each do |a|
-        %li= a
+        %li
+          %strong= a
+
+          - if @card.playing_goes_onto_stack?(a)
+            %i (resolves on the stack)
+
+          %dl
+            %dt Cost
+            %dd= @card.action_cost(a)
+
+            %dt Conditions
+            %dd= @card.conditions_for(a).describe
+
+            %dt Actions
+            %dd= @card.actions_for(a).describe

@@ -18,7 +18,7 @@ class GameEngine
 
   def can_do_action?(action)
     action.source.card.card_type.can_do_action?(self, action) &&
-      action.source.player.has_mana?(action.source.card.card_type.action_cost(self, action))
+      action.source.player.has_mana?(action.source.card.card_type.action_cost(action.key))
   end
 
   def available_attackers(player)
@@ -52,7 +52,7 @@ class GameEngine
     fail "Cannot do an action #{action} on an empty source" unless action.source
 
     player = action.source.player
-    cost = action.source.card.card_type.action_cost(self, action)
+    cost = action.source.card.card_type.action_cost(action.key)
     if !player.has_mana?(cost)
       fail "Player #{player.to_json} can not pay for #{cost} with #{player.mana}"
     end
@@ -163,7 +163,7 @@ class GameEngine
     duel.players.each do |player|
       player.battlefield.each do |b|
         if b.card.is_destroyed?
-          move_into_graveyard b.player, b
+          move_into_graveyard b.player, b.card
         end
       end
     end
@@ -171,38 +171,46 @@ class GameEngine
 
   def destroy(zone_card)
     # move the creature into the graveyard
-    move_into_graveyard zone_card.player, zone_card
+    move_into_graveyard zone_card.player, zone_card.card
   end
 
-  def remove_from_all_zones(player, zone_card)
-    # removing it from the collection, rather than object.destroy!,
-    # means we don't need to reload the duel manually
-    player.zones.select { |z| z.include? zone_card }.each { |z| z.destroy zone_card }
-    duel.zones.select{ |z| z.include? zone_card }.each { |z| z.destroy zone_card }
+  def remove_from_all_zones(player, card)
+    fail "#{card} is not a card" unless card.is_a? Card
+
+    player.zones.each do |zone|
+      zone.select { |z| z.card == card }.each { |e| e.destroy }
+    end
+
+    duel.zones.each do |zone|
+      zone.select { |z| z.card == card }.each { |e| e.destroy }
+    end
+
+    # It would be nice to get rid of this one day.
+    duel.reload
   end
 
-  def move_into_graveyard(player, zone_card)
-    remove_from_all_zones(player, zone_card)
+  def move_into_graveyard(player, card)
+    remove_from_all_zones(player, card)
 
     # update log
-    ActionLog.graveyard_card_action(duel, player, zone_card)
+    ActionLog.graveyard_card_action(duel, player, card)
 
     # move to graveyard
-    player.graveyard.create! card: zone_card.card, order: player.next_graveyard_order
+    player.graveyard.create! card: card, order: player.next_graveyard_order
   end
 
-  def move_into_battlefield(player, zone_card)
-    remove_from_all_zones(player, zone_card)
+  def move_into_battlefield(player, card)
+    remove_from_all_zones(player, card)
 
     # update log
-    ActionLog.battlefield_card_action(duel, player, zone_card)
+    ActionLog.battlefield_card_action(duel, player, card)
 
     # move to graveyard
-    player.battlefield.create! card: zone_card.card
+    player.battlefield.create! card: card
   end
 
   def move_into_stack(player, zone_card, action_key, target = nil)
-    remove_from_all_zones(player, zone_card)
+    remove_from_all_zones(player, zone_card.card)
 
     # update log
     ActionLog.stack_card_action(duel, player, zone_card)
@@ -223,6 +231,9 @@ class GameEngine
         stack.player_targets.create! target: target
       end
     end
+
+    # It would be nice to get rid of this one day.
+    duel.reload
   end
 
   def add_effect(player, effect_type, target)

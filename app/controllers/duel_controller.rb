@@ -94,15 +94,15 @@ class DuelController < ApplicationController
   helper_method :available_attackers, :get_target_type
 
   def playable_cards
-    game_engine.playable_cards duel.player1
+    game_engine.action_finder.playable_cards duel.player1
   end
 
   def ability_cards
-    game_engine.ability_cards duel.player1
+    game_engine.action_finder.ability_cards duel.player1
   end
 
   def defendable_cards
-    game_engine.defendable_cards duel.player1
+    game_engine.action_finder.defendable_cards duel.player1
   end
 
   def available_attackers

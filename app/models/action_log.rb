@@ -64,12 +64,12 @@ class ActionLog < ActiveRecord::Base
     self.generic_card_action duel, player, zone_card.card, "defended"
   end
 
-  def self.graveyard_card_action(duel, player, zone_card)
-    self.generic_card_action duel, player, zone_card.card, "graveyard"
+  def self.graveyard_card_action(duel, player, card)
+    self.generic_card_action duel, player, card, "graveyard"
   end
 
-  def self.battlefield_card_action(duel, player, zone_card)
-    self.generic_card_action duel, player, zone_card.card, "battlefield"
+  def self.battlefield_card_action(duel, player, card)
+    self.generic_card_action duel, player, card, "battlefield"
   end
 
   def self.stack_card_action(duel, player, zone_card)

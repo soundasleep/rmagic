@@ -91,6 +91,18 @@ RSpec.describe "Lands", type: :game do
       end
     end
 
+    it "the hand is not empty" do
+      expect(player1.hand).to_not be_empty
+    end
+
+    context "when removed from the hand" do
+      before { game_engine.remove_from_all_zones(player1, first_hand_land.card) }
+
+      it "the hand becomes empty" do
+        expect(player1.hand).to be_empty
+      end
+    end
+
     context "when played" do
       def played_lands(player)
         player.battlefield.select{ |b| b.card.turn_played != 0 }
@@ -151,7 +163,11 @@ RSpec.describe "Lands", type: :game do
 
         context "after the first land is moved to graveyard" do
           before :each do
-            game_engine.move_into_graveyard duel.player1, card
+            game_engine.move_into_graveyard duel.player1, card.card
+          end
+
+          it "we have a card" do
+            expect(second_land).to_not be_nil
           end
 
           it "still cannot be played" do

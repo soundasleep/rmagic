@@ -28,13 +28,42 @@ RSpec.describe Library, type: :card do
       end
     end
 
+    context "each action" do
+      it "has a cost" do
+        card_types.values.each do |card_type|
+          card = card_type.new
+          card.actions.each do |a|
+            expect(card.action_cost(a)).to_not be_nil
+          end
+        end
+      end
+
+      it "has a condition" do
+        card_types.values.each do |card_type|
+          card = card_type.new
+          card.actions.each do |a|
+            expect(card.conditions_for(a)).to_not be_nil
+          end
+        end
+      end
+
+      it "has an action" do
+        card_types.values.each do |card_type|
+          card = card_type.new
+          card.actions.each do |a|
+            expect(card.actions_for(a)).to_not be_nil
+          end
+        end
+      end
+    end
+
     context "actions that go onto the stack" do
-      it "do not have a #do_ method defined" do
+      it "have a #do_ method defined" do
         card_types.values.each do |card_type|
           card = card_type.new
           card.actions.each do |a|
             if card.playing_goes_onto_stack?(a)
-              expect(card.methods.map(&:to_s)).to_not include("do_#{a}"), "#{card_type}: Action #{a} which resolves on the stack should not have a `do_#{a}`"
+              expect(card.methods.map(&:to_s)).to include("do_#{a}"), "#{card_type}: Action #{a} which resolves on the stack should have a `do_#{a}`"
             end
           end
         end
@@ -42,12 +71,12 @@ RSpec.describe Library, type: :card do
     end
 
     context "actions that do not go onto the stack" do
-      it "do not have a #resolve_ method defined" do
+      it "have a #rdo_ method defined" do
         card_types.values.each do |card_type|
           card = card_type.new
           card.actions.each do |a|
             if !card.playing_goes_onto_stack?(a)
-              expect(card.methods.map(&:to_s)).to_not include("resolve_#{a}"), "#{card_type}: Action #{a} which does not interact on the stack should not have a `resolve_#{a}`"
+              expect(card.methods.map(&:to_s)).to include("do_#{a}"), "#{card_type}: Action #{a} which does not interact on the stack should have a `do_#{a}`"
             end
           end
         end

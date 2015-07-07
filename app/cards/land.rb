@@ -4,18 +4,19 @@ module Land
     true
   end
 
-  def play_cost(game_engine, hand, target = nil)
+  def play_cost
     mana_cost
   end
 
   # ignoring mana costs
-  def can_play?(game_engine, hand, target = nil)
-    return target == nil &&
-        game_engine.duel.priority_player == hand.player &&
-        game_engine.duel.current_player == hand.player &&
-        game_engine.duel.phase.can_play? &&
-        hand.zone.can_play_from? &&
-        !has_played_a_land?(hand.player, game_engine.duel.turn)
+  def can_play?
+    TextualConditions.new(
+      "not targeted",
+      "we have priority",
+      "it is our turn",
+      "we can play cards",
+      "we have not played a land this turn",
+    )
   end
 
   # 305.1  Playing a land is a special action; it doesn’t use the stack (see rule 115)
@@ -24,58 +25,54 @@ module Land
   end
 
   # ability mana cost has already been consumed
-  def do_play(game_engine, hand, target = nil)
-    # put it into the battlefield
-    game_engine.move_into_battlefield hand.player, hand
-
-    # save the turn it was played
-    hand.card.update! turn_played: game_engine.duel.turn
+  def do_play
+    TextualActions.new(
+      "play this card",
+    )
   end
 
-  def can_tap?(game_engine, battlefield, target = nil)
-    return target == nil &&
-        game_engine.duel.priority_player == battlefield.player &&
-        game_engine.duel.phase.can_tap? &&
-        !battlefield.card.is_tapped? &&
-        battlefield.zone.cards_are_tappable?
+  def can_tap?
+    TextualConditions.new(
+      "not targeted",
+      "we have priority",
+      "this card can be tapped",
+    )
   end
 
   def playing_tap_goes_onto_stack?
     false
   end
 
-  def can_untap?(game_engine, battlefield, target = nil)
-    return target == nil &&
-        false # we can never manually untap lands
+  def tap_cost
+    Mana.new
+  end
+
+  def do_tap
+    TextualActions.new(
+      "tap this card",
+      AddMana.new(mana_provided)
+    )
+  end
+
+  def can_untap?
+    TextualConditions.new(
+      "not targeted",
+      "never"
+    )
   end
 
   def playing_untap_goes_onto_stack?
     false
   end
 
-  def tap_cost(game_engine, battlefield, target = nil)
+  def untap_cost
     Mana.new
   end
 
-  def untap_cost(game_engine, battlefield, target = nil)
-    Mana.new
-  end
-
-  def do_tap(game_engine, battlefield, target = nil)
-    fail "Cannot tap #{battlefield.card}: already tapped" if battlefield.card.is_tapped?
-
-    battlefield.card.tap_card!
-    battlefield.player.add_mana! mana_provided
-  end
-
-  def do_untap(game_engine, battlefield, target = nil)
-    fail "Cannot untap #{battlefield.card}: already untapped" if !battlefield.card.is_tapped?
-
-    battlefield.card.untap_card!
-  end
-
-  def has_played_a_land?(player, turn)
-    (player.battlefield + player.graveyard).any?{ |card| card.card.turn_played == turn }
+  def do_untap
+    TextualActions.new(
+      "untap this card",
+    )
   end
 
 end

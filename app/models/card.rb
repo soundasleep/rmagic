@@ -76,4 +76,8 @@ class Card < ActiveRecord::Base
     effects.map(&:order).max + 1
   end
 
+  def card
+    self
+  end
+
 end

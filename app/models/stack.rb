@@ -18,4 +18,8 @@ class Stack < ActiveRecord::Base
     StackZone.new
   end
 
+  def source
+    card
+  end
+
 end

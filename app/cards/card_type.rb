@@ -37,36 +37,39 @@ class CardType
   end
 
   def actions
-    do_actions + resolve_actions
+    methods.grep(/^(do)_/).map{ |m| m["do_".length..-1] } - ["action"]
+  end
+
+  def conditions_for(action_key)
+    # TODO should this be renamed to conditions_for_KEY?
+    send("can_#{action_key}?")
   end
 
   def can_do_action?(game_engine, action)
-    send("can_#{action.key}?", game_engine, action.source, action.target)
+    conditions_for(action.key).send(:evaluate, game_engine, action)
   end
 
-  def action_cost(game_engine, action)
-    fail "Cannot get cost of 'action'" if action.key == "action"
-    send("#{action.key}_cost", game_engine, action.source, action.target)
+  def action_cost(action_key)
+    send("#{action_key}_cost")
+  end
+
+  def actions_for(action_key)
+    # TODO should this be renamed to actions_for_KEY?
+    send("do_#{action_key}")
   end
 
   def do_action(game_engine, action)
-    fail "Cannot do 'action'" if action.key == "action"
-
     if playing_goes_onto_stack?(action.key)
-      # we don't want to call do_() directly
-      game_engine.move_into_stack action.source.player, action.source, action.key, action.target
-
-      # and priority returns to the current player
-      game_engine.duel.reset_priority!
+      executor = PutOntoStack.new
     else
-      # it doesn't affect the stack at all
-      send("do_#{action.key}", game_engine, action.source, action.target)
+      executor = actions_for(action.key)
     end
+
+    executor.send(:execute, game_engine, action)
   end
 
   def resolve_action(game_engine, stack)
-    fail "Cannot resolve 'stack'" if stack.key == "action"
-    send("resolve_#{stack.key}", game_engine, stack)
+    actions_for(stack.key).send(:execute, game_engine, stack)
   end
 
   def metaverse_id
@@ -76,14 +79,5 @@ class CardType
   def self.metaverse_id
     name.split(/[^0-9]/).last.to_i
   end
-
-  private
-    def do_actions
-      methods.grep(/^(do)_/).map{ |m| m["do_".length..-1] } - ["action"]
-    end
-
-    def resolve_actions
-      methods.grep(/^(resolve)_/).map{ |m| m["resolve_".length..-1] } - ["action"]
-    end
 
 end

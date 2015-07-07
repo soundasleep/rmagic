@@ -1,6 +1,5 @@
 class Library::AddLifeActivated < CardType
   include Creature
-  include CreatureAbility
 
   def name
     "Creature with activated add life to owner"
@@ -18,27 +17,25 @@ class Library::AddLifeActivated < CardType
     Mana.new green: 1, colourless: 1
   end
 
-  def add_life_cost(game_engine, zone_card, target = nil)
+  def add_life_cost
     Mana.new green: 1
   end
 
-  def can_add_life?(game_engine, zone_card, target = nil)
-    return target == nil &&
-        !zone_card.card.is_tapped? &&
-        game_engine.duel.turn > zone_card.card.turn_played &&
-        game_engine.duel.priority_player == zone_card.player &&
-        game_engine.duel.phase.can_tap? &&
-        zone_card.zone.cards_are_tappable? &&
-        can_creature_ability?(game_engine, zone_card)
+  def can_add_life?
+    TextualConditions.new(
+      "not targeted",
+      "this card does not have summoning sickness",
+      "we have priority",
+      "this card can be tapped",
+      "we can use card abilities",
+    )
   end
 
-  # an instant
-  def do_add_life(game_engine, zone_card, target = nil)
-    # tap this card
-    zone_card.card.tap_card!
-
-    # do the action
-    zone_card.player.add_life!(1)
+  def do_add_life
+    TextualActions.new(
+      "tap this card",
+      "add 1 life to the owner of this card",
+    )
   end
 
   def playing_add_life_goes_onto_stack?
