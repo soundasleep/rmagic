@@ -31,11 +31,6 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   end
 
   context "without mana" do
-    it "is not enough mana to play" do
-      card = first_destroy_creature
-      expect(duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(false)
-    end
-
     it "requires mana" do
       expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "destroy"))).to be(false)
     end
@@ -48,11 +43,6 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   context "with mana" do
     before :each do
       tap_all_lands
-    end
-
-    it "is enough mana to play" do
-      card = first_destroy_creature
-      expect(duel.player1.has_mana?(card.card.card_type.destroy_cost(game_engine, card, first_destroy_creature))).to be(true)
     end
 
     context "can be played with mana" do

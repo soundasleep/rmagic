@@ -4,7 +4,7 @@ module Land
     true
   end
 
-  def play_cost(game_engine, hand, target = nil)
+  def play_cost(game_engine, action)
     mana_cost
   end
 
@@ -12,7 +12,6 @@ module Land
   def can_play?
     TextualConditions.new(
       "not targeted",
-      WeHaveMana.new(mana_cost),
       "we have priority",
       "it is our turn",
       "we can play cards",
@@ -44,7 +43,7 @@ module Land
     false
   end
 
-  def tap_cost(game_engine, battlefield, target = nil)
+  def tap_cost(game_engine, action)
     Mana.new
   end
 
@@ -66,7 +65,7 @@ module Land
     false
   end
 
-  def untap_cost(game_engine, battlefield, target = nil)
+  def untap_cost(game_engine, action)
     Mana.new
   end
 

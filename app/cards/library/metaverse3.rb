@@ -17,7 +17,7 @@ class Library::Metaverse3 < CardType
     Mana.new green: 1, colourless: 1
   end
 
-  def add_life_cost(game_engine, zone_card, target = nil)
+  def add_life_cost(game_engine, action)
     Mana.new green: 1
   end
 

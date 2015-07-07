@@ -54,7 +54,7 @@ class CardType
 
   def action_cost(game_engine, action)
     fail "Cannot get cost of 'action'" if action.key == "action"
-    send("#{action.key}_cost", game_engine, action.source, action.target)
+    send("#{action.key}_cost", game_engine, action)
   end
 
   def get_actions(action_key)

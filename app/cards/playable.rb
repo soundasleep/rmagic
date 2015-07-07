@@ -1,6 +1,6 @@
 module Playable
 
-  def play_cost(game_engine, hand, target = nil)
+  def play_cost(game_engine, action)
     mana_cost
   end
 
@@ -8,7 +8,6 @@ module Playable
   def can_play?
     TextualConditions.new(
       "not targeted",
-      WeHaveMana.new(mana_cost),
       "we have priority",
       "it is our turn",
       "we can play cards",

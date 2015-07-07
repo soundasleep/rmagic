@@ -7,13 +7,12 @@ RSpec.describe "Conditions", type: :game do
 
   before :each do
     create_hand_cards Library::AddLifeActivated
-    duel.playing_phase!
   end
 
   let(:play) { PossiblePlay.new(source: card, key: "play") }
 
-  context "without mana" do
-    it "requires mana" do
+  context "in the first phase" do
+    it "cannot be played" do
       expect(game_engine.can_do_action?(play)).to be(false)
     end
 
@@ -38,85 +37,49 @@ RSpec.describe "Conditions", type: :game do
     end
   end
 
-  context "with mana" do
-    before :each do
-      tap_all_lands
-    end
-
-    it "can be played with mana" do
-      expect(game_engine.can_do_action?(play)).to be(true)
-    end
-
-    context "the play condition" do
-      let(:conditions) { play.conditions }
-
-      it "has a name" do
-        expect(conditions.name).to_not be_nil
+  context "in playing phase" do
+    before { duel.playing_phase! }
+    context "with mana" do
+      before :each do
+        tap_all_lands
       end
 
-      context "when evaluating" do
-        let(:result) { conditions.evaluate_with(game_engine) }
-
-        it "evaluates to true" do
-          expect(result.evaluate).to be(true), result.explain
-        end
-
-        it "returns a description of why" do
-          expect(result.explain).to_not be_empty
-        end
+      it "can be played with mana" do
+        expect(game_engine.can_do_action?(play)).to be(true)
       end
-    end
 
-    context "when played" do
-      before { game_engine.card_action(play) }
+      context "the play condition" do
+        let(:conditions) { play.conditions }
 
-      context "after passing to the next phase" do
-        before { pass_until_next_phase }
+        it "has a name" do
+          expect(conditions.name).to_not be_nil
+        end
 
-        let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+        context "when evaluating" do
+          let(:result) { conditions.evaluate_with(game_engine) }
 
-        context "the activated ability" do
-          it "cannot be played" do
-            expect(game_engine.can_do_action?(ability)).to be(false)
+          it "evaluates to true" do
+            expect(result.evaluate).to be(true), result.explain
           end
 
-          context "the ability condition" do
-            let(:conditions) { ability.conditions }
-
-            it "has a name" do
-              expect(conditions.name).to_not be_nil
-            end
-
-            context "when evaluating" do
-              let(:result) { conditions.evaluate_with(game_engine) }
-
-              it "evaluates to false" do
-                expect(result.evaluate).to be(false), result.explain
-              end
-
-              it "returns a description of why" do
-                expect(result.explain).to_not be_empty
-              end
-            end
+          it "returns a description of why" do
+            expect(result.explain).to_not be_empty
           end
         end
       end
 
-      context "in our next turn" do
-        let(:lands) { duel.player1.battlefield_lands }
+      context "when played" do
+        before { game_engine.card_action(play) }
 
-        before :each do
-          pass_until_next_turn
-          duel.playing_phase!
-        end
+        context "after passing to the next phase" do
+          before { pass_until_next_phase }
 
-        context "the activated ability" do
           let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
 
-          context "with mana" do
-            let(:player) { duel.player1 }
-
-            before { tap_all_lands }
+          context "the activated ability" do
+            it "cannot be played" do
+              expect(game_engine.can_do_action?(ability)).to be(false)
+            end
 
             context "the ability condition" do
               let(:conditions) { ability.conditions }
@@ -128,12 +91,51 @@ RSpec.describe "Conditions", type: :game do
               context "when evaluating" do
                 let(:result) { conditions.evaluate_with(game_engine) }
 
-                it "evaluates to true" do
-                  expect(result.evaluate).to be(true), result.explain
+                it "evaluates to false" do
+                  expect(result.evaluate).to be(false), result.explain
                 end
 
                 it "returns a description of why" do
                   expect(result.explain).to_not be_empty
+                end
+              end
+            end
+          end
+        end
+
+        context "in our next turn" do
+          let(:lands) { duel.player1.battlefield_lands }
+
+          before :each do
+            pass_until_next_turn
+            duel.playing_phase!
+          end
+
+          context "the activated ability" do
+            let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+
+            context "with mana" do
+              let(:player) { duel.player1 }
+
+              before { tap_all_lands }
+
+              context "the ability condition" do
+                let(:conditions) { ability.conditions }
+
+                it "has a name" do
+                  expect(conditions.name).to_not be_nil
+                end
+
+                context "when evaluating" do
+                  let(:result) { conditions.evaluate_with(game_engine) }
+
+                  it "evaluates to true" do
+                    expect(result.evaluate).to be(true), result.explain
+                  end
+
+                  it "returns a description of why" do
+                    expect(result.explain).to_not be_empty
+                  end
                 end
               end
             end

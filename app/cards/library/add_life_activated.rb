@@ -17,9 +17,8 @@ class Library::AddLifeActivated < CardType
     Mana.new green: 1, colourless: 1
   end
 
-  # TODO replace parameters with (stack)
   # TODO implement Actionable interface as a superclass for Stack & PossibleAction
-  def add_life_cost(game_engine, zone_card, target = nil)
+  def add_life_cost(game_engine, action)
     Mana.new green: 1
   end
 

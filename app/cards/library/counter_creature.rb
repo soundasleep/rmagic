@@ -1,6 +1,4 @@
 class Library::CounterCreature < Library::Negate
-  include PlayableInstant
-
   def name
     "Counter creature"
   end
