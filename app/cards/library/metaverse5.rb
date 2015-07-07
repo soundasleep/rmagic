@@ -1,6 +1,4 @@
 class Library::Metaverse5 < CardType
-  include PlayableInstant
-
   def name
     "Instant destroy creature"
   end

@@ -1,6 +1,4 @@
 class Library::InstantCounter < CardType
-  include PlayableInstant
-
   def name
     "Instant temporary counter on creature"
   end

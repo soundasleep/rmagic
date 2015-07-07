@@ -1,6 +1,4 @@
 class Library::AddLifeTargets < CardType
-  include PlayableInstant
-
   def name
     "Permanently add life to creature or player"
   end

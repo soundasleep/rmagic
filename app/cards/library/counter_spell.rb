@@ -1,6 +1,4 @@
 class Library::CounterSpell < CardType
-  include PlayableInstant
-
   def name
     "Counter spell"
   end

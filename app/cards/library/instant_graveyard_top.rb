@@ -1,7 +1,4 @@
 class Library::InstantGraveyardTop < CardType
-  include PlayableInstant
-  include CollectionsHelper
-
   def name
     "Instant return top of graveyard"
   end

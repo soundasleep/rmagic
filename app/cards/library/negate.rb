@@ -1,6 +1,4 @@
 class Library::Negate < CardType
-  include PlayableInstant
-
   def name
     "Negate"
   end
