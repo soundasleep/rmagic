@@ -6,7 +6,7 @@ deck = system.premade_decks.create! name: "Fate"
 # create_card deck, Library::FrostLynx, 2
 # create_card deck, Library::HorizonChimera, 3
 # create_card deck, Library::HypnoticSiden
-# create_card deck, Library::KiorasFollower, 3
+create_card deck, Library::KiorasFollower, 3
 # create_card deck, Library::LeafcrownDryad, 2
 # create_card deck, Library::NimbusNaiad, 2
 # create_card deck, Library::Omenspeaker, 2
