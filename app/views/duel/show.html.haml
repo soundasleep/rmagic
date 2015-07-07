@@ -58,7 +58,7 @@
   %ul
     - player.hand.each do |hand|
       %li
-        = link_to hand.to_text, card_path(hand.id)
+        = link_to hand.to_text, card_path(hand.card.card_type.metaverse_id)
         %small= hand.card.id
 
   %h3 Battlefield ( #{player.battlefield.count} cards )
@@ -66,7 +66,7 @@
   %ul
     - player.battlefield.each do |battlefield|
       %li
-        = link_to battlefield.to_text, card_path(battlefield.id)
+        = link_to battlefield.to_text, card_path(battlefield.card.card_type.metaverse_id)
         - if battlefield.card.is_tapped?
           %i (tapped)
         - if battlefield.card.effects.any?
