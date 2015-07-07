@@ -31,9 +31,8 @@ class TextualActions < Condition
 
   private
 
-    # TODO cache?
     def parse_actions
-      actions.map do |string|
+      @parsed ||= actions.map do |string|
         if string.is_a? String
           string.tr(" ", "_").camelize.constantize.new
         else

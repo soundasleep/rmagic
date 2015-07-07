@@ -25,9 +25,8 @@ class TextualConditions < Condition
 
   private
 
-    # TODO cache?
     def parse_conditions
-      conditions.map do |string|
+      @parsed ||= conditions.map do |string|
         if string.is_a? String
           string.tr(" ", "_").camelize.constantize.new
         else

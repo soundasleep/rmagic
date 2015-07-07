@@ -1,4 +1,3 @@
-# TODO probably split this into "PlayThisCard" (which updates turn_played)
 class PlayThisCard < TextualActions
 
   def initialize
