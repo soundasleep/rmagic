@@ -9,7 +9,6 @@ class Library::Negate < CardType
     Mana.new colourless: 1, blue: 1
   end
 
-  # TODO add library test to check that all actions have an associated cost defined
   def counter_creature_cost
     mana_cost
   end
