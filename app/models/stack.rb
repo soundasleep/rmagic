@@ -18,7 +18,6 @@ class Stack < ActiveRecord::Base
     StackZone.new
   end
 
-  # TODO temporary to match up with Stack - we should create an Actionable interface
   def source
     card
   end

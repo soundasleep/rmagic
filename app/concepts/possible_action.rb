@@ -12,11 +12,15 @@ class PossibleAction
     "#{action_description} #{key} of #{source.to_text}#{target_text}"
   end
 
-  # TODO temporary to match up with Stack - we should create an Actionable interface
   def battlefield_targets
     [WrappedTarget.new(target)]
   end
+
   def graveyard_targets
+    [WrappedTarget.new(target)]
+  end
+
+  def player_targets
     [WrappedTarget.new(target)]
   end
 
