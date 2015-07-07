@@ -45,15 +45,10 @@ class CardType
   end
 
   def can_do_action?(game_engine, action)
-    condition = conditions_for(action.key)
-
-    fail "Condition #{condition} for #{action.key} on #{action.source} does not have evaluate method" unless condition.respond_to? :evaluate
-
-    condition.send(:evaluate, game_engine, action)
+    conditions_for(action.key).send(:evaluate, game_engine, action)
   end
 
   def action_cost(game_engine, action)
-    fail "Cannot get cost of 'action'" if action.key == "action"
     send("#{action.key}_cost", game_engine, action)
   end
 
@@ -62,27 +57,17 @@ class CardType
   end
 
   def do_action(game_engine, action)
-    fail "Cannot do 'action'" if action.key == "action"
-
     if playing_goes_onto_stack?(action.key)
       executor = PutOntoStack.new
     else
-      # it doesn't affect the stack at all
       executor = actions_for(action.key)
     end
-
-    fail "Action #{executor} for #{action.key} on #{action.source} does not have execute method" unless executor.respond_to? :execute
 
     executor.send(:execute, game_engine, action)
   end
 
   def resolve_action(game_engine, stack)
-    fail "Cannot resolve 'stack'" if stack.key == "action"
-    executor = actions_for(stack.key)
-
-    fail "Action #{executor} for #{stack.key} on #{stack.card.card_type} does not have execute method" unless executor.respond_to? :execute
-
-    executor.send(:execute, game_engine, stack)
+    actions_for(stack.key).send(:execute, game_engine, stack)
   end
 
   def metaverse_id
