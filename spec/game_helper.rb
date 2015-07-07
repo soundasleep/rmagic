@@ -1,6 +1,6 @@
 require "rails_helper"
 
-module SetupGame
+module GameHelper
 
   # return the created duel
   def create_game
@@ -161,6 +161,6 @@ module SetupGame
 end
 
 RSpec.configure do |c|
-  c.include SetupGame
+  c.include GameHelper
 end
 

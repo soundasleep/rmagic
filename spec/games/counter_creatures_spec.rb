@@ -1,4 +1,4 @@
-require_relative "setup_game"
+require "game_helper"
 
 RSpec.describe "Counterspells on creatures", type: :game do
   let(:duel) { create_game }

@@ -1,4 +1,4 @@
-require_relative "setup_game"
+require "game_helper"
 
 RSpec.describe "Instants add life to targets", type: :game do
   let(:duel) { create_game }
