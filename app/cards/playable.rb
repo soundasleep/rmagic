@@ -17,7 +17,7 @@ module Playable
   # ability mana cost has already been consumed
   def do_play
     TextualActions.new(
-      "move this card into the battlefield",
+      "play this card",
     )
   end
 
