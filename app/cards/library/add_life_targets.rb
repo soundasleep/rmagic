@@ -54,7 +54,7 @@ class Library::AddLifeTargets < CardType
 
   def do_instant_creature
     TextualActions.new(
-      "add the Add One Toughness effect to the target battlefield creature",
+      AddEffectToTheTargetBattlefieldCreature.new(Effects::AddOneToughness),
       "move this card into the graveyard"
     )
   end

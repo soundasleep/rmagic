@@ -30,7 +30,7 @@ class Library::InstantCounter < CardType
 
   def do_counter
     TextualActions.new(
-      "add the Temporary Counter effect to the target battlefield creature",
+      AddEffectToTheTargetBattlefieldCreature.new(Effects::TemporaryCounter),
       "move this card into the graveyard"
     )
   end
