@@ -20,4 +20,12 @@
   %dd
     %ul
       - @card.actions.each do |a|
-        %li= a
+        %li
+          %strong= a
+
+          %dl
+            %dt Conditions
+            %dd= @card.get_conditions(a).describe
+
+            %dt Actions
+            %dd= @card.get_actions(a).describe

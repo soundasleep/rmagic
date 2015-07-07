@@ -23,6 +23,12 @@ class TextualActions < Condition
     end.join(",\n")
   end
 
+  def describe
+    parse_actions.map do |condition|
+      condition.describe
+    end.join(", ")
+  end
+
   private
 
     # TODO cache?

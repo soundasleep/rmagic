@@ -17,6 +17,12 @@ class TextualConditions < Condition
     end.join(",\n")
   end
 
+  def describe
+    parse_conditions.map do |condition|
+      condition.describe
+    end.join(", ")
+  end
+
   private
 
     # TODO cache?

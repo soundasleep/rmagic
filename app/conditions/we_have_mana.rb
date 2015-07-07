@@ -10,4 +10,8 @@ class WeHaveMana < Condition
     stack.source.player.has_mana? cost
   end
 
+  def describe
+    "we have #{cost} mana"
+  end
+
 end

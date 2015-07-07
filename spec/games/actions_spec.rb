@@ -35,7 +35,7 @@ RSpec.describe "Actions", type: :game do
           expect(result.execute).to be(true), result.explain
         end
 
-        it "returns a description of why" do
+        it "returns a explanation of why" do
           expect(result.explain).to_not be_empty
         end
       end
@@ -72,7 +72,7 @@ RSpec.describe "Actions", type: :game do
                   expect(result.execute).to be(true), result.explain
                 end
 
-                it "returns a description of why" do
+                it "returns a explanation of why" do
                   expect(result.explain).to_not be_empty
                 end
               end

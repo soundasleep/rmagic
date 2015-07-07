@@ -10,4 +10,8 @@ class AddMana < Action
     stack.source.player.add_mana! mana
   end
 
+  def describe
+    "add #{mana} mana"
+  end
+
 end
