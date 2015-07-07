@@ -18,7 +18,6 @@ class Library::InstantGraveyardAny < CardType
     Mana.new colourless: 1
   end
 
-  # ignoring mana costs
   def can_instant?
     TextualConditions.new(
       "target is a card",
@@ -34,13 +33,11 @@ class Library::InstantGraveyardAny < CardType
     true
   end
 
-  # an instant
-  def resolve_instant(game_engine, stack)
-    # put target into the battlefield
-    game_engine.move_into_battlefield stack.player, stack.graveyard_targets.first.target
-
-    # and then put it into the graveyard
-    game_engine.move_into_graveyard stack.player, stack
+  def do_instant
+    TextualActions.new(
+      "move the target graveyard card into the battlefield",
+      "move this card into the graveyard",
+    )
   end
 
   def self.metaverse_id

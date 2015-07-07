@@ -17,7 +17,6 @@ class Library::Metaverse4 < CardType
     Mana.new colourless: 1
   end
 
-  # ignoring mana costs
   def can_instant?
     TextualConditions.new(
       "not targeted",
@@ -30,12 +29,11 @@ class Library::Metaverse4 < CardType
     true
   end
 
-  # the instant resolves
-  def resolve_instant(game_engine, stack)
-    stack.player.add_life!(1)
-
-    # and then put it into the graveyard
-    game_engine.move_into_graveyard stack.player, stack
+  def do_instant
+    TextualActions.new(
+      "add 1 life to the owner of this card",
+      "move this card into the graveyard",
+    )
   end
 
 end

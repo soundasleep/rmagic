@@ -33,9 +33,10 @@ class Library::Metaverse3 < CardType
     false
   end
 
-  # an instant
-  def do_add_life(game_engine, zone_card, target = nil)
-    zone_card.player.add_life!(1)
+  def do_add_life
+    TextualActions.new(
+      "add 1 life to the owner of this card",
+    )
   end
 
 end

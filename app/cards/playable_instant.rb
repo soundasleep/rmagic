@@ -1,3 +1,4 @@
+# TODO remove this module
 module PlayableInstant
 
   def can_play_instant?(game_engine, hand)

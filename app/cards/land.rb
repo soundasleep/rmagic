@@ -8,6 +8,7 @@ module Land
     mana_cost
   end
 
+  # TODO implement with conditions
   class LandPlayCondition < Condition
     def evaluate(game_engine, stack)
       target = stack.target
@@ -19,6 +20,10 @@ module Land
           game_engine.duel.phase.can_play? &&
           hand.zone.can_play_from? &&
           !has_played_a_land?(hand.player, game_engine.duel.turn)
+    end
+
+    def has_played_a_land?(player, turn)
+      (player.battlefield + player.graveyard).any?{ |card| card.card.turn_played == turn }
     end
   end
 
@@ -32,6 +37,7 @@ module Land
     false
   end
 
+  # TODO implement with actions
   class LandPlayAction < Action
     def execute(game_engine, stack)
       target = stack.target
@@ -127,10 +133,6 @@ module Land
 
   def do_untap
     return LandUntapAction.new
-  end
-
-  def has_played_a_land?(player, turn)
-    (player.battlefield + player.graveyard).any?{ |card| card.card.turn_played == turn }
   end
 
 end

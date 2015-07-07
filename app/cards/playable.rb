@@ -4,6 +4,7 @@ module Playable
     mana_cost
   end
 
+  # TODO implement with conditions
   class PlayCondition < Condition
     def evaluate(game_engine, stack)
       target = stack.target
@@ -38,6 +39,7 @@ module Playable
     return PlayCondition.new
   end
 
+  # TODO implement with actions
   class PlayAction < Action
     def execute(game_engine, stack)
       # TODO maybe each of these resolve actions can be moved into services

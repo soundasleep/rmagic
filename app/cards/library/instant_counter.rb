@@ -17,7 +17,6 @@ class Library::InstantCounter < CardType
     Mana.new colourless: 1
   end
 
-  # ignoring mana costs
   def can_counter?
     TextualConditions.new(
       "target is a card",
@@ -32,13 +31,11 @@ class Library::InstantCounter < CardType
     true
   end
 
-  # an instant
-  def resolve_counter(game_engine, stack)
-    # add an effect
-    game_engine.add_effect stack.player, Effects::TemporaryCounter, stack.battlefield_targets.first.target
-
-    # and then put it into the graveyard
-    game_engine.move_into_graveyard stack.player, stack
+  def do_counter
+    TextualActions.new(
+      "add the Temporary Counter effect to the target battlefield creature",
+      "move this card into the graveyard"
+    )
   end
 
   def self.metaverse_id

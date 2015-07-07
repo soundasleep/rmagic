@@ -17,7 +17,6 @@ class Library::CounterSpell < CardType
     Mana.new colourless: 1
   end
 
-  # ignoring mana costs
   def can_counter?
     TextualConditions.new(
       "not targeted",
@@ -32,18 +31,11 @@ class Library::CounterSpell < CardType
     true
   end
 
-  # the instant resolves
-  def resolve_counter(game_engine, stack)
-    # the stack is in bottom-top order
-    target = game_engine.duel.stack.reverse.second
-
-    fail("Trying to counter ourselves") if target == stack
-
-    # move the next spell into the graveyard
-    game_engine.move_into_graveyard stack.player, target
-
-    # and then put this into the graveyard
-    game_engine.move_into_graveyard stack.player, stack
+  def do_counter
+    TextualActions.new(
+      "move the next card on the stack into the graveyard",
+      "move this card into the graveyard",
+    )
   end
 
   def self.metaverse_id

@@ -30,13 +30,11 @@ class Library::AddLifeTargets < CardType
     true
   end
 
-  # an instant
-  def resolve_instant_player(game_engine, stack)
-    player = stack.player_targets.first.target
-    player.add_life!(1)
-
-    # and then put it into the graveyard
-    game_engine.move_into_graveyard stack.player, stack
+  def do_instant_player
+    TextualActions.new(
+      "add 1 life to the target player",
+      "move this card into the graveyard"
+    )
   end
 
   def instant_creature_cost(game_engine, hand, target = nil)
@@ -58,13 +56,11 @@ class Library::AddLifeTargets < CardType
     true
   end
 
-  # an instant
-  def resolve_instant_creature(game_engine, stack)
-    # add an effect
-    game_engine.add_effect stack.player, Effects::AddOneToughness, stack.battlefield_targets.first.target
-
-    # and then put it into the graveyard
-    game_engine.move_into_graveyard stack.player, stack
+  def do_instant_creature
+    TextualActions.new(
+      "add the Add One Toughness effect to the target battlefield creature",
+      "move this card into the graveyard"
+    )
   end
 
   def self.metaverse_id

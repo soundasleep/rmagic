@@ -21,7 +21,6 @@ class Library::Metaverse6 < CardType
     Mana.new colourless: 1
   end
 
-  # ignoring mana costs
   def can_destroy?
     TextualConditions.new(
       "target is a card",
@@ -36,11 +35,10 @@ class Library::Metaverse6 < CardType
     false
   end
 
-  # an instant
-  def do_destroy(game_engine, hand, target = nil)
-    game_engine.destroy target
-
-    # this card is not put into the graveyard
+  def do_destroy
+    TextualActions.new(
+      "destroy the target battlefield card",
+    )
   end
 
 end

@@ -1,4 +1,4 @@
-class Library::CounterCreature < CardType
+class Library::CounterCreature < Library::Negate
   include PlayableInstant
 
   def name
@@ -11,39 +11,6 @@ class Library::CounterCreature < CardType
 
   def mana_cost
     Mana.new colourless: 1
-  end
-
-  def counter_creature_cost(game_engine, hand, target = nil)
-    Mana.new colourless: 1
-  end
-
-  # ignoring mana costs
-  def can_counter_creature?
-    TextualConditions.new(
-      "not targeted",
-      "the stack is not empty",
-      "the card on the top of the stack is a creature",
-      "we have priority",
-      "we can play an instant",
-    )
-  end
-
-  def playing_counter_creature_goes_onto_stack?
-    true
-  end
-
-  # the instant resolves
-  def resolve_counter_creature(game_engine, stack)
-    # the stack is in bottom-top order
-    target = game_engine.duel.stack.reverse.second
-
-    fail("Trying to counter ourselves") if target == stack
-
-    # move the next spell into the graveyard
-    game_engine.move_into_graveyard stack.player, target
-
-    # and then put this into the graveyard
-    game_engine.move_into_graveyard stack.player, stack
   end
 
   def self.metaverse_id
