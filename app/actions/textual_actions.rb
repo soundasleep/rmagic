@@ -1,13 +1,19 @@
 class TextualActions < Condition
-  attr_reader :actions
+  attr_reader :actions, :my_caller
 
   def initialize(*args)
     @actions = args
+    @my_caller = caller(1, 1)
   end
 
   def execute(game_engine, stack)
     parse_actions.all? do |condition|
-      condition.execute(game_engine, stack)
+      begin
+        condition.execute(game_engine, stack)
+      rescue => e
+        # TODO maybe have our own exception class
+        raise Exception.new("Could not execute condition #{condition} on #{self} from #{my_caller}: #{e}")
+      end
     end
   end
 
@@ -22,7 +28,11 @@ class TextualActions < Condition
     # TODO cache?
     def parse_actions
       actions.map do |string|
-        string.tr(" ", "_").camelize.constantize.new
+        if string.is_a? String
+          string.tr(" ", "_").camelize.constantize.new
+        else
+          string
+        end
       end
     end
 end

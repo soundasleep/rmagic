@@ -22,7 +22,11 @@ class TextualConditions < Condition
     # TODO cache?
     def parse_conditions
       conditions.map do |string|
-        string.tr(" ", "_").camelize.constantize.new
+        if string.is_a? String
+          string.tr(" ", "_").camelize.constantize.new
+        else
+          string
+        end
       end
     end
 end
