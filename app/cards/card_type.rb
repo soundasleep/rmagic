@@ -37,15 +37,15 @@ class CardType
   end
 
   def actions
-    do_actions + resolve_actions
+    methods.grep(/^(do)_/).map{ |m| m["do_".length..-1] } - ["action"]
   end
 
-  def get_conditions(action_key)
+  def conditions_for(action_key)
     send("can_#{action_key}?")
   end
 
   def can_do_action?(game_engine, action)
-    condition = get_conditions(action.key)
+    condition = conditions_for(action.key)
 
     fail "Condition #{condition} for #{action.key} on #{action.source} does not have evaluate method" unless condition.respond_to? :evaluate
 
@@ -57,7 +57,7 @@ class CardType
     send("#{action.key}_cost", game_engine, action)
   end
 
-  def get_actions(action_key)
+  def actions_for(action_key)
     send("do_#{action_key}")
   end
 
@@ -65,6 +65,8 @@ class CardType
     fail "Cannot do 'action'" if action.key == "action"
 
     if playing_goes_onto_stack?(action.key)
+      # TODO this could be implemented as an Action itself!
+      # e.g. 'put onto stack', 'reset priority'
       # we don't want to call do_() directly
       game_engine.move_into_stack action.source.player, action.source, action.key, action.target
 
@@ -72,7 +74,7 @@ class CardType
       game_engine.duel.reset_priority!
     else
       # it doesn't affect the stack at all
-      executor = get_actions(action.key)
+      executor = actions_for(action.key)
 
       fail "Action #{executor} for #{action.key} on #{action.source} does not have execute method" unless executor.respond_to? :execute
 
@@ -82,7 +84,7 @@ class CardType
 
   def resolve_action(game_engine, stack)
     fail "Cannot resolve 'stack'" if stack.key == "action"
-    executor = get_actions(stack.key)
+    executor = actions_for(stack.key)
 
     fail "Action #{executor} for #{stack.key} on #{stack.card.card_type} does not have execute method" unless executor.respond_to? :execute
 
@@ -96,14 +98,5 @@ class CardType
   def self.metaverse_id
     name.split(/[^0-9]/).last.to_i
   end
-
-  private
-    def do_actions
-      methods.grep(/^(do)_/).map{ |m| m["do_".length..-1] } - ["action"]
-    end
-
-    def resolve_actions
-      methods.grep(/^(resolve)_/).map{ |m| m["resolve_".length..-1] } - ["action"]
-    end
 
 end

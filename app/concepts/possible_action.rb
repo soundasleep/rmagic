@@ -41,7 +41,7 @@ class PossibleAction
     end
 
     def get_conditions
-      action.source.card.card_type.get_conditions action.key
+      action.source.card.card_type.conditions_for action.key
     end
 
     delegate :name, to: :get_conditions
@@ -82,7 +82,7 @@ class PossibleAction
     end
 
     def get_actions
-      action.source.card.card_type.get_actions action.key
+      action.source.card.card_type.actions_for action.key
     end
 
     delegate :name, to: :get_actions
