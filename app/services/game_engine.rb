@@ -72,11 +72,8 @@ class GameEngine
   end
 
   def reset_damage
-    duel.players.each do |player|
-      player.battlefield.each do |zone_card|
-        zone_card.card.update! damage: 0
-      end
-    end
+    # TODO remove references and replace with service call
+    ClearDamage.new(duel: duel).call
   end
 
   def resolve_combat
@@ -85,24 +82,13 @@ class GameEngine
   end
 
   def remove_temporary_effects
-    # remove all temporary effects
-    duel.players.each do |p|
-      p.battlefield.each do |b|
-        b.card.effects.select { |e| e.effect_type.until_end_of_turn? }.each do |e|
-          b.card.effects.destroy e
-        end
-      end
-    end
+    # TODO remove references and replace with service call
+    RemoveTemporaryEffects.new(duel: duel).call
   end
 
   def move_destroyed_creatures_to_graveyard
-    duel.players.each do |player|
-      player.battlefield.each do |b|
-        if b.card.is_destroyed?
-          move_into_graveyard b.player, b.card
-        end
-      end
-    end
+    # TODO remove references and replace with service call
+    MoveDestroyedCreaturesToGraveyard.new(duel: duel).call
   end
 
   def destroy(zone_card)
@@ -139,9 +125,8 @@ class GameEngine
   end
 
   def clear_mana
-    duel.players.each do |player|
-      player.clear_mana!
-    end
+    # TODO remove references and replace with service call
+    ClearMana.new(duel: duel).call
   end
 
   def resolve_stack

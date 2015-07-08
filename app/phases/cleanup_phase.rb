@@ -13,8 +13,7 @@ class CleanupPhase < Phase
 
   def setup_phase(game_engine)
     # TODO each of these could be moved into services
-    duel = game_engine.duel
-
+    # TODO this could be moved into a SetupCleanupPhase service?
     game_engine.resolve_stack
 
     game_engine.clear_mana
@@ -22,15 +21,6 @@ class CleanupPhase < Phase
     game_engine.resolve_combat
 
     game_engine.remove_temporary_effects
-
-    # remove all temporary effects
-    duel.players.each do |p|
-      p.battlefield.each do |b|
-        b.card.effects.select { |e| e.effect_type.until_end_of_turn? }.each do |e|
-          b.card.effects.destroy e
-        end
-      end
-    end
 
     game_engine.move_destroyed_creatures_to_graveyard
 

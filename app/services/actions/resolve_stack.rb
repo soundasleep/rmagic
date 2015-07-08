@@ -25,6 +25,7 @@ class ResolveStack
   end
 
   private
+
     def stack
       duel.stack
     end
