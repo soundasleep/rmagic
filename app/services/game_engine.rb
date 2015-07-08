@@ -68,11 +68,8 @@ class GameEngine
   end
 
   def resolve_action(action)
-    # update log
-    # TODO ActionLog.resolve_card_action(duel, action.card.player, action)
-
-    # do the thing
-    action.card.card_type.resolve_action self, action
+    # TODO remove references and replace with service call
+    ResolveAction.new(duel: duel, action: action).call
   end
 
   def use_mana!(player, zone_card)
@@ -209,20 +206,8 @@ class GameEngine
   end
 
   def resolve_stack
-    i = 0
-
-    # stack is in bottom-top order
-    while !duel.stack.empty? do
-      # the actions may modify the stack itself, so we loop instead of each
-      target = duel.stack.reverse.first
-
-      resolve_action target
-
-      i += 1
-      fail("Resolving the stack never completed after #{i} iterations") if i > 100
-    end
-
-    duel.stack.destroy_all
+    # TODO remove references and replace with service call
+    ResolveStack.new(duel: duel).call
   end
 
 end
