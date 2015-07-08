@@ -189,14 +189,14 @@ class GameEngine
     MoveCardIntoBattlefield.new(duel: duel, player: player, card: card).call
   end
 
-  def move_into_stack(player, zone_card, action_key, target = nil)
-    remove_from_all_zones(player, zone_card.card)
+  def move_into_stack(player, card, action_key, target = nil)
+    remove_from_all_zones(player, card)
 
     # update log
-    ActionLog.stack_card_action(duel, player, zone_card)
+    ActionLog.stack_card_action(duel, player, card)
 
     # move to stack
-    stack = duel.stack.create! card: zone_card.card, player: player, order: duel.next_stack_order, key: action_key
+    stack = duel.stack.create! card: card, player: player, order: duel.next_stack_order, key: action_key
 
     if target
       if target.has_zone?

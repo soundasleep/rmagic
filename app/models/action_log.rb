@@ -72,8 +72,8 @@ class ActionLog < ActiveRecord::Base
     self.generic_card_action duel, player, card, "battlefield"
   end
 
-  def self.stack_card_action(duel, player, zone_card)
-    self.generic_card_action duel, player, zone_card.card, "stack"
+  def self.stack_card_action(duel, player, card)
+    self.generic_card_action duel, player, card, "stack"
   end
 
   def self.effect_action(duel, player, zone_card, effect_id)
