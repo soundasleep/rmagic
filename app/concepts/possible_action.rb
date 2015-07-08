@@ -1,3 +1,4 @@
+# TODO rename to 'Action'
 class PossibleAction
   attr_reader :source, :key, :target, :action_type
 
