@@ -1,7 +1,7 @@
 require 'game_helper'
 
-RSpec.describe MoveCardIntoGraveyard, type: :service do
-  let(:service) { MoveCardIntoGraveyard.new(duel: duel, player: player, card: card) }
+RSpec.describe MoveCardOntoGraveyard, type: :service do
+  let(:service) { MoveCardOntoGraveyard.new(duel: duel, player: player, card: card) }
   let(:result) { service.call }
 
   let(:duel) { create_game }

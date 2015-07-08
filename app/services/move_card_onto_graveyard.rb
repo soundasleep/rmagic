@@ -1,4 +1,4 @@
-class MoveCardIntoGraveyard
+class MoveCardOntoGraveyard
   attr_reader :duel, :player, :card
 
   def initialize(duel:, player:, card:)

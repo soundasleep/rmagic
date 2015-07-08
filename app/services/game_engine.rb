@@ -179,41 +179,18 @@ class GameEngine
     RemoveCardFromAllZones.new(duel: duel, player: player, card: card).call
   end
 
-  def move_into_graveyard(player, card)
-    # TODO remove references and replace with service call
-    MoveCardIntoGraveyard.new(duel: duel, player: player, card: card).call
-  end
-
   def move_into_battlefield(player, card)
     # TODO remove references and replace with service call
     MoveCardIntoBattlefield.new(duel: duel, player: player, card: card).call
   end
 
-  def move_into_stack(player, card, action_key, target = nil)
-    remove_from_all_zones(player, card)
+  def move_into_graveyard(player, card)
+    # TODO remove references and replace with service call
+    MoveCardOntoGraveyard.new(duel: duel, player: player, card: card).call
+  end
 
-    # update log
-    ActionLog.stack_card_action(duel, player, card)
-
-    # move to stack
-    stack = duel.stack.create! card: card, player: player, order: duel.next_stack_order, key: action_key
-
-    if target
-      if target.has_zone?
-        if target.zone.is_battlefield?
-          stack.battlefield_targets.create! target: target
-        elsif target.zone.is_graveyard?
-          stack.graveyard_targets.create! target: target
-        else
-          fail "Unknown target zone #{target.zone}"
-        end
-      else
-        stack.player_targets.create! target: target
-      end
-    end
-
-    # It would be nice to get rid of this one day.
-    duel.reload
+  def move_into_stack(action)
+    MoveActionOntoStack.new(duel: duel, action: action).call
   end
 
   def add_effect(player, effect_type, target)
