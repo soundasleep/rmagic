@@ -85,11 +85,6 @@ class GameEngine
     MoveDestroyedCreaturesToGraveyard.new(duel: duel).call
   end
 
-  def destroy(zone_card)
-    # move the creature into the graveyard
-    move_into_graveyard zone_card.player, zone_card.card
-  end
-
   def remove_from_all_zones(player, card)
     # TODO remove references and replace with service call
     RemoveCardFromAllZones.new(duel: duel, player: player, card: card).call
