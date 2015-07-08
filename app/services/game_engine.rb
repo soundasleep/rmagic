@@ -1,5 +1,5 @@
+# TODO remove this class
 class GameEngine
-  # TODO add a services/game_engine_spec.rb test for each of these methods
   def initialize(duel)
     @duel = duel
   end
@@ -46,12 +46,6 @@ class GameEngine
   def resolve_action(action)
     # TODO remove references and replace with service call
     ResolveAction.new(duel: duel, action: action).call
-  end
-
-  def use_mana!(player, zone_card)
-    card = zone_card.card.card_type
-
-    player.use_mana! card.mana_cost
   end
 
   def declare_defender(defend)
