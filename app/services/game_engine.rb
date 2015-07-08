@@ -190,6 +190,7 @@ class GameEngine
   end
 
   def move_into_stack(action)
+    # TODO remove references and replace with service call
     MoveActionOntoStack.new(duel: duel, action: action).call
   end
 
