@@ -19,15 +19,9 @@ class CleanupPhase < Phase
 
     game_engine.clear_mana
 
-    game_engine.apply_attack_damages duel.declared_attackers
+    game_engine.resolve_combat
 
-    game_engine.apply_defend_damages duel.declared_defenders
-
-    # remove attackers
-    duel.declared_attackers.destroy_all
-
-    # remove defenders
-    duel.declared_defenders.destroy_all
+    game_engine.remove_temporary_effects
 
     # remove all temporary effects
     duel.players.each do |p|
