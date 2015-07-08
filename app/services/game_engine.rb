@@ -175,38 +175,18 @@ class GameEngine
   end
 
   def remove_from_all_zones(player, card)
-    fail "#{card} is not a card" unless card.is_a? Card
-
-    player.zones.each do |zone|
-      zone.select { |z| z.card == card }.each { |e| e.destroy }
-    end
-
-    duel.zones.each do |zone|
-      zone.select { |z| z.card == card }.each { |e| e.destroy }
-    end
-
-    # It would be nice to get rid of this one day.
-    duel.reload
+    # TODO remove references and replace with service call
+    RemoveCardFromAllZones.new(duel: duel, player: player, card: card).call
   end
 
   def move_into_graveyard(player, card)
-    remove_from_all_zones(player, card)
-
-    # update log
-    ActionLog.graveyard_card_action(duel, player, card)
-
-    # move to graveyard
-    player.graveyard.create! card: card, order: player.next_graveyard_order
+    # TODO remove references and replace with service call
+    MoveCardIntoGraveyard.new(duel: duel, player: player, card: card).call
   end
 
   def move_into_battlefield(player, card)
-    remove_from_all_zones(player, card)
-
-    # update log
-    ActionLog.battlefield_card_action(duel, player, card)
-
-    # move to graveyard
-    player.battlefield.create! card: card
+    # TODO remove references and replace with service call
+    MoveCardIntoBattlefield.new(duel: duel, player: player, card: card).call
   end
 
   def move_into_stack(player, zone_card, action_key, target = nil)
