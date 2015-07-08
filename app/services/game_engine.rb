@@ -33,38 +33,14 @@ class GameEngine
     end
   end
 
-  # TODO move each of these into services! then we can test each of the services
-  # individually
-  # services return true, false etc - easier to test pass/failure
   def draw_card(player)
-    # remove from deck
-    zone_card = player.deck.first!
-    zone_card.destroy
-
-    # update log
-    ActionLog.draw_card_action(duel, player)
-
-    # add it to the hand
-    player.hand.create! card: zone_card.card
+    # TODO remove references and replace with service call
+    DrawCard.new(duel: duel, player: player).call
   end
 
   def card_action(action)
-    fail "Cannot do an action #{action} on an empty source" unless action.source
-
-    player = action.source.player
-    cost = action.source.card.card_type.action_cost(action.key)
-    if !player.has_mana?(cost)
-      fail "Player #{player.to_json} can not pay for #{cost} with #{player.mana}"
-    end
-
-    # use mana
-    player.use_mana! cost
-
-    # update log
-    ActionLog.card_action(duel, player, action)
-
-    # do the thing
-    action.source.card.card_type.do_action self, action
+    # TODO remove references and replace with service call
+    DoAction.new(duel: duel, action: action).call
   end
 
   def resolve_action(action)
