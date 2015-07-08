@@ -1,4 +1,5 @@
-# TODO remove this class
+# TODO remove this class and all references across project - we will
+# directly be using the services anyway
 class GameEngine
   def initialize(duel)
     @duel = duel
@@ -12,17 +13,10 @@ class GameEngine
     @action_finder ||= ActionFinder.new(self)
   end
 
-  def phase_manager
-    @phase_manager ||= PhaseManager.new(self)
-  end
-
+  # TODO move into Action.can_do? with 'duel' parameter if necessary
   def can_do_action?(action)
     action.source.card.card_type.can_do_action?(self, action) &&
       action.source.player.has_mana?(action.source.card.card_type.action_cost(action.key))
-  end
-
-  def available_attackers(player)
-    action_finder.available_attackers(player)
   end
 
   def declare_attackers(zone_cards)
@@ -62,7 +56,8 @@ class GameEngine
   end
 
   def pass
-    phase_manager.pass!
+    # TODO remove references and replace with service call
+    PassPriority.new(duel: duel).call
   end
 
   def reset_damage

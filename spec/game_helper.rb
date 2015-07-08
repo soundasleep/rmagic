@@ -57,7 +57,7 @@ module GameHelper
   end
 
   def available_attackers
-    game_engine.available_attackers(duel.current_player)
+    game_engine.action_finder.available_attackers(duel.current_player)
   end
 
   delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder

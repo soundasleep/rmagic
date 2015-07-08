@@ -1,8 +1,10 @@
+# TODO move this into the PassPriority service instead
 class PhaseManager
   def initialize(game_engine)
     @game_engine = game_engine
   end
 
+  # TODO remove when removing game_engine
   def game_engine
     @game_engine
   end
