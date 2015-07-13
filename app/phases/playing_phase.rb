@@ -28,7 +28,7 @@ class PlayingPhase < Phase
   end
 
   def setup_phase(game_engine)
-    game_engine.clear_mana
+    EnterPlayingPhase.new(duel: game_engine.duel).call
   end
 
 end
