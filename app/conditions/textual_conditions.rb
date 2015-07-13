@@ -6,19 +6,19 @@ class TextualConditions < Condition
     @my_caller = caller(1, 1)
   end
 
-  def evaluate(game_engine, stack)
+  def evaluate(duel, stack)
     parse_conditions.all? do |condition|
       begin
-        condition.evaluate(game_engine, stack)
+        condition.evaluate(duel, stack)
       rescue => e
         raise Exception.new("Could not execute condition #{condition} on #{self} from #{my_caller}: #{e}")
       end
     end
   end
 
-  def explain(game_engine, stack)
+  def explain(duel, stack)
     parse_conditions.map do |condition|
-      "(" + condition.explain(game_engine, stack) + "): " + condition.evaluate(game_engine, stack).to_s
+      "(" + condition.explain(duel, stack) + "): " + condition.evaluate(duel, stack).to_s
     end.join(",\n")
   end
 

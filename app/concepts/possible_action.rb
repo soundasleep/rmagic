@@ -49,6 +49,11 @@ class PossibleAction
     source.card
   end
 
+  def can_do?(duel)
+    source.card.card_type.can_do_action?(duel, self) &&
+      source.player.has_mana?(source.card.card_type.action_cost(key))
+  end
+
   private
 
     def target_text

@@ -6,7 +6,7 @@ class AddMana < Action
     @mana = mana
   end
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     stack.source.player.add_mana! mana
   end
 

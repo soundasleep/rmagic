@@ -1,7 +1,7 @@
 class MoveThisCardIntoTheGraveyard < Action
 
-  def execute(game_engine, stack)
-    game_engine.move_into_graveyard stack.player, stack.source.card
+  def execute(duel, stack)
+    GameEngine.new(duel).move_into_graveyard stack.player, stack.source.card
   end
 
 end

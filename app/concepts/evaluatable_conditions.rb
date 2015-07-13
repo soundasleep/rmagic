@@ -1,16 +1,16 @@
 class EvaluatableConditions
-  attr_reader :conditions, :game_engine
+  attr_reader :conditions, :duel
 
-  def initialize(conditions, game_engine)
+  def initialize(conditions, duel)
     @conditions = conditions
-    @game_engine = game_engine
+    @duel = duel
   end
 
   def evaluate
-    conditions.get_conditions.evaluate game_engine, conditions.action
+    conditions.get_conditions.evaluate duel, conditions.action
   end
 
   def explain
-    conditions.get_conditions.explain game_engine, conditions.action
+    conditions.get_conditions.explain duel, conditions.action
   end
 end

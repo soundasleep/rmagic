@@ -2,7 +2,7 @@
 # TODO add tests for these parameter loadings
 class Add1LifeToTheOwnerOfThisCard < Action
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     stack.player.add_life! 1
   end
 

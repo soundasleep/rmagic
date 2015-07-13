@@ -24,7 +24,7 @@ RSpec.describe "Conditions", type: :game do
       end
 
       context "when evaluating" do
-        let(:result) { conditions.evaluate_with(game_engine) }
+        let(:result) { conditions.evaluate_with(duel) }
 
         it "evaluates to false" do
           expect(result.evaluate).to be(false), result.explain
@@ -56,7 +56,7 @@ RSpec.describe "Conditions", type: :game do
         end
 
         context "when evaluating" do
-          let(:result) { conditions.evaluate_with(game_engine) }
+          let(:result) { conditions.evaluate_with(duel) }
 
           it "evaluates to true" do
             expect(result.evaluate).to be(true), result.explain
@@ -89,7 +89,7 @@ RSpec.describe "Conditions", type: :game do
               end
 
               context "when evaluating" do
-                let(:result) { conditions.evaluate_with(game_engine) }
+                let(:result) { conditions.evaluate_with(duel) }
 
                 it "evaluates to false" do
                   expect(result.evaluate).to be(false), result.explain
@@ -127,7 +127,7 @@ RSpec.describe "Conditions", type: :game do
                 end
 
                 context "when evaluating" do
-                  let(:result) { conditions.evaluate_with(game_engine) }
+                  let(:result) { conditions.evaluate_with(duel) }
 
                   it "evaluates to true" do
                     expect(result.evaluate).to be(true), result.explain

@@ -22,16 +22,9 @@ class DoAction
     ActionLog.card_action(duel, player, action)
 
     # do the thing
-    action.source.card.card_type.do_action game_engine, action
+    action.source.card.card_type.do_action duel, action
 
     true
   end
-
-  private
-
-    # TODO eventually remove this when we no longer have a game_engine
-    def game_engine
-      GameEngine.new(duel)
-    end
 
 end

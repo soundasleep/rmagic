@@ -6,19 +6,19 @@ class TextualActions < Condition
     @my_caller = caller(1, 1)
   end
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     parse_actions.all? do |action|
       begin
-        action.execute(game_engine, stack)
+        action.execute(duel, stack)
       rescue => e
         raise Exception.new("Could not execute action #{action} on #{self} from #{my_caller}: #{e}")
       end
     end
   end
 
-  def explain(game_engine, stack)
+  def explain(duel, stack)
     parse_actions.map do |action|
-      "(" + action.explain(game_engine, stack) + ")"
+      "(" + action.explain(duel, stack) + ")"
     end.join(",\n")
   end
 

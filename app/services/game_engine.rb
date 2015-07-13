@@ -15,8 +15,7 @@ class GameEngine
 
   # TODO move into Action.can_do? with 'duel' parameter if necessary
   def can_do_action?(action)
-    action.source.card.card_type.can_do_action?(self, action) &&
-      action.source.player.has_mana?(action.source.card.card_type.action_cost(action.key))
+    action.can_do?(duel)
   end
 
   def declare_attackers(zone_cards)

@@ -1,7 +1,7 @@
 class WeHaveNotPlayedALandThisTurn < Condition
 
-  def evaluate(game_engine, stack)
-    !has_played_a_land?(stack.source.player, game_engine.duel.turn)
+  def evaluate(duel, stack)
+    !has_played_a_land?(stack.source.player, duel.turn)
   end
 
   def has_played_a_land?(player, turn)

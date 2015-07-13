@@ -11,7 +11,7 @@ class ConditionsForAction
 
   delegate :name, to: :get_conditions
 
-  def evaluate_with(game_engine)
-    EvaluatableConditions.new self, game_engine
+  def evaluate_with(duel)
+    EvaluatableConditions.new self, duel
   end
 end

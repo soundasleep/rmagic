@@ -15,7 +15,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
   let(:card) { player1.hand.select { |c| c.card.card_type.actions.include?("ability") }.first }
 
   let(:play_conditions) { play.conditions }
-  let(:play_result) { play_conditions.evaluate_with(game_engine) }
+  let(:play_result) { play_conditions.evaluate_with(duel) }
 
   context "our creature" do
     it "exists" do

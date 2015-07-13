@@ -14,7 +14,7 @@ RSpec.describe Library::Negate, type: :card do
   let(:card) { player1.hand.select { |c| c.card.card_type.actions.include?("counter") }.first }
   let(:play) { PossiblePlay.new(source: card, key: "counter") }
   let(:play_conditions) { play.conditions }
-  let(:play_result) { play_conditions.evaluate_with(game_engine) }
+  let(:play_result) { play_conditions.evaluate_with(duel) }
 
   context "our card" do
     before { duel.playing_phase! }

@@ -1,6 +1,6 @@
 class TapThisCard < Action
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     stack.source.card.tap_card!
   end
 

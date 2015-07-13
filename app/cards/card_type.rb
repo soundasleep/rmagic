@@ -45,8 +45,8 @@ class CardType
     send("can_#{action_key}?")
   end
 
-  def can_do_action?(game_engine, action)
-    conditions_for(action.key).send(:evaluate, game_engine, action)
+  def can_do_action?(duel, action)
+    conditions_for(action.key).send(:evaluate, duel, action)
   end
 
   def action_cost(action_key)
@@ -58,18 +58,18 @@ class CardType
     send("do_#{action_key}")
   end
 
-  def do_action(game_engine, action)
+  def do_action(duel, action)
     if playing_goes_onto_stack?(action.key)
       executor = PutOntoStack.new
     else
       executor = actions_for(action.key)
     end
 
-    executor.send(:execute, game_engine, action)
+    executor.send(:execute, duel, action)
   end
 
-  def resolve_action(game_engine, stack)
-    actions_for(stack.key).send(:execute, game_engine, stack)
+  def resolve_action(duel, stack)
+    actions_for(stack.key).send(:execute, duel, stack)
   end
 
   def metaverse_id

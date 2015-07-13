@@ -7,8 +7,4 @@ class PutOntoStack < TextualActions
     )
   end
 
-  def execute(game_engine, action)
-    super(game_engine, action)
-  end
-
 end

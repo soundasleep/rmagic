@@ -6,7 +6,7 @@ class WeHaveMana < Condition
     @cost = cost
   end
 
-  def evaluate(game_engine, stack)
+  def evaluate(duel, stack)
     stack.source.player.has_mana? cost
   end
 

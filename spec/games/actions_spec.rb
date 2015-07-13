@@ -29,7 +29,7 @@ RSpec.describe "Actions", type: :game do
       end
 
       context "when executing" do
-        let(:result) { actions.execute_with(game_engine) }
+        let(:result) { actions.execute_with(duel) }
 
         it "executes to true" do
           expect(result.execute).to be(true), result.explain
@@ -66,7 +66,7 @@ RSpec.describe "Actions", type: :game do
               end
 
               context "when executing" do
-                let(:result) { actions.execute_with(game_engine) }
+                let(:result) { actions.execute_with(duel) }
 
                 it "executes to true" do
                   expect(result.execute).to be(true), result.explain

@@ -11,15 +11,9 @@ class ResolveAction
     # TODO ActionLog.resolve_card_action(duel, action.card.player, action)
 
     # do the thing
-    action.card.card_type.resolve_action game_engine, action
+    action.card.card_type.resolve_action duel, action
 
     true
   end
 
-  private
-
-    # TODO eventually remove this when we no longer have a game_engine
-    def game_engine
-      GameEngine.new(duel)
-    end
 end
