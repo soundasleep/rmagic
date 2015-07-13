@@ -25,7 +25,7 @@ class DuelController < ApplicationController
     duel.save!      # TODO remove
 
     # execute the first phase of the game
-    duel.phase.setup_phase(game_engine)
+    duel.phase.enter_phase_service.new(duel: duel).call
 
     redirect_to duel_path duel
   end

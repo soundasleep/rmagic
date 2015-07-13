@@ -31,8 +31,8 @@ class AttackingPhase < Phase
     "attack phase: declare attackers and defenders"
   end
 
-  def setup_phase(game_engine)
-    EnterAttackingPhase.new(duel: game_engine.duel).call
+  def enter_phase_service
+    EnterAttackingPhase
   end
 
 end

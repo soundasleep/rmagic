@@ -15,8 +15,8 @@ class DrawingPhase < Phase
     "drawing phase: draw cards"
   end
 
-  def setup_phase(game_engine)
-    EnterDrawingPhase.new(duel: game_engine.duel).call
+  def enter_phase_service
+    EnterDrawingPhase
   end
 
 end

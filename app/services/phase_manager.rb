@@ -41,7 +41,7 @@ class PhaseManager
     end
 
     if duel.phase != previous_phase
-      duel.phase.setup_phase game_engine
+      duel.phase.enter_phase_service.new(duel: duel).call
     end
 
     # do the AI if necessary

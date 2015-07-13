@@ -27,8 +27,8 @@ class PlayingPhase < Phase
     "playing phase: play cards, cast creatures"
   end
 
-  def setup_phase(game_engine)
-    EnterPlayingPhase.new(duel: game_engine.duel).call
+  def enter_phase_service
+    EnterPlayingPhase
   end
 
 end

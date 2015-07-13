@@ -11,8 +11,8 @@ class CleanupPhase < Phase
     "cleanup phase: damage happens, cleanup destroyed cards"
   end
 
-  def setup_phase(game_engine)
-    EnterCleanupPhase.new(duel: game_engine.duel).call
+  def enter_phase_service
+    EnterCleanupPhase
   end
 
 end
