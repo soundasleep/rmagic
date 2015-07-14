@@ -8,7 +8,10 @@ class AddEffectToTheTargetBattlefieldCreature < Action
 
   def execute(duel, stack)
     # add an effect
-    GameEngine.new(duel).add_effect stack.player, effect, stack.battlefield_targets.first.target
+    player = stack.player
+    target = stack.battlefield_targets.first.target
+
+    AddEffect.new(duel: duel, player: player, effect_type: effect, target: target).call
   end
 
   def describe

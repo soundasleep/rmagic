@@ -6,7 +6,7 @@ RSpec.describe "Defending with effects", type: :game do
 
   before :each do
     create_battlefield_cards Library::Metaverse1
-    game_engine.add_effect duel.player1, Effects::TemporaryCounter, target
+    AddEffect.new(duel: duel, player: player1, effect_type: Effects::TemporaryCounter, target: target).call
     duel.attacking_phase!
   end
 
