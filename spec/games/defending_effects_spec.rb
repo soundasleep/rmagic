@@ -16,7 +16,7 @@ RSpec.describe "Defending with effects", type: :game do
 
     before :each do
       game_engine.declare_attackers [attacker]
-      game_engine.pass
+      pass_priority
     end
 
     it "we have defenders" do

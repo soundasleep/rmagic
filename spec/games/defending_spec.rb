@@ -11,7 +11,7 @@ RSpec.describe "Defending", type: :game do
 
     game_engine.declare_attackers [attacker]
 
-    game_engine.pass
+    pass_priority
   end
 
   it "can be declared in a phase which can declare defenders" do

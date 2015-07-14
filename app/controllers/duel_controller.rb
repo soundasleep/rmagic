@@ -40,7 +40,7 @@ class DuelController < ApplicationController
   end
 
   def pass
-    game_engine.pass
+    PassPriority.new(duel: duel).call
     redirect_to duel_path duel
   end
 
@@ -87,7 +87,7 @@ class DuelController < ApplicationController
       attackers = Battlefield.find(params[:attacker])
       game_engine.declare_attackers attackers
     end
-    game_engine.pass
+    PassPriority.new(duel: duel).call
     duel.save!    # TODO remove
     redirect_to duel_path duel
   end

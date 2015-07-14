@@ -11,7 +11,7 @@ RSpec.describe "Defending Groups", type: :game do
 
     game_engine.declare_attackers [attacker]
 
-    game_engine.pass
+    pass_priority
 
     defends = action_finder.defendable_cards(duel.player2)
     game_engine.declare_defender defends.first

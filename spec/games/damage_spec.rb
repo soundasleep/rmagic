@@ -96,7 +96,7 @@ RSpec.describe "Damage", type: :game do
     end
 
     it "is not removed until the next players turn" do
-      game_engine.pass
+      pass_priority
       expect(creature.card.damage).to eq(1)
 
       creature.card.reload

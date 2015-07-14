@@ -38,11 +38,6 @@ class GameEngine
     end
   end
 
-  def pass
-    # TODO remove references and replace with service call
-    PassPriority.new(duel: duel).call
-  end
-
   def reset_damage
     # TODO remove references and replace with service call
     ClearDamage.new(duel: duel).call

@@ -118,7 +118,7 @@ module GameHelper
     while duel.turn == t do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next turn"
-      game_engine.pass
+      pass_priority
     end
   end
 
@@ -129,7 +129,7 @@ module GameHelper
     while duel.current_player == c do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next player"
-      game_engine.pass
+      pass_priority
     end
   end
 
@@ -139,7 +139,7 @@ module GameHelper
     while duel.priority_player != player1 do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next priority"
-      game_engine.pass
+      pass_priority
     end
   end
 
@@ -150,12 +150,12 @@ module GameHelper
     while duel.phase == c do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next phase"
-      game_engine.pass
+      pass_priority
     end
   end
 
   def pass_priority
-    game_engine.pass
+    PassPriority.new(duel: duel).call
   end
 
 end

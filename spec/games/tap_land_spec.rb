@@ -114,7 +114,7 @@ RSpec.describe "Tapping lands", type: :game do
     end
 
     context "after passing to the next player in this phase" do
-      before { game_engine.pass }
+      before { pass_priority }
 
       it "persists" do
         expect(duel.player1.mana_green).to eq(3)
