@@ -7,8 +7,6 @@ class EnterPlayingPhase
 
   def call
     ClearMana.new(duel: duel).call
-
-    RemoveUnattachedEnchantments.new(duel: duel).call
   end
 
 end

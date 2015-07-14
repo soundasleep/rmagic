@@ -9,7 +9,7 @@ RSpec.describe "Enchantments on card power", type: :game do
 
   let(:our_enchantments) { our_creature.enchantments }
   let(:their_enchantments) { their_creature.enchantments }
-  let(:enchantment) { player1.battlefield.select{ |c| c.card.card_type.is_enchantment? }.first.card }
+  let(:enchantment) { player1.battlefield.select{ |c| c.card.card_type.is_enchantment? }.first }
 
   context "our creature" do
     it "exists" do
@@ -93,7 +93,7 @@ RSpec.describe "Enchantments on card power", type: :game do
         end
 
         it "has our enchantment" do
-          expect(our_enchantments).to eq([enchantment])
+          expect(our_enchantments).to eq([enchantment.card])
         end
 
         it "can still attack" do

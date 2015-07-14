@@ -32,6 +32,9 @@ class PassPriority
       end
     end
 
+    # things that happen at the end of every single pass
+    RemoveUnattachedEnchantments.new(duel: duel).call
+
     if duel.phase != previous_phase
       duel.phase.enter_phase_service.new(duel: duel).call
     end
