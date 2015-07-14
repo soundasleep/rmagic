@@ -98,7 +98,9 @@ RSpec.describe "Lands", type: :game do
     end
 
     context "when removed from the hand" do
-      before { game_engine.remove_from_all_zones(player1, first_hand_land.card) }
+      before :each do
+        RemoveCardFromAllZones.new(duel: duel, player: player1, card: first_hand_land.card).call
+      end
 
       it "the hand becomes empty" do
         expect(player1.hand).to be_empty
@@ -166,7 +168,7 @@ RSpec.describe "Lands", type: :game do
 
         context "after the first land is moved to graveyard" do
           before :each do
-            game_engine.move_into_graveyard duel.player1, card.card
+            MoveCardOntoGraveyard.new(duel: duel, player: player1, card: card.card).call
           end
 
           it "we have a card" do

@@ -7,7 +7,10 @@ class MoveTheNextCardOnTheStackIntoTheGraveyard < Action
     fail("The next card on the stack is the current card on the stack") if target == stack
 
     # move the next spell into the graveyard
-    GameEngine.new(duel).move_into_graveyard stack.player, target.card
+    player = stack.player
+    card = target.card
+
+    MoveCardOntoGraveyard.new(duel: duel, player: player, card: card).call
   end
 
 end

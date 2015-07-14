@@ -1,7 +1,7 @@
 class PutThisActionOntoTheStack < Action
 
   def execute(duel, action)
-    GameEngine.new(duel).move_into_stack action
+    MoveActionOntoStack.new(duel: duel, action: action).call
   end
 
 end

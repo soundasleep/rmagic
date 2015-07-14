@@ -38,26 +38,6 @@ class GameEngine
     end
   end
 
-  def remove_from_all_zones(player, card)
-    # TODO remove references and replace with service call
-    RemoveCardFromAllZones.new(duel: duel, player: player, card: card).call
-  end
-
-  def move_into_battlefield(player, card)
-    # TODO remove references and replace with service call
-    MoveCardIntoBattlefield.new(duel: duel, player: player, card: card).call
-  end
-
-  def move_into_graveyard(player, card)
-    # TODO remove references and replace with service call
-    MoveCardOntoGraveyard.new(duel: duel, player: player, card: card).call
-  end
-
-  def move_into_stack(action)
-    # TODO remove references and replace with service call
-    MoveActionOntoStack.new(duel: duel, action: action).call
-  end
-
   def add_effect(player, effect_type, target)
     # add effect
     target.card.effects.create! effect_id: effect_type.effect_id, order: target.card.next_effect_order

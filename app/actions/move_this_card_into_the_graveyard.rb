@@ -1,7 +1,11 @@
+# TODO rename this MoveThisCardOntoTheGraveyard
 class MoveThisCardIntoTheGraveyard < Action
 
   def execute(duel, stack)
-    GameEngine.new(duel).move_into_graveyard stack.player, stack.source.card
+    player = stack.player
+    card = stack.source.card
+
+    MoveCardOntoGraveyard.new(duel: duel, player: player, card: card).call
   end
 
 end

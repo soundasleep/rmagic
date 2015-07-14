@@ -9,7 +9,7 @@ class MoveDestroyedCreaturesToGraveyard
     duel.players.each do |player|
       player.battlefield.each do |b|
         if b.card.is_destroyed?
-          move_into_graveyard b.player, b.card
+          move_onto_graveyard b.player, b.card
         end
       end
     end
@@ -18,8 +18,7 @@ class MoveDestroyedCreaturesToGraveyard
   end
 
   private
-    def move_into_graveyard(player, card)
-      # TODO remove references and replace with service call
+    def move_onto_graveyard(player, card)
       MoveCardOntoGraveyard.new(duel: duel, player: player, card: card).call
     end
 
