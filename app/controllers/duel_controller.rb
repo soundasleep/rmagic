@@ -30,11 +30,6 @@ class DuelController < ApplicationController
     redirect_to duel_path duel
   end
 
-  def duel
-    # TODO check permissions that we can actually view/interact with this duel
-    @duel ||= Duel.find(params[:id])
-  end
-
   def show
     @duel = duel
   end
@@ -44,7 +39,7 @@ class DuelController < ApplicationController
     redirect_to duel_path duel
   end
 
-  # maybe refactor into resources e.g.
+  # TODO maybe refactor into resources e.g.
   # POST /duel/123/turn/create/[source]/[key]/[target]?
   # POST /duel/123/turn/play/[source]/[key]/[target]?
   # POST /duel/123/play/[source]/[key]/[target]?
@@ -112,6 +107,11 @@ class DuelController < ApplicationController
   end
 
   private
+
+    def duel
+      # TODO check permissions that we can actually view/interact with this duel
+      @duel ||= Duel.find(params[:id])
+    end
 
     def create_card(zone, metaverse_id)
       card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
