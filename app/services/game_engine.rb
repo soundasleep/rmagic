@@ -13,11 +13,6 @@ class GameEngine
     @action_finder ||= ActionFinder.new(self)
   end
 
-  # TODO move into Action.can_do? with 'duel' parameter if necessary
-  def can_do_action?(action)
-    action.can_do?(duel)
-  end
-
   def declare_attackers(zone_cards)
     zone_cards.each do |zone_card|
       # this assumes we are always attacking the other player
