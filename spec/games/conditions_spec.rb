@@ -9,7 +9,7 @@ RSpec.describe "Conditions", type: :game do
     create_hand_cards Library::AddLifeActivated
   end
 
-  let(:play) { PossiblePlay.new(source: card, key: "play") }
+  let(:play) { PlayAction.new(source: card, key: "play") }
 
   context "in the first phase" do
     it "cannot be played" do
@@ -74,7 +74,7 @@ RSpec.describe "Conditions", type: :game do
         context "after passing to the next phase" do
           before { pass_until_next_phase }
 
-          let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+          let (:ability) { AbilityAction.new(source: creature, key: "add_life") }
 
           context "the activated ability" do
             it "cannot be played" do
@@ -112,7 +112,7 @@ RSpec.describe "Conditions", type: :game do
           end
 
           context "the activated ability" do
-            let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+            let (:ability) { AbilityAction.new(source: creature, key: "add_life") }
 
             context "with mana" do
               let(:player) { duel.player1 }

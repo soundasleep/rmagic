@@ -1,5 +1,4 @@
-# TODO rename to 'Action'
-class PossibleAction
+class AbstractAction
   attr_reader :source, :key, :target, :action_type
 
   def initialize(action_type:, source:, key:, target: nil)

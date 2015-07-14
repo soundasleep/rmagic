@@ -37,7 +37,7 @@ RSpec.describe "Instants add life to targets", type: :game do
   end
 
   context "without mana" do
-    let(:play) { PossiblePlay.new(source: card, key: "instant_player") }
+    let(:play) { PlayAction.new(source: card, key: "instant_player") }
 
     it "requires mana" do
       expect(play.can_do?(duel)).to be(false)
@@ -57,7 +57,7 @@ RSpec.describe "Instants add life to targets", type: :game do
 
     context "targeting players" do
       context "with a target player" do
-        let(:play) { PossiblePlay.new(source: card, key: "instant_player", target: duel.player1) }
+        let(:play) { PlayAction.new(source: card, key: "instant_player", target: duel.player1) }
 
         it "can be played" do
           expect(play.can_do?(duel)).to be(true)
@@ -65,7 +65,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       end
 
       context "with a target creature" do
-        let(:play) { PossiblePlay.new(source: card, key: "instant_player", target: duel.player1.battlefield_creatures.first) }
+        let(:play) { PlayAction.new(source: card, key: "instant_player", target: duel.player1.battlefield_creatures.first) }
 
         it "can not be played" do
           expect(play.can_do?(duel)).to be(false)
@@ -73,7 +73,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       end
 
       context "without a target" do
-        let(:play) { PossiblePlay.new(source: card, key: "instant_player") }
+        let(:play) { PlayAction.new(source: card, key: "instant_player") }
 
         it "can not be played" do
           expect(play.can_do?(duel)).to be(false)
@@ -139,7 +139,7 @@ RSpec.describe "Instants add life to targets", type: :game do
           let(:our_player) { duel.player1 }
 
           before :each do
-            PossiblePlay.new(source: card, key: "instant_player", target: duel.player1).do duel
+            PlayAction.new(source: card, key: "instant_player", target: duel.player1).do duel
           end
 
           context "our player" do
@@ -217,7 +217,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       let(:our_creature) { duel.player1.battlefield_creatures.first }
 
       context "with a target player" do
-        let(:play) { PossiblePlay.new(source: card, key: "instant_creature", target: duel.player1) }
+        let(:play) { PlayAction.new(source: card, key: "instant_creature", target: duel.player1) }
 
         it "can not be played" do
           expect(play.can_do?(duel)).to be(false)
@@ -225,7 +225,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       end
 
       context "with a target creature" do
-        let(:play) { PossiblePlay.new(source: card, key: "instant_creature", target: duel.player1.battlefield_creatures.first) }
+        let(:play) { PlayAction.new(source: card, key: "instant_creature", target: duel.player1.battlefield_creatures.first) }
 
         it "can be played" do
           expect(play.can_do?(duel)).to be(true)
@@ -233,7 +233,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       end
 
       context "without a target" do
-        let(:play) { PossiblePlay.new(source: card, key: "instant_creature") }
+        let(:play) { PlayAction.new(source: card, key: "instant_creature") }
 
         it "can not be played" do
           expect(play.can_do?(duel)).to be(false)
@@ -257,7 +257,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       context "when activated" do
         context "on our creature" do
           before :each do
-            PossiblePlay.new(source: card, key: "instant_creature", target: our_creature).do duel
+            PlayAction.new(source: card, key: "instant_creature", target: our_creature).do duel
             pass_until_next_phase
           end
 

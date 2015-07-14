@@ -26,16 +26,16 @@ RSpec.describe "Tapping lands", type: :game do
     expect(duel.player1.mana_green).to eq(0)
     expect(untapped_land.player).to eq(duel.player1)
 
-    PossibleAbility.new(source: untapped_land, key: "tap").do duel
+    AbilityAction.new(source: untapped_land, key: "tap").do duel
     expect(duel.player1.mana_green).to eq(1)
 
-    PossibleAbility.new(source: untapped_land, key: "tap").do duel
+    AbilityAction.new(source: untapped_land, key: "tap").do duel
     expect(duel.player1.mana_green).to eq(2)
   end
 
   context "an untapped land" do
     let(:battlefield) { untapped_land }
-    let(:ability) { PossibleAbility.new(source: battlefield, key: "tap") }
+    let(:ability) { AbilityAction.new(source: battlefield, key: "tap") }
 
     it "can be tapped" do
       expect(battlefield.card.is_tapped?).to be(false)

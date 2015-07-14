@@ -16,8 +16,8 @@ RSpec.describe "Creature activated abilities", type: :game do
     end
   end
 
-  let(:play) { PossiblePlay.new(source: card, key: "play") }
-  let(:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+  let(:play) { PlayAction.new(source: card, key: "play") }
+  let(:ability) { AbilityAction.new(source: creature, key: "add_life") }
 
   context "without mana" do
     it "can not be played" do

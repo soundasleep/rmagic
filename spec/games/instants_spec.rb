@@ -3,7 +3,7 @@ require "game_helper"
 RSpec.describe "Instants", type: :game do
   let(:duel) { create_game }
   let(:source) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first }
-  let(:instant_ability) { PossibleAbility.new(source: source, key: "instant") }
+  let(:instant_ability) { AbilityAction.new(source: source, key: "instant") }
 
   before :each do
     create_hand_cards Library::Metaverse4

@@ -3,7 +3,7 @@ require "game_helper"
 RSpec.describe "The stack", type: :game do
   let(:duel) { create_game }
   let(:source) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first }
-  let(:instant_ability) { PossibleAbility.new(source: source, key: "instant") }
+  let(:instant_ability) { AbilityAction.new(source: source, key: "instant") }
 
   let(:stack) { duel.stack }
 
@@ -45,7 +45,7 @@ RSpec.describe "The stack", type: :game do
 
         context "our counterspell" do
         let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
-        let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+        let(:play_counter_spell) { AbilityAction.new(source: counter_spell, key: "counter") }
 
         context "when played" do
           before { play_counter_spell.do duel }

@@ -65,7 +65,7 @@ RSpec.describe "Playable", type: :game do
         expect(battlefield_creatures).to be_empty
 
         @card = hand.first!
-        PossiblePlay.new(source: @card, key: "play").do duel
+        PlayAction.new(source: @card, key: "play").do duel
       end
 
       it "we're on turn 1" do

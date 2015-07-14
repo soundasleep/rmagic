@@ -10,7 +10,7 @@ RSpec.describe "Actions", type: :game do
     duel.playing_phase!
   end
 
-  let(:play) { PossiblePlay.new(source: card, key: "play") }
+  let(:play) { PlayAction.new(source: card, key: "play") }
 
   context "with mana" do
     before :each do
@@ -51,7 +51,7 @@ RSpec.describe "Actions", type: :game do
         end
 
         context "the activated ability" do
-          let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+          let (:ability) { AbilityAction.new(source: creature, key: "add_life") }
 
           context "with mana" do
             let(:player) { duel.player1 }

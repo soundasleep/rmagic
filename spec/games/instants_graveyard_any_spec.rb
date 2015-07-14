@@ -32,7 +32,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
   end
 
   context "without mana" do
-    let(:play) { PossiblePlay.new(source: card, key: "instant") }
+    let(:play) { PlayAction.new(source: card, key: "instant") }
 
     it "requires mana" do
       expect(play.can_do?(duel)).to be(false)
@@ -51,7 +51,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
     end
 
     context "with one target from our graveyard" do
-      let(:play) { PossiblePlay.new(source: card, key: "instant", target: targets.first) }
+      let(:play) { PlayAction.new(source: card, key: "instant", target: targets.first) }
 
       it "can be played" do
         expect(play.can_do?(duel)).to be(true)
@@ -59,7 +59,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
     end
 
     context "with another target from our graveyard" do
-      let(:play) { PossiblePlay.new(source: card, key: "instant", target: targets.second) }
+      let(:play) { PlayAction.new(source: card, key: "instant", target: targets.second) }
 
       it "can be played" do
         expect(play.can_do?(duel)).to be(true)
@@ -67,7 +67,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
     end
 
     context "with a target from their graveyard" do
-      let(:play) { PossiblePlay.new(source: card, key: "instant", target: duel.player2.graveyard_creatures.first) }
+      let(:play) { PlayAction.new(source: card, key: "instant", target: duel.player2.graveyard_creatures.first) }
 
       it "can not be played" do
         expect(play.can_do?(duel)).to be(false)
@@ -75,7 +75,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
     end
 
     context "without a target" do
-      let(:play) { PossiblePlay.new(source: card, key: "instant") }
+      let(:play) { PlayAction.new(source: card, key: "instant") }
 
       it "can not be played" do
         expect(play.can_do?(duel)).to be(false)
@@ -90,7 +90,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
 
       context "on our first creature" do
         before :each do
-          PossiblePlay.new(source: card, key: "instant", target: targets.first).do duel
+          PlayAction.new(source: card, key: "instant", target: targets.first).do duel
           pass_until_next_phase
         end
 
@@ -105,7 +105,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
 
       context "on our second creature" do
         before :each do
-          PossiblePlay.new(source: card, key: "instant", target: targets.second).do duel
+          PlayAction.new(source: card, key: "instant", target: targets.second).do duel
           pass_until_next_phase
         end
 

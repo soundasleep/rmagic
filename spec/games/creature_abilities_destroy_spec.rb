@@ -31,7 +31,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
   end
 
   context "without mana" do
-    let(:ability) { PossibleAbility.new(source: card, key: "destroy") }
+    let(:ability) { AbilityAction.new(source: card, key: "destroy") }
 
     it "requires mana" do
       expect(ability.can_do?(duel)).to be(false)
@@ -48,7 +48,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     end
 
     context "with a target" do
-      let(:ability) { PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first) }
+      let(:ability) { AbilityAction.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first) }
 
       it "can be played" do
         expect(ability.can_do?(duel)).to be(true)
@@ -56,7 +56,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
     end
 
     context "without a target" do
-      let(:ability) { PossibleAbility.new(source: card, key: "destroy") }
+      let(:ability) { AbilityAction.new(source: card, key: "destroy") }
 
       it "can not be played" do
         expect(ability.can_do?(duel)).to be(false)
@@ -105,7 +105,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "on our creature" do
         before :each do
-          ability = PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first)
+          ability = AbilityAction.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first)
           ability.do duel
         end
 
@@ -128,7 +128,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "on their creature" do
         before :each do
-          ability = PossibleAbility.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first)
+          ability = AbilityAction.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first)
           ability.do duel
         end
 
@@ -158,7 +158,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
           let(:target) { duel.player1.battlefield_creatures.second }
 
           before :each do
-            ability = PossibleAbility.new(source: card, key: "destroy", target: target)
+            ability = AbilityAction.new(source: card, key: "destroy", target: target)
             ability.do duel
           end
 

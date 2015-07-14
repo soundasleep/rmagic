@@ -4,7 +4,7 @@ RSpec.describe "Priority", type: :game do
   let(:duel) { create_game }
 
   let(:instant) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first }
-  let(:play_instant) { PossibleAbility.new(source: instant, key: "instant") }
+  let(:play_instant) { AbilityAction.new(source: instant, key: "instant") }
 
   let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
@@ -57,7 +57,7 @@ RSpec.describe "Priority", type: :game do
 
         context "our counterspell" do
           let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
-          let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+          let(:play_counter_spell) { AbilityAction.new(source: counter_spell, key: "counter") }
 
           context "when played" do
             before { play_counter_spell.do duel }
@@ -95,7 +95,7 @@ RSpec.describe "Priority", type: :game do
 
           context "playing their counterspell" do
             let(:counter_spell) { duel.player2.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
-            let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+            let(:play_counter_spell) { AbilityAction.new(source: counter_spell, key: "counter") }
 
             context "with mana" do
               before { tap_all_lands }
@@ -157,7 +157,7 @@ RSpec.describe "Priority", type: :game do
                   let(:our_counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
                   context "targeting our spell" do
-                    let(:another_counter_spell) { PossibleAbility.new(source: our_counter_spell, key: "counter") }
+                    let(:another_counter_spell) { AbilityAction.new(source: our_counter_spell, key: "counter") }
 
                     it "player 1 has 2 mana" do
                       expect(duel.player1.mana_green).to eq(2)

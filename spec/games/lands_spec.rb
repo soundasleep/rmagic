@@ -41,7 +41,7 @@ RSpec.describe "Lands", type: :game do
     expect(first_land).to_not be_nil
   end
 
-  let(:play) { PossiblePlay.new(source: card, key: "play") }
+  let(:play) { PlayAction.new(source: card, key: "play") }
 
   context "with mana" do
     before :each do
@@ -115,7 +115,7 @@ RSpec.describe "Lands", type: :game do
       before :each do
         expect(played_lands(duel.player1)).to be_empty
         expect(played_lands(duel.player2)).to be_empty
-        PossiblePlay.new(source: card, key: "play").do duel
+        PlayAction.new(source: card, key: "play").do duel
       end
 
       it "adds a creature to the battlefield" do
@@ -136,7 +136,7 @@ RSpec.describe "Lands", type: :game do
 
       context "and another land" do
         let(:second_land) { duel.player1.hand_lands.first }
-        let(:second_play) { PossiblePlay.new(source: second_land, key: "play") }
+        let(:second_play) { PlayAction.new(source: second_land, key: "play") }
         let(:can_be_played) { second_play.can_do?(duel) }
 
         before :each do
@@ -347,7 +347,7 @@ RSpec.describe "Lands", type: :game do
 
     context "after being tapped" do
       before :each do
-        PossibleAbility.new(source: first_land, key: "tap").do duel
+        AbilityAction.new(source: first_land, key: "tap").do duel
       end
 
       it "cannot be untapped" do

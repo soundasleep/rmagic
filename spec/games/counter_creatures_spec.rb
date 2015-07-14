@@ -4,7 +4,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
   let(:duel) { create_game }
 
   let(:creature) { player1.hand.select{ |b| b.card.card_type.actions.include?("play") }.first }
-  let(:play_creature) { PossiblePlay.new(source: creature, key: "play") }
+  let(:play_creature) { PlayAction.new(source: creature, key: "play") }
 
   let(:stack) { duel.stack }
 
@@ -58,7 +58,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
           let(:counter_spell) { player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
           context "without a target" do
-            let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+            let(:play_counter_spell) { AbilityAction.new(source: counter_spell, key: "counter") }
 
             # counterspells cannot target creatures
             it "can not be played" do
@@ -71,7 +71,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
           let(:counter_creature) { player1.hand.select{ |b| b.card.card_type.actions.include?("counter_creature") }.first }
 
           context "without a target" do
-            let(:play_counter_creature) { PossibleAbility.new(source: counter_creature, key: "counter_creature") }
+            let(:play_counter_creature) { AbilityAction.new(source: counter_creature, key: "counter_creature") }
 
             it "the stack is not empty" do
               expect(duel.stack).to_not be_empty
@@ -107,7 +107,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
 
           context "with a target" do
             let(:target) { stack.first }
-            let(:play_counter_creature) { PossibleAbility.new(source: counter_creature, key: "counter_creature", target: target) }
+            let(:play_counter_creature) { AbilityAction.new(source: counter_creature, key: "counter_creature", target: target) }
 
             it "our target is the first creature" do
               expect(target.card).to eq(creature.card)
@@ -138,7 +138,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
             let(:their_counter_creature) { player2.hand.select{ |b| b.card.card_type.actions.include?("counter_creature") }.first }
 
             context "targeting our spell" do
-              let(:play_their_counter_creature) { PossibleAbility.new(source: their_counter_creature, key: "counter_creature") }
+              let(:play_their_counter_creature) { AbilityAction.new(source: their_counter_creature, key: "counter_creature") }
 
               context "without mana" do
                 it "cannot be played" do
@@ -195,7 +195,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
                     let(:our_counter_spell) { player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
                     context "targeting our spell" do
-                      let(:play_our_counter_spell) { PossibleAbility.new(source: our_counter_spell, key: "counter") }
+                      let(:play_our_counter_spell) { AbilityAction.new(source: our_counter_spell, key: "counter") }
 
                       # player1 has already tapped all their lands
                       it "can be played" do

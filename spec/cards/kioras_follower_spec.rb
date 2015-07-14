@@ -28,7 +28,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
       context "our card" do
 
         context "without a target" do
-          let(:play) { PossiblePlay.new(source: card, key: "ability") }
+          let(:play) { PlayAction.new(source: card, key: "ability") }
 
           context "without mana" do
             it "cannot be played" do
@@ -46,7 +46,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
         end
 
         context "with a target" do
-          let(:play) { PossiblePlay.new(source: card, key: "ability", target: creature) }
+          let(:play) { PlayAction.new(source: card, key: "ability", target: creature) }
 
           context "without mana" do
             it "cannot be played" do

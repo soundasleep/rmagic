@@ -9,10 +9,10 @@ RSpec.describe Library::Negate, type: :card do
   end
 
   let(:instant) { player1.hand.select { |c| c.card.card_type.actions.include?("instant") }.first }
-  let(:play_instant) { PossiblePlay.new(source: instant, key: "instant") }
+  let(:play_instant) { PlayAction.new(source: instant, key: "instant") }
 
   let(:card) { player1.hand.select { |c| c.card.card_type.actions.include?("counter") }.first }
-  let(:play) { PossiblePlay.new(source: card, key: "counter") }
+  let(:play) { PlayAction.new(source: card, key: "counter") }
   let(:play_conditions) { play.conditions }
   let(:play_result) { play_conditions.evaluate_with(duel) }
 

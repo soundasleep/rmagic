@@ -1,4 +1,4 @@
-class PossibleDefender < PossibleAction
+class DefenderAction < AbstractAction
   def initialize(source:, target: nil)
     super action_type: "defend", source: source, key: "defend", target: target
   end

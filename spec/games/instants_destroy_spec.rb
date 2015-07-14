@@ -31,7 +31,7 @@ RSpec.describe "Instants destroy", type: :game do
   end
 
   context "without mana" do
-    let(:play) { PossiblePlay.new(source: card, key: "destroy") }
+    let(:play) { PlayAction.new(source: card, key: "destroy") }
 
     it "requires mana" do
       expect(play.can_do?(duel)).to be(false)
@@ -48,7 +48,7 @@ RSpec.describe "Instants destroy", type: :game do
     end
 
     context "with a target" do
-      let(:play) { PossiblePlay.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first) }
+      let(:play) { PlayAction.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first) }
 
       it "can be played" do
         expect(play.can_do?(duel)).to be(true)
@@ -56,7 +56,7 @@ RSpec.describe "Instants destroy", type: :game do
     end
 
     context "without a target" do
-      let(:play) { PossiblePlay.new(source: card, key: "destroy") }
+      let(:play) { PlayAction.new(source: card, key: "destroy") }
 
       it "can not be played" do
         expect(play.can_do?(duel)).to be(false)
@@ -102,7 +102,7 @@ RSpec.describe "Instants destroy", type: :game do
 
       context "on our creature" do
         before :each do
-          PossiblePlay.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first).do duel
+          PlayAction.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first).do duel
           pass_until_next_phase
           duel.reload     # TODO it would be nice to remove this
         end
@@ -122,7 +122,7 @@ RSpec.describe "Instants destroy", type: :game do
 
       context "on their creature" do
         before :each do
-          PossiblePlay.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first).do duel
+          PlayAction.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first).do duel
           pass_until_next_phase
           duel.reload     # TODO it would be nice to remove this
         end

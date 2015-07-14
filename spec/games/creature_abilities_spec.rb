@@ -21,7 +21,7 @@ RSpec.describe "Creature abilities", type: :game do
     available_ability_actions("add_life")
   end
 
-  let(:ability) { PossibleAbility.new(source: card, key: "add_life") }
+  let(:ability) { AbilityAction.new(source: card, key: "add_life") }
 
   context "without mana" do
     it "can not be played" do
@@ -74,7 +74,7 @@ RSpec.describe "Creature abilities", type: :game do
         expect(duel.player1.life).to eq(20)
         expect(duel.player2.life).to eq(20)
         expect(duel.player1.mana_green).to eq(3)
-        PossibleAbility.new(source: card, key: "add_life").do duel
+        AbilityAction.new(source: card, key: "add_life").do duel
       end
 
       it "adds life" do

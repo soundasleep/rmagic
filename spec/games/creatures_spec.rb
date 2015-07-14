@@ -29,7 +29,7 @@ RSpec.describe "Creatures", type: :game do
     expect(duel.phase.can_play?).to be(true)
   end
 
-  let(:play) { PossiblePlay.new(source: card, key: "play") }
+  let(:play) { PlayAction.new(source: card, key: "play") }
 
   context "without mana" do
     it "requires mana" do
@@ -95,7 +95,7 @@ RSpec.describe "Creatures", type: :game do
 
     context "when played" do
       before :each do
-        PossiblePlay.new(source: card, key: "play").do duel
+        PlayAction.new(source: card, key: "play").do duel
       end
 
       context "after passing to the next phase" do
