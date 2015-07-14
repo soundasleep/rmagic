@@ -11,8 +11,8 @@ RSpec.describe "Phases", type: :game do
 
       phases << duel.phase.to_sym
 
-      game_engine.pass
-      game_engine.pass
+      pass_priority
+      pass_priority
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe "Phases", type: :game do
     found = false
     while duel.turn == turn do
       found = true if duel.phase.changes_player?
-      game_engine.pass
+      pass_priority
     end
     expect(found).to be(true)
   end
@@ -30,7 +30,7 @@ RSpec.describe "Phases", type: :game do
     turn = duel.turn
     while duel.turn == turn do
       expect(duel.phase.description).to_not be_empty
-      game_engine.pass
+      pass_priority
     end
   end
 

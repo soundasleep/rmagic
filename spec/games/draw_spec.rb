@@ -20,14 +20,14 @@ RSpec.describe "Drawing", type: :game do
     expect(duel.cleanup_phase?).to be(true)
     expect(duel.drawing_phase?).to be(false)
 
-    game_engine.pass
+    pass_priority
 
     expect(duel.cleanup_phase?).to be(true)
     expect(duel.drawing_phase?).to be(false)
     expect(duel.player1.hand.count).to eq(0)
     expect(duel.player2.hand.count).to eq(0)
 
-    game_engine.pass
+    pass_priority
 
     expect(duel.cleanup_phase?).to be(false)
     expect(duel.drawing_phase?).to be(true)
@@ -44,14 +44,14 @@ RSpec.describe "Drawing", type: :game do
     duel.priority_player_number = 1
     duel.save!
 
-    game_engine.pass
+    pass_priority
 
     expect(duel.cleanup_phase?).to be(true)
     expect(duel.drawing_phase?).to be(false)
     expect(duel.player1.hand.count).to eq(0)
     expect(duel.player2.hand.count).to eq(0)
 
-    game_engine.pass
+    pass_priority
 
     expect(duel.cleanup_phase?).to be(false)
     expect(duel.drawing_phase?).to be(true)

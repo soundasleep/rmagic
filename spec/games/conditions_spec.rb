@@ -9,11 +9,11 @@ RSpec.describe "Conditions", type: :game do
     create_hand_cards Library::AddLifeActivated
   end
 
-  let(:play) { PossiblePlay.new(source: card, key: "play") }
+  let(:play) { PlayAction.new(source: card, key: "play") }
 
   context "in the first phase" do
     it "cannot be played" do
-      expect(game_engine.can_do_action?(play)).to be(false)
+      expect(play.can_do?(duel)).to be(false)
     end
 
     context "the play condition" do
@@ -24,7 +24,7 @@ RSpec.describe "Conditions", type: :game do
       end
 
       context "when evaluating" do
-        let(:result) { conditions.evaluate_with(game_engine) }
+        let(:result) { conditions.evaluate_with(duel) }
 
         it "evaluates to false" do
           expect(result.evaluate).to be(false), result.explain
@@ -45,7 +45,7 @@ RSpec.describe "Conditions", type: :game do
       end
 
       it "can be played with mana" do
-        expect(game_engine.can_do_action?(play)).to be(true)
+        expect(play.can_do?(duel)).to be(true)
       end
 
       context "the play condition" do
@@ -56,7 +56,7 @@ RSpec.describe "Conditions", type: :game do
         end
 
         context "when evaluating" do
-          let(:result) { conditions.evaluate_with(game_engine) }
+          let(:result) { conditions.evaluate_with(duel) }
 
           it "evaluates to true" do
             expect(result.evaluate).to be(true), result.explain
@@ -69,16 +69,16 @@ RSpec.describe "Conditions", type: :game do
       end
 
       context "when played" do
-        before { game_engine.card_action(play) }
+        before { play.do duel }
 
         context "after passing to the next phase" do
           before { pass_until_next_phase }
 
-          let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+          let (:ability) { AbilityAction.new(source: creature, key: "add_life") }
 
           context "the activated ability" do
             it "cannot be played" do
-              expect(game_engine.can_do_action?(ability)).to be(false)
+              expect(ability.can_do?(duel)).to be(false)
             end
 
             context "the ability condition" do
@@ -89,7 +89,7 @@ RSpec.describe "Conditions", type: :game do
               end
 
               context "when evaluating" do
-                let(:result) { conditions.evaluate_with(game_engine) }
+                let(:result) { conditions.evaluate_with(duel) }
 
                 it "evaluates to false" do
                   expect(result.evaluate).to be(false), result.explain
@@ -112,7 +112,7 @@ RSpec.describe "Conditions", type: :game do
           end
 
           context "the activated ability" do
-            let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+            let (:ability) { AbilityAction.new(source: creature, key: "add_life") }
 
             context "with mana" do
               let(:player) { duel.player1 }
@@ -127,7 +127,7 @@ RSpec.describe "Conditions", type: :game do
                 end
 
                 context "when evaluating" do
-                  let(:result) { conditions.evaluate_with(game_engine) }
+                  let(:result) { conditions.evaluate_with(duel) }
 
                   it "evaluates to true" do
                     expect(result.evaluate).to be(true), result.explain

@@ -1,6 +1,6 @@
 class UntapThisCard < Action
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     stack.source.card.untap_card!
   end
 

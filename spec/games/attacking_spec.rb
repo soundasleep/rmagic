@@ -36,12 +36,12 @@ RSpec.describe "Attacking", type: :game do
 
   context "when declaring all attackers" do
     before :each do
-      game_engine.declare_attackers available_attackers
+      declare_attackers available_attackers
     end
 
     context "in the next turn" do
       before :each do
-        game_engine.pass
+        pass_priority
       end
 
       it "we can declare two defenders (from player 2)" do
@@ -102,7 +102,7 @@ RSpec.describe "Attacking", type: :game do
       expect(declaring_actions(attacker).count).to eq(0)
       expect(duel.declared_attackers.count).to eq(0)
 
-      game_engine.declare_attackers [attacker]
+      declare_attackers [attacker]
     end
 
     it "declaring an attacker creates an action" do
@@ -118,7 +118,7 @@ RSpec.describe "Attacking", type: :game do
 
     it "a player can't defend when they're still attacking" do
       expect(defendable_cards(duel.player2)).to be_empty
-      game_engine.pass
+      pass_priority
 
       # but the next player can
       expect( defendable_cards(duel.player2) ).not_to be_empty
@@ -126,7 +126,7 @@ RSpec.describe "Attacking", type: :game do
 
     it "if no defenders are declared, then attacks hit the player" do
       expect(duel.player2.life).to eq(20)
-      game_engine.pass
+      pass_priority
 
       pass_until_next_turn
 

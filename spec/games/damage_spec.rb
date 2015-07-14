@@ -28,7 +28,7 @@ RSpec.describe "Damage", type: :game do
     card = first_creature
     expect(duel.player1.battlefield).to include(card)
     card.card.damage! 100
-    game_engine.move_destroyed_creatures_to_graveyard
+    MoveDestroyedCreaturesToGraveyard.new(duel: duel).call
     duel.reload
     expect(duel.player1.battlefield).to_not include(card)
   end
@@ -62,7 +62,7 @@ RSpec.describe "Damage", type: :game do
     expect(card.card.is_destroyed?).to be(false)
   end
 
-  it "a destroyed creature is moved into the graveyard" do
+  it "a destroyed creature is moved onto the graveyard" do
     card = first_creature
     expect(duel.player1.graveyard.map { |b| b.card }).to_not include(card.card)
 
@@ -96,7 +96,7 @@ RSpec.describe "Damage", type: :game do
     end
 
     it "is not removed until the next players turn" do
-      game_engine.pass
+      pass_priority
       expect(creature.card.damage).to eq(1)
 
       creature.card.reload

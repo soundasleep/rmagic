@@ -31,7 +31,6 @@ We try to use as few model objects as possible.
 
 ## TODO
 
-* Move phase actions, game engine actions into testable services
 * Support more game phases correctly
 * Summoning sickness for activated abilities
 * Render the cards on the stack in the web interface

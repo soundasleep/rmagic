@@ -1,14 +1,8 @@
 class ActionFinder
-  def initialize(game_engine)
-    @game_engine = game_engine
-  end
+  attr_reader :duel
 
-  def game_engine
-    @game_engine
-  end
-
-  def duel
-    game_engine.duel
+  def initialize(duel)
+    @duel = duel
   end
 
   # from hand
@@ -16,7 +10,7 @@ class ActionFinder
     playable_cards_without_targets(player)
       .concat(playable_cards_with_card_targets(player))
       .concat(playable_cards_with_player_targets(player))
-      .select{ |action| game_engine.can_do_action?(action) }
+      .select{ |action| action.can_do?(duel) }
   end
 
   # from battlefield
@@ -24,7 +18,7 @@ class ActionFinder
     ability_cards_without_targets(player)
       .concat(ability_cards_with_card_targets(player))
       .concat(ability_cards_with_player_targets(player))
-      .select{ |action| game_engine.can_do_action?(action) }
+      .select{ |action| action.can_do?(duel) }
   end
 
   # from battlefield
@@ -35,7 +29,7 @@ class ActionFinder
         .reject{ |b| duel.declared_defenders.map{ |d| d.source }.include?(b) }
         .select{ |b| !b.card.is_tapped? and b.card.card_type.is_creature? }.map do |b|
           duel.declared_attackers.map do |a|
-            PossibleDefender.new(
+            DefenderAction.new(
               source: b,
               target: a
             )
@@ -62,7 +56,7 @@ class ActionFinder
       # all hand cards which have an available ability (e.g. play, instant)
       player.hand.map do |hand|
         hand.card.card_type.actions.map do |action|
-          PossiblePlay.new(
+          PlayAction.new(
             source: hand,
             key: action
           )
@@ -78,7 +72,7 @@ class ActionFinder
           zone.map do |zone_card|
             player.hand.map do |hand|
               hand.card.card_type.actions.map do |action|
-                PossiblePlay.new(
+                PlayAction.new(
                   source: hand,
                   key: action,
                   target: zone_card
@@ -96,7 +90,7 @@ class ActionFinder
       duel.players.map do |duel_player|
         player.hand.map do |hand|
           hand.card.card_type.actions.map do |action|
-            PossiblePlay.new(
+            PlayAction.new(
               source: hand,
               key: action,
               target: duel_player
@@ -110,7 +104,7 @@ class ActionFinder
       # all battlefield cards which have an available ability
       player.battlefield.map do |b|
         b.card.card_type.actions.map do |action|
-          PossibleAbility.new(
+          AbilityAction.new(
             source: b,
             key: action
           )
@@ -126,7 +120,7 @@ class ActionFinder
           zone.map do |zone_card|
             player.battlefield.map do |b|
               b.card.card_type.actions.map do |action|
-                PossibleAbility.new(
+                AbilityAction.new(
                   source: b,
                   key: action,
                   target: zone_card
@@ -144,7 +138,7 @@ class ActionFinder
       duel.players.map do |duel_player|
         player.battlefield.map do |b|
           b.card.card_type.actions.map do |action|
-            PossibleAbility.new(
+            AbilityAction.new(
               source: b,
               key: action,
               target: duel_player

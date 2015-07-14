@@ -1,8 +1,8 @@
 class UpdateCardTurnPlayed < Action
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     # save the turn it was played
-    stack.card.update! turn_played: game_engine.duel.turn
+    stack.card.update! turn_played: duel.turn
   end
 
 end

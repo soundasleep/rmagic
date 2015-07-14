@@ -4,7 +4,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
   let(:duel) { create_game }
 
   let(:creature) { player1.hand.select{ |b| b.card.card_type.actions.include?("play") }.first }
-  let(:play_creature) { PossiblePlay.new(source: creature, key: "play") }
+  let(:play_creature) { PlayAction.new(source: creature, key: "play") }
 
   let(:stack) { duel.stack }
 
@@ -19,7 +19,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
 
     context "without mana" do
       it "cannot be played" do
-        expect(game_engine.can_do_action?(play_creature)).to be(false)
+        expect(play_creature.can_do?(duel)).to be(false)
       end
     end
 
@@ -27,11 +27,11 @@ RSpec.describe "Counterspells on creatures", type: :game do
       before { tap_all_lands }
 
       it "can be played" do
-        expect(game_engine.can_do_action?(play_creature)).to be(true)
+        expect(play_creature.can_do?(duel)).to be(true)
       end
 
       context "when played" do
-        before { game_engine.card_action(play_creature) }
+        before { play_creature.do duel }
 
         # 116.3c "If a player has priority when he or she casts a spell,
         # activates an ability, or takes a special action, that player
@@ -58,11 +58,11 @@ RSpec.describe "Counterspells on creatures", type: :game do
           let(:counter_spell) { player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
           context "without a target" do
-            let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+            let(:play_counter_spell) { AbilityAction.new(source: counter_spell, key: "counter") }
 
             # counterspells cannot target creatures
             it "can not be played" do
-              expect(game_engine.can_do_action?(play_counter_spell)).to be(false)
+              expect(play_counter_spell.can_do?(duel)).to be(false)
             end
           end
         end
@@ -71,18 +71,18 @@ RSpec.describe "Counterspells on creatures", type: :game do
           let(:counter_creature) { player1.hand.select{ |b| b.card.card_type.actions.include?("counter_creature") }.first }
 
           context "without a target" do
-            let(:play_counter_creature) { PossibleAbility.new(source: counter_creature, key: "counter_creature") }
+            let(:play_counter_creature) { AbilityAction.new(source: counter_creature, key: "counter_creature") }
 
             it "the stack is not empty" do
               expect(duel.stack).to_not be_empty
             end
 
             it "can be played" do
-              expect(game_engine.can_do_action?(play_counter_creature)).to be(true)
+              expect(play_counter_creature.can_do?(duel)).to be(true)
             end
 
             context "when played" do
-              before { game_engine.card_action(play_counter_creature) }
+              before { play_counter_creature.do duel }
 
               it "we still have priority" do
                 expect(duel.priority_player).to eq(player1)
@@ -107,14 +107,14 @@ RSpec.describe "Counterspells on creatures", type: :game do
 
           context "with a target" do
             let(:target) { stack.first }
-            let(:play_counter_creature) { PossibleAbility.new(source: counter_creature, key: "counter_creature", target: target) }
+            let(:play_counter_creature) { AbilityAction.new(source: counter_creature, key: "counter_creature", target: target) }
 
             it "our target is the first creature" do
               expect(target.card).to eq(creature.card)
             end
 
             it "cannot be played" do
-              expect(game_engine.can_do_action?(play_counter_creature)).to be(false)
+              expect(play_counter_creature.can_do?(duel)).to be(false)
             end
           end
         end
@@ -138,11 +138,11 @@ RSpec.describe "Counterspells on creatures", type: :game do
             let(:their_counter_creature) { player2.hand.select{ |b| b.card.card_type.actions.include?("counter_creature") }.first }
 
             context "targeting our spell" do
-              let(:play_their_counter_creature) { PossibleAbility.new(source: their_counter_creature, key: "counter_creature") }
+              let(:play_their_counter_creature) { AbilityAction.new(source: their_counter_creature, key: "counter_creature") }
 
               context "without mana" do
                 it "cannot be played" do
-                  expect(game_engine.can_do_action?(play_their_counter_creature)).to be(false)
+                  expect(play_their_counter_creature.can_do?(duel)).to be(false)
                 end
               end
 
@@ -150,11 +150,11 @@ RSpec.describe "Counterspells on creatures", type: :game do
                 before { tap_all_lands }
 
                 it "can be played" do
-                  expect(game_engine.can_do_action?(play_their_counter_creature)).to be(true)
+                  expect(play_their_counter_creature.can_do?(duel)).to be(true)
                 end
 
                 context "when played" do
-                  before { game_engine.card_action(play_their_counter_creature) }
+                  before { play_their_counter_creature.do duel }
 
                   it "player one immediately gets priority again" do
                     expect(duel.priority_player).to eq(player1)
@@ -195,15 +195,15 @@ RSpec.describe "Counterspells on creatures", type: :game do
                     let(:our_counter_spell) { player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
                     context "targeting our spell" do
-                      let(:play_our_counter_spell) { PossibleAbility.new(source: our_counter_spell, key: "counter") }
+                      let(:play_our_counter_spell) { AbilityAction.new(source: our_counter_spell, key: "counter") }
 
                       # player1 has already tapped all their lands
                       it "can be played" do
-                        expect(game_engine.can_do_action?(play_our_counter_spell)).to be(true)
+                        expect(play_our_counter_spell.can_do?(duel)).to be(true)
                       end
 
                       context "when played" do
-                        before { game_engine.card_action(play_our_counter_spell) }
+                        before { play_our_counter_spell.do duel }
 
                         context "in the current phase" do
                           it "the battlefield is empty" do

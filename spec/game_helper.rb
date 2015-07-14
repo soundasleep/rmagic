@@ -57,11 +57,10 @@ module GameHelper
   end
 
   def available_attackers
-    game_engine.available_attackers(duel.current_player)
+    action_finder.available_attackers(duel.current_player)
   end
 
   delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder
-  delegate :action_finder, to: :game_engine
   delegate :player1, :player2, to: :duel
 
   def actions(card, action)
@@ -96,8 +95,8 @@ module GameHelper
     playable_cards(player1).select { |action| action.key == index }
   end
 
-  def game_engine
-    @game_engine ||= GameEngine.new(duel)
+  def declare_attackers(zone_cards)
+    DeclareAttackers.new(duel: duel, zone_cards: zone_cards).call
   end
 
   def tap_all_lands
@@ -107,7 +106,7 @@ module GameHelper
 
     # tap all battlefield lands
     duel.priority_player.battlefield_lands.each do |b|
-      game_engine.card_action PossibleAbility.new(source: b, key: "tap")
+      AbilityAction.new(source: b, key: "tap").do(duel)
     end
   end
 
@@ -118,7 +117,7 @@ module GameHelper
     while duel.turn == t do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next turn"
-      game_engine.pass
+      pass_priority
     end
   end
 
@@ -129,7 +128,7 @@ module GameHelper
     while duel.current_player == c do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next player"
-      game_engine.pass
+      pass_priority
     end
   end
 
@@ -139,7 +138,7 @@ module GameHelper
     while duel.priority_player != player1 do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next priority"
-      game_engine.pass
+      pass_priority
     end
   end
 
@@ -150,12 +149,16 @@ module GameHelper
     while duel.phase == c do
       i += 1
       assert_operator i, :<, 100, "it took too long to get to the next phase"
-      game_engine.pass
+      pass_priority
     end
   end
 
   def pass_priority
-    game_engine.pass
+    PassPriority.new(duel: duel).call
+  end
+
+  def action_finder
+    @action_finder ||= ActionFinder.new(duel)
   end
 
 end

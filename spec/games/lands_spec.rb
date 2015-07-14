@@ -41,13 +41,15 @@ RSpec.describe "Lands", type: :game do
     expect(first_land).to_not be_nil
   end
 
+  let(:play) { PlayAction.new(source: card, key: "play") }
+
   context "with mana" do
     before :each do
       tap_all_lands
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
+      expect(play.can_do?(duel)).to be(true)
     end
 
     it "are listed as an available action" do
@@ -61,7 +63,7 @@ RSpec.describe "Lands", type: :game do
 
   context "without mana" do
     it "can be played without mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
+      expect(play.can_do?(duel)).to be(true)
     end
 
     it "are listed as an available action" do
@@ -96,7 +98,9 @@ RSpec.describe "Lands", type: :game do
     end
 
     context "when removed from the hand" do
-      before { game_engine.remove_from_all_zones(player1, first_hand_land.card) }
+      before :each do
+        RemoveCardFromAllZones.new(duel: duel, player: player1, card: first_hand_land.card).call
+      end
 
       it "the hand becomes empty" do
         expect(player1.hand).to be_empty
@@ -111,7 +115,7 @@ RSpec.describe "Lands", type: :game do
       before :each do
         expect(played_lands(duel.player1)).to be_empty
         expect(played_lands(duel.player2)).to be_empty
-        game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
+        PlayAction.new(source: card, key: "play").do duel
       end
 
       it "adds a creature to the battlefield" do
@@ -132,7 +136,8 @@ RSpec.describe "Lands", type: :game do
 
       context "and another land" do
         let(:second_land) { duel.player1.hand_lands.first }
-        let(:can_be_played) { game_engine.can_do_action?(PossiblePlay.new(source: second_land, key: "play")) }
+        let(:second_play) { PlayAction.new(source: second_land, key: "play") }
+        let(:can_be_played) { second_play.can_do?(duel) }
 
         before :each do
           create_hand_cards Library::Forest
@@ -163,7 +168,7 @@ RSpec.describe "Lands", type: :game do
 
         context "after the first land is moved to graveyard" do
           before :each do
-            game_engine.move_into_graveyard duel.player1, card.card
+            MoveCardOntoGraveyard.new(duel: duel, player: player1, card: card.card).call
           end
 
           it "we have a card" do
@@ -342,7 +347,7 @@ RSpec.describe "Lands", type: :game do
 
     context "after being tapped" do
       before :each do
-        game_engine.card_action(PossibleAbility.new(source: first_land, key: "tap"))
+        AbilityAction.new(source: first_land, key: "tap").do duel
       end
 
       it "cannot be untapped" do

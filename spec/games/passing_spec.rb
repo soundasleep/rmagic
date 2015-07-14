@@ -19,7 +19,7 @@ RSpec.describe "Passing", type: :game do
     ].each do |test|
       expect([duel.current_player_number, duel.phase.to_sym, duel.priority_player_number]).to eq(test)
       expect(duel.turn).to eq(1), "at turn #{test}"
-      game_engine.pass
+      pass_priority
     end
 
     [
@@ -29,7 +29,7 @@ RSpec.describe "Passing", type: :game do
     ].each do |test|
       expect([duel.current_player_number, duel.phase.to_sym, duel.priority_player_number]).to eq(test)
       expect(duel.turn).to eq(2), "at turn #{test}"
-      game_engine.pass
+      pass_priority
     end
 
   end
@@ -47,7 +47,7 @@ RSpec.describe "Passing", type: :game do
     ].each do |test|
       expect([duel.current_player_number, duel.phase.to_sym, duel.priority_player_number]).to eq(test)
       expect(duel.turn).to eq(1), "at turn #{test}"
-      game_engine.pass
+      pass_priority
     end
 
     [
@@ -57,7 +57,7 @@ RSpec.describe "Passing", type: :game do
     ].each do |test|
       expect([duel.current_player_number, duel.phase.to_sym, duel.priority_player_number]).to eq(test)
       expect(duel.turn).to eq(2), "at turn #{test}"
-      game_engine.pass
+      pass_priority
     end
   end
 

@@ -31,8 +31,10 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
   end
 
   context "without mana" do
+    let(:play) { PlayAction.new(source: card, key: "instant") }
+
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant"))).to be(false)
+      expect(play.can_do?(duel)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -41,23 +43,41 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
   end
 
   context "with mana" do
-    let(:target) { duel.player1.graveyard_creatures.first }
+    let(:targets) { duel.player1.graveyard_creatures }
 
     before :each do
       tap_all_lands
     end
 
-    context "can be played with mana" do
-      it "and a target from our graveyard" do
-        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: target))).to be(true)
-      end
+    context "with one target from our graveyard" do
+      let(:play) { PlayAction.new(source: card, key: "instant", target: targets.first) }
 
-      it "but not with a target from their graveyard" do
-        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: duel.player2.graveyard_creatures.first))).to be(false)
+      it "can be played" do
+        expect(play.can_do?(duel)).to be(true)
       end
+    end
 
-      it "but not without a target" do
-        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant"))).to be(false)
+    context "with another target from our graveyard" do
+      let(:play) { PlayAction.new(source: card, key: "instant", target: targets.second) }
+
+      it "can not be played" do
+        expect(play.can_do?(duel)).to be(false)
+      end
+    end
+
+    context "with a target from their graveyard" do
+      let(:play) { PlayAction.new(source: card, key: "instant", target: duel.player2.graveyard_creatures.first) }
+
+      it "can not be played" do
+        expect(play.can_do?(duel)).to be(false)
+      end
+    end
+
+    context "without a target" do
+      let(:play) { PlayAction.new(source: card, key: "instant") }
+
+      it "can not be played" do
+        expect(play.can_do?(duel)).to be(false)
       end
     end
 
@@ -104,9 +124,11 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
         expect(duel.player2.graveyard_creatures.length).to eq(1)
       end
 
+      let(:target) { duel.player1.graveyard_creatures.last }
+
       context "on our creature" do
         before :each do
-          game_engine.card_action(PossiblePlay.new(source: card, key: "instant", target: target))
+          PlayAction.new(source: card, key: "instant", target: target).do duel
           pass_until_next_phase
         end
 
@@ -156,8 +178,10 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
       end
 
       context "can be played with mana" do
+        let(:play) { PlayAction.new(source: card, key: "instant", target: target) }
+
         it "and a target from our graveyard" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: target))).to be(true)
+          expect(play.can_do?(duel)).to be(true)
         end
       end
 
@@ -193,8 +217,10 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
       end
 
       context "can be played with mana" do
+        let(:play) { PlayAction.new(source: card, key: "instant", target: target) }
+
         it "and a target from our graveyard" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant", target: target))).to be(true)
+          expect(play.can_do?(duel)).to be(true)
         end
       end
 

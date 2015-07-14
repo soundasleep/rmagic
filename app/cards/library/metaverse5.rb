@@ -29,7 +29,7 @@ class Library::Metaverse5 < CardType
   def do_destroy
     TextualActions.new(
       "destroy the target battlefield card",
-      "move this card into the graveyard"
+      "move this card onto the graveyard"
     )
   end
 

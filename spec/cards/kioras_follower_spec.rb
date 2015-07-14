@@ -15,7 +15,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
   let(:card) { player1.hand.select { |c| c.card.card_type.actions.include?("ability") }.first }
 
   let(:play_conditions) { play.conditions }
-  let(:play_result) { play_conditions.evaluate_with(game_engine) }
+  let(:play_result) { play_conditions.evaluate_with(duel) }
 
   context "our creature" do
     it "exists" do
@@ -28,7 +28,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
       context "our card" do
 
         context "without a target" do
-          let(:play) { PossiblePlay.new(source: card, key: "ability") }
+          let(:play) { PlayAction.new(source: card, key: "ability") }
 
           context "without mana" do
             it "cannot be played" do
@@ -46,7 +46,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
         end
 
         context "with a target" do
-          let(:play) { PossiblePlay.new(source: card, key: "ability", target: creature) }
+          let(:play) { PlayAction.new(source: card, key: "ability", target: creature) }
 
           context "without mana" do
             it "cannot be played" do
@@ -62,7 +62,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
             end
 
             context "when played" do
-              before { game_engine.card_action play }
+              before { play.do duel }
 
               context "our creature" do
                 it "is no longer tapped" do

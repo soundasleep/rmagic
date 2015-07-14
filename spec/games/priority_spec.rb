@@ -4,7 +4,7 @@ RSpec.describe "Priority", type: :game do
   let(:duel) { create_game }
 
   let(:instant) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first }
-  let(:play_instant) { PossibleAbility.new(source: instant, key: "instant") }
+  let(:play_instant) { AbilityAction.new(source: instant, key: "instant") }
 
   let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
@@ -32,7 +32,7 @@ RSpec.describe "Priority", type: :game do
       end
 
       context "when played" do
-        before { game_engine.card_action(play_instant) }
+        before { play_instant.do duel }
 
         context "the duel" do
           it "is in playing phase" do
@@ -57,10 +57,10 @@ RSpec.describe "Priority", type: :game do
 
         context "our counterspell" do
           let(:counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
-          let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+          let(:play_counter_spell) { AbilityAction.new(source: counter_spell, key: "counter") }
 
           context "when played" do
-            before { game_engine.card_action(play_counter_spell) }
+            before { play_counter_spell.do duel }
 
             it "we still have priority" do
               expect(duel.priority_player).to eq(duel.player1)
@@ -95,7 +95,7 @@ RSpec.describe "Priority", type: :game do
 
           context "playing their counterspell" do
             let(:counter_spell) { duel.player2.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
-            let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
+            let(:play_counter_spell) { AbilityAction.new(source: counter_spell, key: "counter") }
 
             context "with mana" do
               before { tap_all_lands }
@@ -113,7 +113,7 @@ RSpec.describe "Priority", type: :game do
               end
 
               context "when played" do
-                before { game_engine.card_action(play_counter_spell) }
+                before { play_counter_spell.do duel }
 
                 context "the duel" do
                   it "is in playing phase" do
@@ -157,7 +157,7 @@ RSpec.describe "Priority", type: :game do
                   let(:our_counter_spell) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("counter") }.first }
 
                   context "targeting our spell" do
-                    let(:another_counter_spell) { PossibleAbility.new(source: our_counter_spell, key: "counter") }
+                    let(:another_counter_spell) { AbilityAction.new(source: our_counter_spell, key: "counter") }
 
                     it "player 1 has 2 mana" do
                       expect(duel.player1.mana_green).to eq(2)
@@ -170,7 +170,7 @@ RSpec.describe "Priority", type: :game do
                     end
 
                     context "when played" do
-                      before { game_engine.card_action(another_counter_spell) }
+                      before { another_counter_spell.do duel }
 
                       it "we still have priority" do
                         expect(duel.priority_player).to eq(duel.player1)

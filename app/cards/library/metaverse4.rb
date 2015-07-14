@@ -27,7 +27,7 @@ class Library::Metaverse4 < CardType
   def do_instant
     TextualActions.new(
       "add 1 life to the owner of this card",
-      "move this card into the graveyard",
+      "move this card onto the graveyard",
     )
   end
 

@@ -1,8 +1,11 @@
 class MoveTheTargetGraveyardCardIntoTheBattlefield < Action
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     # put target into the battlefield
-    game_engine.move_into_battlefield stack.player, stack.graveyard_targets.first.target.card
+    player = stack.player
+    card = stack.graveyard_targets.first.target.card
+
+    MoveCardIntoBattlefield.new(duel: duel, player: player, card: card).call
   end
 
 end

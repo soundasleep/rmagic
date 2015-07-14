@@ -1,6 +1,6 @@
 class TargetIsInTheirGraveyard < Condition
 
-  def evaluate(game_engine, stack)
+  def evaluate(duel, stack)
     stack.target.player.graveyard.include?(stack.target)
   end
 

@@ -29,9 +29,11 @@ RSpec.describe "Creatures", type: :game do
     expect(duel.phase.can_play?).to be(true)
   end
 
+  let(:play) { PlayAction.new(source: card, key: "play") }
+
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(false)
+      expect(play.can_do?(duel)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -53,7 +55,7 @@ RSpec.describe "Creatures", type: :game do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
+      expect(play.can_do?(duel)).to be(true)
     end
 
     it "is listed as an available action" do
@@ -93,7 +95,7 @@ RSpec.describe "Creatures", type: :game do
 
     context "when played" do
       before :each do
-        game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
+        PlayAction.new(source: card, key: "play").do duel
       end
 
       context "after passing to the next phase" do

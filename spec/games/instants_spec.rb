@@ -3,7 +3,7 @@ require "game_helper"
 RSpec.describe "Instants", type: :game do
   let(:duel) { create_game }
   let(:source) { duel.player1.hand.select{ |b| b.card.card_type.actions.include?("instant") }.first }
-  let(:instant_ability) { PossibleAbility.new(source: source, key: "instant") }
+  let(:instant_ability) { AbilityAction.new(source: source, key: "instant") }
 
   before :each do
     create_hand_cards Library::Metaverse4
@@ -41,7 +41,7 @@ RSpec.describe "Instants", type: :game do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(instant_ability)).to be(false)
+      expect(instant_ability.can_do?(duel)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -55,7 +55,7 @@ RSpec.describe "Instants", type: :game do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(instant_ability)).to be(true)
+      expect(instant_ability.can_do?(duel)).to be(true)
     end
 
     it "is listed as an available action" do
@@ -90,7 +90,7 @@ RSpec.describe "Instants", type: :game do
         expect(duel.player1.life).to eq(20)
         expect(duel.player2.life).to eq(20)
         expect(duel.player1.mana_green).to eq(3)
-        game_engine.card_action(instant_ability)
+        instant_ability.do duel
       end
 
       context "before passing priority" do

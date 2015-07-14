@@ -6,7 +6,7 @@ RSpec.describe "Defending with effects", type: :game do
 
   before :each do
     create_battlefield_cards Library::Metaverse1
-    game_engine.add_effect duel.player1, Effects::TemporaryCounter, target
+    AddEffect.new(duel: duel, player: player1, effect_type: Effects::TemporaryCounter, target: target).call
     duel.attacking_phase!
   end
 
@@ -15,8 +15,8 @@ RSpec.describe "Defending with effects", type: :game do
     let(:defends) { defendable_cards(duel.player2) }
 
     before :each do
-      game_engine.declare_attackers [attacker]
-      game_engine.pass
+      declare_attackers [attacker]
+      pass_priority
     end
 
     it "we have defenders" do
@@ -27,7 +27,7 @@ RSpec.describe "Defending with effects", type: :game do
       let(:defender) { defends.first }
 
       before :each do
-        game_engine.declare_defender defender
+        defender.declare duel
       end
 
       context "after attacking" do

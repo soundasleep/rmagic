@@ -30,7 +30,7 @@ class Library::InstantGraveyardAny < CardType
   def do_instant
     TextualActions.new(
       "move the target graveyard card into the battlefield",
-      "move this card into the graveyard",
+      "move this card onto the graveyard",
     )
   end
 

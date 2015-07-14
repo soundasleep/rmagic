@@ -27,8 +27,8 @@ class PlayingPhase < Phase
     "playing phase: play cards, cast creatures"
   end
 
-  def setup_phase(game_engine)
-    game_engine.clear_mana
+  def enter_phase_service
+    EnterPlayingPhase
   end
 
 end

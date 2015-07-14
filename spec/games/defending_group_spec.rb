@@ -9,14 +9,14 @@ RSpec.describe "Defending Groups", type: :game do
 
     duel.attacking_phase!
 
-    game_engine.declare_attackers [attacker]
+    declare_attackers [attacker]
 
-    game_engine.pass
+    pass_priority
 
     defends = action_finder.defendable_cards(duel.player2)
-    game_engine.declare_defender defends.first
+    defends.first.declare duel
     defends = action_finder.defendable_cards(duel.player2)
-    game_engine.declare_defender defends.first
+    defends.first.declare duel
   end
 
   it "we can defend with two defenders" do
@@ -35,7 +35,7 @@ RSpec.describe "Defending Groups", type: :game do
     expect(duel.player1.battlefield).to_not include(attacker)
   end
 
-  it "overdefending will put the attacker into the graveyard" do
+  it "overdefending will put the attacker onto the graveyard" do
     expect(duel.player1.graveyard).to be_empty
 
     pass_until_next_turn

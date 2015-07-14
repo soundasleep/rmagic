@@ -3,11 +3,11 @@ class Action
     self.class.name.underscore.tr("_", " ")
   end
 
-  def execute(game_engine, stack)
+  def execute(duel, stack)
     fail "Not implemented"
   end
 
-  def explain(game_engine, stack)
+  def explain(duel, stack)
     "#{name}"
   end
 

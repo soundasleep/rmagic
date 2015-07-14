@@ -10,7 +10,7 @@ RSpec.describe "Actions", type: :game do
     duel.playing_phase!
   end
 
-  let(:play) { PossiblePlay.new(source: card, key: "play") }
+  let(:play) { PlayAction.new(source: card, key: "play") }
 
   context "with mana" do
     before :each do
@@ -18,7 +18,7 @@ RSpec.describe "Actions", type: :game do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(play)).to be(true)
+      expect(play.can_do?(duel)).to be(true)
     end
 
     context "the play action" do
@@ -29,7 +29,7 @@ RSpec.describe "Actions", type: :game do
       end
 
       context "when executing" do
-        let(:result) { actions.execute_with(game_engine) }
+        let(:result) { actions.execute_with(duel) }
 
         it "executes to true" do
           expect(result.execute).to be(true), result.explain
@@ -42,7 +42,7 @@ RSpec.describe "Actions", type: :game do
     end
 
     context "when played" do
-      before { game_engine.card_action(play) }
+      before { play.do duel }
 
       context "in our next turn" do
         before :each do
@@ -51,7 +51,7 @@ RSpec.describe "Actions", type: :game do
         end
 
         context "the activated ability" do
-          let (:ability) { PossibleAbility.new(source: creature, key: "add_life") }
+          let (:ability) { AbilityAction.new(source: creature, key: "add_life") }
 
           context "with mana" do
             let(:player) { duel.player1 }
@@ -66,7 +66,7 @@ RSpec.describe "Actions", type: :game do
               end
 
               context "when executing" do
-                let(:result) { actions.execute_with(game_engine) }
+                let(:result) { actions.execute_with(duel) }
 
                 it "executes to true" do
                   expect(result.execute).to be(true), result.explain

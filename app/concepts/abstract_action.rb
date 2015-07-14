@@ -1,5 +1,4 @@
-# TODO rename to 'Action'
-class PossibleAction
+class AbstractAction
   attr_reader :source, :key, :target, :action_type
 
   def initialize(action_type:, source:, key:, target: nil)
@@ -47,6 +46,15 @@ class PossibleAction
 
   def card
     source.card
+  end
+
+  def can_do?(duel)
+    source.card.card_type.can_do_action?(duel, self) &&
+      source.player.has_mana?(source.card.card_type.action_cost(key))
+  end
+
+  def do(duel)
+    DoAction.new(duel: duel, action: self).call
   end
 
   private

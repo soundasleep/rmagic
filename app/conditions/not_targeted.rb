@@ -1,6 +1,6 @@
 class NotTargeted < Condition
 
-  def evaluate(game_engine, stack)
+  def evaluate(duel, stack)
     stack.target == nil
   end
 

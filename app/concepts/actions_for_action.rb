@@ -11,7 +11,7 @@ class ActionsForAction
 
   delegate :name, to: :get_actions
 
-  def execute_with(game_engine)
-    ExecutableActions.new self, game_engine
+  def execute_with(duel)
+    ExecutableActions.new self, duel
   end
 end

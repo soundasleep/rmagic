@@ -37,8 +37,10 @@ RSpec.describe "Instants add life to targets", type: :game do
   end
 
   context "without mana" do
+    let(:play) { PlayAction.new(source: card, key: "instant_player") }
+
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_player"))).to be(false)
+      expect(play.can_do?(duel)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -47,23 +49,34 @@ RSpec.describe "Instants add life to targets", type: :game do
   end
 
   context "with mana" do
+    let(:targets) { duel.player1.graveyard_creatures }
+
     before :each do
       tap_all_lands
     end
 
     context "targeting players" do
+      context "with a target player" do
+        let(:play) { PlayAction.new(source: card, key: "instant_player", target: duel.player1) }
 
-      context "can be played with mana" do
-        it "and a target player" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1))).to be(true)
+        it "can be played" do
+          expect(play.can_do?(duel)).to be(true)
         end
+      end
 
-        it "but not with a target creature" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1.battlefield_creatures.first))).to be(false)
+      context "with a target creature" do
+        let(:play) { PlayAction.new(source: card, key: "instant_player", target: duel.player1.battlefield_creatures.first) }
+
+        it "can not be played" do
+          expect(play.can_do?(duel)).to be(false)
         end
+      end
 
-        it "but not without a target" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_player"))).to be(false)
+      context "without a target" do
+        let(:play) { PlayAction.new(source: card, key: "instant_player") }
+
+        it "can not be played" do
+          expect(play.can_do?(duel)).to be(false)
         end
       end
 
@@ -126,7 +139,7 @@ RSpec.describe "Instants add life to targets", type: :game do
           let(:our_player) { duel.player1 }
 
           before :each do
-            game_engine.card_action(PossiblePlay.new(source: card, key: "instant_player", target: duel.player1))
+            PlayAction.new(source: card, key: "instant_player", target: duel.player1).do duel
           end
 
           context "our player" do
@@ -203,17 +216,27 @@ RSpec.describe "Instants add life to targets", type: :game do
     context "targeting creatures" do
       let(:our_creature) { duel.player1.battlefield_creatures.first }
 
-      context "can be played with mana" do
-        it "and a target creature" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_creature", target: our_creature))).to be(true)
-        end
+      context "with a target player" do
+        let(:play) { PlayAction.new(source: card, key: "instant_creature", target: duel.player1) }
 
-        it "but not with a target player" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_creature", target: duel.player1))).to be(false)
+        it "can not be played" do
+          expect(play.can_do?(duel)).to be(false)
         end
+      end
 
-        it "but not without a target" do
-          expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "instant_creature"))).to be(false)
+      context "with a target creature" do
+        let(:play) { PlayAction.new(source: card, key: "instant_creature", target: duel.player1.battlefield_creatures.first) }
+
+        it "can be played" do
+          expect(play.can_do?(duel)).to be(true)
+        end
+      end
+
+      context "without a target" do
+        let(:play) { PlayAction.new(source: card, key: "instant_creature") }
+
+        it "can not be played" do
+          expect(play.can_do?(duel)).to be(false)
         end
       end
 
@@ -234,7 +257,7 @@ RSpec.describe "Instants add life to targets", type: :game do
       context "when activated" do
         context "on our creature" do
           before :each do
-            game_engine.card_action(PossiblePlay.new(source: card, key: "instant_creature", target: our_creature))
+            PlayAction.new(source: card, key: "instant_creature", target: our_creature).do duel
             pass_until_next_phase
           end
 

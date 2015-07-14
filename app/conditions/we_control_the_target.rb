@@ -1,6 +1,6 @@
 class WeControlTheTarget < Condition
 
-  def evaluate(game_engine, stack)
+  def evaluate(duel, stack)
     stack.target.player == stack.source.player
   end
 

@@ -28,8 +28,8 @@ class Library::Negate < CardType
 
   def do_counter
     TextualActions.new(
-      "move the next card on the stack into the graveyard",
-      "move this card into the graveyard",
+      "move the next card on the stack onto the graveyard",
+      "move this card onto the graveyard",
     )
   end
 

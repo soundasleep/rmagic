@@ -21,9 +21,11 @@ RSpec.describe "Creature abilities", type: :game do
     available_ability_actions("add_life")
   end
 
+  let(:ability) { AbilityAction.new(source: card, key: "add_life") }
+
   context "without mana" do
-    it "requires mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to be(false)
+    it "can not be played" do
+      expect(ability.can_do?(duel)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -36,8 +38,8 @@ RSpec.describe "Creature abilities", type: :game do
       tap_all_lands
     end
 
-    it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: card, key: "add_life"))).to be(true)
+    it "can be played" do
+      expect(ability.can_do?(duel)).to be(true)
     end
 
     it "is listed as an available action" do
@@ -72,7 +74,7 @@ RSpec.describe "Creature abilities", type: :game do
         expect(duel.player1.life).to eq(20)
         expect(duel.player2.life).to eq(20)
         expect(duel.player1.mana_green).to eq(3)
-        game_engine.card_action(PossibleAbility.new(source: card, key: "add_life"))
+        AbilityAction.new(source: card, key: "add_life").do duel
       end
 
       it "adds life" do
