@@ -9,11 +9,6 @@ class GameEngine
     @duel
   end
 
-  def action_finder
-    # TODO replace ActionFinder.new(GameEngine) with ActionFinder.new(Duel)
-    @action_finder ||= ActionFinder.new(self)
-  end
-
   def declare_attackers(zone_cards)
     # TODO move into service
     zone_cards.each do |zone_card|

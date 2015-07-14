@@ -57,11 +57,10 @@ module GameHelper
   end
 
   def available_attackers
-    game_engine.action_finder.available_attackers(duel.current_player)
+    action_finder.available_attackers(duel.current_player)
   end
 
   delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder
-  delegate :action_finder, to: :game_engine
   delegate :player1, :player2, to: :duel
 
   def actions(card, action)
@@ -156,6 +155,10 @@ module GameHelper
 
   def pass_priority
     PassPriority.new(duel: duel).call
+  end
+
+  def action_finder
+    @action_finder ||= ActionFinder.new(duel)
   end
 
 end

@@ -1,14 +1,8 @@
 class ActionFinder
-  def initialize(game_engine)
-    @game_engine = game_engine
-  end
+  attr_reader :duel
 
-  def game_engine
-    @game_engine
-  end
-
-  def duel
-    game_engine.duel
+  def initialize(duel)
+    @duel = duel
   end
 
   # from hand
