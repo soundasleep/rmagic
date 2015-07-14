@@ -1,11 +1,14 @@
 class SimpleAI
   # TODO replace game_engine with duel
   def do_turn(game_engine, player)
+    duel = game_engine.duel
+
     # always declare attackers always always
-    game_engine.declare_attackers action_finder(game_engine.duel).available_attackers(player)
+    attackers = action_finder(duel).available_attackers(player)
+    DeclareAttackers.new(duel: duel, zone_cards: attackers).call
 
     # really simple AI: we just pass
-    PassPriority.new(duel: game_engine.duel).call
+    PassPriority.new(duel: duel).call
   end
 
   private

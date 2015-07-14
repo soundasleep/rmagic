@@ -15,7 +15,7 @@ RSpec.describe "Defending with effects", type: :game do
     let(:defends) { defendable_cards(duel.player2) }
 
     before :each do
-      game_engine.declare_attackers [attacker]
+      declare_attackers [attacker]
       pass_priority
     end
 

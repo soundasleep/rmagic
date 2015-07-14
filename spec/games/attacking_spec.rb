@@ -36,7 +36,7 @@ RSpec.describe "Attacking", type: :game do
 
   context "when declaring all attackers" do
     before :each do
-      game_engine.declare_attackers available_attackers
+      declare_attackers available_attackers
     end
 
     context "in the next turn" do
@@ -102,7 +102,7 @@ RSpec.describe "Attacking", type: :game do
       expect(declaring_actions(attacker).count).to eq(0)
       expect(duel.declared_attackers.count).to eq(0)
 
-      game_engine.declare_attackers [attacker]
+      declare_attackers [attacker]
     end
 
     it "declaring an attacker creates an action" do

@@ -86,11 +86,10 @@ class DuelController < ApplicationController
   def declare_attackers
     if params[:attacker]
       attackers = Battlefield.find(params[:attacker])
-      game_engine.declare_attackers attackers
+      DeclareAttackers.new(duel: duel, zone_cards: attackers).call
     end
-    PassPriority.new(duel: duel).call
     duel.save!    # TODO remove
-    redirect_to duel_path duel
+    pass
   end
 
   helper_method :playable_cards, :ability_cards, :defendable_cards

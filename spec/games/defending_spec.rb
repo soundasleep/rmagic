@@ -9,7 +9,7 @@ RSpec.describe "Defending", type: :game do
 
     duel.attacking_phase!
 
-    game_engine.declare_attackers [attacker]
+    declare_attackers [attacker]
 
     pass_priority
   end

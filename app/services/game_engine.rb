@@ -9,10 +9,6 @@ class GameEngine
     @duel
   end
 
-  def declare_attackers(zone_cards)
-    DeclareAttackers.new(duel: duel, zone_cards: zone_cards).call
-  end
-
   def add_effect(player, effect_type, target)
     # add effect
     target.card.effects.create! effect_id: effect_type.effect_id, order: target.card.next_effect_order

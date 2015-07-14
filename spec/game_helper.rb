@@ -95,6 +95,11 @@ module GameHelper
     playable_cards(player1).select { |action| action.key == index }
   end
 
+  def declare_attackers(zone_cards)
+    DeclareAttackers.new(duel: duel, zone_cards: zone_cards).call
+  end
+
+  # TODO remove
   def game_engine
     @game_engine ||= GameEngine.new(duel)
   end
