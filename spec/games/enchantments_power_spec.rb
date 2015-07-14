@@ -58,7 +58,7 @@ RSpec.describe "Enchantments on card power", type: :game do
     context "and attaching it to our creature" do
       before :each do
         player1.battlefield.select { |c| c.card.card_type.is_enchantment? }.each do |card|
-          card.attach_to! our_creature
+          AttachCardToTarget.new(duel: duel, player: player1, card: card, target: our_creature).call
         end
       end
 
@@ -111,6 +111,10 @@ RSpec.describe "Enchantments on card power", type: :game do
       end
 
       it "is not removed in the next turn" do
+        fail "not implemented"
+      end
+
+      it "is removed from the battlefield when the attached card is removed" do
         fail "not implemented"
       end
     end

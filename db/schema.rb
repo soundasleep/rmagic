@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702035956) do
+ActiveRecord::Schema.define(version: 20150714030634) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -50,13 +50,16 @@ ActiveRecord::Schema.define(version: 20150702035956) do
   add_index "battlefields", ["player_id"], name: "index_battlefields_on_player_id"
 
   create_table "cards", force: :cascade do |t|
-    t.integer  "metaverse_id", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.boolean  "is_tapped",    null: false
-    t.integer  "damage",       null: false
-    t.integer  "turn_played",  null: false
+    t.integer  "metaverse_id",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.boolean  "is_tapped",      null: false
+    t.integer  "damage",         null: false
+    t.integer  "turn_played",    null: false
+    t.integer  "attached_to_id"
   end
+
+  add_index "cards", ["attached_to_id"], name: "index_cards_on_attached_to_id"
 
   create_table "decks", force: :cascade do |t|
     t.integer  "player_id",  null: false

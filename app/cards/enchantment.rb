@@ -8,4 +8,12 @@ module Enchantment
     true
   end
 
+  def modify_power(n)
+    n
+  end
+
+  def modify_toughness(n)
+    n
+  end
+
 end

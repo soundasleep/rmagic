@@ -37,4 +37,8 @@ class Library::PinToTheEarth < CardType
     551481
   end
 
+  def modify_power(n)
+    n - 6
+  end
+
 end
