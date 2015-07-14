@@ -111,10 +111,6 @@ class DuelController < ApplicationController
     action_finder.available_attackers duel.player1
   end
 
-  def game_engine
-    @game_engine ||= GameEngine.new(duel)
-  end
-
   private
 
     def create_card(zone, metaverse_id)

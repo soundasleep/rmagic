@@ -13,12 +13,7 @@ class PassPriority
 
   private
     def phase_manager
-      PhaseManager.new(game_engine)
-    end
-
-    # TODO remove when we no longer have a game_engine
-    def game_engine
-      GameEngine.new(duel)
+      PhaseManager.new(duel)
     end
 
 end

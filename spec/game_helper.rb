@@ -99,11 +99,6 @@ module GameHelper
     DeclareAttackers.new(duel: duel, zone_cards: zone_cards).call
   end
 
-  # TODO remove
-  def game_engine
-    @game_engine ||= GameEngine.new(duel)
-  end
-
   def tap_all_lands
     # check we have lands to tap
     # if this fails, the test probably can be cleaned up

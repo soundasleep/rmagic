@@ -1,16 +1,9 @@
 # TODO move this into the PassPriority service instead
 class PhaseManager
-  def initialize(game_engine)
-    @game_engine = game_engine
-  end
+  attr_reader :duel
 
-  # TODO remove when removing game_engine
-  def game_engine
-    @game_engine
-  end
-
-  def duel
-    game_engine.duel
+  def initialize(duel)
+    @duel = duel
   end
 
   # The current player has passed the turn; move the priority to the next player if necessary
@@ -46,7 +39,7 @@ class PhaseManager
 
     # do the AI if necessary
     if duel.priority_player.is_ai?
-      SimpleAI.new.do_turn(game_engine, duel.priority_player)
+      SimpleAI.new.do_turn(duel, duel.priority_player)
     end
   end
 
