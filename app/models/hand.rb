@@ -5,6 +5,7 @@ class Hand < ActiveRecord::Base
   belongs_to :card
 
   validates :player, :card, presence: true
+  # TODO add uniqueness constraint to schema.rb
   validates :card, uniqueness: true
 
   def zone

@@ -1,5 +1,7 @@
 require "rails_helper"
 
+# TODO maybe split this up into a number of smaller helpers
+# e.g. GameHelper, CardHelper, TurnHelper, CardCreationHelper
 module GameHelper
 
   # return the created duel
@@ -164,6 +166,8 @@ module GameHelper
 end
 
 RSpec.configure do |c|
+  # TODO can this be moved into individual specs instead?
+  # that way not every single game test has to load all of GameHelper every time?
   c.include GameHelper
 end
 
