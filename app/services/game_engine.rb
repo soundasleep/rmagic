@@ -26,11 +26,7 @@ class GameEngine
     DrawCard.new(duel: duel, player: player).call
   end
 
-  def card_action(action)
-    # TODO remove references and replace with service call
-    DoAction.new(duel: duel, action: action).call
-  end
-
+  # TODO replace with Action.resolve(duel)
   def resolve_action(action)
     # TODO remove references and replace with service call
     ResolveAction.new(duel: duel, action: action).call

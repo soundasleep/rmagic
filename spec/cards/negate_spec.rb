@@ -41,7 +41,7 @@ RSpec.describe Library::Negate, type: :card do
       before { tap_all_lands }
 
       context "when played" do
-        before { game_engine.card_action(play_instant) }
+        before { play_instant.do duel }
 
         context "our card" do
           it "can be played" do

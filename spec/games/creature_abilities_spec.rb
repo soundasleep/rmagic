@@ -74,7 +74,7 @@ RSpec.describe "Creature abilities", type: :game do
         expect(duel.player1.life).to eq(20)
         expect(duel.player2.life).to eq(20)
         expect(duel.player1.mana_green).to eq(3)
-        game_engine.card_action(PossibleAbility.new(source: card, key: "add_life"))
+        PossibleAbility.new(source: card, key: "add_life").do duel
       end
 
       it "adds life" do

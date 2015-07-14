@@ -90,7 +90,7 @@ RSpec.describe "Instants", type: :game do
         expect(duel.player1.life).to eq(20)
         expect(duel.player2.life).to eq(20)
         expect(duel.player1.mana_green).to eq(3)
-        game_engine.card_action(instant_ability)
+        instant_ability.do duel
       end
 
       context "before passing priority" do

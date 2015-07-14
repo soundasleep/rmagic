@@ -13,7 +13,7 @@ class EnterDrawingPhase
     # untap all tapped cards for the current player
     if duel.current_player == duel.priority_player
       duel.priority_player.battlefield.select { |battlefield| battlefield.card.is_tapped? }.each do |battlefield|
-        game_engine.card_action(PossibleAbility.new(source: battlefield, key: "untap"))
+        PossibleAbility.new(source: battlefield, key: "untap").do(duel)
       end
 
       # the current player draws a card

@@ -69,7 +69,7 @@ RSpec.describe "Conditions", type: :game do
       end
 
       context "when played" do
-        before { game_engine.card_action(play) }
+        before { play.do duel }
 
         context "after passing to the next phase" do
           before { pass_until_next_phase }

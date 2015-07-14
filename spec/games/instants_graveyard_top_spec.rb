@@ -128,7 +128,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(PossiblePlay.new(source: card, key: "instant", target: target))
+          PossiblePlay.new(source: card, key: "instant", target: target).do duel
           pass_until_next_phase
         end
 

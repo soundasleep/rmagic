@@ -95,7 +95,7 @@ RSpec.describe "Creatures", type: :game do
 
     context "when played" do
       before :each do
-        game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
+        PossiblePlay.new(source: card, key: "play").do duel
       end
 
       context "after passing to the next phase" do

@@ -113,7 +113,7 @@ RSpec.describe "Lands", type: :game do
       before :each do
         expect(played_lands(duel.player1)).to be_empty
         expect(played_lands(duel.player2)).to be_empty
-        game_engine.card_action(PossiblePlay.new(source: card, key: "play"))
+        PossiblePlay.new(source: card, key: "play").do duel
       end
 
       it "adds a creature to the battlefield" do
@@ -345,7 +345,7 @@ RSpec.describe "Lands", type: :game do
 
     context "after being tapped" do
       before :each do
-        game_engine.card_action(PossibleAbility.new(source: first_land, key: "tap"))
+        PossibleAbility.new(source: first_land, key: "tap").do duel
       end
 
       it "cannot be untapped" do

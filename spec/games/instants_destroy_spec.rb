@@ -102,7 +102,7 @@ RSpec.describe "Instants destroy", type: :game do
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))
+          PossiblePlay.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first).do duel
           pass_until_next_phase
           duel.reload     # TODO it would be nice to remove this
         end
@@ -122,7 +122,7 @@ RSpec.describe "Instants destroy", type: :game do
 
       context "on their creature" do
         before :each do
-          game_engine.card_action(PossiblePlay.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first))
+          PossiblePlay.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first).do duel
           pass_until_next_phase
           duel.reload     # TODO it would be nice to remove this
         end

@@ -105,7 +105,8 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "on our creature" do
         before :each do
-          game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first))
+          ability = PossibleAbility.new(source: card, key: "destroy", target: duel.player1.battlefield_creatures.first)
+          ability.do duel
         end
 
         it "removes our creature" do
@@ -127,7 +128,8 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "on their creature" do
         before :each do
-          game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first))
+          ability = PossibleAbility.new(source: card, key: "destroy", target: duel.player2.battlefield_creatures.first)
+          ability.do duel
         end
 
         it "removes their creature" do
@@ -156,7 +158,8 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
           let(:target) { duel.player1.battlefield_creatures.second }
 
           before :each do
-            game_engine.card_action(PossibleAbility.new(source: card, key: "destroy", target: target))
+            ability = PossibleAbility.new(source: card, key: "destroy", target: target)
+            ability.do duel
           end
 
           it "removes the second creature" do

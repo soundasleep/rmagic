@@ -55,7 +55,7 @@ RSpec.describe "Counterspells", type: :game do
       end
 
       context "when played" do
-        before { game_engine.card_action(play_instant) }
+        before { play_instant.do duel }
 
         # 116.3c "If a player has priority when he or she casts a spell,
         # activates an ability, or takes a special action, that player
@@ -93,7 +93,7 @@ RSpec.describe "Counterspells", type: :game do
             end
 
             context "when played" do
-              before { game_engine.card_action(play_counter_spell) }
+              before { play_counter_spell.do duel }
 
               it "we still have priority" do
                 expect(duel.priority_player).to eq(duel.player1)
@@ -165,8 +165,7 @@ RSpec.describe "Counterspells", type: :game do
                 end
 
                 context "when played" do
-                  before { game_engine.card_action(play_their_counter_spell) }
-
+                  before { play_their_counter_spell.do duel }
 
                   it "player one immediately gets priority again" do
                     expect(duel.priority_player).to eq(duel.player1)
@@ -216,7 +215,7 @@ RSpec.describe "Counterspells", type: :game do
                       end
 
                       context "when played" do
-                        before { game_engine.card_action(play_our_counter_spell) }
+                        before { play_our_counter_spell.do duel }
 
                         context "in the current phase" do
                           it "we have 20 life" do

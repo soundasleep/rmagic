@@ -107,7 +107,7 @@ module GameHelper
 
     # tap all battlefield lands
     duel.priority_player.battlefield_lands.each do |b|
-      game_engine.card_action PossibleAbility.new(source: b, key: "tap")
+      PossibleAbility.new(source: b, key: "tap").do(duel)
     end
   end
 

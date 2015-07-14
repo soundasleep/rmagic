@@ -30,7 +30,7 @@ RSpec.describe "The stack", type: :game do
 
     context "when played" do
       before :each do
-        game_engine.card_action(instant_ability)
+        instant_ability.do duel
       end
 
       context "the stack" do
@@ -48,7 +48,7 @@ RSpec.describe "The stack", type: :game do
         let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
 
         context "when played" do
-          before { game_engine.card_action(play_counter_spell) }
+          before { play_counter_spell.do duel }
 
           it "contains both cards" do
             expect(stack.map{ |s| s.card }).to eq([source.card, counter_spell.card])

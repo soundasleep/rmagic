@@ -40,7 +40,7 @@ RSpec.describe "Creature activated abilities", type: :game do
 
     context "when played" do
       before :each do
-        game_engine.card_action(play)
+        play.do duel
       end
 
       it "consumes mana" do
@@ -141,7 +141,7 @@ RSpec.describe "Creature activated abilities", type: :game do
 
             context "when activated" do
               before :each do
-                game_engine.card_action(ability)
+                ability.do duel
               end
 
               it "the card is tapped" do

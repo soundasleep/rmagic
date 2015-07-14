@@ -42,7 +42,7 @@ RSpec.describe "Actions", type: :game do
     end
 
     context "when played" do
-      before { game_engine.card_action(play) }
+      before { play.do duel }
 
       context "in our next turn" do
         before :each do

@@ -62,7 +62,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
             end
 
             context "when played" do
-              before { game_engine.card_action play }
+              before { play.do duel }
 
               context "our creature" do
                 it "is no longer tapped" do

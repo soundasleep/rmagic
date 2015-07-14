@@ -26,10 +26,10 @@ RSpec.describe "Tapping lands", type: :game do
     expect(duel.player1.mana_green).to eq(0)
     expect(untapped_land.player).to eq(duel.player1)
 
-    game_engine.card_action(PossibleAbility.new(source: untapped_land, key: "tap"))
+    PossibleAbility.new(source: untapped_land, key: "tap").do duel
     expect(duel.player1.mana_green).to eq(1)
 
-    game_engine.card_action(PossibleAbility.new(source: untapped_land, key: "tap"))
+    PossibleAbility.new(source: untapped_land, key: "tap").do duel
     expect(duel.player1.mana_green).to eq(2)
   end
 
@@ -39,7 +39,7 @@ RSpec.describe "Tapping lands", type: :game do
 
     it "can be tapped" do
       expect(battlefield.card.is_tapped?).to be(false)
-      game_engine.card_action(ability)
+      ability.do duel
       battlefield.reload
       battlefield.card.reload
       expect(battlefield.card.is_tapped?).to be(true)
@@ -48,7 +48,7 @@ RSpec.describe "Tapping lands", type: :game do
     context "and when tapped" do
       before :each do
         expect(ActionLog.where(duel: duel)).to be_empty
-        game_engine.card_action(ability)
+        ability.do duel
       end
 
       it "can no longer be actioned to tap" do

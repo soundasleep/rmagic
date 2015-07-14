@@ -54,6 +54,10 @@ class PossibleAction
       source.player.has_mana?(source.card.card_type.action_cost(key))
   end
 
+  def do(duel)
+    DoAction.new(duel: duel, action: self).call
+  end
+
   private
 
     def target_text

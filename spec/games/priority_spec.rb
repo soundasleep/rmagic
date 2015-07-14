@@ -32,7 +32,7 @@ RSpec.describe "Priority", type: :game do
       end
 
       context "when played" do
-        before { game_engine.card_action(play_instant) }
+        before { play_instant.do duel }
 
         context "the duel" do
           it "is in playing phase" do
@@ -60,7 +60,7 @@ RSpec.describe "Priority", type: :game do
           let(:play_counter_spell) { PossibleAbility.new(source: counter_spell, key: "counter") }
 
           context "when played" do
-            before { game_engine.card_action(play_counter_spell) }
+            before { play_counter_spell.do duel }
 
             it "we still have priority" do
               expect(duel.priority_player).to eq(duel.player1)
@@ -113,7 +113,7 @@ RSpec.describe "Priority", type: :game do
               end
 
               context "when played" do
-                before { game_engine.card_action(play_counter_spell) }
+                before { play_counter_spell.do duel }
 
                 context "the duel" do
                   it "is in playing phase" do
@@ -170,7 +170,7 @@ RSpec.describe "Priority", type: :game do
                     end
 
                     context "when played" do
-                      before { game_engine.card_action(another_counter_spell) }
+                      before { another_counter_spell.do duel }
 
                       it "we still have priority" do
                         expect(duel.priority_player).to eq(duel.player1)
