@@ -24,6 +24,10 @@ class CardType
     false
   end
 
+  def is_enchantment?
+    false
+  end
+
   def playing_goes_onto_stack?(key)
     send("playing_#{key}_goes_onto_stack?")
   end
