@@ -10,6 +10,8 @@ class EnterCleanupPhase
 
     ClearMana.new(duel: duel).call
 
+    RemoveUnattachedEnchantments.new(duel: duel).call
+
     ResolveCombat.new(duel: duel).call
 
     RemoveTemporaryEffects.new(duel: duel).call

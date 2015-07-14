@@ -1,6 +1,6 @@
 class Card < ActiveRecord::Base
   has_many :effects, dependent: :destroy
-  has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id, dependent: :destroy
+  has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id
 
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
@@ -40,6 +40,10 @@ class Card < ActiveRecord::Base
   end
 
   delegate :action_text, to: :card_type
+
+  def attached_to?
+    attached_to_id?
+  end
 
   def tap_card!
     fail "card is already tapped" if is_tapped?

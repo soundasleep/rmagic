@@ -9,6 +9,7 @@ RSpec.describe "Enchantments on card power", type: :game do
 
   let(:our_enchantments) { our_creature.enchantments }
   let(:their_enchantments) { their_creature.enchantments }
+  let(:enchantment) { player1.battlefield.select{ |c| c.card.card_type.is_enchantment? }.first.card }
 
   context "our creature" do
     it "exists" do
@@ -51,8 +52,20 @@ RSpec.describe "Enchantments on card power", type: :game do
       create_battlefield_cards Library::PinToTheEarth
     end
 
-    it "is removed immediately after passing" do
-      fail "not implemented"
+    context "after passing priority" do
+      before { pass_priority }
+
+      it "is removed immediately" do
+        expect(enchantment).to be_nil
+      end
+    end
+
+    context "after passing to the next turn" do
+      before { pass_until_next_turn }
+
+      it "is removed immediately" do
+        expect(enchantment).to be_nil
+      end
     end
 
     context "and attaching it to our creature" do
@@ -79,8 +92,8 @@ RSpec.describe "Enchantments on card power", type: :game do
           expect(our_enchantments.length).to eq(1)
         end
 
-        it "persists in the next turn" do
-          fail "not implemented"
+        it "has our enchantment" do
+          expect(our_enchantments).to eq([enchantment])
         end
 
         it "can still attack" do
@@ -110,18 +123,28 @@ RSpec.describe "Enchantments on card power", type: :game do
         end
       end
 
-      it "is not removed in the next turn" do
-        fail "not implemented"
-      end
-
       it "is removed from the battlefield when the attached card is removed" do
         fail "not implemented"
       end
-    end
-  end
 
-  it "tests for enchantments on toughness" do
-    fail "not implemented"
+      context "the enchantment" do
+        context "after passing priority" do
+          before { pass_priority }
+
+          it "exists" do
+            expect(enchantment).to_not be_nil
+          end
+        end
+
+        context "after passing to the next turn" do
+          before { pass_until_next_turn }
+
+          it "exists" do
+            expect(enchantment).to_not be_nil
+          end
+        end
+      end
+    end
   end
 
 end

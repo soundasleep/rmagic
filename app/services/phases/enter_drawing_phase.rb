@@ -8,6 +8,8 @@ class EnterDrawingPhase
   def call
     ClearMana.new(duel: duel).call
 
+    RemoveUnattachedEnchantments.new(duel: duel).call
+
     # for the current player
     # untap all tapped cards for the current player
     if duel.current_player == duel.priority_player
