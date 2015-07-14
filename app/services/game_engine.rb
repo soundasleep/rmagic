@@ -38,21 +38,6 @@ class GameEngine
     end
   end
 
-  def reset_damage
-    # TODO remove references and replace with service call
-    ClearDamage.new(duel: duel).call
-  end
-
-  def resolve_combat
-    # TODO remove references and replace with service call
-    ResolveCombat.new(duel: duel).call
-  end
-
-  def remove_temporary_effects
-    # TODO remove references and replace with service call
-    RemoveTemporaryEffects.new(duel: duel).call
-  end
-
   def move_destroyed_creatures_to_graveyard
     # TODO remove references and replace with service call
     MoveDestroyedCreaturesToGraveyard.new(duel: duel).call

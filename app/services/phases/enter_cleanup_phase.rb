@@ -11,14 +11,14 @@ class EnterCleanupPhase
 
     game_engine.clear_mana
 
-    game_engine.resolve_combat
+    ResolveCombat.new(duel: duel).call
 
-    game_engine.remove_temporary_effects
+    RemoveTemporaryEffects.new(duel: duel).call
 
     game_engine.move_destroyed_creatures_to_graveyard
 
     # reset damage
-    game_engine.reset_damage
+    ClearDamage.new(duel: duel).call
   end
 
   private
