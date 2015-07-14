@@ -41,7 +41,7 @@ RSpec.describe "Instants", type: :game do
 
   context "without mana" do
     it "requires mana" do
-      expect(game_engine.can_do_action?(instant_ability)).to be(false)
+      expect(instant_ability.can_do?(duel)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -55,7 +55,7 @@ RSpec.describe "Instants", type: :game do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(instant_ability)).to be(true)
+      expect(instant_ability.can_do?(duel)).to be(true)
     end
 
     it "is listed as an available action" do

@@ -35,10 +35,11 @@ RSpec.describe "Tapping lands", type: :game do
 
   context "an untapped land" do
     let(:battlefield) { untapped_land }
+    let(:ability) { PossibleAbility.new(source: battlefield, key: "tap") }
 
     it "can be tapped" do
       expect(battlefield.card.is_tapped?).to be(false)
-      game_engine.card_action(PossibleAbility.new(source: battlefield, key: "tap"))
+      game_engine.card_action(ability)
       battlefield.reload
       battlefield.card.reload
       expect(battlefield.card.is_tapped?).to be(true)
@@ -47,11 +48,11 @@ RSpec.describe "Tapping lands", type: :game do
     context "and when tapped" do
       before :each do
         expect(ActionLog.where(duel: duel)).to be_empty
-        game_engine.card_action(PossibleAbility.new(source: battlefield, key: "tap"))
+        game_engine.card_action(ability)
       end
 
       it "can no longer be actioned to tap" do
-        expect(game_engine.can_do_action?(PossibleAbility.new(source: battlefield, key: "tap"))).to be(false)
+        expect(ability.can_do?(duel)).to be(false)
       end
 
       it "creates an action log" do
@@ -79,7 +80,7 @@ RSpec.describe "Tapping lands", type: :game do
     end
 
     it "can be actioned to tap" do
-      expect(game_engine.can_do_action?(PossibleAbility.new(source: battlefield, key: "tap"))).to be(true)
+      expect(ability.can_do?(duel)).to be(true)
     end
   end
 

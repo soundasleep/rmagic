@@ -16,7 +16,7 @@ class ActionFinder
     playable_cards_without_targets(player)
       .concat(playable_cards_with_card_targets(player))
       .concat(playable_cards_with_player_targets(player))
-      .select{ |action| game_engine.can_do_action?(action) }
+      .select{ |action| action.can_do?(duel) }
   end
 
   # from battlefield
@@ -24,7 +24,7 @@ class ActionFinder
     ability_cards_without_targets(player)
       .concat(ability_cards_with_card_targets(player))
       .concat(ability_cards_with_player_targets(player))
-      .select{ |action| game_engine.can_do_action?(action) }
+      .select{ |action| action.can_do?(duel) }
   end
 
   # from battlefield

@@ -27,8 +27,10 @@ RSpec.describe "Instants effects", type: :game do
   end
 
   context "without mana" do
+    let(:play) { PossiblePlay.new(source: card, key: "counter") }
+
     it "requires mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "counter"))).to be(false)
+      expect(play.can_do?(duel)).to be(false)
     end
 
     it "is not listed as an available action" do
@@ -41,13 +43,19 @@ RSpec.describe "Instants effects", type: :game do
       tap_all_lands
     end
 
-    context "can be played with mana" do
-      it "and a target" do
-        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "counter", target: duel.player1.battlefield_creatures.first))).to be(true)
-      end
+    context "with a target" do
+      let(:play) { PossiblePlay.new(source: card, key: "counter", target: duel.player1.battlefield_creatures.first) }
 
-      it "but not without a target" do
-        expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "counter"))).to be(false)
+      it "can be played" do
+        expect(play.can_do?(duel)).to be(true)
+      end
+    end
+
+    context "without a target" do
+      let(:play) { PossiblePlay.new(source: card, key: "counter") }
+
+      it "can not be played" do
+        expect(play.can_do?(duel)).to be(false)
       end
     end
 

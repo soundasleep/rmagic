@@ -19,7 +19,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
 
     context "without mana" do
       it "cannot be played" do
-        expect(game_engine.can_do_action?(play_creature)).to be(false)
+        expect(play_creature.can_do?(duel)).to be(false)
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
       before { tap_all_lands }
 
       it "can be played" do
-        expect(game_engine.can_do_action?(play_creature)).to be(true)
+        expect(play_creature.can_do?(duel)).to be(true)
       end
 
       context "when played" do
@@ -62,7 +62,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
 
             # counterspells cannot target creatures
             it "can not be played" do
-              expect(game_engine.can_do_action?(play_counter_spell)).to be(false)
+              expect(play_counter_spell.can_do?(duel)).to be(false)
             end
           end
         end
@@ -78,7 +78,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
             end
 
             it "can be played" do
-              expect(game_engine.can_do_action?(play_counter_creature)).to be(true)
+              expect(play_counter_creature.can_do?(duel)).to be(true)
             end
 
             context "when played" do
@@ -114,7 +114,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
             end
 
             it "cannot be played" do
-              expect(game_engine.can_do_action?(play_counter_creature)).to be(false)
+              expect(play_counter_creature.can_do?(duel)).to be(false)
             end
           end
         end
@@ -142,7 +142,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
 
               context "without mana" do
                 it "cannot be played" do
-                  expect(game_engine.can_do_action?(play_their_counter_creature)).to be(false)
+                  expect(play_their_counter_creature.can_do?(duel)).to be(false)
                 end
               end
 
@@ -150,7 +150,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
                 before { tap_all_lands }
 
                 it "can be played" do
-                  expect(game_engine.can_do_action?(play_their_counter_creature)).to be(true)
+                  expect(play_their_counter_creature.can_do?(duel)).to be(true)
                 end
 
                 context "when played" do
@@ -199,7 +199,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
 
                       # player1 has already tapped all their lands
                       it "can be played" do
-                        expect(game_engine.can_do_action?(play_our_counter_spell)).to be(true)
+                        expect(play_our_counter_spell.can_do?(duel)).to be(true)
                       end
 
                       context "when played" do

@@ -18,7 +18,7 @@ RSpec.describe "Actions", type: :game do
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(play)).to be(true)
+      expect(play.can_do?(duel)).to be(true)
     end
 
     context "the play action" do

@@ -41,13 +41,15 @@ RSpec.describe "Lands", type: :game do
     expect(first_land).to_not be_nil
   end
 
+  let(:play) { PossiblePlay.new(source: card, key: "play") }
+
   context "with mana" do
     before :each do
       tap_all_lands
     end
 
     it "can be played with mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
+      expect(play.can_do?(duel)).to be(true)
     end
 
     it "are listed as an available action" do
@@ -61,7 +63,7 @@ RSpec.describe "Lands", type: :game do
 
   context "without mana" do
     it "can be played without mana" do
-      expect(game_engine.can_do_action?(PossiblePlay.new(source: card, key: "play"))).to be(true)
+      expect(play.can_do?(duel)).to be(true)
     end
 
     it "are listed as an available action" do
@@ -132,7 +134,8 @@ RSpec.describe "Lands", type: :game do
 
       context "and another land" do
         let(:second_land) { duel.player1.hand_lands.first }
-        let(:can_be_played) { game_engine.can_do_action?(PossiblePlay.new(source: second_land, key: "play")) }
+        let(:second_play) { PossiblePlay.new(source: second_land, key: "play") }
+        let(:can_be_played) { second_play.can_do?(duel) }
 
         before :each do
           create_hand_cards Library::Forest

@@ -13,7 +13,7 @@ RSpec.describe "Conditions", type: :game do
 
   context "in the first phase" do
     it "cannot be played" do
-      expect(game_engine.can_do_action?(play)).to be(false)
+      expect(play.can_do?(duel)).to be(false)
     end
 
     context "the play condition" do
@@ -45,7 +45,7 @@ RSpec.describe "Conditions", type: :game do
       end
 
       it "can be played with mana" do
-        expect(game_engine.can_do_action?(play)).to be(true)
+        expect(play.can_do?(duel)).to be(true)
       end
 
       context "the play condition" do
@@ -78,7 +78,7 @@ RSpec.describe "Conditions", type: :game do
 
           context "the activated ability" do
             it "cannot be played" do
-              expect(game_engine.can_do_action?(ability)).to be(false)
+              expect(ability.can_do?(duel)).to be(false)
             end
 
             context "the ability condition" do
