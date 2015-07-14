@@ -62,7 +62,7 @@ RSpec.describe "Damage", type: :game do
     expect(card.card.is_destroyed?).to be(false)
   end
 
-  it "a destroyed creature is moved into the graveyard" do
+  it "a destroyed creature is moved onto the graveyard" do
     card = first_creature
     expect(duel.player1.graveyard.map { |b| b.card }).to_not include(card.card)
 

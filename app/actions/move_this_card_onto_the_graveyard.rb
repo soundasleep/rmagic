@@ -1,5 +1,4 @@
-# TODO rename this MoveThisCardOntoTheGraveyard
-class MoveThisCardIntoTheGraveyard < Action
+class MoveThisCardOntoTheGraveyard < Action
 
   def execute(duel, stack)
     player = stack.player

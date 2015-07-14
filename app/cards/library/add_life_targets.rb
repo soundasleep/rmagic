@@ -28,7 +28,7 @@ class Library::AddLifeTargets < CardType
   def do_instant_player
     TextualActions.new(
       "add 1 life to the target player",
-      "move this card into the graveyard"
+      "move this card onto the graveyard"
     )
   end
 
@@ -53,7 +53,7 @@ class Library::AddLifeTargets < CardType
   def do_instant_creature
     TextualActions.new(
       AddEffectToTheTargetBattlefieldCreature.new(Effects::AddOneToughness),
-      "move this card into the graveyard"
+      "move this card onto the graveyard"
     )
   end
 

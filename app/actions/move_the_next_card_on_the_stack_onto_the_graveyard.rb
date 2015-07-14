@@ -1,4 +1,4 @@
-class MoveTheNextCardOnTheStackIntoTheGraveyard < Action
+class MoveTheNextCardOnTheStackOntoTheGraveyard < Action
 
   def execute(duel, stack)
     # the stack is in bottom-top order
@@ -6,7 +6,7 @@ class MoveTheNextCardOnTheStackIntoTheGraveyard < Action
 
     fail("The next card on the stack is the current card on the stack") if target == stack
 
-    # move the next spell into the graveyard
+    # move the next spell onto the graveyard
     player = stack.player
     card = target.card
 

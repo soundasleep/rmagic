@@ -28,8 +28,8 @@ class Library::CounterCreature < CardType
 
   def do_counter_creature
     TextualActions.new(
-      "move the next card on the stack into the graveyard",
-      "move this card into the graveyard",
+      "move the next card on the stack onto the graveyard",
+      "move this card onto the graveyard",
     )
   end
 

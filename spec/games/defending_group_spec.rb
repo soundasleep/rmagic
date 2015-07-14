@@ -35,7 +35,7 @@ RSpec.describe "Defending Groups", type: :game do
     expect(duel.player1.battlefield).to_not include(attacker)
   end
 
-  it "overdefending will put the attacker into the graveyard" do
+  it "overdefending will put the attacker onto the graveyard" do
     expect(duel.player1.graveyard).to be_empty
 
     pass_until_next_turn
