@@ -38,11 +38,6 @@ class GameEngine
     end
   end
 
-  def move_destroyed_creatures_to_graveyard
-    # TODO remove references and replace with service call
-    MoveDestroyedCreaturesToGraveyard.new(duel: duel).call
-  end
-
   def remove_from_all_zones(player, card)
     # TODO remove references and replace with service call
     RemoveCardFromAllZones.new(duel: duel, player: player, card: card).call
@@ -69,16 +64,6 @@ class GameEngine
 
     # update log
     ActionLog.effect_action(duel, player, target, effect_type.effect_id)
-  end
-
-  def clear_mana
-    # TODO remove references and replace with service call
-    ClearMana.new(duel: duel).call
-  end
-
-  def resolve_stack
-    # TODO remove references and replace with service call
-    ResolveStack.new(duel: duel).call
   end
 
 end

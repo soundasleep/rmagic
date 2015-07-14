@@ -6,8 +6,7 @@ class EnterDrawingPhase
   end
 
   def call
-    # TODO replace each of these with service calls
-    game_engine.clear_mana
+    ClearMana.new(duel: duel).call
 
     # for the current player
     # untap all tapped cards for the current player
@@ -20,11 +19,5 @@ class EnterDrawingPhase
       DrawCard.new(duel: duel, player: duel.priority_player).call
     end
   end
-
-  private
-
-    def game_engine
-      @game_engine ||= GameEngine.new(duel)
-    end
 
 end

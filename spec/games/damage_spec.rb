@@ -28,7 +28,7 @@ RSpec.describe "Damage", type: :game do
     card = first_creature
     expect(duel.player1.battlefield).to include(card)
     card.card.damage! 100
-    game_engine.move_destroyed_creatures_to_graveyard
+    MoveDestroyedCreaturesToGraveyard.new(duel: duel).call
     duel.reload
     expect(duel.player1.battlefield).to_not include(card)
   end
