@@ -9,11 +9,11 @@ class Library::PinToTheEarth < CardType
     Mana.new colourless: 1, blue: 1
   end
 
-  def ability_cost
+  def enchant_cost
     mana_cost
   end
 
-  def can_ability?
+  def can_enchant?
     TextualConditions.new(
       "target is a card",
       "target is in their battlefield",
@@ -22,11 +22,11 @@ class Library::PinToTheEarth < CardType
     )
   end
 
-  def playing_ability_goes_onto_stack?
+  def playing_enchant_goes_onto_stack?
     true
   end
 
-  def do_ability
+  def do_enchant
     TextualActions.new(
       "play this card",
       "attach this card to the target",
