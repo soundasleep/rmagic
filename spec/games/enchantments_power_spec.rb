@@ -5,7 +5,7 @@ RSpec.describe "Enchantments on card power", type: :game do
   let(:our_creature) { player1.battlefield_creatures.first.card }
   let(:their_creature) { player2.battlefield_creatures.first.card }
 
-  before { create_creatures }
+  before { create_battlefield_cards Library::Metaverse1 }
 
   let(:our_enchantments) { our_creature.enchantments }
   let(:their_enchantments) { their_creature.enchantments }
@@ -95,14 +95,6 @@ RSpec.describe "Enchantments on card power", type: :game do
         it "has our enchantment" do
           expect(our_enchantments).to eq([enchantment.card])
         end
-
-        it "can still attack" do
-          fail "not implemented"
-        end
-
-        it "causes 0 damage when attacking" do
-          fail "not implemented"
-        end
       end
 
       context "their creature" do
@@ -123,8 +115,31 @@ RSpec.describe "Enchantments on card power", type: :game do
         end
       end
 
-      it "is removed from the battlefield when the attached card is removed" do
-        fail "not implemented"
+      context "when the creature is removed" do
+        before :each do
+          MoveCardOntoGraveyard.new(duel: duel, player: player1, card: our_creature.card).call
+        end
+
+        context "the creature" do
+          it "no longer exists" do
+            expect(player1.battlefield_creatures).to be_empty
+          end
+        end
+
+        context "the enchantment" do
+          it "no longer exists" do
+            # the enchantment should be removed as soon as the attached card is removed
+            expect(enchantment).to be_nil
+          end
+
+          context "after passing priority" do
+            before { pass_priority }
+
+            it "no longer exists" do
+              expect(enchantment).to be_nil
+            end
+          end
+        end
       end
 
       context "the enchantment" do

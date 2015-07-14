@@ -9,6 +9,8 @@ class EnterAttackingPhase
     ResolveStack.new(duel: duel).call
 
     ClearMana.new(duel: duel).call
+
+    MoveDestroyedCreaturesToGraveyard.new(duel: duel).call
   end
 
 end
