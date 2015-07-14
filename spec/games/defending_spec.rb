@@ -39,19 +39,19 @@ RSpec.describe "Defending", type: :game do
     it "a declared defender creates an action" do
       expect(defending_actions(defender.source).count).to eq(0)
 
-      game_engine.declare_defender defender
+      defender.declare duel
       expect(defending_actions(defender.source).count).to eq(1)
     end
 
     it "a defender can be declared and referenced later" do
       expect(duel.declared_defenders.count).to eq(0)
-      game_engine.declare_defender defender
+      defender.declare duel
       expect(duel.declared_defenders.count).to eq(1)
     end
 
     it "declared defenders do not persist into the next turn" do
       expect(duel.declared_defenders.count).to eq(0)
-      game_engine.declare_defender defender
+      defender.declare duel
       expect(duel.declared_defenders.count).to eq(1)
 
       pass_until_next_player
@@ -60,7 +60,7 @@ RSpec.describe "Defending", type: :game do
 
     context "and declaring a defender" do
       before :each do
-        game_engine.declare_defender defender
+        defender.declare duel
       end
 
       it "the defender does not come up as another available defend option" do

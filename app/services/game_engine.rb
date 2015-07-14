@@ -10,27 +10,7 @@ class GameEngine
   end
 
   def declare_attackers(zone_cards)
-    # TODO move into service
-    zone_cards.each do |zone_card|
-      # this assumes we are always attacking the other player
-      duel.declared_attackers.create! card: zone_card.card, player: zone_card.player, target_player: duel.other_player
-      ActionLog.declare_card_action(duel, zone_card.player, zone_card)
-    end
-  end
-
-  def declare_defender(defend)
-    # TODO move into service
-    # update log
-    ActionLog.defend_card_action(duel, defend.source.player, defend.source)
-
-    duel.declared_defenders.create! source: defend.source, target: defend.target
-  end
-
-  def declare_defenders(defends)
-    # TODO move into service
-    defends.each do |d|
-      declare_defender d
-    end
+    DeclareAttackers.new(duel: duel, zone_cards: zone_cards).call
   end
 
   def add_effect(player, effect_type, target)

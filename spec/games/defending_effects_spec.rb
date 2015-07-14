@@ -27,7 +27,7 @@ RSpec.describe "Defending with effects", type: :game do
       let(:defender) { defends.first }
 
       before :each do
-        game_engine.declare_defender defender
+        defender.declare duel
       end
 
       context "after attacking" do

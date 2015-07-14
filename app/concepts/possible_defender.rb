@@ -6,4 +6,8 @@ class PossibleDefender < PossibleAction
   def action_description
     "Declare defender"
   end
+
+  def declare(duel)
+    DeclareDefender.new(duel: duel, defend: self).call
+  end
 end
