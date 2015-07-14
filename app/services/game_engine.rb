@@ -23,11 +23,6 @@ class GameEngine
     end
   end
 
-  def draw_card(player)
-    # TODO remove references and replace with service call
-    DrawCard.new(duel: duel, player: player).call
-  end
-
   def declare_defender(defend)
     # TODO move into service
     # update log

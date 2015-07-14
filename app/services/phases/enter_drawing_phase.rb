@@ -17,7 +17,7 @@ class EnterDrawingPhase
       end
 
       # the current player draws a card
-      game_engine.draw_card(duel.priority_player)
+      DrawCard.new(duel: duel, player: duel.priority_player).call
     end
   end
 
