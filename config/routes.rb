@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post 'defend'
       post 'ability'
       post 'declare_attackers'
+      post 'game_action'
     end
   end
 

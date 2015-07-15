@@ -74,8 +74,18 @@ class DuelController < ApplicationController
     pass
   end
 
-  helper_method :playable_cards, :ability_cards, :defendable_cards
-  helper_method :available_attackers, :get_target_type
+  def game_action
+    action = GameAction.new(
+      player: duel.player1,
+      key: params[:key]
+    )
+    action.do(duel)
+    redirect_to duel_path duel
+  end
+
+  helper_method :playable_cards, :ability_cards, :defendable_cards,
+      :available_attackers, :game_actions
+  helper_method :get_target_type
 
   def playable_cards
     action_finder.playable_cards duel.player1
@@ -91,6 +101,10 @@ class DuelController < ApplicationController
 
   def available_attackers
     action_finder.available_attackers duel.player1
+  end
+
+  def game_actions
+    action_finder.game_actions duel.player1
   end
 
   private

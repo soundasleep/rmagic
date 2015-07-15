@@ -10,4 +10,8 @@ class GameAction
     DoGameAction.new(duel: duel, player: player, key: key).call
   end
 
+  def description
+    "#{key}"
+  end
+
 end
