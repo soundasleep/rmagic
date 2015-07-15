@@ -1,14 +1,7 @@
-require 'rails_helper'
+require 'game_helper'
 
 RSpec.describe CreateGame, type: :service do
-  def create_premade_deck(user)
-    deck = user.premade_decks.create! name: "Test Deck"
-
-    deck.cards.create! metaverse_id: Library::Forest.metaverse_id
-    deck.cards.create! metaverse_id: Library::Island.metaverse_id
-
-    deck
-  end
+  include CreatePremadeDecks
 
   let(:service) { CreateGame.new(arguments) }
   let(:arguments) { { user1: user1, user2: user2, deck1: deck1, deck2: deck2 } }
@@ -38,6 +31,18 @@ RSpec.describe CreateGame, type: :service do
           expect(player.deck.map{ |c| c.card.card_type.class }).to eq([Library::Forest, Library::Island])
         end
 
+        it "has an empty hand" do
+          expect(player.hand).to be_empty
+        end
+
+        it "has an empty graveyard" do
+          expect(player.graveyard).to be_empty
+        end
+
+        it "has an empty battlefield" do
+          expect(player.battlefield).to be_empty
+        end
+
         it "is an AI" do
           expect(player).to be_is_ai
         end
@@ -52,6 +57,18 @@ RSpec.describe CreateGame, type: :service do
 
         it "does not shuffle cards" do
           expect(player.deck.map{ |c| c.card.card_type.class }).to eq([Library::Forest, Library::Island])
+        end
+
+        it "has an empty hand" do
+          expect(player.hand).to be_empty
+        end
+
+        it "has an empty graveyard" do
+          expect(player.graveyard).to be_empty
+        end
+
+        it "has an empty battlefield" do
+          expect(player.battlefield).to be_empty
         end
 
         it "is an AI" do

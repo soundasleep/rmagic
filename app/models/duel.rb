@@ -11,7 +11,7 @@ class Duel < ActiveRecord::Base
       :current_player_number, :priority_player_number,
       :phase_number, presence: true
 
-  enum phase_number: [ :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
+  enum phase_number: [ :mulligan_phase, :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
 
   before_validation :init
 
@@ -20,7 +20,7 @@ class Duel < ActiveRecord::Base
     self.first_player_number ||= 1
     self.current_player_number ||= 1
     self.priority_player_number ||= 1
-    self.phase_number ||= :drawing_phase
+    self.phase_number ||= :mulligan_phase
   end
 
   def players

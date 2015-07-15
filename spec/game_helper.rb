@@ -172,7 +172,26 @@ module GameHelper
   def action_finder
     @action_finder ||= ActionFinder.new(duel)
   end
+end
 
+module CreatePremadeDecks
+  def create_premade_deck(user)
+    deck = user.premade_decks.create! name: "Test Deck"
+
+    deck.cards.create! metaverse_id: Library::Forest.metaverse_id
+    deck.cards.create! metaverse_id: Library::Island.metaverse_id
+
+    deck
+  end
+
+  def create_larger_premade_deck(user)
+    deck = user.premade_decks.create! name: "Larger Test Deck"
+
+    10.times { deck.cards.create! metaverse_id: Library::Forest.metaverse_id }
+    10.times { deck.cards.create! metaverse_id: Library::Island.metaverse_id }
+
+    deck
+  end
 end
 
 RSpec.configure do |c|
