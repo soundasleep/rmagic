@@ -34,6 +34,9 @@ gem 'figaro'
 gem 'omniauth-google-oauth2'
 gem 'activerecord-session_store'
 
+# Websockets magic
+gem 'websocket-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
