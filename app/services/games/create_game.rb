@@ -23,7 +23,7 @@ class CreateGame
     end
 
     duel.save!      # TODO remove
-    duel.phase.enter_phase_service.new(duel: duel).call
+    duel.enter_phase!
 
     duel
   end

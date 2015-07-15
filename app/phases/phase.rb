@@ -27,6 +27,14 @@ class Phase
     false
   end
 
+  def for_each_player?
+    true
+  end
+
+  def increments_turn?
+    false
+  end
+
   def ==(phase)
     phase.is_a?(Phase) && phase.class.name == self.class.name
   end

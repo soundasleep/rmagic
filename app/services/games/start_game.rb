@@ -6,7 +6,7 @@ class StartGame
   end
 
   def call
-    duel.phase.enter_phase_service.new(duel: duel).call
+    duel.enter_phase!
 
     true
   end

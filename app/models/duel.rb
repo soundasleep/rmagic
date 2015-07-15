@@ -11,7 +11,7 @@ class Duel < ActiveRecord::Base
       :current_player_number, :priority_player_number,
       :phase_number, presence: true
 
-  enum phase_number: [ :mulligan_phase, :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
+  enum phase_number: [ :mulligan_phase, :completed_mulligans_phase, :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
 
   before_validation :init
 
@@ -54,6 +54,10 @@ class Duel < ActiveRecord::Base
   def next_phase!
     update! phase_number: phase.next_phase.to_sym
     return phase.changes_player?
+  end
+
+  def enter_phase!
+    phase.enter_phase_service.new(duel: self).call
   end
 
   def next_stack_order

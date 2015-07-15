@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715012803) do
+ActiveRecord::Schema.define(version: 20150715032812) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -147,19 +147,20 @@ ActiveRecord::Schema.define(version: 20150715012803) do
   add_index "hands", ["player_id"], name: "index_hands_on_player_id"
 
   create_table "players", force: :cascade do |t|
-    t.string   "name",                        null: false
+    t.string   "name",                              null: false
     t.boolean  "is_ai"
-    t.integer  "life",                        null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "mana_blue",                   null: false
-    t.integer  "mana_green",                  null: false
-    t.integer  "mana_red",                    null: false
-    t.integer  "mana_white",                  null: false
-    t.integer  "mana_black",                  null: false
-    t.integer  "mana_colourless",             null: false
+    t.integer  "life",                              null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "mana_blue",                         null: false
+    t.integer  "mana_green",                        null: false
+    t.integer  "mana_red",                          null: false
+    t.integer  "mana_white",                        null: false
+    t.integer  "mana_black",                        null: false
+    t.integer  "mana_colourless",                   null: false
     t.integer  "user_id"
-    t.integer  "mulligans",       default: 0, null: false
+    t.integer  "mulligans",         default: 0,     null: false
+    t.boolean  "declared_mulligan", default: false, null: false
   end
 
   add_index "players", ["user_id"], name: "index_players_on_user_id"

@@ -1,18 +1,18 @@
-class MulliganPhase < Phase
+class CompletedMulligansPhase < Phase
   def next_phase
-    CompletedMulligansPhase.new
+    DrawingPhase.new
   end
 
   def to_sym
-    :mulligan_phase
+    :completed_mulligans_phase
   end
 
   def description
-    "mulligan phase: initial hands are drawn, mulligans can be declared"
+    "completed mulligans phase"
   end
 
   def enter_phase_service
-    EnterMulliganPhase
+    EnterCompletedMulligansPhase
   end
 
   def changes_player?

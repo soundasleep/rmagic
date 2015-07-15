@@ -11,13 +11,8 @@ class DuelController < ApplicationController
     # Call the service to create the duel
     duel = CreateGame.new(user1: current_user, user2: ai, deck1: deck1, deck2: deck2).call
 
-    # TODO start game:
-    # - TODO shuffle deck
-    # - TODO mulligans, pre-game setup
-
-    # TODO move these into a service
-    # execute the first phase of the game
-    duel.phase.enter_phase_service.new(duel: duel).call
+    # Start the game
+    StartGame.new(duel: duel).call
 
     redirect_to duel_path duel
   end

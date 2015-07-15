@@ -64,7 +64,7 @@ module GameHelper
     action_finder.available_attackers(duel.current_player)
   end
 
-  delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder
+  delegate :playable_cards, :ability_cards, :defendable_cards, :game_actions, to: :action_finder
   delegate :player1, :player2, to: :duel
 
   def actions(card, action)
