@@ -10,12 +10,16 @@ class BattlefieldController < ApplicationController
       target: find_target
     )
     action.do(duel)
-    redirect_to duel_path duel
+    redirect_to duel_player_path duel, player
   end
 
   private
     def duel
       Duel.find(params[:duel_id])
+    end
+
+    def player
+      Player.find(params[:player_id])
     end
 
 end
