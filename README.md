@@ -19,6 +19,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Counter spells
 * Deck shuffling and drawing
 * Mulligans
+* Basic multiplayer interface with OAuth2 login
 
 ## ActiveRecord concepts
 
@@ -54,10 +55,6 @@ We try to use as few model objects as possible.
 * Discard a card
 * Devotion
 * Event triggers
-
-## Release 2 goals
-
-* Multiplayer interface with OAuth2 login
 
 ## Later goals
 
