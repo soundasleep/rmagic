@@ -72,6 +72,10 @@ class ActionLog < ActiveRecord::Base
     self.generic_card_action duel, player, card, "battlefield"
   end
 
+  def self.deck_card_action(duel, player, card)
+    self.generic_card_action duel, player, card, "deck"
+  end
+
   def self.stack_card_action(duel, player, card)
     self.generic_card_action duel, player, card, "stack"
   end

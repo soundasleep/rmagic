@@ -1,4 +1,5 @@
 module Enchantment
+  include Tappable
 
   def is_enchantment?
     true

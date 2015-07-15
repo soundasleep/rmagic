@@ -2,41 +2,23 @@ class DuelController < ApplicationController
   before_filter :authenticate
 
   def create
-    # TODO move this into a service so we can test it? (GameCreationService? GameCreator?)
-    player1 = current_user.players.create! name: current_user.name, life: 20, is_ai: false
-    player2 = Player.create! name: "AI", life: 20, is_ai: true
+    # Create an AI player
+    ai = User.create! name: "AI", is_ai: true
 
-    @duel = Duel.create! player1: player1, player2: player2
-
-    # create deck
     deck1 = PremadeDeck.find(params[:deck1])
     deck2 = PremadeDeck.find(params[:deck2])
 
-    deck1.cards.each_with_index do |c, i|
-      create_order_card player1.deck, c.metaverse_id, i
-    end
-    deck2.cards.each_with_index do |c, i|
-      create_order_card player2.deck, c.metaverse_id, i
-    end
+    # Call the service to create the duel
+    duel = CreateGame.new(user1: current_user, user2: ai, deck1: deck1, deck2: deck2).call
 
-    # TODO shuffle deck
-    # TODO mulligans, pre-game setup
-
-    duel.save!      # TODO remove
-
-    # execute the first phase of the game
-    duel.phase.enter_phase_service.new(duel: duel).call
+    # Start the game
+    StartGame.new(duel: duel).call
 
     redirect_to duel_path duel
   end
 
   def show
     @duel = duel
-  end
-
-  def pass
-    PassPriority.new(duel: duel).call
-    redirect_to duel_path duel
   end
 
   # TODO maybe refactor into resources e.g.
@@ -87,8 +69,18 @@ class DuelController < ApplicationController
     pass
   end
 
-  helper_method :playable_cards, :ability_cards, :defendable_cards
-  helper_method :available_attackers, :get_target_type
+  def game_action
+    action = GameAction.new(
+      player: duel.player1,
+      key: params[:key]
+    )
+    action.do(duel)
+    redirect_to duel_path duel
+  end
+
+  helper_method :playable_cards, :ability_cards, :defendable_cards,
+      :available_attackers, :game_actions
+  helper_method :get_target_type
 
   def playable_cards
     action_finder.playable_cards duel.player1
@@ -106,21 +98,15 @@ class DuelController < ApplicationController
     action_finder.available_attackers duel.player1
   end
 
+  def game_actions
+    action_finder.game_actions duel.player1
+  end
+
   private
 
     def duel
       # TODO check permissions that we can actually view/interact with this duel
       @duel ||= Duel.find(params[:id])
-    end
-
-    def create_card(zone, metaverse_id)
-      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      zone.create! card: card
-    end
-
-    def create_order_card(zone, metaverse_id, order)
-      card = Card.create!( metaverse_id: metaverse_id, turn_played: 0 )
-      zone.create! card: card, order: order
     end
 
     def find_target

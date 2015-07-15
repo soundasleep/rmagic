@@ -19,10 +19,12 @@ class PassPriority
       next_player = duel.next_phase!
 
       if next_player
-        duel.update! current_player_number: (duel.current_player_number % duel.players.count) + 1
-        duel.update! priority_player_number: duel.current_player_number
+        if previous_phase.for_each_player?
+          duel.update! current_player_number: (duel.current_player_number % duel.players.count) + 1
+          duel.update! priority_player_number: duel.current_player_number
+        end
 
-        if duel.current_player_number == duel.first_player_number
+        if duel.phase.increments_turn? && duel.current_player_number == duel.first_player_number
           # next turn
           duel.update! turn: duel.turn + 1
 
@@ -36,7 +38,7 @@ class PassPriority
     RemoveUnattachedEnchantments.new(duel: duel).call
 
     if duel.phase != previous_phase
-      duel.phase.enter_phase_service.new(duel: duel).call
+      duel.enter_phase!
     end
 
     # do the AI if necessary

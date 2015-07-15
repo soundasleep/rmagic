@@ -21,6 +21,8 @@ module GameHelper
       create_card duel.player2.battlefield, Library::Forest
     end
 
+    duel.drawing_phase!
+
     duel
   end
 
@@ -62,7 +64,7 @@ module GameHelper
     action_finder.available_attackers(duel.current_player)
   end
 
-  delegate :playable_cards, :ability_cards, :defendable_cards, to: :action_finder
+  delegate :playable_cards, :ability_cards, :defendable_cards, :game_actions, to: :action_finder
   delegate :player1, :player2, to: :duel
 
   def actions(card, action)
@@ -172,7 +174,26 @@ module GameHelper
   def action_finder
     @action_finder ||= ActionFinder.new(duel)
   end
+end
 
+module CreatePremadeDecks
+  def create_premade_deck(user)
+    deck = user.premade_decks.create! name: "Test Deck"
+
+    deck.cards.create! metaverse_id: Library::Forest.metaverse_id
+    deck.cards.create! metaverse_id: Library::Island.metaverse_id
+
+    deck
+  end
+
+  def create_larger_premade_deck(user)
+    deck = user.premade_decks.create! name: "Larger Test Deck"
+
+    10.times { deck.cards.create! metaverse_id: Library::Forest.metaverse_id }
+    10.times { deck.cards.create! metaverse_id: Library::Island.metaverse_id }
+
+    deck
+  end
 end
 
 RSpec.configure do |c|

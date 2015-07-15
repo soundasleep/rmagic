@@ -1,4 +1,5 @@
 class CardType
+
   def to_text
     "#{name} #{cost_string}"
   end

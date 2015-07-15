@@ -3,60 +3,88 @@ require "game_helper"
 RSpec.describe "Drawing", type: :game do
   let(:duel) { create_game }
 
-  context "default" do
-    it "starts in drawing phase" do
-      expect(duel.drawing_phase?).to be(true)
+  it "starts in drawing phase" do
+    expect(duel.drawing_phase?).to be(true)
+  end
+
+  it "player 1 is the first player" do
+    expect(duel.first_player).to eq(duel.player1)
+  end
+
+  context "turn 1" do
+    it "we are turn 1" do
+      expect(duel.turn).to eq(1)
     end
-  end
 
-  it "starting a new turn draws a card" do
-    expect(duel.player1.hand.count).to eq(0)
-    expect(duel.player2.hand.count).to eq(0)
+    it "player 1 has an empty hand" do
+      expect(player1.hand).to be_empty
+    end
 
-    duel.cleanup_phase!
-    duel.current_player_number = 2
-    duel.priority_player_number = 2
+    it "player 2 has an empty hand" do
+      expect(player1.hand).to be_empty
+    end
 
-    expect(duel.cleanup_phase?).to be(true)
-    expect(duel.drawing_phase?).to be(false)
+    context "in cleanup phase" do
+      before :each do
+        duel.cleanup_phase!
+        duel.update! ({ current_player_number: 2, priority_player_number: 2 })
+      end
 
-    pass_priority
+      context "after passing priority" do
+        before { pass_priority }
 
-    expect(duel.cleanup_phase?).to be(true)
-    expect(duel.drawing_phase?).to be(false)
-    expect(duel.player1.hand.count).to eq(0)
-    expect(duel.player2.hand.count).to eq(0)
+        it "player 1 has an empty hand" do
+          expect(player1.hand).to be_empty
+        end
 
-    pass_priority
+        it "player 2 has an empty hand" do
+          expect(player2.hand).to be_empty
+        end
 
-    expect(duel.cleanup_phase?).to be(false)
-    expect(duel.drawing_phase?).to be(true)
-    expect(duel.player1.hand.count).to eq(1)
-    expect(duel.player2.hand.count).to eq(0)
-  end
+        context "after passing priority" do
+          before { pass_priority }
 
-  it "starting a new turn draws a card for the other player" do
-    expect(duel.player1.hand.count).to eq(0)
-    expect(duel.player2.hand.count).to eq(0)
+          it "player 1 has a card" do
+            expect(player1.hand.length).to eq(1)
+          end
 
-    duel.cleanup_phase!
-    duel.current_player_number = 1
-    duel.priority_player_number = 1
-    duel.save!
+          it "player 2 has an empty hand" do
+            expect(player2.hand).to be_empty
+          end
+        end
+      end
+    end
 
-    pass_priority
+    context "in cleanup phase of the other player" do
+      before :each do
+        duel.cleanup_phase!
+        duel.update! ({ current_player_number: 1, priority_player_number: 1 })
+      end
 
-    expect(duel.cleanup_phase?).to be(true)
-    expect(duel.drawing_phase?).to be(false)
-    expect(duel.player1.hand.count).to eq(0)
-    expect(duel.player2.hand.count).to eq(0)
+      context "after passing priority" do
+        before { pass_priority }
 
-    pass_priority
+        it "player 1 has an empty hand" do
+          expect(player1.hand).to be_empty
+        end
 
-    expect(duel.cleanup_phase?).to be(false)
-    expect(duel.drawing_phase?).to be(true)
-    expect(duel.player1.hand.count).to eq(0)
-    expect(duel.player2.hand.count).to eq(1)
+        it "player 2 has an empty hand" do
+          expect(player2.hand).to be_empty
+        end
+
+        context "after passing priority" do
+          before { pass_priority }
+
+          it "player 1 has an empty hand" do
+            expect(player1.hand).to be_empty
+          end
+
+          it "player 2 has a card" do
+            expect(player2.hand.length).to eq(1)
+          end
+        end
+      end
+    end
   end
 
 end

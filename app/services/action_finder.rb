@@ -50,6 +50,18 @@ class ActionFinder
     end
   end
 
+  def game_actions(player)
+    result = []
+    if duel.priority_player == player
+      result << GameAction.new(player: player, key: "pass")
+      if duel.mulligan_phase?
+        result << GameAction.new(player: player, key: "mulligan")
+      end
+    end
+    # TODO end game actions - e.g. concede?
+    result
+  end
+
   private
 
     def playable_cards_without_targets(player)

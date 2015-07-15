@@ -11,6 +11,10 @@ class DrawingPhase < Phase
     true
   end
 
+  def increments_turn?
+    true
+  end
+
   def description
     "drawing phase: draw cards"
   end

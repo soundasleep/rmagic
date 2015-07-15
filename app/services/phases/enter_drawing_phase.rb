@@ -15,9 +15,15 @@ class EnterDrawingPhase
         AbilityAction.new(source: battlefield, key: "untap").do(duel)
       end
 
-      # the current player draws a card
-      DrawCard.new(duel: duel, player: duel.priority_player).call
+      if player_should_draw_a_card?
+        DrawCard.new(duel: duel, player: duel.priority_player).call
+      end
     end
   end
+
+  private
+    def player_should_draw_a_card?
+      duel.turn != 1 || duel.priority_player != duel.first_player
+    end
 
 end
