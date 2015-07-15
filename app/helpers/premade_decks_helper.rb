@@ -1,2 +1,0 @@
-module PremadeDecksHelper
-end
