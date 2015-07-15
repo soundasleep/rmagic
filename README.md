@@ -47,7 +47,6 @@ We try to use as few model objects as possible.
 * Supports [Fate vs Fury](http://sales.starcitygames.com/carddisplay.php?product=695013) deck
 * Flying, reach
 * Scry
-* Enchantments (need to be on the battlefield and also connected to cards - not the same as effects)
 * Distribute damage
 * Search through library
 * Discard a card
