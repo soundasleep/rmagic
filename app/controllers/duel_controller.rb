@@ -1,4 +1,6 @@
 class DuelController < ApplicationController
+  include ActionableController
+
   before_filter :authenticate
 
   def create
@@ -19,6 +21,7 @@ class DuelController < ApplicationController
 
   def show
     @duel = duel
+    @player = duel.player1
   end
 
   # TODO maybe refactor into resources e.g.
@@ -29,16 +32,6 @@ class DuelController < ApplicationController
   #
   # POST /duel/123/player/1/hand/123/play?key="do something"
   # - this maps nicely to getting child resources through .json
-  def play
-    action = PlayAction.new(
-      source: Hand.find(params[:hand]),
-      key: params[:key],
-      target: find_target
-    )
-    action.do(duel)
-    redirect_to duel_path duel
-  end
-
   def ability
     action = AbilityAction.new(
       source: Battlefield.find(params[:battlefield]),
@@ -107,31 +100,6 @@ class DuelController < ApplicationController
     def duel
       # TODO check permissions that we can actually view/interact with this duel
       @duel ||= Duel.find(params[:id])
-    end
-
-    def find_target
-      case params[:target_type]
-        when "player"
-          Player.find(params[:target])
-        when "battlefield"
-          Battlefield.find(params[:target])
-        when "none"
-          nil
-        else
-          fail "Unknown target type '#{params[:target_type]}'"
-      end
-    end
-
-    def get_target_type(target)
-      return "none" if target == nil
-      case target.class.name
-        when "Player"
-          "player"
-        when "Battlefield"
-          "battlefield"
-        else
-          fail "Unknown target type '#{target.class.name}'"
-      end
     end
 
     def action_finder

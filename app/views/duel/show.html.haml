@@ -5,7 +5,9 @@
     = submit_tag action.description
 
 - playable_cards.each do |hand|
-  = form_tag(play_duel_url(@duel)) do |f|
+  / = form_tag(play_duel_url(@duel)) do |f|
+  / = form_tag(play_duel_player_hand_path([@duel, @player, hand.source])) do |f|
+  = form_tag(play_duel_player_hand_path(@duel, @player, hand.source)) do |f|
     = hidden_field_tag "hand", hand.source.id
     = hidden_field_tag "key", hand.key
     = hidden_field_tag "target_type", get_target_type(hand.target)
