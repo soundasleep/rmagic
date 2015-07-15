@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715032812) do
+ActiveRecord::Schema.define(version: 20150715052106) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -97,6 +97,16 @@ ActiveRecord::Schema.define(version: 20150715032812) do
   add_index "declared_defenders", ["duel_id"], name: "index_declared_defenders_on_duel_id"
   add_index "declared_defenders", ["source_id"], name: "index_declared_defenders_on_source_id"
   add_index "declared_defenders", ["target_id"], name: "index_declared_defenders_on_target_id"
+
+  create_table "duel_requests", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "premade_deck_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "duel_requests", ["premade_deck_id"], name: "index_duel_requests_on_premade_deck_id"
+  add_index "duel_requests", ["user_id"], name: "index_duel_requests_on_user_id"
 
   create_table "duels", force: :cascade do |t|
     t.integer  "player1_id",             null: false

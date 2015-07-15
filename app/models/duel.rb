@@ -65,6 +65,10 @@ class Duel < ActiveRecord::Base
     stack.map(&:order).max + 1
   end
 
+  def title
+    "#{player1.name} (#{player1.life}) v #{player2.name} (#{player2.life})"
+  end
+
   def zones
     [ stack ]
   end
