@@ -19,11 +19,4 @@ class DuelController < ApplicationController
     redirect_to duel_player_path duel, duel.player1
   end
 
-  private
-
-    def duel
-      # TODO check permissions that we can actually view/interact with this duel
-      @duel ||= Duel.find(params[:id])
-    end
-
 end
