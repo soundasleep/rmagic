@@ -9,6 +9,9 @@ class DoGameAction
 
   def call
     case key
+      when "pass"
+        PassPriority.new(duel: duel).call
+
       when "mulligan"
         DoMulliganGameAction.new(duel: duel, player: player).call
 

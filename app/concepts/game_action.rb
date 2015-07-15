@@ -11,7 +11,7 @@ class GameAction
   end
 
   def description
-    "#{key}"
+    "#{key.camelcase}"
   end
 
 end
