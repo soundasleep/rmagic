@@ -1,13 +1,20 @@
-jquery = require('jquery')
+$ = require("jquery")
 
-socket = require('./dispatcher')
+socket = require("./dispatcher")
 
-jquery(document).ready ->
+$(document).ready ->
   alert "loaded"
 
 success = (x) ->
-  alert "yeah: #{x.message}"
+  console.log "yeah: #{x.message}"
 failure = (x) ->
-  alert "oh no"
+  console.log "oh no"
 
-socket.trigger('connect', { object: true }, success, failure)
+socket.trigger("connect", { object: true }, success, failure)
+
+React = require("react")
+App = require('./components/app')
+
+$(document).ready ->
+  if $("#app").length
+    React.render(React.createElement(App), $("#app")[0])

@@ -1,5 +1,1 @@
-x = new WebSocketRails('localhost:3000/websocket')
-
-alert x
-
-module.exports = x
+module.exports = new WebSocketRails('localhost:3000/websocket')

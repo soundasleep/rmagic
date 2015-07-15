@@ -11,7 +11,7 @@ module.exports = (grunt) ->
         files: [{
           expand: true
           cwd: 'public/stylesheets'
-          src: ['*.scss']
+          src: ['**/*.scss']
           dest: 'public/css'
           ext: '.css'
         }]
@@ -21,7 +21,7 @@ module.exports = (grunt) ->
         files: [{
           expand: true
           cwd: 'public/javascripts'
-          src: ['*.coffee']
+          src: ['**/*.coffee']
           dest: 'public/js/generated'
           ext: '.js'
         }]
@@ -34,6 +34,8 @@ module.exports = (grunt) ->
           png: 'public/images/sprites.png'
 
     browserify:
+      options:
+        transform: ['babelify']
       dist:
         src: 'public/js/generated/**/*.js'
         dest: 'public/js/compiled.js'
