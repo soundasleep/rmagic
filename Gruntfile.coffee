@@ -33,6 +33,11 @@ module.exports = (grunt) ->
           output: 'public/css/default.css',
           png: 'public/images/sprites.png'
 
+    browserify:
+      dist:
+        src: 'public/js/**/*.js'
+        dest: 'public/js/compiled.js'
+
     watch:
       styles:
         files: ['public/**/*.scss']
@@ -40,8 +45,9 @@ module.exports = (grunt) ->
 
       scripts:
         files: ['public/**/*.coffee']
-        tasks: ['coffee']
+        tasks: ['coffee', 'browserify']
 
+  grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-sass'
@@ -52,6 +58,7 @@ module.exports = (grunt) ->
     'clean',
     'sass',
     'coffee',
+    'browserify',
     'spritify'
   ]
 
