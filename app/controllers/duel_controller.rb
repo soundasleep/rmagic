@@ -32,24 +32,21 @@ class DuelController < ApplicationController
   #
   # POST /duel/123/player/1/hand/123/play?key="do something"
   # - this maps nicely to getting child resources through .json
-  def defend
-    source = Battlefield.find(params[:source])
-    target = DeclaredAttacker.find(params[:target])
-    defender = DefenderAction.new(
-      source: source,
-      target: target
-    )
-    defender.declare(duel)
-    redirect_to duel_path duel
-  end
-
   def declare_attackers
     if params[:attacker]
       attackers = Battlefield.find(params[:attacker])
       DeclareAttackers.new(duel: duel, zone_cards: attackers).call
     end
     duel.save!    # TODO remove
-    pass
+
+    # and then pass
+    action = GameAction.new(
+      player: duel.player1,
+      key: "pass"
+    )
+    action.do(duel)
+
+    redirect_to duel_path duel
   end
 
   def game_action

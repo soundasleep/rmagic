@@ -3,9 +3,8 @@ Rails.application.routes.draw do
 
   resources :duel, only: [ :show, :create ] do
     member do
-      post 'defend'
-      post 'declare_attackers'
       post 'game_action'
+      post 'declare_attackers'
     end
 
     resources :player, only: [ :show ] do
@@ -18,6 +17,7 @@ Rails.application.routes.draw do
       resources :battlefield, only: [ :show ] do
         member do
           post 'ability'
+          post 'defend'
         end
       end
     end

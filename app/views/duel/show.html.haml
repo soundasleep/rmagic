@@ -38,8 +38,7 @@
     = submit_tag "Declare attackers and pass"
 
 - defendable_cards.each do |defend|
-  = form_tag(defend_duel_url(@duel)) do |f|
-    = hidden_field_tag "source", defend.source.id
+  = form_tag(defend_duel_player_battlefield_path(@duel, @player, defend.source)) do |f|
     = hidden_field_tag "target", defend.target.id
     = submit_tag defend.description
 
