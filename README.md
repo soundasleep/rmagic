@@ -43,7 +43,6 @@ We try to use as few model objects as possible.
 * Order cards in graveyard
 * Tests for controllers
 * Look into Cucumber or Capybara for integration testing
-* List currently opened games for each player
 
 ## Release 1 goals
 

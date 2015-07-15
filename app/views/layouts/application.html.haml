@@ -13,7 +13,8 @@
       = link_to "Premade decks", premade_decks_path
       - if current_user
         Logged in as
-        = current_user.name
+        = link_to current_user.name, user_path(current_user)
+        = link_to "Your games", user_path(current_user)
         = link_to "Log out", logout_path
       - else
         = link_to "Log in", login_path

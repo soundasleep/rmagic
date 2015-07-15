@@ -21,8 +21,9 @@ Rails.application.routes.draw do
         end
       end
     end
-
   end
+
+  resources :user, only: [ :show ]
 
   resources :premade_decks, only: [ :index, :show ]
 

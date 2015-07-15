@@ -1,0 +1,8 @@
+%h1= @user.name
+
+%h2 Your open games
+
+%ul
+  - @user.players.each do |player|
+    %li
+      = link_to player.duel.title, duel_player_path(player.duel, player)
