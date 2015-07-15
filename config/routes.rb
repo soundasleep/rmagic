@@ -23,7 +23,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :user, only: [ :show ]
+  resources :user, only: [ :show ] do
+    resources :duel_request, only: [ :create, :index ]
+  end
 
   resources :premade_decks, only: [ :index, :show ]
 

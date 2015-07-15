@@ -1,0 +1,10 @@
+%h1 Your duel requests
+
+%ul
+  - @user.duel_requests.each do |r|
+    %li
+      A duel using the
+      = r.premade_deck.name
+      premade deck
+
+      / TODO cancel request

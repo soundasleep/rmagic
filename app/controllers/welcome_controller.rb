@@ -9,4 +9,5 @@ class WelcomeController < ApplicationController
     def premade_decks
       PremadeDeck.all
     end
+
 end
