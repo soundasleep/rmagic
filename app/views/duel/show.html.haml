@@ -1,6 +1,6 @@
 / possible actions
 - game_actions.each do |action|
-  = form_tag(game_action_duel_url(@duel)) do |f|
+  = form_tag(game_action_duel_player_path(@duel, @player)) do |f|
     = hidden_field_tag "key", action.key
     = submit_tag action.description
 
@@ -27,7 +27,7 @@
         = ability.source.card.id
 
 - if available_attackers.any?
-  = form_tag(declare_attackers_duel_url(@duel)) do |f|
+  = form_tag(declare_attackers_duel_player_path(@duel, @player)) do |f|
     Declare attackers:
     %ul
     - available_attackers.each do |a|

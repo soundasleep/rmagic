@@ -2,12 +2,12 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :duel, only: [ :show, :create ] do
-    member do
-      post 'game_action'
-      post 'declare_attackers'
-    end
-
     resources :player, only: [ :show ] do
+      member do
+        post 'game_action'
+        post 'declare_attackers'
+      end
+
       resources :hand, only: [ :show ] do
         member do
           post 'play'

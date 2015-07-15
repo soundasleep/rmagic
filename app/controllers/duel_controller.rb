@@ -21,41 +21,8 @@ class DuelController < ApplicationController
 
   def show
     @duel = duel
+    # TODO move this into duel/1/player/1/show?
     @player = duel.player1
-  end
-
-  # TODO maybe refactor into resources e.g.
-  # POST /duel/123/turn/create/[source]/[key]/[target]?
-  # POST /duel/123/turn/play/[source]/[key]/[target]?
-  # POST /duel/123/play/[source]/[key]/[target]?
-  # e.g. GET /duel/123/player/1/battlefield.json
-  #
-  # POST /duel/123/player/1/hand/123/play?key="do something"
-  # - this maps nicely to getting child resources through .json
-  def declare_attackers
-    if params[:attacker]
-      attackers = Battlefield.find(params[:attacker])
-      DeclareAttackers.new(duel: duel, zone_cards: attackers).call
-    end
-    duel.save!    # TODO remove
-
-    # and then pass
-    action = GameAction.new(
-      player: duel.player1,
-      key: "pass"
-    )
-    action.do(duel)
-
-    redirect_to duel_path duel
-  end
-
-  def game_action
-    action = GameAction.new(
-      player: duel.player1,
-      key: params[:key]
-    )
-    action.do(duel)
-    redirect_to duel_path duel
   end
 
   helper_method :playable_cards, :ability_cards, :defendable_cards,
