@@ -15,6 +15,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Temporary effects modifying power/toughness on creatures
 * Activated abilities considering summoning sickness
 * Spells and creatures interacting on the stack
+* Enchantments attached to cards
 * Counter spells
 
 ## ActiveRecord concepts
@@ -47,7 +48,6 @@ We try to use as few model objects as possible.
 * Supports [Fate vs Fury](http://sales.starcitygames.com/carddisplay.php?product=695013) deck
 * Flying, reach
 * Scry
-* Enchantments (need to be on the battlefield and also connected to cards - not the same as effects)
 * Distribute damage
 * Search through library
 * Discard a card

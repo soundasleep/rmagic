@@ -8,7 +8,12 @@ class MoveCardOntoGraveyard
   end
 
   def call
-    RemoveCardFromAllZones.new(duel: duel, player: player, card: card).call or fail "Could not remove card"
+    RemoveCardFromAllZones.new(duel: duel, player: player, card: card).call or fail "Could not remove card #{card}"
+
+    # remove all attached enchantments
+    card.enchantments.each do |enchantment|
+      MoveCardOntoGraveyard.new(duel: duel, player: player, card: enchantment).call or fail "Could not remove enchantment #{enchantment}"
+    end
 
     # update log
     ActionLog.graveyard_card_action(duel, player, card)

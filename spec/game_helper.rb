@@ -155,6 +155,16 @@ module GameHelper
     end
   end
 
+  def pass_until_stack_resolves
+    i = 0
+
+    while !duel.stack.empty? do
+      i += 1
+      assert_operator i, :<, 100, "it took too long to resolve the stack"
+      pass_priority
+    end
+  end
+
   def pass_priority
     PassPriority.new(duel: duel).call
   end

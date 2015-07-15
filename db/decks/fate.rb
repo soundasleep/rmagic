@@ -21,7 +21,7 @@ create_card deck, Library::KiorasFollower, 3
 # create_card deck, Library::Griptide, 2
 # create_card deck, Library::JacesIngenuity, 2
 create_card deck, Library::Negate, 2
-# create_card deck, Library::PinToTheEarth, 2
+create_card deck, Library::PinToTheEarth, 2
 # create_card deck, Library::VoyagesEnd
 
 create_card deck, Library::Forest, 7

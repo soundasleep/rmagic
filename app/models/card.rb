@@ -1,5 +1,6 @@
 class Card < ActiveRecord::Base
   has_many :effects, dependent: :destroy
+  has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id
 
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
@@ -40,6 +41,10 @@ class Card < ActiveRecord::Base
 
   delegate :action_text, to: :card_type
 
+  def attached_to?
+    attached_to_id?
+  end
+
   def tap_card!
     fail "card is already tapped" if is_tapped?
     update! is_tapped: true
@@ -64,11 +69,11 @@ class Card < ActiveRecord::Base
   end
 
   def power
-    effects.inject(card_type.power) { |n, effect| effect.effect_type.modify_power(n) }
+    (effects + enchantment_cards).inject(card_type.power) { |n, effect| effect.modify_power(n) }
   end
 
   def toughness
-    effects.inject(card_type.toughness) { |n, effect| effect.effect_type.modify_toughness(n) }
+    (effects + enchantment_cards).inject(card_type.toughness) { |n, effect| effect.modify_toughness(n) }
   end
 
   def next_effect_order
@@ -79,5 +84,11 @@ class Card < ActiveRecord::Base
   def card
     self
   end
+
+  private
+
+    def enchantment_cards
+      enchantments.map { |c| c.card_type }
+    end
 
 end

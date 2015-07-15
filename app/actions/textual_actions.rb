@@ -11,7 +11,9 @@ class TextualActions < Condition
       begin
         action.execute(duel, stack)
       rescue => e
-        raise Exception.new("Could not execute action #{action} on #{self} from #{my_caller}: #{e}")
+        # TODO is there a better way to wrap exceptions in the stack trace?
+        puts Exception.new("Could not execute action #{action} on #{self} from #{my_caller}: #{e}")
+        raise e
       end
     end
   end

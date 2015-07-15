@@ -1,3 +1,4 @@
+# TODO rename to BasicCreature
 class Library::Metaverse1 < CardType
   include Creature
 

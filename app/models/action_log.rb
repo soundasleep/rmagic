@@ -80,6 +80,10 @@ class ActionLog < ActiveRecord::Base
     duel.action_logs.create! player: player, card: zone_card.card, card_action: "effect", argument: effect_id
   end
 
+  def self.attach_card_action(duel, player, zone_card, attached_id)
+    duel.action_logs.create! player: player, card: zone_card.card, card_action: "attach", argument: attached_id
+  end
+
   private
 
   def self.generic_card_action(duel, player, card, key)
