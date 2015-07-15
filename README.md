@@ -17,6 +17,8 @@ The engine barely supports anything at the moment, but it's a start.
 * Spells and creatures interacting on the stack
 * Enchantments attached to cards
 * Counter spells
+* Deck shuffling and drawing
+* Mulligans
 
 ## ActiveRecord concepts
 
@@ -35,12 +37,11 @@ We try to use as few model objects as possible.
 * Support more game phases correctly
 * Summoning sickness for activated abilities
 * Render the cards on the stack in the web interface
+* Render attached enchantments in the web interface
 * Sorceries
-* Deck shuffling and drawing
 * Random first player
 * Order cards in graveyard
 * Tests for controllers
-* Mulligans
 * Look into Cucumber or Capybara for integration testing
 
 ## Release 1 goals
