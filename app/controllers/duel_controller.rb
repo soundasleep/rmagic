@@ -19,4 +19,15 @@ class DuelController < ApplicationController
     redirect_to duel_player_path duel, duel.player1
   end
 
+  def show
+    respond_to do |format|
+      format.json { render :json => duel }
+    end
+  end
+
+  private
+    def duel
+      Duel.find(params[:id])
+    end
+
 end

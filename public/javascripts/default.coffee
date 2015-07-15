@@ -1,9 +1,5 @@
 $ = require("jquery")
-
 socket = require("./dispatcher")
-
-$(document).ready ->
-  alert "loaded"
 
 success = (x) ->
   console.log "yeah: #{x.message}"
