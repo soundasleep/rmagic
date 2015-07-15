@@ -15,12 +15,3 @@
 //= require turbolinks
 //= require_tree .
 //= require websocket_rails/main
-
-var dispatcher = new WebSocketRails('localhost:3000/websocket');
-var success = function(x) {
-  alert("success: " + x);
-};
-var failure = function(x) {
-  alert("failure: " + x);
-};
-dispatcher.trigger('connect', { object: true }, success, failure);

@@ -22,7 +22,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: 'public/javascripts'
           src: ['*.coffee']
-          dest: 'public/js'
+          dest: 'public/js/generated'
           ext: '.js'
         }]
 
@@ -35,7 +35,7 @@ module.exports = (grunt) ->
 
     browserify:
       dist:
-        src: 'public/js/**/*.js'
+        src: 'public/js/generated/**/*.js'
         dest: 'public/js/compiled.js'
 
     watch:
