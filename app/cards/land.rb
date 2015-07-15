@@ -1,4 +1,5 @@
 module Land
+  include Tappable
 
   def is_land?
     true

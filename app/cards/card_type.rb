@@ -1,5 +1,4 @@
 class CardType
-  include Tappable
 
   def to_text
     "#{name} #{cost_string}"
