@@ -5,8 +5,11 @@ class PlayerController < ApplicationController
 
   def show
     @duel = duel
-    # TODO move this into duel/1/player/1/show?
-    @player = duel.player1
+    @player = player
+
+    if !@duel.players.include?(@player)
+      fail "That player #{player} is not in the duel #{duel}"
+    end
   end
 
   helper_method :playable_cards, :ability_cards, :defendable_cards,

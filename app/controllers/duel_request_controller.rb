@@ -11,10 +11,8 @@ class DuelRequestController < ApplicationController
     result = CreateDuelRequest.new(user: user, premade_deck: premade_deck).call
 
     if result == true
-      puts "result is true"
       redirect_to user_duel_request_index_path(current_user)
     else
-      puts "result is a duel #{result}"
       redirect_to duel_player_path(result, current_user)
     end
   end

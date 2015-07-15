@@ -49,6 +49,8 @@
     Player #{player.name}
     ( #{player.life} life )
     %small= player.mana
+    - if player == @player
+      %i This is you!
 
   %h3 Deck ( #{player.deck.count} cards ), graveyard ( #{player.graveyard.count} cards )
 
