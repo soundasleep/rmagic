@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714030634) do
+ActiveRecord::Schema.define(version: 20150715003328) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -242,8 +242,9 @@ ActiveRecord::Schema.define(version: 20150714030634) do
     t.string   "refresh_token"
     t.string   "access_token"
     t.datetime "expires"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "is_ai",         default: false
   end
 
 end
