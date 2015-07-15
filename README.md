@@ -19,6 +19,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Counter spells
 * Deck shuffling and drawing
 * Mulligans
+* Random first player
 * Basic multiplayer interface with OAuth2 login
 
 ## ActiveRecord concepts
@@ -40,7 +41,6 @@ We try to use as few model objects as possible.
 * Render the cards on the stack in the web interface
 * Render attached enchantments in the web interface
 * Sorceries
-* Random first player
 * Order cards in graveyard
 * Tests for controllers
 * Look into Cucumber or Capybara for integration testing
