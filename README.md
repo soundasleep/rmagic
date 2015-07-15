@@ -15,6 +15,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Temporary effects modifying power/toughness on creatures
 * Activated abilities considering summoning sickness
 * Spells and creatures interacting on the stack
+* Enchantments attached to cards
 * Counter spells
 
 ## ActiveRecord concepts
