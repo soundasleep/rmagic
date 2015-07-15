@@ -39,6 +39,10 @@ class Duel < ActiveRecord::Base
     players[current_player_number - 1]
   end
 
+  def first_player
+    players[first_player_number - 1]
+  end
+
   def reset_priority!
     update! priority_player_number: current_player_number
   end

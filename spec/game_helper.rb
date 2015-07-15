@@ -21,6 +21,8 @@ module GameHelper
       create_card duel.player2.battlefield, Library::Forest
     end
 
+    duel.drawing_phase!
+
     duel
   end
 

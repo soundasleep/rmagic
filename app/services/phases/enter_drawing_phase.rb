@@ -23,7 +23,7 @@ class EnterDrawingPhase
 
   private
     def player_should_draw_a_card?
-      duel.turn != 1 && duel.priority_player != duel.starting_player
+      duel.turn != 1 && duel.priority_player != duel.first_player
     end
 
 end
