@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   resources :duel, only: [ :show, :create ] do
     member do
       post 'defend'
-      post 'ability'
       post 'declare_attackers'
       post 'game_action'
     end
@@ -13,6 +12,12 @@ Rails.application.routes.draw do
       resources :hand, only: [ :show ] do
         member do
           post 'play'
+        end
+      end
+
+      resources :battlefield, only: [ :show ] do
+        member do
+          post 'ability'
         end
       end
     end

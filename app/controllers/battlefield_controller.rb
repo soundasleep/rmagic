@@ -1,11 +1,11 @@
-class HandController < ApplicationController
+class BattlefieldController < ApplicationController
   include ActionableController
 
   before_filter :authenticate
 
-  def play
-    action = PlayAction.new(
-      source: Hand.find(params[:id]),
+  def ability
+    action = AbilityAction.new(
+      source: Battlefield.find(params[:id]),
       key: params[:key],
       target: find_target
     )
