@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   resources :duel, only: [ :show, :create ] do
     member do
-      post 'pass'
       post 'play'
       post 'defend'
       post 'ability'

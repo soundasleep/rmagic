@@ -21,11 +21,6 @@ class DuelController < ApplicationController
     @duel = duel
   end
 
-  def pass
-    PassPriority.new(duel: duel).call
-    redirect_to duel_path duel
-  end
-
   # TODO maybe refactor into resources e.g.
   # POST /duel/123/turn/create/[source]/[key]/[target]?
   # POST /duel/123/turn/play/[source]/[key]/[target]?
