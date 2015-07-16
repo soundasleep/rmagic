@@ -18,6 +18,8 @@ module.exports = Subscribed =
           # and then subscribe to the channel
           c = dispatcher.subscribe(channel)
           c.bind 'update', (result) ->
+            console.log ">>", channel
+            console.log result
             obj.setState result
 
           if typeof window.subscribedChannels[channel] == 'undefined'

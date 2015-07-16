@@ -163,4 +163,33 @@ class Player < ActiveRecord::Base
     }
   end
 
+  def all_actions_json
+    {
+      play: action_finder.playable_cards(self).map(&:safe_json),
+      ability: action_finder.ability_cards(self).map(&:safe_json),
+      defend: action_finder.defendable_cards(self).map(&:safe_json),
+      attack: action_finder.available_attackers(self).map(&:safe_json),
+      game: action_finder.game_actions(self).map(&:safe_json)
+    }
+  end
+
+  after_update :update_action_channels
+
+  def update_action_channels(source = nil)
+    json = self.all_actions_json
+    if source
+      json[:source] = source
+    end
+
+    # trigger an update on all channels
+    WebsocketRails["actions/#{id}"].trigger "update", json
+  end
+
+  private
+
+    def action_finder
+      @action_finder ||= ActionFinder.new(duel)
+    end
+
+
 end

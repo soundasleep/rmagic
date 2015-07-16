@@ -2,12 +2,17 @@ module Subscribable
   extend ActiveSupport::Concern
 
   included do
-    after_update :trigger_update
+    after_update :trigger_channel_update
   end
 
-  def trigger_update
+  def trigger_channel_update(source = nil)
+    json = self.safe_json
+    if source
+      json[:source] = source
+    end
+
     # trigger an update on all channels
-    WebsocketRails["#{channel_name}/#{id}"].trigger "update", self.safe_json
+    WebsocketRails["#{channel_name}/#{id}"].trigger "update", json
   end
 
   private

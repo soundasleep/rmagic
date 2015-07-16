@@ -24,6 +24,14 @@ class DoAction
     # do the thing
     action.source.card.card_type.do_action duel, action
 
+    # update all channels
+    UpdateActionChannels.new(duel: duel).call
+    UpdatePlayerChannels.new(duel: duel).call
+
+    # and make sure we update the Duel channel, even if
+    # we haven't changed the model itself
+    duel.trigger_channel_update
+
     true
   end
 

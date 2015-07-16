@@ -90,7 +90,7 @@ class Card < ActiveRecord::Base
   private
 
     def safe_json_attributes
-      [ :id ]
+      [ :id, :is_tapped, :damage ]
     end
 
     def extra_json_attributes
@@ -98,8 +98,7 @@ class Card < ActiveRecord::Base
         card_type: card_type.safe_json,
         power: power,
         toughness: toughness,
-        damage: damage,
-        remaining_health: remaining_health,
+        remaining_health: remaining_health
       }
     end
 

@@ -42,13 +42,7 @@ class PlayerController < ApplicationController
   end
 
   def all_actions_json
-    {
-      play: action_finder.playable_cards(player).map(&:safe_json),
-      ability: action_finder.ability_cards(player).map(&:safe_json),
-      defend: action_finder.defendable_cards(player).map(&:safe_json),
-      attack: action_finder.available_attackers(player).map(&:safe_json),
-      game: action_finder.game_actions(player).map(&:safe_json)
-    }
+    player.all_actions_json
   end
 
   def actions
