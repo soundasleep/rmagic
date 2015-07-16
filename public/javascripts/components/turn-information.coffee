@@ -2,9 +2,17 @@ React = require("react")
 Loading = require("./loading")
 API = require("../api")
 
+dispatcher = require("../dispatcher")
+
 getTurn = (obj, duel) ->
   API.getTurn(duel).then (result) ->
     obj.setState result
+
+    # also subscribe to channel for updates
+    channel = dispatcher.subscribe("duel/#{duel}")
+    channel.bind 'update', (result) ->
+      console.log "we got pushed ", result
+      obj.setState result
 
 module.exports = React.createClass
   propTypes:
