@@ -155,7 +155,11 @@ class Player < ActiveRecord::Base
   def extra_json_attributes
     {
       mana: mana_pool.to_hash,
-      mana_string: mana
+      mana_string: mana,
+      hand: hand.map(&:safe_json),
+      battlefield: battlefield.map(&:safe_json),
+      graveyard: graveyard.map(&:safe_json),
+      deck: deck.map(&:safe_json)
     }
   end
 

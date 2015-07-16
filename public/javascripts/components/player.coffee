@@ -1,6 +1,7 @@
 React = require("react")
 Subscribed = require("../subscribed")
 API = require("../api")
+Hand = require("./player/hand")
 
 module.exports = Subscribed.createClass
   propTypes:
@@ -15,5 +16,9 @@ module.exports = Subscribed.createClass
 
   renderLoaded: ->
     `<div className="player">
-      Player {this.state.id} {this.state.name}: {this.state.life} life, {this.state.mana_string}
+      <h2>
+        Player {this.state.name}<sup>{this.state.id}</sup>: {this.state.life} life, {this.state.mana_string}
+      </h2>
+
+      <Hand {...this.state} />
     </div>`

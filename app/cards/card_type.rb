@@ -1,5 +1,4 @@
 class CardType
-
   def to_text
     "#{name} #{cost_string}"
   end
@@ -27,6 +26,14 @@ class CardType
 
   def is_enchantment?
     false
+  end
+
+  def power
+    0
+  end
+
+  def toughness
+    0
   end
 
   def playing_goes_onto_stack?(key)
@@ -83,6 +90,20 @@ class CardType
 
   def self.metaverse_id
     name.split(/[^0-9]/).last.to_i
+  end
+
+  def safe_json
+    {
+      name: name,
+      metaverse_id: metaverse_id,
+      mana_cost: cost_string,
+      is_creature: is_creature?,
+      is_land: is_land?,
+      is_spell: is_spell?,
+      is_instant: is_instant?,
+      is_enchantment: is_enchantment?,
+      actions: actions
+    }
   end
 
 end
