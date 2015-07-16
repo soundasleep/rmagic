@@ -8,10 +8,11 @@ getTurn = (obj, duel) ->
 
 module.exports = React.createClass
   propTypes:
+    duel: React.PropTypes.string
     isLoading: React.PropTypes.bool
 
   getInitialState: ->
-    state = getTurn(this, 9)
+    state = getTurn(this, this.props.duel)
     if state
       state.isLoading = false
       state

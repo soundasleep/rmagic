@@ -13,4 +13,6 @@ App = require('./components/app')
 
 $(document).ready ->
   if $("#app").length
-    React.render(React.createElement(App), $("#app")[0])
+    e = $("#app")[0]
+
+    React.render(React.createElement(App, e.dataset), e)
