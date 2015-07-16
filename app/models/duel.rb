@@ -73,4 +73,15 @@ class Duel < ActiveRecord::Base
     [ stack ]
   end
 
+  def safe_json
+    {
+      id: id,
+      current_player_number: current_player_number,
+      priority_player_number: priority_player_number,
+      first_player_number: first_player_number,
+      turn: turn,
+      phase_number: phase_number
+    }
+  end
+
 end

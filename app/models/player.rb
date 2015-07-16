@@ -145,4 +145,12 @@ class Player < ActiveRecord::Base
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
   end
 
+  def safe_json
+    {
+      id: id,
+      name: name,
+      mana: mana
+    }
+  end
+
 end

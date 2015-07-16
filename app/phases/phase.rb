@@ -38,4 +38,11 @@ class Phase
   def ==(phase)
     phase.is_a?(Phase) && phase.class.name == self.class.name
   end
+
+  def safe_json
+    {
+      id: to_sym,
+      description: description,
+    }
+  end
 end
