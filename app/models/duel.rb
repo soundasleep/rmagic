@@ -1,4 +1,6 @@
 class Duel < ActiveRecord::Base
+  include SafeJson
+
   belongs_to :player1, class_name: "Player"
   belongs_to :player2, class_name: "Player"
 
@@ -73,14 +75,14 @@ class Duel < ActiveRecord::Base
     [ stack ]
   end
 
-  def safe_json
+  def safe_json_attributes
+    [ :id, :current_player_number, :priority_player_number,
+      :first_player_number, :turn, :phase_number ]
+  end
+
+  def extra_json_attributes
     {
-      id: id,
-      current_player_number: current_player_number,
-      priority_player_number: priority_player_number,
-      first_player_number: first_player_number,
-      turn: turn,
-      phase_number: phase_number
+      phase: phase_number
     }
   end
 

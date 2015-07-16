@@ -10,7 +10,7 @@ module.exports = React.createClass
   propTypes:
     isLoading: React.PropTypes.bool
     turn: React.PropTypes.number
-    phase_number: React.PropTypes.string
+    phase: React.PropTypes.string
 
   getInitialState: ->
     state = getTurn(this, 9)
@@ -24,5 +24,5 @@ module.exports = React.createClass
     if this.state.isLoading
       return `<Loading />`
 
-    `<div className="turnInformation">Turn {this.state.turn} ({this.state.phase_number}) information will go here</div>`
+    `<div className="turnInformation">Turn {this.state.turn} ({this.state.phase}) information will go here</div>`
 
