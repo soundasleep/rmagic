@@ -1,39 +1,19 @@
-React = require("react")
-Loading = require("./loading")
 API = require("../api")
+Subscribed = require("../subscribed")
 
-dispatcher = require("../dispatcher")
-
-getTurn = (obj, duel) ->
-  API.getTurn(duel).then (result) ->
-    obj.setState result
-
-    # also subscribe to channel for updates
-    channel = dispatcher.subscribe("duel/#{duel}")
-    channel.bind 'update', (result) ->
-      console.log "we got pushed ", result
-      obj.setState result
-
-module.exports = React.createClass
+module.exports = Subscribed.createClass
   propTypes:
     duel: React.PropTypes.string
-    isLoading: React.PropTypes.bool
 
-  getInitialState: ->
-    state = getTurn(this, this.props.duel)
-    if state
-      state.isLoading = false
-      state
-    else
-      isLoading: true
+  load: ->
+    API.getTurn(this.props.duel)
 
-  render: ->
-    if this.state.isLoading
-      return `<Loading />`
+  channel: ->
+    "duel/#{this.props.duel}"
 
+  renderLoaded: ->
     `<div className="turnInformation">
       Turn {this.state.turn} ({this.state.phase}):
       Current player {this.state.current_player_number},
       Priority player {this.state.priority_player_number}
     </div>`
-
