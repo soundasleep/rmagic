@@ -9,8 +9,6 @@ getTurn = (obj, duel) ->
 module.exports = React.createClass
   propTypes:
     isLoading: React.PropTypes.bool
-    turn: React.PropTypes.number
-    phase: React.PropTypes.string
 
   getInitialState: ->
     state = getTurn(this, 9)
@@ -24,5 +22,9 @@ module.exports = React.createClass
     if this.state.isLoading
       return `<Loading />`
 
-    `<div className="turnInformation">Turn {this.state.turn} ({this.state.phase}) information will go here</div>`
+    `<div className="turnInformation">
+      Turn {this.state.turn} ({this.state.phase}):
+      Current player {this.state.current_player_number},
+      Priority player {this.state.priority_player_number}
+    </div>`
 

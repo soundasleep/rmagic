@@ -1,4 +1,6 @@
 class Player < ActiveRecord::Base
+  include SafeJson
+
   has_many :deck, -> { order(order: :desc) }, dependent: :destroy
   has_many :hand, dependent: :destroy
   has_many :battlefield, dependent: :destroy
@@ -145,10 +147,12 @@ class Player < ActiveRecord::Base
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
   end
 
-  def safe_json
+  def safe_json_attributes
+    [ :id, :name, :mana ]
+  end
+
+  def extra_json_attributes
     {
-      id: id,
-      name: name,
       mana: mana
     }
   end

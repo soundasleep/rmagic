@@ -82,7 +82,10 @@ class Duel < ActiveRecord::Base
 
   def extra_json_attributes
     {
-      phase: phase_number
+      phase: phase_number,
+      first_player: first_player.safe_json,
+      current_player: current_player.safe_json,
+      priority_player: priority_player.safe_json
     }
   end
 
