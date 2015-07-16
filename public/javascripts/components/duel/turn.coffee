@@ -1,6 +1,6 @@
 React = require("react")
 
-module.exports = React.createClass
+module.exports = Turn = React.createClass
   render: ->
     `<div className="turn">
       Turn {this.props.turn} ({this.props.phase}):

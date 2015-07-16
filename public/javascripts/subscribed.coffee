@@ -5,7 +5,7 @@ dispatcher = require("./dispatcher")
 
 window.subscribedChannels = {}
 
-module.exports =
+module.exports = Subscribed =
   createClass: (extra = {}) ->
     React.createClass $.extend extra,
       propTypes:

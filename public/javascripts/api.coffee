@@ -1,6 +1,6 @@
 $ = require("jquery")
 
-module.exports =
+module.exports = API =
   getDuel: (duel) ->
     # TODO cache?
     new Promise (resolve, reject) ->
@@ -11,4 +11,10 @@ module.exports =
     # TODO cache?
     new Promise (resolve, reject) ->
       $.getJSON("/duel/#{duel}/player/#{player}.json")
+        .success(resolve).fail(reject)
+
+  getActions: (duel, player) ->
+    # TODO cache?
+    new Promise (resolve, reject) ->
+      $.getJSON("/duel/#{duel}/player/#{player}/actions.json")
         .success(resolve).fail(reject)

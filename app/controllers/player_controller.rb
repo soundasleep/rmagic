@@ -41,6 +41,22 @@ class PlayerController < ApplicationController
     action_finder.game_actions player
   end
 
+  def all_actions_json
+    {
+      play: action_finder.playable_cards(player).map(&:safe_json),
+      ability: action_finder.ability_cards(player).map(&:safe_json),
+      defend: action_finder.defendable_cards(player).map(&:safe_json),
+      attack: action_finder.available_attackers(player).map(&:safe_json),
+      game: action_finder.game_actions(player).map(&:safe_json)
+    }
+  end
+
+  def actions
+    respond_to do |format|
+      format.json { render :json => all_actions_json }
+    end
+  end
+
   def declare_attackers
     if params[:attacker]
       attackers = Battlefield.find(params[:attacker])

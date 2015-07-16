@@ -2,10 +2,10 @@ $ = require('jquery')
 React = require("react")
 Card = require("./card")
 
-module.exports = React.createClass
+module.exports = Hand = React.createClass
   render: ->
     hand = this.props.hand.map (e) ->
-      `<Card {...e} />`
+      `<Card key={e.id} {...e} />`
 
     `<div className="hand">
       <h3>Hand ({this.props.hand.length} cards)</h3>

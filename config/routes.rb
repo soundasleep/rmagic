@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :duel, only: [ :show, :create ] do
     resources :player, only: [ :show ] do
       member do
+        get 'actions'
         post 'game_action'
         post 'declare_attackers'
       end

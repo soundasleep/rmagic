@@ -1,1 +1,1 @@
-module.exports = new WebSocketRails('localhost:3000/websocket')
+module.exports = Dispatcher = new WebSocketRails('localhost:3000/websocket')

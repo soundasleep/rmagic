@@ -7,7 +7,7 @@ Graveyard = require("./player/graveyard")
 Hand = require("./player/hand")
 Battlefield = require("./player/battlefield")
 
-module.exports = Subscribed.createClass
+module.exports = Player = Subscribed.createClass
   propTypes:
     duel: React.PropTypes.string
     player: React.PropTypes.string

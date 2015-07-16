@@ -1,7 +1,7 @@
 $ = require('jquery')
 React = require("react")
 
-module.exports = React.createClass
+module.exports = Card = React.createClass
   render: ->
     card_link = "/cards/#{this.props.card.card_type.metaverse_id}"
     power = ""

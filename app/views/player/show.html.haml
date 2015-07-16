@@ -1,5 +1,5 @@
 / this will be replaced with the javascript web interface
-#app{ "data-duel" => @duel.id }
+#app{ "data-duel" => @duel.id, "data-player" => @player.id }
 
 / possible actions
 - game_actions.each do |action|
@@ -10,7 +10,7 @@
 - playable_cards.each do |hand|
   = form_tag(play_duel_player_hand_path(@duel, @player, hand.source)) do |f|
     = hidden_field_tag "key", hand.key
-    = hidden_field_tag "target_type", get_target_type(hand.target)
+    = hidden_field_tag "target_type", hand.target_type
     - if hand.target
       = hidden_field_tag "target", hand.target.id
     = submit_tag hand.description
@@ -21,7 +21,7 @@
 - ability_cards.each do |ability|
   = form_tag(ability_duel_player_battlefield_path(@duel, @player, ability.source)) do |f|
     = hidden_field_tag "key", ability.key
-    = hidden_field_tag "target_type", get_target_type(ability.target)
+    = hidden_field_tag "target_type", ability.target_type
     - if ability.target
       = hidden_field_tag "target", ability.target.id
     = submit_tag ability.description

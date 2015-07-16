@@ -1,0 +1,20 @@
+$ = require('jquery')
+React = require("react")
+
+module.exports = PlayActions = React.createClass
+  render: ->
+    actions = this.props.play.map (e, i) =>
+      url = "/duel/#{this.props.duel}/player/#{this.props.player}/hand/#{e.source_id}/play"
+
+      `<li key={i}>
+        <form action={url} method="post">
+          <input type="hidden" name="key" value={e.key} />
+          <input type="hidden" name="target_type" value={e.target_type} />
+          <input type="hidden" name="target" value={e.target_id} />
+          <input type="submit" value={e.description} />
+        </form>
+      </li>`
+
+    `<ul className="play-actions">
+      {this.props.play.length} actions: {actions}
+    </ul>`
