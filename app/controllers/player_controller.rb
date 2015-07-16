@@ -17,30 +17,6 @@ class PlayerController < ApplicationController
     end
   end
 
-  helper_method :playable_cards, :ability_cards, :defendable_cards,
-      :available_attackers, :game_actions
-  helper_method :get_target_type
-
-  def playable_cards
-    action_finder.playable_cards player
-  end
-
-  def ability_cards
-    action_finder.ability_cards player
-  end
-
-  def defendable_cards
-    action_finder.defendable_cards player
-  end
-
-  def available_attackers
-    action_finder.available_attackers player
-  end
-
-  def game_actions
-    action_finder.game_actions player
-  end
-
   def all_actions_json
     player.all_actions_json
   end
