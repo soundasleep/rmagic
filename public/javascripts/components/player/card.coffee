@@ -3,7 +3,7 @@ React = require("react")
 
 module.exports = React.createClass
   render: ->
-    card_link = "/cards/#{this.props.card.metaverse_id}"
+    card_link = "/cards/#{this.props.card.card_type.metaverse_id}"
     power = ""
     if this.props.card.card_type.is_creature
       power = `<span className="power">({this.props.card.power} / {this.props.card.toughness})</span>`

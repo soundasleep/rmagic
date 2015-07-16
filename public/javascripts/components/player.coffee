@@ -1,7 +1,11 @@
 React = require("react")
 Subscribed = require("../subscribed")
 API = require("../api")
+
+Deck = require("./player/deck")
+Graveyard = require("./player/graveyard")
 Hand = require("./player/hand")
+Battlefield = require("./player/battlefield")
 
 module.exports = Subscribed.createClass
   propTypes:
@@ -20,5 +24,8 @@ module.exports = Subscribed.createClass
         Player {this.state.name}<sup>{this.state.id}</sup>: {this.state.life} life, {this.state.mana_string}
       </h2>
 
+      <Deck {...this.state} />
+      <Graveyard {...this.state} />
       <Hand {...this.state} />
+      <Battlefield {...this.state} />
     </div>`
