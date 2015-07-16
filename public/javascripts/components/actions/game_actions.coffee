@@ -2,11 +2,11 @@ $ = require('jquery')
 React = require("react")
 FormSubmitter = require("../../form-submitter")
 
-module.exports = PlayActions = React.createClass
+module.exports = GameActions = React.createClass
   render: ->
-    actions = this.props.play.map (e, i) =>
+    actions = this.props.game.map (e, i) =>
       # TODO call a .json url and return just 'ok'
-      url = "/duel/#{this.props.duel}/player/#{this.props.player}/hand/#{e.source_id}/play"
+      url = "/duel/#{this.props.duel}/player/#{this.props.player}/game_action"
 
       click = (e) ->
         FormSubmitter.submitFromClick e
@@ -14,12 +14,10 @@ module.exports = PlayActions = React.createClass
       `<li key={i}>
         <form action={url} method="post">
           <input type="hidden" name="key" value={e.key} />
-          <input type="hidden" name="target_type" value={e.target_type} />
-          <input type="hidden" name="target" value={e.target_id} />
           <input type="submit" value={e.description} onClick={click} />
         </form>
       </li>`
 
-    `<ul className="play-actions">
-      {this.props.play.length} actions: {actions}
+    `<ul className="game-actions">
+      {this.props.game.length} actions: {actions}
     </ul>`
