@@ -21,5 +21,5 @@ module.exports = PlayActions = React.createClass
       </li>`
 
     `<ul className="play-actions">
-      {this.props.play.length} actions: {actions}
+      {actions}
     </ul>`

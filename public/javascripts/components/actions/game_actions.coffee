@@ -19,5 +19,5 @@ module.exports = GameActions = React.createClass
       </li>`
 
     `<ul className="game-actions">
-      {this.props.game.length} actions: {actions}
+      {actions}
     </ul>`

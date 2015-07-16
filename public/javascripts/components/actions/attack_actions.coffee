@@ -18,12 +18,15 @@ module.exports = AttackActions = React.createClass
         </label>
       </li>`
 
-    `<div className="attack-actions">
-      <form action={url} method="post">
-        Declare attackers:
-        <ul>
-          {this.props.attack.length} actions: {actions}
-        </ul>
-        <input type="submit" name="commit" value="Declare attackers and pass" onClick={click} />
-      </form>
-    </div>`
+    if this.props.attack.length
+      `<div className="attack-actions">
+        <form action={url} method="post">
+          Declare attackers:
+          <ul>
+            {actions}
+          </ul>
+          <input type="submit" name="commit" value="Declare attackers and pass" onClick={click} />
+        </form>
+      </div>`
+    else
+      `<div className="attack-actions">(no attackers)</div>`
