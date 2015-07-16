@@ -10,6 +10,11 @@ class PlayerController < ApplicationController
     if !@duel.players.include?(@player)
       fail "That player #{player} is not in the duel #{duel}"
     end
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @player.safe_json }
+    end
   end
 
   helper_method :playable_cards, :ability_cards, :defendable_cards,

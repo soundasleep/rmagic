@@ -3,34 +3,45 @@ Loading = require("./components/loading")
 $ = require("jquery")
 dispatcher = require("./dispatcher")
 
+window.subscribedChannels = {}
+
 module.exports =
   createClass: (extra = {}) ->
     React.createClass $.extend extra,
       propTypes:
-        isLoading: React.PropTypes.bool
+        isLoaded: React.PropTypes.bool
 
       subscribeToPromise: (obj, channel) ->
         this.load().then (result) ->
           obj.setState result
 
           # and then subscribe to the channel
-          channel = dispatcher.subscribe(channel)
-          channel.bind 'update', (result) ->
-            # console.log "we got pushed ", result
+          c = dispatcher.subscribe(channel)
+          c.bind 'update', (result) ->
             obj.setState result
 
-      getInitialState: ->
-        # state = getTurn(this, this.props.duel)
-        state = this.subscribeToPromise(this, this.channel())
+          if typeof window.subscribedChannels[channel] == 'undefined'
+            window.subscribedChannels[channel] = []
 
-        if state
-          state.isLoading = false
-          state
-        else
-          isLoading: true
+          window.subscribedChannels[channel].push c
+
+      getInitialState: ->
+        {
+          isLoaded: false
+        }
+
+      componentDidMount: ->
+        @subscribeToPromise(@, @channel()).then (result) =>
+          @setState
+            isLoaded: true
 
       render: ->
-        if this.state.isLoading
-          `<Loading />`
+        # we need to wrap it with another div because React
+        # (otherwise it seems React can't pick up we've had a change)
+        content = "";
+        if !this.state.isLoaded
+          content = `<Loading />`
         else
-          this.renderLoaded()
+          content = @renderLoaded()
+
+        return `<div className="loadingWrapper">{content}</div>`

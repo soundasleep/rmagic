@@ -2,6 +2,7 @@ React = require("react")
 Subscribed = require("../subscribed")
 API = require("../api")
 Turn = require("./duel/turn")
+Player = require("./player")
 
 module.exports = Subscribed.createClass
   propTypes:
@@ -15,5 +16,8 @@ module.exports = Subscribed.createClass
 
   renderLoaded: ->
     `<div className="duel">
+      turn number {this.state.turn}
       <Turn {...this.state} />
+      <Player duel={this.state.id} player={this.state.player1_id} />
+      <Player duel={this.state.id} player={this.state.player2_id} />
     </div>`

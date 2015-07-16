@@ -1,5 +1,6 @@
 class Player < ActiveRecord::Base
   include SafeJson
+  include Subscribable
 
   has_many :deck, -> { order(order: :desc) }, dependent: :destroy
   has_many :hand, dependent: :destroy
@@ -148,12 +149,13 @@ class Player < ActiveRecord::Base
   end
 
   def safe_json_attributes
-    [ :id, :name, :mana ]
+    [ :id, :name, :mana, :life ]
   end
 
   def extra_json_attributes
     {
-      mana: mana
+      mana: mana_pool.to_hash,
+      mana_string: mana
     }
   end
 

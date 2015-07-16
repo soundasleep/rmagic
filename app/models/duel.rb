@@ -78,7 +78,7 @@ class Duel < ActiveRecord::Base
 
   def safe_json_attributes
     [ :id, :current_player_number, :priority_player_number,
-      :first_player_number, :turn, :phase_number ]
+      :first_player_number, :turn, :phase_number, :player1_id, :player2_id ]
   end
 
   def extra_json_attributes
