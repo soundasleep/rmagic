@@ -3,8 +3,8 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json')
 
     clean:
-      css: ['public/css/*.css']
-      js: ['public/js/*.js']
+      css: ['public/css/**/*.css']
+      js: ['public/js/**/*.js']
 
     sass:
       dist:

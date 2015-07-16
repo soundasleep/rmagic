@@ -1,7 +1,7 @@
 $ = require("jquery")
 
 module.exports =
-  getTurn: (duel) ->
+  getDuel: (duel) ->
     # TODO cache?
     new Promise (resolve, reject) ->
       $.getJSON("/duel/#{duel}.json")

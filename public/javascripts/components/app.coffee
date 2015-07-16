@@ -1,7 +1,7 @@
 React = require("react")
 Header = require("./header")
 Footer = require("./footer")
-TurnInformation = require("./turn-information")
+Duel = require("./duel")
 
 module.exports = React.createClass
   propTypes:
@@ -11,7 +11,7 @@ module.exports = React.createClass
     return `(
       <div className="root">
         <Header />
-        <TurnInformation duel={this.props.duel} />
+        <Duel duel={this.props.duel} />
         <Footer />
       </div>
     )`

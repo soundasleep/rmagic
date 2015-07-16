@@ -1,7 +1,7 @@
 React = require("react")
 Loading = require("./components/loading")
 $ = require("jquery")
-dispatcher = require("../dispatcher")
+dispatcher = require("./dispatcher")
 
 module.exports =
   createClass: (extra = {}) ->
