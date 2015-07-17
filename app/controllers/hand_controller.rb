@@ -13,17 +13,6 @@ class HandController < ApplicationController
     redirect_to duel_player_path duel, player
   end
 
-  def defend
-    source = Battlefield.find(params[:id])
-    target = DeclaredAttacker.find(params[:target])
-    action = DefenderAction.new(
-      source: source,
-      target: target
-    )
-    action.declare(duel)
-    redirect_to duel_player_path duel, player
-  end
-
   private
     def duel
       Duel.find(params[:duel_id])
