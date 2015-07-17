@@ -99,13 +99,16 @@ class Duel < ActiveRecord::Base
   after_update :update_action_log_channels
 
   def update_action_log_channels(source = nil)
-    json = self.action_log_json
-    if source
-      json[:source] = source
-    end
+    # TODO add this pattern to all other channels to reduce load on tests
+    if WebsocketRails["action_log/#{id}"].subscribers.any?
+      json = self.action_log_json
+      if source
+        json[:source] = source
+      end
 
-    # trigger an update on all channels
-    WebsocketRails["action_log/#{id}"].trigger "update", json
+      # trigger an update on all channels
+      WebsocketRails["action_log/#{id}"].trigger "update", json
+    end
   end
 
 end
