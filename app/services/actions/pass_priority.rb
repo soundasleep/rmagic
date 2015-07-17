@@ -46,9 +46,6 @@ class PassPriority
       SimpleAI.new.do_turn(duel, duel.priority_player)
     end
 
-    # update all channels
-    UpdateActionChannels.new(duel: duel).call
-
     true
   end
 

@@ -2,7 +2,7 @@ module Subscribable
   extend ActiveSupport::Concern
 
   included do
-    after_update :trigger_channel_update
+    # after_update :trigger_channel_update
   end
 
   def trigger_channel_update(source = nil)

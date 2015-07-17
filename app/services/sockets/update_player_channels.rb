@@ -6,8 +6,6 @@ class UpdatePlayerChannels
   end
 
   def call
-    duel.reload
-
     duel.players.each do |player|
       player.trigger_channel_update "UpdatePlayerChannels"
     end

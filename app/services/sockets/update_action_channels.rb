@@ -6,8 +6,6 @@ class UpdateActionChannels
   end
 
   def call
-    duel.reload
-
     duel.players.each do |player|
       player.update_action_channels "UpdateActionChannels"
     end

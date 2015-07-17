@@ -21,6 +21,14 @@ class SimpleAI
 
     # really simple AI: we just pass
     PassPriority.new(duel: duel).call
+
+    duel.reload
+
+    # update all channels
+    UpdateActionChannels.new(duel: duel).call
+    UpdateZoneChannels.new(duel: duel).call
+    UpdatePlayerChannels.new(duel: duel).call
+    UpdateActionLogChannels.new(duel: duel).call
   end
 
   private
