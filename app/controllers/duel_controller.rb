@@ -25,9 +25,15 @@ class DuelController < ApplicationController
     end
   end
 
+  def action_log
+    respond_to do |format|
+      format.json { render :json => duel.action_log_json }
+    end
+  end
+
   private
     def duel
-      Duel.find(params[:id])
+      Duel.find(params[:duel_id] || params[:id])
     end
 
 end

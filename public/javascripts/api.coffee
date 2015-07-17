@@ -7,6 +7,12 @@ module.exports = API =
       $.getJSON("/duel/#{duel}.json")
         .success(resolve).fail(reject)
 
+  getActionLog: (duel) ->
+    # TODO cache?
+    new Promise (resolve, reject) ->
+      $.getJSON("/duel/#{duel}/action_log.json")
+        .success(resolve).fail(reject)
+
   getPlayer: (duel, player) ->
     # TODO cache?
     new Promise (resolve, reject) ->

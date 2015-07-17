@@ -27,6 +27,7 @@ class DoAction
     # update all channels
     UpdateActionChannels.new(duel: duel).call
     UpdatePlayerChannels.new(duel: duel).call
+    UpdateActionLogChannels.new(duel: duel).call
 
     # and make sure we update the Duel channel, even if
     # we haven't changed the model itself

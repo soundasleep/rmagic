@@ -90,4 +90,22 @@ class Duel < ActiveRecord::Base
     }
   end
 
+  def action_log_json
+    {
+      logs: action_logs.order(created_at: :desc).limit(10).map(&:safe_json)
+    }
+  end
+
+  after_update :update_action_log_channels
+
+  def update_action_log_channels(source = nil)
+    json = self.action_log_json
+    if source
+      json[:source] = source
+    end
+
+    # trigger an update on all channels
+    WebsocketRails["action_log/#{id}"].trigger "update", json
+  end
+
 end
