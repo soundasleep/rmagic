@@ -1,15 +1,2 @@
-/ this will be replaced with the javascript web interface
+/ javascript web interfaces
 #app{ "data-duel" => @duel.id, "data-player" => @player.id }
-
-%h2 Action Log
-
-%ul
-  - @duel.action_logs.order(created_at: :desc).limit(10).each do |action|
-    %li
-      [#{@duel.id}.#{action.id}]
-      - if action.player
-        = action.player.name
-      = action.action_text
-      - if action.targets.any?
-        on
-        = action.targets.map { |target| target.effect_string }.join(", ")

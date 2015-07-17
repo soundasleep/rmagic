@@ -11,8 +11,12 @@ socket.trigger("connect", { object: true }, success, failure)
 React = require("react")
 App = require('./components/app')
 
-$(document).ready ->
+initialize_react = ->
   if $("#app").length
     e = $("#app")[0]
 
     React.render(React.createElement(App, e.dataset), e)
+
+$(document).ready initialize_react
+$(document).on "page:load", initialize_react
+
