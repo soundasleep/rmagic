@@ -25,7 +25,7 @@ module.exports = AttackActions = React.createClass
           <ul>
             {actions}
           </ul>
-          <input type="submit" name="commit" value="Declare attackers and pass" onClick={click} />
+          <input type="button" name="commit" value="Declare attackers and pass" onClick={click} />
         </form>
       </div>`
     else

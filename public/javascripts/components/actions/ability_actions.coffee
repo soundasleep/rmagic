@@ -16,7 +16,7 @@ module.exports = AbilityActions = React.createClass
           <input type="hidden" name="key" value={e.key} />
           <input type="hidden" name="target_type" value={e.target_type} />
           <input type="hidden" name="target" value={e.target_id} />
-          <input type="submit" value={e.description} onClick={click} />
+          <input type="button" value={e.description} onClick={click} />
         </form>
       </li>`
 

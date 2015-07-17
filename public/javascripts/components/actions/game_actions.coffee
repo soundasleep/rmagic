@@ -14,7 +14,7 @@ module.exports = GameActions = React.createClass
       `<li key={i}>
         <form action={url} method="post">
           <input type="hidden" name="key" value={e.key} />
-          <input type="submit" value={e.description} onClick={click} />
+          <input type="button" value={e.description} onClick={click} />
         </form>
       </li>`
 

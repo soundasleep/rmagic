@@ -14,7 +14,7 @@ module.exports = DefendActions = React.createClass
       `<li key={i}>
         <form action={url} method="post">
           <input type="hidden" name="target" value={e.target_id} />
-          <input type="submit" value={e.description} onClick={click} />
+          <input type="button" value={e.description} onClick={click} />
         </form>
       </li>`
 
