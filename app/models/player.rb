@@ -173,13 +173,16 @@ class Player < ActiveRecord::Base
   after_update :update_zone_channels
 
   def update_action_channels(source = nil)
-    json = self.all_actions_json
-    if source
-      json[:source] = source
-    end
+    # TODO add this pattern to all other channels to reduce load on tests
+    if WebsocketRails["actions/#{id}"].subscribers.any?
+      json = self.all_actions_json
+      if source
+        json[:source] = source
+      end
 
-    # trigger an update on all channels
-    WebsocketRails["actions/#{id}"].trigger "update", json
+      # trigger an update on all channels
+      WebsocketRails["actions/#{id}"].trigger "update", json
+    end
   end
 
   def update_zone_channels(source = nil)
