@@ -6,7 +6,7 @@ class UpdateDuelChannels
   end
 
   def call
-    duel.trigger_channel_update "UpdateDuelChannels"
+    duel.trigger_channel_update
 
     true
   end

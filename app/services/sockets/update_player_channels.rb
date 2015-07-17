@@ -7,7 +7,7 @@ class UpdatePlayerChannels
 
   def call
     duel.players.each do |player|
-      player.trigger_channel_update "UpdatePlayerChannels"
+      player.trigger_channel_update
     end
 
     true

@@ -7,7 +7,7 @@ class UpdateZoneChannels
 
   def call
     duel.players.each do |player|
-      player.update_zone_channels "UpdateZoneChannels"
+      player.update_zone_channels
     end
 
     true

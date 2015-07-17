@@ -172,24 +172,18 @@ class Player < ActiveRecord::Base
   after_update :update_action_channels
   after_update :update_zone_channels
 
-  def update_action_channels(source = nil)
-    # TODO add this pattern to all other channels to reduce load on tests
-    if WebsocketRails["actions/#{id}"].subscribers.any?
-      json = self.all_actions_json
-      if source
-        json[:source] = source
-      end
-
-      # trigger an update on all channels
-      WebsocketRails["actions/#{id}"].trigger "update", json
+  def update_action_channels
+    channel = get_channel("actions/#{id}")
+    if channel.needs_update?
+      channel.update all_actions_json
     end
   end
 
-  def update_zone_channels(source = nil)
-    update_deck_channels(source)
-    update_battlefield_channels(source)
-    update_hand_channels(source)
-    update_graveyard_channels(source)
+  def update_zone_channels
+    update_deck_channels
+    update_battlefield_channels
+    update_hand_channels
+    update_graveyard_channels
   end
 
   def deck_json
@@ -222,29 +216,32 @@ class Player < ActiveRecord::Base
       @action_finder ||= ActionFinder.new(duel)
     end
 
-    def update_channel(channel, json, source = nil)
-      if source
-        json[:source] = source
+    def update_deck_channels
+      channel = get_channel("deck/#{id}")
+      if channel.needs_update?
+        channel.update deck_json
       end
-
-      # trigger an update on all channels
-      WebsocketRails[channel].trigger "update", json
     end
 
-    def update_deck_channels(source = nil)
-      update_channel "deck/#{id}", deck_json, source
+    def update_battlefield_channels
+      channel = get_channel("battlefield/#{id}")
+      if channel.needs_update?
+        channel.update battlefield_json
+      end
     end
 
-    def update_battlefield_channels(source = nil)
-      update_channel "battlefield/#{id}", battlefield_json, source
+    def update_hand_channels
+      channel = get_channel("hand/#{id}")
+      if channel.needs_update?
+        channel.update hand_json
+      end
     end
 
-    def update_hand_channels(source = nil)
-      update_channel "hand/#{id}", hand_json, source
-    end
-
-    def update_graveyard_channels(source = nil)
-      update_channel "graveyard/#{id}", graveyard_json, source
+    def update_graveyard_channels
+      channel = get_channel("graveyard/#{id}")
+      if channel.needs_update?
+        channel.update graveyard_json
+      end
     end
 
 end

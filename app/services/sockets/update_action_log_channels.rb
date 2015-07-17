@@ -6,7 +6,7 @@ class UpdateActionLogChannels
   end
 
   def call
-    duel.update_action_log_channels "UpdateActionLogChannels"
+    duel.update_action_log_channels
 
     true
   end
