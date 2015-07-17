@@ -155,11 +155,7 @@ class Player < ActiveRecord::Base
   def extra_json_attributes
     {
       mana: mana_pool.to_hash,
-      mana_string: mana,
-      hand: hand.map(&:safe_json),
-      battlefield: battlefield.map(&:safe_json),
-      graveyard: graveyard.map(&:safe_json),
-      deck: deck.map(&:safe_json)
+      mana_string: mana
     }
   end
 
@@ -174,6 +170,7 @@ class Player < ActiveRecord::Base
   end
 
   after_update :update_action_channels
+  after_update :update_zone_channels
 
   def update_action_channels(source = nil)
     json = self.all_actions_json
@@ -185,11 +182,66 @@ class Player < ActiveRecord::Base
     WebsocketRails["actions/#{id}"].trigger "update", json
   end
 
+  def update_zone_channels(source = nil)
+    update_deck_channels(source)
+    update_battlefield_channels(source)
+    update_hand_channels(source)
+    update_graveyard_channels(source)
+  end
+
+  def deck_json
+    {
+      deck: deck.map(&:safe_json)
+    }
+  end
+
+  def battlefield_json
+    {
+      battlefield: battlefield.map(&:safe_json)
+    }
+  end
+
+  def hand_json
+    {
+      hand: hand.map(&:safe_json)
+    }
+  end
+
+  def graveyard_json
+    {
+      graveyard: graveyard.map(&:safe_json)
+    }
+  end
+
   private
 
     def action_finder
       @action_finder ||= ActionFinder.new(duel)
     end
 
+    def update_channel(channel, json, source = nil)
+      if source
+        json[:source] = source
+      end
+
+      # trigger an update on all channels
+      WebsocketRails[channel].trigger "update", json
+    end
+
+    def update_deck_channels(source = nil)
+      update_channel "deck/#{id}", deck_json, source
+    end
+
+    def update_battlefield_channels(source = nil)
+      update_channel "battlefield/#{id}", battlefield_json, source
+    end
+
+    def update_hand_channels(source = nil)
+      update_channel "hand/#{id}", hand_json, source
+    end
+
+    def update_graveyard_channels(source = nil)
+      update_channel "graveyard/#{id}", graveyard_json, source
+    end
 
 end

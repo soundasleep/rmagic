@@ -27,6 +27,30 @@ class PlayerController < ApplicationController
     end
   end
 
+  def deck
+    respond_to do |format|
+      format.json { render :json => player.deck_json }
+    end
+  end
+
+  def battlefield
+    respond_to do |format|
+      format.json { render :json => player.battlefield_json }
+    end
+  end
+
+  def hand
+    respond_to do |format|
+      format.json { render :json => player.hand_json }
+    end
+  end
+
+  def graveyard
+    respond_to do |format|
+      format.json { render :json => player.graveyard_json }
+    end
+  end
+
   def declare_attackers
     if params[:attacker]
       attackers = Battlefield.find(params[:attacker])

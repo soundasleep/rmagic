@@ -16,7 +16,10 @@ module.exports = ActionLog = Subscribed.createClass
   renderLoaded: ->
     duel = this.props.duel
     logs = this.state.logs.map (e) =>
-      `<li key={e.id}>[{duel}.{e.id}] {e.player.name} {e.action_text}</li>`
+      player_name = ""
+      if e.player? and e.player.name?
+        player_name = e.player.name
+      `<li key={e.id}>[{duel}.{e.id}] {player_name} {e.action_text}</li>`
 
     `<div className="action-log">
       <h3>Action log</h3>

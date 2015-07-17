@@ -1,9 +1,18 @@
-$ = require('jquery')
 React = require("react")
-Card = require("./card")
+Subscribed = require("../../subscribed")
+API = require("../../api")
 
-module.exports = Graveyard = React.createClass
-  render: ->
+module.exports = Graveyard = Subscribed.createClass
+  propTypes:
+    duel: React.PropTypes.string
+
+  load: ->
+    API.getPlayerGraveyard(this.props.duel, this.props.player)
+
+  channel: ->
+    "graveyard/#{this.props.player}"
+
+  renderLoaded: ->
     `<div className="graveyard">
-      <h3>Graveyard ({this.props.graveyard.length} cards)</h3>
+      <h3>Graveyard ({this.state.graveyard.length} cards)</h3>
     </div>`

@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     resources :player, only: [ :show ] do
       member do
         get 'actions'
+        get 'deck'
+        get 'battlefield'
+        get 'hand'
+        get 'graveyard'
         post 'game_action'
         post 'declare_attackers'
       end

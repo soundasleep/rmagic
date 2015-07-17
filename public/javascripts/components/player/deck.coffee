@@ -1,9 +1,18 @@
-$ = require('jquery')
 React = require("react")
-Card = require("./card")
+Subscribed = require("../../subscribed")
+API = require("../../api")
 
-module.exports = Deck = React.createClass
-  render: ->
+module.exports = Deck = Subscribed.createClass
+  propTypes:
+    duel: React.PropTypes.string
+
+  load: ->
+    API.getPlayerDeck(this.props.duel, this.props.player)
+
+  channel: ->
+    "deck/#{this.props.player}"
+
+  renderLoaded: ->
     `<div className="deck">
-      <h3>Deck ({this.props.deck.length} cards)</h3>
+      <h3>Deck ({this.state.deck.length} cards)</h3>
     </div>`

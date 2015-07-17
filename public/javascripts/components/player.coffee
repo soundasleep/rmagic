@@ -24,8 +24,8 @@ module.exports = Player = Subscribed.createClass
         Player {this.state.name}<sup>{this.state.id}</sup>: {this.state.life} life, {this.state.mana_string}
       </h2>
 
-      <Deck {...this.state} />
-      <Graveyard {...this.state} />
-      <Hand {...this.state} />
-      <Battlefield {...this.state} />
+      <Deck {...this.props} />
+      <Graveyard {...this.props} />
+      <Hand {...this.props} />
+      <Battlefield {...this.props} />
     </div>`

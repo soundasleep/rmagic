@@ -26,6 +26,7 @@ class DoAction
 
     # update all channels
     UpdateActionChannels.new(duel: duel).call
+    UpdateZoneChannels.new(duel: duel).call
     UpdatePlayerChannels.new(duel: duel).call
     UpdateActionLogChannels.new(duel: duel).call
 
