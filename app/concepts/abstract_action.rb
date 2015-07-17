@@ -75,6 +75,8 @@ class AbstractAction
         "player"
       when "Battlefield"
         "battlefield"
+      when "DeclaredAttacker"
+        "declared_attacker"
       else
         fail "Unknown target type '#{target.class.name}'"
     end
