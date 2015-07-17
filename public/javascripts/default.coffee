@@ -1,17 +1,9 @@
 $ = require("jquery")
-socket = require("./dispatcher")
-
-success = (x) ->
-  console.log "yeah: #{x.message}"
-failure = (x) ->
-  console.log "oh no"
-
-socket.trigger("connect", { object: true }, success, failure)
 
 React = require("react")
 App = require('./components/app')
 
-initialize_react = ->
+initialize_react = () ->
   if $("#app").length
     e = $("#app")[0]
 
@@ -20,3 +12,21 @@ initialize_react = ->
 $(document).ready initialize_react
 $(document).on "page:load", initialize_react
 
+pending = 0
+
+updateAjax = ->
+  if pending > 0
+    $(".ajax-pending").show()
+  else
+    $(".ajax-pending").hide()
+
+$(document).ajaxStart () ->
+  pending += 1
+  updateAjax()
+
+$(document).ajaxStop () ->
+  pending -= 1
+  updateAjax()
+
+$(document).ready updateAjax
+$(document).on "page:load", updateAjax

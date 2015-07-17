@@ -21,6 +21,8 @@
       - else
         = link_to "Log in", login_path
 
+      %span.ajax-pending loading...
+
     - if flash.alert
       .flash.alert=flash.alert
 
