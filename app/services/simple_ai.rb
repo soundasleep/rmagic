@@ -25,10 +25,7 @@ class SimpleAI
     duel.reload
 
     # update all channels
-    UpdateActionChannels.new(duel: duel).call
-    UpdateZoneChannels.new(duel: duel).call
-    UpdatePlayerChannels.new(duel: duel).call
-    UpdateActionLogChannels.new(duel: duel).call
+    UpdateAllChannels.new(duel: duel).call
   end
 
   private
