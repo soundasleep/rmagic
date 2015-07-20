@@ -20,4 +20,3 @@ module.exports = FormSubmitter =
 
     e.stopPropagation()
     e.preventDefault()
-

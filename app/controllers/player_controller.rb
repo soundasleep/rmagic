@@ -65,7 +65,10 @@ class PlayerController < ApplicationController
     )
     action.do(duel)
 
-    redirect_to duel_player_path duel, player
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   def game_action
@@ -74,7 +77,11 @@ class PlayerController < ApplicationController
       key: params[:key]
     )
     action.do(duel)
-    redirect_to duel_player_path duel, player
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   private

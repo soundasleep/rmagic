@@ -10,7 +10,11 @@ class HandController < ApplicationController
       target: find_target
     )
     action.do(duel)
-    redirect_to duel_player_path duel, player
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   private

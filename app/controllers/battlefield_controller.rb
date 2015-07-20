@@ -10,7 +10,11 @@ class BattlefieldController < ApplicationController
       target: find_target
     )
     action.do(duel)
-    redirect_to duel_player_path duel, player
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   def defend
@@ -21,7 +25,11 @@ class BattlefieldController < ApplicationController
       target: target
     )
     action.declare(duel)
-    redirect_to duel_player_path duel, player
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   private

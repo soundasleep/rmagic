@@ -5,8 +5,7 @@ FormSubmitter = require("../../form-submitter")
 module.exports = DefendActions = React.createClass
   render: ->
     actions = this.props.defend.map (e, i) =>
-      # TODO call a .json url and return just 'ok'
-      url = "/duel/#{this.props.duel}/player/#{this.props.player}/battlefield/#{e.source_id}/defend"
+      url = "/duel/#{this.props.duel}/player/#{this.props.player}/battlefield/#{e.source_id}/defend.json"
 
       click = (e) ->
         FormSubmitter.submitFromClick e

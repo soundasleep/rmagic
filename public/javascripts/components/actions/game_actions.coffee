@@ -5,8 +5,7 @@ FormSubmitter = require("../../form-submitter")
 module.exports = GameActions = React.createClass
   render: ->
     actions = this.props.game.map (e, i) =>
-      # TODO call a .json url and return just 'ok'
-      url = "/duel/#{this.props.duel}/player/#{this.props.player}/game_action"
+      url = "/duel/#{this.props.duel}/player/#{this.props.player}/game_action.json"
 
       click = (e) ->
         FormSubmitter.submitFromClick e
