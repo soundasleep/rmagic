@@ -24,5 +24,5 @@ guard 'livereload' do
   watch(%r{(app|vendor)(/assets/\w+/(.+\.(css|js|html|png|jpg))).*}) { |m| "/assets/#{m[3]}" }
 
   # Do not pick up build assets
-  ignore %r{^public/js/generated/}
+  ignore %r{^public/js/build/}
 end

@@ -22,7 +22,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: 'public/javascripts'
           src: ['**/*.coffee']
-          dest: 'public/js/generated'
+          dest: 'public/js/build'
           ext: '.js'
         }]
 
@@ -37,7 +37,7 @@ module.exports = (grunt) ->
       options:
         transform: ['babelify']
       dist:
-        src: 'public/js/generated/**/*.js'
+        src: 'public/js/build/**/*.js'
         dest: 'public/js/compiled.js'
 
     watch:
