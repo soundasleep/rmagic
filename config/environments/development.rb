@@ -41,4 +41,7 @@ Rails.application.configure do
 
   # Necessary for websocket-rails
   config.middleware.delete Rack::Lock
+
+  # Automatically inject JavaScript needed for LiveReload
+  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
 end

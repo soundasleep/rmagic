@@ -72,6 +72,14 @@ We try to use as few model objects as possible.
 * Data-driven cards, rather than [in Ruby](app/cards/)
 * Comparison of supported features to the [comprehensive rules](http://magiccards.info/rules.html)
 
+## Development
+
+You'll want three terminals running each of:
+
+* `rails server` - to catch changes in the Rails app
+* `grunt serve` - to catch changes in the React app
+* `guard` - to enable [LiveReload](https://mattbrictson.com/lightning-fast-sass-reloading-in-rails)
+
 ## Tests
 
 ```
