@@ -148,10 +148,13 @@ class Player < ActiveRecord::Base
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
   end
 
+  # TODO should maybe be self.safe_json_attributes
+  # TODO maybe safe_json should be to_safe_json
   def safe_json_attributes
     [ :id, :name, :mana, :life ]
   end
 
+  # TODO should maybe be self.extra_json_attributes
   def extra_json_attributes
     {
       mana: mana_pool.to_hash,
@@ -243,5 +246,16 @@ class Player < ActiveRecord::Base
         channel.update graveyard_json
       end
     end
+
+    # maybe:
+
+    # create_channel "graveyard", :id, :graveyard_json
+    # has_json :hand
+
+    # or should this be through a separate object/service?
+
+    # DuelJsonPresenter < JsonPresenter
+    #   json_presenter_for :duel
+    #   ...
 
 end
