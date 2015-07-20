@@ -18,6 +18,9 @@ class DoGameAction
       else
         fail "Unknown game action '#{key}'"
     end
+
+    # update all channels
+    UpdateAllChannels.new(duel: duel).call
   end
 
 end
