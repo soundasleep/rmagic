@@ -1,30 +1,30 @@
 $ = require("jquery")
 
-jsonAPI = (url) ->
+get = (url) ->
   new Promise (resolve, reject) ->
     $.getJSON(url).success(resolve).fail(reject)
 
 module.exports = API =
   getDuel: (duel) ->
-    jsonAPI("/duel/#{duel}.json")
+    get "/duel/#{duel}.json"
 
   getActionLog: (duel) ->
-    jsonAPI("/duel/#{duel}/action_log.json")
+    get "/duel/#{duel}/action_log.json"
 
   getPlayer: (duel, player) ->
-    jsonAPI("/duel/#{duel}/player/#{player}.json")
+    get "/duel/#{duel}/player/#{player}.json"
 
   getPlayerDeck: (duel, player) ->
-    jsonAPI("/duel/#{duel}/player/#{player}/deck.json")
+    get "/duel/#{duel}/player/#{player}/deck.json"
 
   getPlayerBattlefield: (duel, player) ->
-    jsonAPI("/duel/#{duel}/player/#{player}/battlefield.json")
+    get "/duel/#{duel}/player/#{player}/battlefield.json"
 
   getPlayerHand: (duel, player) ->
-    jsonAPI("/duel/#{duel}/player/#{player}/hand.json")
+    get "/duel/#{duel}/player/#{player}/hand.json"
 
   getPlayerGraveyard: (duel, player) ->
-    jsonAPI("/duel/#{duel}/player/#{player}/graveyard.json")
+    get "/duel/#{duel}/player/#{player}/graveyard.json"
 
   getActions: (duel, player) ->
-    jsonAPI("/duel/#{duel}/player/#{player}/actions.json")
+    get "/duel/#{duel}/player/#{player}/actions.json"
