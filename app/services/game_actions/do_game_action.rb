@@ -21,6 +21,8 @@ class DoGameAction
 
     # update all channels
     UpdateAllChannels.new(duel: duel).call
+
+    true
   end
 
 end

@@ -172,8 +172,7 @@ class Player < ActiveRecord::Base
     }
   end
 
-  after_update :update_action_channels
-  after_update :update_zone_channels
+  after_update :update_player_channels
 
   def update_action_channels
     channel = get_channel("actions/#{id}")
@@ -182,35 +181,8 @@ class Player < ActiveRecord::Base
     end
   end
 
-  def update_zone_channels
-    update_deck_channels
-    update_battlefield_channels
-    update_hand_channels
-    update_graveyard_channels
-  end
-
-  def deck_json
-    {
-      deck: deck.map(&:safe_json)
-    }
-  end
-
-  def battlefield_json
-    {
-      battlefield: battlefield.map(&:safe_json)
-    }
-  end
-
-  def hand_json
-    {
-      hand: hand.map(&:safe_json)
-    }
-  end
-
-  def graveyard_json
-    {
-      graveyard: graveyard.map(&:safe_json)
-    }
+  def update_player_channels
+    UpdatePlayerChannels.new(duel: duel).call
   end
 
   private
@@ -219,38 +191,17 @@ class Player < ActiveRecord::Base
       @action_finder ||= ActionFinder.new(duel)
     end
 
-    def update_deck_channels
-      channel = get_channel("deck/#{id}")
-      if channel.needs_update?
-        channel.update deck_json
-      end
-    end
-
-    def update_battlefield_channels
-      channel = get_channel("battlefield/#{id}")
-      if channel.needs_update?
-        channel.update battlefield_json
-      end
-    end
-
-    def update_hand_channels
-      channel = get_channel("hand/#{id}")
-      if channel.needs_update?
-        channel.update hand_json
-      end
-    end
-
-    def update_graveyard_channels
-      channel = get_channel("graveyard/#{id}")
-      if channel.needs_update?
-        channel.update graveyard_json
-      end
-    end
-
     # maybe:
 
+    # 1.
     # create_channel "graveyard", :id, :graveyard_json
     # has_json :hand
+
+    # 2.
+    # json_channel :graveyard, :id
+
+    # 3.
+    # --> safe_json_channel :graveyard, :id
 
     # or should this be through a separate object/service?
 
@@ -258,4 +209,46 @@ class Player < ActiveRecord::Base
     #   json_presenter_for :duel
     #   ...
 
+    # or separate Channel controllers?
+
+    # 4.
+    # /app/channels/deck_channel.rb
+
+    # class DeckChannel < Channel
+    #   json_channel :graveyard, :id
+
 end
+
+# class DeckChannels < Channels
+#   safe_json_channel :graveyard, :id
+
+#   json_channel :actions, :id, :all_actions_json
+# end
+
+# class DeckPresenter < Presenter
+#   attr_reader :deck
+
+#   def graveyard
+#     {
+#       # graveyard: deck.graveyard.map(&:to_safe_json)
+#       graveyard: deck.graveyard.map { |g| ZonecardPresenter.new(g) }.map(&:to_safe_json)
+#     }
+#   end
+# end
+
+# def PlayerChannels
+#   attr_reader :player
+
+#   # creates a "graveyard/#{id}" channel
+#   # and uses the PlayerPresenter(player).graveyard_json presenter
+#   json_channel :graveyard, :id
+# end
+
+# def PlayerPresenter
+#   def graveyard_json
+#     {
+#       # graveyard: deck.graveyard.map(&:to_safe_json)
+#       graveyard: deck.graveyard.map { |g| ZonecardPresenter.new(g) }.map(&:to_safe_json)
+#     }
+#   end
+# end

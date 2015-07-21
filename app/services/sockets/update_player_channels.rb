@@ -7,6 +7,14 @@ class UpdatePlayerChannels
 
   def call
     duel.players.each do |player|
+      PlayerChannels.new(player).update_all
+      # PlayerChannels.new(player).update_graveyard
+      # instead of
+      # player.update_deck_channels
+      player.update_action_channels
+      # player.update_battlefield_channels
+      # player.update_hand_channels
+      # player.update_graveyard_channels
       player.trigger_channel_update
     end
 

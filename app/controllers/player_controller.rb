@@ -29,25 +29,25 @@ class PlayerController < ApplicationController
 
   def deck
     respond_to do |format|
-      format.json { render :json => player.deck_json }
+      format.json { render :json => PlayerPresenter.new(player).deck_json }
     end
   end
 
   def battlefield
     respond_to do |format|
-      format.json { render :json => player.battlefield_json }
+      format.json { render :json => PlayerPresenter.new(player).battlefield_json }
     end
   end
 
   def hand
     respond_to do |format|
-      format.json { render :json => player.hand_json }
+      format.json { render :json => PlayerPresenter.new(player).hand_json }
     end
   end
 
   def graveyard
     respond_to do |format|
-      format.json { render :json => player.graveyard_json }
+      format.json { render :json => PlayerPresenter.new(player).graveyard_json }
     end
   end
 
