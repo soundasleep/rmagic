@@ -14,5 +14,6 @@ module.exports = Graveyard = Subscribed.createClass
 
   renderLoaded: ->
     `<div className="graveyard">
-      <h3>Graveyard ({this.state.graveyard.length} cards)</h3>
+      <h3>Graveyard</h3>
+      <h4>({this.state.graveyard.length} cards)</h4>
     </div>`

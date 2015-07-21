@@ -21,9 +21,19 @@ module.exports = Player = Subscribed.createClass
   renderLoaded: ->
     `<div className="player">
       <div className="info">
-        <h2>
-          Player {this.state.name}<sup>{this.state.id}</sup>: {this.state.life} life, {this.state.mana_string}
-        </h2>
+        <div className="player-box">
+          <h2>
+            {this.state.name}
+          </h2>
+
+          <h3 class="life">
+            {this.state.life} life
+          </h3>
+
+          <h3 class="mana">
+            {this.state.mana_string}
+          </h3>
+        </div>
 
         <Deck {...this.props} />
         <Graveyard {...this.props} />
