@@ -16,7 +16,7 @@ class ActionLogPresenter < JSONPresenter
       action_text: action_log.action_text,
       player: action_log.player ? format_player(action_log.player) : nil,
       card: action_log.card ? format_card(action_log.card) : nil,
-      targets: action_log.targets.map(&:safe_json)
+      targets: action_log.targets.map { |t| format_target(t) }
     }
   end
 
@@ -28,6 +28,10 @@ class ActionLogPresenter < JSONPresenter
 
     def format_card(card)
       CardPresenter.new(card).to_safe_json
+    end
+
+    def format_target(target)
+      ActionLogTargetPresenter.new(target).to_safe_json
     end
 
 end

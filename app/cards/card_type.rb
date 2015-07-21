@@ -92,18 +92,4 @@ class CardType
     name.split(/[^0-9]/).last.to_i
   end
 
-  def safe_json
-    {
-      name: name,
-      metaverse_id: metaverse_id,
-      mana_cost: cost_string,
-      is_creature: is_creature?,
-      is_land: is_land?,
-      is_spell: is_spell?,
-      is_instant: is_instant?,
-      is_enchantment: is_enchantment?,
-      actions: actions
-    }
-  end
-
 end

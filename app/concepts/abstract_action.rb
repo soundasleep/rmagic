@@ -57,17 +57,6 @@ class AbstractAction
     DoAction.new(duel: duel, action: self).call
   end
 
-  def safe_json
-    {
-      action_type: action_type,
-      source_id: source.id,
-      key: key,
-      target_type: target_type,
-      target_id: target ? target.id : nil,
-      description: description
-    }
-  end
-
   def target_type
     return "none" if target == nil
     case target.class.name

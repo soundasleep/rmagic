@@ -11,7 +11,7 @@ module.exports = ActionLog = Subscribed.createClass
     API.getActionLog(this.props.duel)
 
   channel: ->
-    "action_log/#{this.props.duel}"
+    "action_logs/#{this.props.duel}"
 
   renderLoaded: ->
     duel = this.props.duel

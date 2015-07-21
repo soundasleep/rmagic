@@ -27,7 +27,7 @@ class DuelController < ApplicationController
 
   def action_log
     respond_to do |format|
-      format.json { render :json => DuelPresenter.new(duel).action_log_json }
+      format.json { render :json => DuelPresenter.new(duel).action_logs_json }
     end
   end
 

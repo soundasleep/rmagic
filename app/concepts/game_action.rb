@@ -14,12 +14,4 @@ class GameAction
     "#{key.camelcase}"
   end
 
-  def safe_json
-    {
-      key: key,
-      player_id: player.id,
-      description: description
-    }
-  end
-
 end

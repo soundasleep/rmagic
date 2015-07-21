@@ -11,7 +11,7 @@ class DuelPresenter < JSONPresenter
     to_safe_json
   end
 
-  def action_log_json
+  def action_logs_json
     {
       logs: duel.action_logs.order(created_at: :desc).limit(10).map { |c| format_action_log c }
     }
