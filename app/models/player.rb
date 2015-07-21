@@ -149,7 +149,7 @@ class Player < ActiveRecord::Base
   after_update :update_player_channels
 
   def update_player_channels
-    UpdatePlayerChannels.new(duel: duel).call
+    UpdatePlayerChannels.new(player: self).call
   end
 
 end

@@ -7,7 +7,9 @@ class UpdateAllChannels
 
   def call
     UpdateDuelChannels.new(duel: duel).call
-    UpdatePlayerChannels.new(duel: duel).call
+    duel.players.each do |player|
+      UpdatePlayerChannels.new(player: player).call
+    end
 
     true
   end

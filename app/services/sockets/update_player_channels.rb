@@ -1,14 +1,12 @@
 class UpdatePlayerChannels
-  attr_reader :duel
+  attr_reader :player
 
-  def initialize(duel:)
-    @duel = duel
+  def initialize(player:)
+    @player = player
   end
 
   def call
-    duel.players.each do |player|
-      PlayerChannels.new(player).update_all
-    end
+    PlayerChannels.new(player).update_all
 
     true
   end
