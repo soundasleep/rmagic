@@ -25,9 +25,12 @@ module.exports = Duel = Subscribed.createClass
         </div>
         <div className="turn">
           <Turn {...this.state} />
+          <Actions duel={this.state.id} player={this.props.player} />
         </div>
         <div className="board my-board">
           <Player duel={this.state.id} player={this.state.player1_id} />
+        </div>
+        <div className="actions my-actions">
           <Actions duel={this.state.id} player={this.props.player} />
         </div>
       </div>

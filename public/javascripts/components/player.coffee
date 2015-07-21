@@ -26,11 +26,11 @@ module.exports = Player = Subscribed.createClass
             {this.state.name}
           </h2>
 
-          <h3 class="life">
+          <h3 className="life">
             {this.state.life} life
           </h3>
 
-          <h3 class="mana">
+          <h3 className="mana">
             {this.state.mana_string}
           </h3>
         </div>

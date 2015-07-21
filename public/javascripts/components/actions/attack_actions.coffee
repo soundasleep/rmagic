@@ -28,4 +28,4 @@ module.exports = AttackActions = React.createClass
         </form>
       </div>`
     else
-      `<div className="attack-actions">(no attackers)</div>`
+      `<div className="attack-actions no-attackers"></div>`
