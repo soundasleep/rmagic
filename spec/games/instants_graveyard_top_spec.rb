@@ -154,6 +154,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
   context "with another creature in the graveyard" do
     before :each do
       create_graveyard_cards Library::Metaverse3
+      duel.reload
     end
 
     context "graveyard cards" do
@@ -166,12 +167,12 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
       end
 
       it "are in increasing order based on time added" do
-        expect(order_classes).to eq([ Library::Metaverse1, Library::Metaverse3 ])
+        expect(order_classes).to eq([ Library::Metaverse3, Library::Metaverse1 ])
       end
     end
 
     context "with mana" do
-      let(:target) { duel.player1.graveyard_creatures.last }
+      let(:target) { duel.player1.graveyard_creatures.first }
 
       before :each do
         tap_all_lands
