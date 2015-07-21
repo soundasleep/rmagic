@@ -21,13 +21,13 @@ class DuelController < ApplicationController
 
   def show
     respond_to do |format|
-      format.json { render :json => duel.safe_json }
+      format.json { render :json => DuelPresenter.new(duel).to_safe_json }
     end
   end
 
   def action_log
     respond_to do |format|
-      format.json { render :json => duel.action_log_json }
+      format.json { render :json => DuelPresenter.new(duel).action_log_json }
     end
   end
 

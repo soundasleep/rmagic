@@ -1,8 +1,10 @@
-class PlayerPresenter
-  attr_reader :player
-
+class PlayerPresenter < JSONPresenter
   def initialize(player)
-    @player = player
+    super(player)
+  end
+
+  def player
+    object
   end
 
   def deck_json
@@ -36,6 +38,20 @@ class PlayerPresenter
       defend: action_finder.defendable_cards(player).map { |a| format_action a },
       attack: action_finder.available_attackers(player).map { |a| format_action a },
       game: action_finder.game_actions(player).map { |a| format_game_action a }
+    }
+  end
+
+  # TODO should maybe be self.safe_json_attributes
+  # TODO maybe safe_json should be to_safe_json
+  def safe_json_attributes
+    [ :id, :name, :mana, :life ]
+  end
+
+  # TODO should maybe be self.extra_json_attributes
+  def extra_json_attributes
+    {
+      mana: player.mana_pool.to_hash,
+      mana_string: player.mana
     }
   end
 

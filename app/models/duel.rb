@@ -1,7 +1,4 @@
 class Duel < ActiveRecord::Base
-  include SafeJson
-  include Subscribable
-
   belongs_to :player1, class_name: "Player"
   belongs_to :player2, class_name: "Player"
 
@@ -76,33 +73,10 @@ class Duel < ActiveRecord::Base
     [ stack ]
   end
 
-  def safe_json_attributes
-    [ :id, :current_player_number, :priority_player_number,
-      :first_player_number, :turn, :phase_number, :player1_id, :player2_id ]
-  end
+  after_update :update_duel_channels
 
-  def extra_json_attributes
-    {
-      phase: phase_number,
-      first_player: first_player.safe_json,
-      current_player: current_player.safe_json,
-      priority_player: priority_player.safe_json
-    }
-  end
-
-  def action_log_json
-    {
-      logs: action_logs.order(created_at: :desc).limit(10).map(&:safe_json)
-    }
-  end
-
-  after_update :update_action_log_channels
-
-  def update_action_log_channels
-    channel = get_channel("action_log/#{id}")
-    if channel.needs_update?
-      channel.update action_log_json
-    end
+  def update_duel_channels
+    UpdateDuelChannels.new(duel: self).call
   end
 
 end

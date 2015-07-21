@@ -13,7 +13,7 @@ class PlayerController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @player.safe_json }
+      format.json { render :json => PlayerPresenter.new(player).to_safe_json }
     end
   end
 

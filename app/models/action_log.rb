@@ -1,6 +1,4 @@
 class ActionLog < ActiveRecord::Base
-  include SafeJson
-
   belongs_to :card
   belongs_to :player
   belongs_to :duel
@@ -30,19 +28,6 @@ class ActionLog < ActiveRecord::Base
       else
         fail "Unknown action #{global_action}"
     end
-  end
-
-  def safe_json_attributes
-    [ :id, :global_action, :card_action ]
-  end
-
-  def extra_json_attributes
-    {
-      action_text: action_text,
-      player: player ? player.safe_json : nil,
-      card: card ? card.safe_json : nil,
-      targets: targets.map(&:safe_json)
-    }
   end
 
   # helper methods

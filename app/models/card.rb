@@ -1,6 +1,4 @@
 class Card < ActiveRecord::Base
-  include SafeJson
-
   has_many :effects, dependent: :destroy
   has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id
 
@@ -88,19 +86,6 @@ class Card < ActiveRecord::Base
   end
 
   private
-
-    def safe_json_attributes
-      [ :id, :is_tapped, :damage ]
-    end
-
-    def extra_json_attributes
-      {
-        card_type: card_type.safe_json,
-        power: power,
-        toughness: toughness,
-        remaining_health: remaining_health
-      }
-    end
 
     def enchantment_cards
       enchantments.map { |c| c.card_type }

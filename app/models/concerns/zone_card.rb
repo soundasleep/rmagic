@@ -1,5 +1,4 @@
 module ZoneCard
-  include SafeJson
 
   def to_text
     card.to_text
@@ -15,16 +14,6 @@ module ZoneCard
 
   def has_zone?
     true
-  end
-
-  def safe_json_attributes
-    [:id, :card_id]
-  end
-
-  def extra_json_attributes
-    {
-      card: card.safe_json
-    }
   end
 
 end

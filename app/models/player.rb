@@ -1,6 +1,4 @@
 class Player < ActiveRecord::Base
-  include SafeJson
-  include Subscribable
 
   has_many :deck, -> { order(order: :desc) }, dependent: :destroy
   has_many :hand, dependent: :destroy
@@ -146,20 +144,6 @@ class Player < ActiveRecord::Base
 
   def duel
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
-  end
-
-  # TODO should maybe be self.safe_json_attributes
-  # TODO maybe safe_json should be to_safe_json
-  def safe_json_attributes
-    [ :id, :name, :mana, :life ]
-  end
-
-  # TODO should maybe be self.extra_json_attributes
-  def extra_json_attributes
-    {
-      mana: mana_pool.to_hash,
-      mana_string: mana
-    }
   end
 
   after_update :update_player_channels
