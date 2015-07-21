@@ -10,7 +10,7 @@ class JSONPresenter
   end
 
   def to_safe_json
-    object.attributes.select { |k, v| safe_json_attributes.include?(k.to_sym) }.merge extra_json_attributes
+    object.attributes.select { |k, v| self.class.safe_json_attributes.include?(k.to_sym) }.merge extra_json_attributes
   end
 
 end

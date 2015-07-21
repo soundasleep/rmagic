@@ -7,7 +7,7 @@ class ZoneCardPresenter < JSONPresenter
     object
   end
 
-  def safe_json_attributes
+  def self.safe_json_attributes
     [:id, :card_id ]
   end
 

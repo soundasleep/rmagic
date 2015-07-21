@@ -7,7 +7,7 @@ class CardPresenter < JSONPresenter
     object
   end
 
-  def safe_json_attributes
+  def self.safe_json_attributes
     [ :id, :is_tapped, :damage ]
   end
 

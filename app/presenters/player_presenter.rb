@@ -41,13 +41,10 @@ class PlayerPresenter < JSONPresenter
     }
   end
 
-  # TODO should maybe be self.safe_json_attributes
-  # TODO maybe safe_json should be to_safe_json
-  def safe_json_attributes
+  def self.safe_json_attributes
     [ :id, :name, :mana, :life ]
   end
 
-  # TODO should maybe be self.extra_json_attributes
   def extra_json_attributes
     {
       mana: player.mana_pool.to_hash,

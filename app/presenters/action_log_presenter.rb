@@ -7,7 +7,7 @@ class ActionLogPresenter < JSONPresenter
     object
   end
 
-  def safe_json_attributes
+  def self.safe_json_attributes
     [ :id, :global_action, :card_action ]
   end
 
