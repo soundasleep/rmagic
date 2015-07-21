@@ -1,19 +1,23 @@
 %h1 Rmagic
 
-%h2 Premade decks vs another player
+- if current_user
+  %h2 Premade decks vs another player
 
-%ul
-  - premade_decks.each do |deck|
-    = form_tag user_duel_request_index_path(current_user), method: :create do |f|
-      = hidden_field_tag "deck", deck.id
-      = submit_tag "#{deck.name}"
+  %ul
+    - premade_decks.each do |deck|
+      = form_tag user_duel_request_index_path(current_user), method: :create do |f|
+        = hidden_field_tag "deck", deck.id
+        = submit_tag "#{deck.name}"
 
-%h2 Premade duels vs AI
+  %h2 Premade duels vs AI
 
-%ul
-  - premade_decks.each do |deck1|
-    - premade_decks.each do |deck2|
-      = form_tag duel_index_path, method: :create do |f|
-        = hidden_field_tag "deck1", deck1.id
-        = hidden_field_tag "deck2", deck2.id
-        = submit_tag "#{deck1.name} v #{deck2.name}"
+  %ul
+    - premade_decks.each do |deck1|
+      - premade_decks.each do |deck2|
+        = form_tag duel_index_path, method: :create do |f|
+          = hidden_field_tag "deck1", deck1.id
+          = hidden_field_tag "deck2", deck2.id
+          = submit_tag "#{deck1.name} v #{deck2.name}"
+
+- else
+  You need to login first.
