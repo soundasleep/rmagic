@@ -1,3 +1,90 @@
 // Place all the styles related to the duel controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$app-height: 500px;
+
+#app {
+  display: block;
+  border: 1px solid #ccc;
+  height: $app-height;
+  overflow-y: scroll;
+
+  nav {
+    display: none;
+  }
+
+  .duel {
+    .boards, .logs {
+      height: $app-height;
+      overflow-y: scroll;
+    }
+
+    .boards {
+      width: 80%;
+      border: 1px solid blue;
+      float: left;
+      display: block;
+
+      .board {
+        height: ($app-height * 0.4);
+        overflow-y: scroll;
+        display: block;
+
+        &.my-board {
+          height: ($app-height * 0.55);
+        }
+
+        .player {
+          clear: both;
+
+          .info {
+            width: 10%;
+            float: left;
+
+            h2 { font-size: 100%; }
+            h3 { font-size: 80%; }
+          }
+
+          .battlefield, .hand {
+            width: 90%;
+            float: right;
+            text-align: center;
+
+            ul {
+              list-style: none;
+              margin: 0;
+              padding: 0;
+
+              li.card {
+                display: inline-block;
+                vertical-align: top;
+                margin: 3px;
+                padding: 3px;
+                width: 15%;
+                height: 20%;
+                min-height: 20%;
+                border: 1px solid black;
+                border-radius: 2px;
+                font-size: 80%;
+                text-align: left;
+              }
+            }
+          }
+        }
+      }
+
+      .turn {
+        clear: both;
+        text-align: left;
+        font-style: italic;
+      }
+    }
+
+    .logs {
+      width: 20%;
+      border: 1px solid blue;
+      float: right;
+    }
+  }
+}
