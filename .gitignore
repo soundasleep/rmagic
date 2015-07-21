@@ -21,3 +21,9 @@
 
 # Silly Mac OS X
 .DS_Store
+
+# Web interface generated files
+node_modules/
+.sass-cache/
+public/css/
+public/js/

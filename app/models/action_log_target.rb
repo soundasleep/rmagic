@@ -9,4 +9,5 @@ class ActionLogTarget < ActiveRecord::Base
     end
     s
   end
+
 end

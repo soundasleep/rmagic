@@ -73,4 +73,10 @@ class Duel < ActiveRecord::Base
     [ stack ]
   end
 
+  after_update :update_duel_channels
+
+  def update_duel_channels
+    UpdateDuelChannels.new(duel: self).call
+  end
+
 end

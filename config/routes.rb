@@ -2,8 +2,15 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :duel, only: [ :show, :create ] do
+    get 'action_log'
+
     resources :player, only: [ :show ] do
       member do
+        get 'actions'
+        get 'deck'
+        get 'battlefield'
+        get 'hand'
+        get 'graveyard'
         post 'game_action'
         post 'declare_attackers'
       end

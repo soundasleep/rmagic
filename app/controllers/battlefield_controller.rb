@@ -10,7 +10,26 @@ class BattlefieldController < ApplicationController
       target: find_target
     )
     action.do(duel)
-    redirect_to duel_player_path duel, player
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
+  end
+
+  def defend
+    source = Battlefield.find(params[:id])
+    target = DeclaredAttacker.find(params[:target])
+    action = DefenderAction.new(
+      source: source,
+      target: target
+    )
+    action.declare(duel)
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   private

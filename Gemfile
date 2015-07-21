@@ -34,6 +34,9 @@ gem 'figaro'
 gem 'omniauth-google-oauth2'
 gem 'activerecord-session_store'
 
+# Websockets magic
+gem 'websocket-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -56,4 +59,12 @@ end
 
 group :test do
   gem "codeclimate-test-reporter", require: nil
+end
+
+# Livereload
+group :development do
+  gem "guard", ">= 2.2.2",       :require => false
+  gem "guard-livereload",        :require => false
+  gem "rack-livereload"
+  gem "rb-fsevent",              :require => false
 end

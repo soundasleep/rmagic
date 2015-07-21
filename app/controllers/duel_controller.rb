@@ -19,4 +19,21 @@ class DuelController < ApplicationController
     redirect_to duel_player_path duel, duel.player1
   end
 
+  def show
+    respond_to do |format|
+      format.json { render :json => DuelPresenter.new(duel).to_safe_json }
+    end
+  end
+
+  def action_log
+    respond_to do |format|
+      format.json { render :json => DuelPresenter.new(duel).action_log_json }
+    end
+  end
+
+  private
+    def duel
+      Duel.find(params[:duel_id] || params[:id])
+    end
+
 end

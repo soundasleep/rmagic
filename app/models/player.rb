@@ -1,4 +1,5 @@
 class Player < ActiveRecord::Base
+
   has_many :deck, -> { order(order: :desc) }, dependent: :destroy
   has_many :hand, dependent: :destroy
   has_many :battlefield, dependent: :destroy
@@ -145,4 +146,11 @@ class Player < ActiveRecord::Base
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
   end
 
+  after_update :update_player_channels
+
+  def update_player_channels
+    UpdatePlayerChannels.new(player: self).call
+  end
+
 end
+

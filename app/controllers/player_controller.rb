@@ -10,30 +10,41 @@ class PlayerController < ApplicationController
     if !@duel.players.include?(@player)
       fail "That player #{player} is not in the duel #{duel}"
     end
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => PlayerPresenter.new(player).to_safe_json }
+    end
   end
 
-  helper_method :playable_cards, :ability_cards, :defendable_cards,
-      :available_attackers, :game_actions
-  helper_method :get_target_type
-
-  def playable_cards
-    action_finder.playable_cards player
+  def actions
+    respond_to do |format|
+      format.json { render :json => PlayerPresenter.new(player).actions_json }
+    end
   end
 
-  def ability_cards
-    action_finder.ability_cards player
+  def deck
+    respond_to do |format|
+      format.json { render :json => PlayerPresenter.new(player).deck_json }
+    end
   end
 
-  def defendable_cards
-    action_finder.defendable_cards player
+  def battlefield
+    respond_to do |format|
+      format.json { render :json => PlayerPresenter.new(player).battlefield_json }
+    end
   end
 
-  def available_attackers
-    action_finder.available_attackers player
+  def hand
+    respond_to do |format|
+      format.json { render :json => PlayerPresenter.new(player).hand_json }
+    end
   end
 
-  def game_actions
-    action_finder.game_actions player
+  def graveyard
+    respond_to do |format|
+      format.json { render :json => PlayerPresenter.new(player).graveyard_json }
+    end
   end
 
   def declare_attackers
@@ -50,7 +61,10 @@ class PlayerController < ApplicationController
     )
     action.do(duel)
 
-    redirect_to duel_player_path duel, player
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   def game_action
@@ -59,7 +73,11 @@ class PlayerController < ApplicationController
       key: params[:key]
     )
     action.do(duel)
-    redirect_to duel_player_path duel, player
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
   end
 
   private

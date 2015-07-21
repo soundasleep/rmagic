@@ -79,7 +79,10 @@ RSpec.describe Library::PinToTheEarth, type: :card do
             end
 
             context "when we let the enchantment resolve" do
-              before { pass_until_stack_resolves }
+              before :each do
+                pass_until_stack_resolves
+                creature.reload
+              end
 
               context "our creature" do
                 it "has negative power" do

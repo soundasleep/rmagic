@@ -15,18 +15,18 @@ class ActionLog < ActiveRecord::Base
 
   def action_text
     case global_action
-    when "pass"
-      "passes"
-    when "turn"
-      "Turn #{argument} started"
-    when "draw"
-      "draws a card"
-    when "play"
-      "plays #{card.to_text}"
-    when nil
-      "used #{card.action_text card_action} of #{card.to_text}"
-    else
-      fail "Unknown action #{global_action}"
+      when "pass"
+        "passes"
+      when "turn"
+        "Turn #{argument} started"
+      when "draw"
+        "draws a card"
+      when "play"
+        "plays #{card.to_text}"
+      when nil
+        "used #{card.action_text card_action} of #{card.to_text}"
+      else
+        fail "Unknown action #{global_action}"
     end
   end
 

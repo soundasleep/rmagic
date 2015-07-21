@@ -24,6 +24,9 @@ class DoAction
     # do the thing
     action.source.card.card_type.do_action duel, action
 
+    # update all channels
+    UpdateAllChannels.new(duel: duel).call
+
     true
   end
 

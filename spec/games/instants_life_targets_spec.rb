@@ -258,6 +258,7 @@ RSpec.describe "Instants add life to targets", type: :game do
         context "on our creature" do
           before :each do
             PlayAction.new(source: card, key: "instant_creature", target: our_creature).do duel
+            our_creature.reload
             pass_until_next_phase
           end
 

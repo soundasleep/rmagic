@@ -3,7 +3,9 @@
   %head
     %title Rmagic
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag '/css/default', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag '/js/compiled', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
   %body
@@ -18,6 +20,8 @@
         = link_to "Log out", logout_path
       - else
         = link_to "Log in", login_path
+
+      %span.ajax-pending loading...
 
     - if flash.alert
       .flash.alert=flash.alert

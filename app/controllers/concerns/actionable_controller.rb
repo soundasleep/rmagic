@@ -13,16 +13,4 @@ module ActionableController
     end
   end
 
-  def get_target_type(target)
-    return "none" if target == nil
-    case target.class.name
-      when "Player"
-        "player"
-      when "Battlefield"
-        "battlefield"
-      else
-        fail "Unknown target type '#{target.class.name}'"
-    end
-  end
-
 end
