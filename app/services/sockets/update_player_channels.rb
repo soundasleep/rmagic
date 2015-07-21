@@ -11,7 +11,7 @@ class UpdatePlayerChannels
       # PlayerChannels.new(player).update_graveyard
       # instead of
       # player.update_deck_channels
-      player.update_action_channels
+      # player.update_action_channels
       # player.update_battlefield_channels
       # player.update_hand_channels
       # player.update_graveyard_channels

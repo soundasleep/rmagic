@@ -6,7 +6,7 @@ class PlayerChannels < Channels
   end
 
   def channels
-    ["deck", "battlefield", "hand", "graveyard"]
+    ["deck", "battlefield", "hand", "graveyard", "actions"]
   end
 
   def channel_id

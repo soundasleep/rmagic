@@ -7,7 +7,6 @@ class UpdateAllChannels
 
   def call
     UpdateDuelChannels.new(duel: duel).call
-    UpdateActionChannels.new(duel: duel).call
     UpdatePlayerChannels.new(duel: duel).call
     UpdateActionLogChannels.new(duel: duel).call
 

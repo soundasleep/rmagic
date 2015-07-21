@@ -17,13 +17,9 @@ class PlayerController < ApplicationController
     end
   end
 
-  def all_actions_json
-    player.all_actions_json
-  end
-
   def actions
     respond_to do |format|
-      format.json { render :json => all_actions_json }
+      format.json { render :json => PlayerPresenter.new(player).actions_json }
     end
   end
 

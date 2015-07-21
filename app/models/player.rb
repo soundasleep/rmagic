@@ -162,93 +162,11 @@ class Player < ActiveRecord::Base
     }
   end
 
-  def all_actions_json
-    {
-      play: action_finder.playable_cards(self).map(&:safe_json),
-      ability: action_finder.ability_cards(self).map(&:safe_json),
-      defend: action_finder.defendable_cards(self).map(&:safe_json),
-      attack: action_finder.available_attackers(self).map(&:safe_json),
-      game: action_finder.game_actions(self).map(&:safe_json)
-    }
-  end
-
   after_update :update_player_channels
-
-  def update_action_channels
-    channel = get_channel("actions/#{id}")
-    if channel.needs_update?
-      channel.update all_actions_json
-    end
-  end
 
   def update_player_channels
     UpdatePlayerChannels.new(duel: duel).call
   end
 
-  private
-
-    def action_finder
-      @action_finder ||= ActionFinder.new(duel)
-    end
-
-    # maybe:
-
-    # 1.
-    # create_channel "graveyard", :id, :graveyard_json
-    # has_json :hand
-
-    # 2.
-    # json_channel :graveyard, :id
-
-    # 3.
-    # --> safe_json_channel :graveyard, :id
-
-    # or should this be through a separate object/service?
-
-    # DuelJsonPresenter < JsonPresenter
-    #   json_presenter_for :duel
-    #   ...
-
-    # or separate Channel controllers?
-
-    # 4.
-    # /app/channels/deck_channel.rb
-
-    # class DeckChannel < Channel
-    #   json_channel :graveyard, :id
-
 end
 
-# class DeckChannels < Channels
-#   safe_json_channel :graveyard, :id
-
-#   json_channel :actions, :id, :all_actions_json
-# end
-
-# class DeckPresenter < Presenter
-#   attr_reader :deck
-
-#   def graveyard
-#     {
-#       # graveyard: deck.graveyard.map(&:to_safe_json)
-#       graveyard: deck.graveyard.map { |g| ZonecardPresenter.new(g) }.map(&:to_safe_json)
-#     }
-#   end
-# end
-
-# def PlayerChannels
-#   attr_reader :player
-
-#   # creates a "graveyard/#{id}" channel
-#   # and uses the PlayerPresenter(player).graveyard_json presenter
-#   json_channel :graveyard, :id
-# end
-
-# def PlayerPresenter
-#   def graveyard_json
-#     {
-#       # graveyard: deck.graveyard.map(&:to_safe_json)
-#       graveyard: deck.graveyard.map { |g| ZonecardPresenter.new(g) }.map(&:to_safe_json)
-#     }
-#   end
-# end
