@@ -9,7 +9,6 @@ module.exports = PlayActions = React.createClass
       class_name = "action play-action action-for-hand-#{e.card_id} action-#{e.key}"
 
       click = (e) ->
-        console.log e
         FormSubmitter.submitFromClick e
 
       `<li key={i} className={class_name}>
