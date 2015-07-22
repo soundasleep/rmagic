@@ -6,11 +6,12 @@ module.exports = AbilityActions = React.createClass
   render: ->
     actions = this.props.ability.map (e, i) =>
       url = "/duel/#{this.props.duel}/player/#{this.props.player}/battlefield/#{e.source_id}/ability.json"
+      class_name = "action ability-action action-for-battlefield-#{e.card_id} action-#{e.key}"
 
       click = (e) ->
         FormSubmitter.submitFromClick e
 
-      `<li key={i}>
+      `<li key={i} className={class_name}>
         <form action={url} method="post">
           <input type="hidden" name="key" value={e.key} />
           <input type="hidden" name="target_type" value={e.target_type} />

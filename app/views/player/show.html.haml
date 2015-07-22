@@ -1,7 +1,7 @@
 / javascript web interfaces
 #app{ "data-duel" => @duel.id, "data-player" => @player.id }
 
-/ this is a dirty way to create CSS for all the card images
+/ this is a horrible, dirty way to create CSS for all the card images
 %style
   - CardUniverse.new.all.each do |card|
     = raw ".card.metaverse-#{card.metaverse_id} { background-image: url('http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=#{card.metaverse_id}&type=card'); } "

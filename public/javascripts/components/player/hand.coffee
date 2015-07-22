@@ -15,8 +15,9 @@ module.exports = Hand = Subscribed.createClass
     "hand/#{this.props.player}"
 
   renderLoaded: ->
-    hand = this.state.hand.map (e) ->
-      `<Card key={e.id} {...e} />`
+    hand = this.state.hand.map (e) =>
+      me = @
+      `<Card zone="hand" key={e.id} duel={me.props.duel} player={me.props.player} {...e} />`
 
     `<div className="hand">
       <h3>Hand ({this.state.hand.length} cards)</h3>

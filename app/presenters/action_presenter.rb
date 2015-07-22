@@ -8,6 +8,7 @@ class ActionPresenter
   def to_safe_json
     {
       action_type: action.action_type,
+      card_id: action.source.card.id,
       source_id: action.source.id,
       key: action.key,
       target_type: action.target_type,
