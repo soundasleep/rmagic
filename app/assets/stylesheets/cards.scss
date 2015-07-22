@@ -1,3 +1,26 @@
 // Place all the styles related to the cards controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.card {
+  // cards that aren't listed on gatherer
+  background-size: cover;
+  background-repeat: none;
+
+  &.metaverse-698564 {
+    background-image: url('http://static.starcitygames.com/sales/cardscans/MTG/M15/en/nonfoil/Forest266.jpg');
+  }
+  &.metaverse-698572 {
+    background-image: url('http://static.starcitygames.com/sales/cardscans/MTG/M15/en/nonfoil/Mountain262.jpg');
+  }
+  &.metaverse-698568 {
+    background-image: url('http://static.starcitygames.com/sales/cardscans/MTG/M15/en/nonfoil/Island254.jpg');
+  }
+
+  .card-info {
+    width: 100%;
+    height: 40%;
+    margin: 80% 0 5% 0;
+    background: rgba(255,255,255,0.75);
+  }
+}

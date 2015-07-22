@@ -11,9 +11,13 @@ module.exports = Card = React.createClass
     if this.props.card.is_tapped
       tapped = `<i>(tapped)</i>`
 
-    `<li className="card" key={this.props.id}>
-      <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
-      {power}
-      <small>{this.props.card.id}</small>
-      {tapped}
+    classes = "card metaverse-#{this.props.card.card_type.metaverse_id}"
+
+    `<li className={classes} key={this.props.id}>
+      <div className="card-info">
+        <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
+        {power}
+        <small>{this.props.card.id}</small>
+        {tapped}
+      </div>
     </li>`
