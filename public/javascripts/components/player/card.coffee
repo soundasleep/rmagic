@@ -14,7 +14,18 @@ module.exports = Card = React.createClass
     classes = "card metaverse-#{this.props.card.card_type.metaverse_id}"
 
     `<li className={classes} key={this.props.id}>
-      <div className="card-info">
+      <div className="card-hover">
+        <div className={classes}>
+          <div className="card-text">
+            <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
+            {power}
+            <small>{this.props.card.id}</small>
+            {tapped}
+          </div>
+        </div>
+      </div>
+
+      <div className="card-text">
         <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
         {power}
         <small>{this.props.card.id}</small>
