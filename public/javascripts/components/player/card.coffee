@@ -7,11 +7,10 @@ module.exports = Card = React.createClass
     power = ""
     if this.props.card.card_type.is_creature
       power = `<span className="power">({this.props.card.power} / {this.props.card.toughness})</span>`
-    tapped = ""
-    if this.props.card.is_tapped
-      tapped = `<i>(tapped)</i>`
 
     classes = "card metaverse-#{this.props.card.card_type.metaverse_id}"
+    if this.props.card.is_tapped
+      classes += " is-tapped"
 
     `<li className={classes} key={this.props.id}>
       <div className="card-hover">
@@ -20,15 +19,16 @@ module.exports = Card = React.createClass
             <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
             {power}
             <small>{this.props.card.id}</small>
-            {tapped}
           </div>
         </div>
       </div>
 
       <div className="card-text">
-        <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
-        {power}
-        <small>{this.props.card.id}</small>
-        {tapped}
+        <div className="card-title">
+          <a href={card_link}>{this.props.card.card_type.name}</a>
+        </div>
+        <div className="card-power">
+          {power}
+        </div>
       </div>
     </li>`

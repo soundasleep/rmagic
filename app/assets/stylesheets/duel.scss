@@ -127,6 +127,18 @@
                 font-size: 80%;
                 text-align: left;
                 box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+
+                &.is-tapped {
+                  transform: rotate(90deg);
+                  margin-left: ($card-width / 4);
+                  margin-right: ($card-width / 4);
+
+                  &:hover {
+                    .card-hover {
+                      transform: rotate(-60deg);
+                    }
+                  }
+                }
               }
             }
           }
