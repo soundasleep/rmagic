@@ -18,7 +18,7 @@ class Library::KiorasFollower < CardType
   end
 
   def self.metaverse_id
-    537713
+    394381
   end
 
   def ability_cost

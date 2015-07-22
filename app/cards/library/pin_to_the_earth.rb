@@ -34,7 +34,7 @@ class Library::PinToTheEarth < CardType
   end
 
   def self.metaverse_id
-    551481
+    380473
   end
 
   def modify_power(n)

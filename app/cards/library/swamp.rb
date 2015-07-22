@@ -1,16 +1,16 @@
-class Library::Mountain < CardType
+class Library::Swamp < CardType
   include Land
 
   def name
-    "Mountain"
+    "Swamp"
   end
 
   def mana_provided
-    Mana.new red: 1
+    Mana.new black: 1
   end
 
   def self.metaverse_id
-    383317
+    383410
   end
 
 end

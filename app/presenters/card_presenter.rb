@@ -12,6 +12,8 @@ class CardPresenter < JSONPresenter
   end
 
   def extra_json_attributes
+    fail "no card type for #{card}" unless card.card_type
+
     {
       card_type: CardTypePresenter.new(card.card_type).to_safe_json,
       power: card.power,
