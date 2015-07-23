@@ -21,6 +21,8 @@ The engine barely supports anything at the moment, but it's a start.
 * Mulligans
 * Random first player
 * Basic multiplayer interface with OAuth2 login
+* Javascript REST-driven to enable a rich user experience
+* Card graphics
 
 ## ActiveRecord concepts
 
@@ -41,9 +43,11 @@ We try to use as few model objects as possible.
 * Render the cards on the stack in the web interface
 * Render attached enchantments in the web interface
 * Sorceries
-* Order cards in graveyard
 * Tests for controllers
 * Look into Cucumber or Capybara for integration testing
+* Deployed onto a VPS somewhere
+* Display counters on cards on web interface
+* Token creatures
 
 ## Release 1 goals
 
@@ -53,6 +57,7 @@ We try to use as few model objects as possible.
 * Distribute damage
 * Search through library
 * Discard a card
+* Maximum hand size
 * Devotion
 * Event triggers
 
@@ -61,9 +66,7 @@ We try to use as few model objects as possible.
 * Specify resolved attack priority order
 * An AI that makes sense
 * Support exile zone
-* Javascript REST-driven to enable a rich user experience
-* Chat
-* Card graphics
+* User chat
 
 ## Probably never
 
