@@ -17,8 +17,7 @@ module.exports = DefendActions = React.createClass
 
       mouseOver = (event) ->
         resetHighlight()
-        $(".card.card-battlefield.battlefield-#{e.source_id}").addClass("highlighted-source")
-        $(".card.card-battlefield.battlefield-#{e.target_id}").addClass("highlighted-target")
+        $(".card.card-#{e.target_card_id}").addClass("highlighted-target")
 
       mouseOut = (event) ->
         resetHighlight()
@@ -26,8 +25,9 @@ module.exports = DefendActions = React.createClass
       `<li key={i} className={class_name}>
         <form action={url} method="post">
           <input type="hidden" name="target" value={e.target_id} />
+          <input type="hidden" name="target_card" value={e.target_card_id} />
           <input type="button" value={e.description}
-              onClick={click} onMouseOver={mosueOver} onMouseOut={mouseOut} />
+              onClick={click} onMouseOver={mouseOver} onMouseOut={mouseOut} />
         </form>
       </li>`
 
