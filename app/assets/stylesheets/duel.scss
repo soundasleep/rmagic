@@ -1,3 +1,43 @@
 // Place all the styles related to the duel controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "variables";
+
+#app {
+  // @import "cards";
+
+  display: block;
+  // border: 1px solid #ccc;
+  height: $app-height;
+  overflow-y: auto;
+
+  .root { height: 100%; }
+  .duel { height: 100%; }
+  .loadingWrapper { height: 100%; }
+
+  nav {
+    display: none;
+  }
+
+  .duel {
+    .boards, .logs {
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .duel-boards {
+      width: 80%;
+      // border: 1px solid blue;
+      float: left;
+      display: block;
+
+      @import "duel-board";
+      @import "duel-turn";
+      @import "duel-actions";
+    }
+
+    @import "duel-logs";
+
+  }
+}

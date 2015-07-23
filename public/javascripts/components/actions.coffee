@@ -21,8 +21,6 @@ module.exports = Actions = Subscribed.createClass
 
   renderLoaded: ->
     `<div className="actions">
-      <h2>Actions</h2>
-
       <GameActions {...this.state} duel={this.props.duel} player={this.props.player} />
       <PlayActions {...this.state} duel={this.props.duel} player={this.props.player} />
       <AbilityActions {...this.state} duel={this.props.duel} player={this.props.player} />

@@ -17,11 +17,34 @@ module.exports = Duel = Subscribed.createClass
   channel: ->
     "duel/#{this.props.duel}"
 
+  playerClassNames: (id) ->
+    result = ["board"]
+    if this.state.current_player.id == id
+      result.push "current-player"
+    if this.state.first_player.id == id
+      result.push "first-player"
+    if this.state.priority_player.id == id
+      result.push "priority-player"
+    result.join(" ")
+
   renderLoaded: ->
+    player1classes = @playerClassNames(this.state.player1_id) + " my-board"
+    player2classes = @playerClassNames(this.state.player2_id)
+
     `<div className="duel">
-      <Turn {...this.state} />
-      <Actions duel={this.state.id} player={this.props.player} />
-      <Player duel={this.state.id} player={this.state.player1_id} />
-      <Player duel={this.state.id} player={this.state.player2_id} />
-      <ActionLog duel={this.state.id} />
+      <div className="duel-boards">
+        <div className={player2classes}>
+          <Player duel={this.state.id} player={this.state.player2_id} />
+        </div>
+        <div className="turn">
+          <Turn {...this.state} />
+          <Actions duel={this.state.id} player={this.props.player} />
+        </div>
+        <div className={player1classes}>
+          <Player duel={this.state.id} player={this.state.player1_id} />
+        </div>
+      </div>
+      <div className="logs">
+        <ActionLog duel={this.state.id} />
+      </div>
     </div>`

@@ -13,14 +13,14 @@ module.exports = Subscribed =
 
       subscribeToPromise: (obj, channel) ->
         this.load().then (result) ->
-          obj.setState result
+          obj.setState obj.possiblyFilter(result)
 
           # and then subscribe to the channel
           c = dispatcher.subscribe(channel)
           c.bind 'update', (result) ->
             console.log ">>", channel
             console.log result
-            obj.setState result
+            obj.setState obj.possiblyFilter(result)
 
           if typeof window.subscribedChannels[channel] == 'undefined'
             window.subscribedChannels[channel] = []
@@ -47,3 +47,10 @@ module.exports = Subscribed =
           content = @renderLoaded()
 
         return `<div className="loadingWrapper">{content}</div>`
+
+      possiblyFilter: (data) ->
+        if typeof @filter != 'undefined'
+          @filter(data)
+        else
+          data
+

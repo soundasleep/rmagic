@@ -14,5 +14,6 @@ module.exports = Deck = Subscribed.createClass
 
   renderLoaded: ->
     `<div className="deck">
-      <h3>Deck ({this.state.deck.length} cards)</h3>
+      <h3>Deck</h3>
+      <h4>({this.state.deck.length} cards)</h4>
     </div>`

@@ -1,0 +1,69 @@
+.turn {
+  clear: both;
+  text-align: left;
+  height: $turn-height;
+  padding: 3px;
+  background: #eee;
+
+  .turn {
+    width: 60%;
+    float: left;
+    font-style: italic;
+    display: inline-block;
+
+    .turn-info {
+      display: inline-block;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    ul.turn-list {
+      display: inline-block;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 75%;
+      vertical-align: top;
+
+      li {
+        display: inline-block;
+        margin-right: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 2px 5px;
+
+        &:after {
+          content: " > ";
+          font-size: 80%;
+        }
+
+        &.current-phase {
+          border-color: #99c;
+          background: #eef;
+          box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+      }
+    }
+  }
+
+  .actions {
+    width: 40%;
+    display: inline-block;
+    text-align: right;
+    padding: 2px;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        display: inline-block;
+      }
+    }
+
+    .play-actions, .ability-actions, .defend-actions {
+      display: none;
+    }
+  }
+}

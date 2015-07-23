@@ -2,6 +2,11 @@ class Card < ActiveRecord::Base
   has_many :effects, dependent: :destroy
   has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id
 
+  has_many :battlefield
+  has_many :graveyard
+  has_many :deck
+  has_many :hand
+
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
 
@@ -33,7 +38,7 @@ class Card < ActiveRecord::Base
 
   def to_text
     if card_type.is_creature?
-      "#{card_type.to_text} ( #{power} / #{toughness} )"
+      "#{card_type.to_text} (#{power} / #{toughness})"
     else
       card_type.to_text
     end
@@ -83,6 +88,13 @@ class Card < ActiveRecord::Base
 
   def card
     self
+  end
+
+  def controller
+    [battlefield, graveyard, hand, deck].each do |zone|
+      return zone.first.player if zone.any?
+    end
+    nil
   end
 
   private

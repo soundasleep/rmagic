@@ -34,7 +34,7 @@ class Library::Negate < CardType
   end
 
   def self.metaverse_id
-    698824
+    398629
   end
 
 end

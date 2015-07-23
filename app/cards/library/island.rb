@@ -10,7 +10,7 @@ class Library::Island < CardType
   end
 
   def self.metaverse_id
-    698568
+    383281
   end
 
 end

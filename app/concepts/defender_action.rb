@@ -4,7 +4,11 @@ class DefenderAction < AbstractAction
   end
 
   def action_description
-    "Declare defender"
+    "Defend"
+  end
+
+  def description
+    "#{action_description}#{target_text}"
   end
 
   def declare(duel)

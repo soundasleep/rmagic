@@ -12,12 +12,26 @@ class CardPresenter < JSONPresenter
   end
 
   def extra_json_attributes
+    fail "no card type for #{card}" unless card.card_type
+
     {
       card_type: CardTypePresenter.new(card.card_type).to_safe_json,
       power: card.power,
       toughness: card.toughness,
-      remaining_health: card.remaining_health
+      remaining_health: card.remaining_health,
+      controller: format_player(card.controller),
+      enchantments: card.enchantments.map { |c| format_card c }
     }
   end
+
+  private
+
+    def format_card(card)
+      CardPresenter.new(card).to_safe_json
+    end
+
+    def format_player(player)
+      PlayerPresenter.new(player).to_safe_json
+    end
 
 end

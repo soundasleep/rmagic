@@ -10,7 +10,7 @@ class Library::Forest < CardType
   end
 
   def self.metaverse_id
-    698564
+    383241
   end
 
 end

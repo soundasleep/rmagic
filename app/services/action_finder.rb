@@ -76,6 +76,7 @@ class ActionFinder
       end.flatten(1)
     end
 
+    # TODO preload player hand, card, zones etc?
     def playable_cards_with_card_targets(player)
       # all hand cards which have an available ability (e.g. play, instant)
       # with a card target

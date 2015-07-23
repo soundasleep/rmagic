@@ -22,7 +22,7 @@ class Library::NessianCourser < CardType
   end
 
   def self.metaverse_id
-    513177
+    373581
   end
 
 end

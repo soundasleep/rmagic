@@ -4,6 +4,6 @@ class AbilityAction < AbstractAction
   end
 
   def action_description
-    "Use ability"
+    "Use"
   end
 end
