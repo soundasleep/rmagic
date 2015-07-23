@@ -17,7 +17,9 @@ module.exports = Battlefield = Subscribed.createClass
   renderLoaded: ->
     battlefield = this.state.battlefield.map (e) =>
       me = @
-      `<Card zone="battlefield" key={e.id} duel={me.props.duel} player={me.props.player} {...e} />`
+
+      if !e.card.card_type.is_enchantment
+        `<Card zone="battlefield" key={e.id} duel={me.props.duel} player={me.props.player} {...e} />`
 
     `<div className="battlefield">
       <h3>Battlefield ({this.state.battlefield.length} cards)</h3>
