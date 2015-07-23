@@ -12,27 +12,31 @@ class PassPriority
     # add to action log
     ActionLog.pass_action(duel, duel.priority_player)
 
-    duel.update! priority_player_number: (duel.priority_player_number % duel.players.count) + 1
+    duel.update priority_player_number: (duel.priority_player_number % duel.players.count) + 1
+
     if duel.priority_player_number == duel.current_player_number
       # priority has returned to the current player
-      duel.update! priority_player_number: duel.current_player_number
+      duel.update priority_player_number: duel.current_player_number
       next_player = duel.next_phase!
 
       if next_player
         if previous_phase.for_each_player?
-          duel.update! current_player_number: (duel.current_player_number % duel.players.count) + 1
-          duel.update! priority_player_number: duel.current_player_number
+          duel.update current_player_number: (duel.current_player_number % duel.players.count) + 1
+          duel.update priority_player_number: duel.current_player_number
         end
 
         if duel.phase.increments_turn? && duel.current_player_number == duel.first_player_number
           # next turn
-          duel.update! turn: duel.turn + 1
+          duel.update turn: duel.turn + 1
 
           # add to action log
           ActionLog.new_turn_action(duel)
         end
       end
     end
+
+    # apply changes to reduce duel.after_update callbacks
+    duel.save!
 
     # things that happen at the end of every single pass
     RemoveUnattachedEnchantments.new(duel: duel).call
