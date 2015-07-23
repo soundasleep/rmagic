@@ -34,7 +34,7 @@ module.exports = Card = React.createClass
 
       <div className="card-text">
         <div className="card-title">
-          <a href={card_link}>{this.props.card.card_type.name}</a> {this.props.id}
+          <a href={card_link}>{this.props.card.card_type.name}</a>
         </div>
         <div className="card-power">
           {power}

@@ -173,41 +173,7 @@
         }
       }
 
-      .turn {
-        clear: both;
-        text-align: left;
-        font-style: italic;
-        height: $turn-height;
-        padding: 3px;
-        background: #eee;
-
-        .turn {
-          width: 60%;
-          float: left;
-        }
-
-        .actions {
-          width: 40%;
-          float: right;
-          text-align: right;
-          padding: 2px;
-
-          ul, .attack-actions {
-            display: none;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-
-            &.game-actions {
-              display: block;
-            }
-
-            li {
-              display: inline-block;
-            }
-          }
-        }
-      }
+      @import "duel-turn";
 
       .my-actions {
         height: (100% - (2 * $my-board-height) - $turn-height);
