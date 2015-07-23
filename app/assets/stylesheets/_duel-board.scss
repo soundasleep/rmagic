@@ -104,49 +104,101 @@
         margin: 0;
         padding: 0;
 
-        li.card {
+        li.card-parent {
           display: inline-block;
-          vertical-align: top;
-          margin: 3px;
           padding: 3px;
           width: $card-width;
           height: $card-width * $card-height-ratio;
-          min-height: 20%;
-          border: thin solid black;
-          border-radius: 5px;
-          font-size: 80%;
-          text-align: left;
-          box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+          vertical-align: top;
+
+          &.has-enchantments {
+            margin-right: 10px;
+          }
 
           &.is-tapped {
-            transform: rotate(90deg);
-            margin-left: ($card-width / 4);
-            margin-right: ($card-width / 4);
+            margin: 0 15px;
+            &.has-enchantments {
+              margin-right: 15px;
+            }
+          }
+
+          .card {
+            display: block;
+            position: relative;
+            background-repeat: none;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+
+            &.is-tapped {
+              // TODO this gives all tapped cards an additional stacking context
+              // causing weird overlap issues.
+              // http://stackoverflow.com/questions/16433864/do-css-transformed-elements-have-default-z-index
+              // the solution is to give `.card { transform: rotate(0) }`
+              // making ALL cards have a stacking context
+              // but this messes up even more and is even harder to fix.
+              transform: rotate(90deg);
+
+              .card {
+                transform: rotate(0);
+              }
+
+              &:hover {
+                transform: rotate(0);
+              }
+            }
+
+            .card-text {
+              position: relative;
+              width: 90%;
+              height: 40%;
+              top: 55%;
+              left: 5%;
+              background: rgba(255,255,255,0.75);
+              font-size: 80%;
+              text-align: left;
+            }
+
+            .card-hover {
+              display: none;
+              position: relative;
+              float: left;
+              top: -20%;
+              left: -20%;
+              z-index: 1000;
+              width: $card-width * $card-hover-ratio;
+              height: $card-width * $card-hover-ratio * $card-height-ratio;
+
+              .card {
+                position: absolute;
+              }
+            }
 
             &:hover {
               .card-hover {
-                transform: rotate(-60deg);
+                display: inline-block;
+                .card-text {
+                  display: block;
+                }
+              }
+              .card-text {
+                display: none;
               }
             }
           }
 
-          &.highlighted-source {
-            box-shadow: 0px 0px 5px blue;
-          }
-          &.highlighted-target {
-            border: 2px solid red;
-            box-shadow: 0px 0px 5px red;
+          .enchantments {
+            position: absolute;
+
+            li {
+              position: relative;
+              top: -15px;
+              right: -5px;
+            }
           }
 
-          .card {
-            &.highlighted-source {
-              box-shadow: 0px 0px 5px blue;
-            }
-            &.highlighted-target {
-              box-shadow: 0px 0px 5px red;
-            }
-          }
         }
+
       }
     }
   }

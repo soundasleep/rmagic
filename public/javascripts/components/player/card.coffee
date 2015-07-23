@@ -16,28 +16,45 @@ module.exports = Card = React.createClass
     classes = "card card-#{this.props.zone} card-#{this.props.card.id} #{this.props.zone}-#{this.props.id} metaverse-#{this.props.card.card_type.metaverse_id}"
     if this.props.card.is_tapped
       classes += " is-tapped"
-    parent_classes = "card-parent #{classes}"
+
+    parent_classes = "card-parent"
+    if this.props.card.is_tapped
+      parent_classes += " is-tapped"
+    if this.props.card.enchantments.length > 0
+      parent_classes += " has-enchantments"
+
+    enchantments = ""
+    if this.props.card.enchantments.length > 0
+      enchantments = this.props.card.enchantments.map (e, i) =>
+        me = @
+        `<Card key={i} zone={me.props.zone} duel={me.props.duel} player={me.props.player} card={e} />`
 
     `<li className={parent_classes} key={this.props.id}>
-      <div className="card-hover">
-        <div className={classes}>
-          <div className="card-text">
-            <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
-            {power}
-            <small>{this.props.card.id}</small>
-            <div className="card-actions">
-              <CardActions duel={this.props.duel} player={this.props.player} card={this.props.card.id} />
+      <ul className="enchantments">
+        {enchantments}
+      </ul>
+
+      <div className={classes}>
+        <div className="card-hover">
+          <div className={classes}>
+            <div className="card-text">
+              <a href={card_link}>{this.props.card.card_type.name} {this.props.card.card_type.mana_cost}</a>
+              {power}
+              <small>{this.props.card.id}</small>
+              <div className="card-actions">
+                <CardActions duel={this.props.duel} player={this.props.player} card={this.props.card.id} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="card-text">
-        <div className="card-title">
-          <a href={card_link}>{this.props.card.card_type.name}</a>
-        </div>
-        <div className="card-power">
-          {power}
+        <div className="card-text">
+          <div className="card-title">
+            <a href={card_link}>{this.props.card.card_type.name}</a>
+          </div>
+          <div className="card-power">
+            {power}
+          </div>
         </div>
       </div>
     </li>`
