@@ -167,9 +167,10 @@
             .card-text {
               position: relative;
               width: 90%;
-              height: 40%;
-              top: 55%;
+              height: 37.5%;
+              top: 57.5%;
               left: 5%;
+              padding: 2px;
               background: rgba(255,255,255,0.75);
               font-size: 80%;
               text-align: left;
@@ -187,6 +188,10 @@
 
               .card {
                 position: absolute;
+
+                .card-text {
+                  padding: 5px;
+                }
               }
             }
 
