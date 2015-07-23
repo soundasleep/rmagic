@@ -4,6 +4,7 @@ API = require("../api")
 
 Turn = require("./duel/turn")
 Player = require("./player")
+Actions = require("./actions")
 ActionLog = require("./action_log")
 
 module.exports = Duel = Subscribed.createClass
