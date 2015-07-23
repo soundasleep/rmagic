@@ -28,7 +28,8 @@ module.exports = AbilityActions = React.createClass
           <input type="hidden" name="key" value={e.key} />
           <input type="hidden" name="target_type" value={e.target_type} />
           <input type="hidden" name="target" value={e.target_id} />
-          <input type="button" value={e.description} onClick={click} onMouseOver={mouseOver} onMouseOut={mouseOut} />
+          <input type="button" value={e.description}
+              onClick={click} onMouseOver={mouseOver} onMouseOut={mouseOut} />
         </form>
       </li>`
 
