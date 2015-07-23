@@ -30,6 +30,10 @@ RSpec.describe "Enchantments on card toughness", type: :game do
     it "has no enchantments" do
       expect(our_enchantments).to be_empty
     end
+
+    it "is ours" do
+      expect(our_creature.card.controller).to eq(player1)
+    end
   end
 
   context "their creature" do
@@ -48,11 +52,19 @@ RSpec.describe "Enchantments on card toughness", type: :game do
     it "has no enchantments" do
       expect(their_enchantments).to be_empty
     end
+
+    it "is theirs" do
+      expect(their_creature.card.controller).to eq(player2)
+    end
   end
 
   context "adding an enchantment" do
     before :each do
       create_battlefield_cards Library::DeadWeight
+    end
+
+    it "is ours" do
+      expect(enchantment.card.controller).to eq(player1)
     end
 
     context "after passing priority" do
@@ -97,6 +109,10 @@ RSpec.describe "Enchantments on card toughness", type: :game do
 
         it "has our enchantment" do
           expect(our_enchantments).to eq([enchantment.card])
+        end
+
+        it "has an enchantment controlled by us" do
+          expect(our_enchantments.first.card.controller).to eq(player1)
         end
       end
 
