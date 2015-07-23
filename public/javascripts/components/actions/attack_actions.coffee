@@ -10,8 +10,19 @@ module.exports = AttackActions = React.createClass
       FormSubmitter.submitFromClick e
 
     actions = this.props.attack.map (e, i) =>
+      resetHighlight = ->
+        $(".card").removeClass("highlighted-source")
+        $(".card").removeClass("highlighted-target")
+
+      mouseOver = (event) ->
+        resetHighlight()
+        $(".card.card-battlefield.battlefield-#{e.id}").addClass("highlighted-source")
+
+      mouseOut = (event) ->
+        resetHighlight()
+
       `<li key={e.id}>
-        <label>
+        <label onMouseOver={mouseOver} onMouseOut={mouseOut}>
           <input type="checkbox" name="attacker[]" value={e.id} />
           {e.card.card_type.name}
         </label>
