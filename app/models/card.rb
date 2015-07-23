@@ -33,7 +33,7 @@ class Card < ActiveRecord::Base
 
   def to_text
     if card_type.is_creature?
-      "#{card_type.to_text} ( #{power} / #{toughness} )"
+      "#{card_type.to_text} (#{power} / #{toughness})"
     else
       card_type.to_text
     end

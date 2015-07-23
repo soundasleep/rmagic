@@ -9,7 +9,7 @@ class AbstractAction
   end
 
   def description
-    "#{action_description} #{key} of #{source.to_text}#{target_text}"
+    "#{action_description} #{key}#{target_text}"
   end
 
   def battlefield_targets
