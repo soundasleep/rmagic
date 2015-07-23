@@ -42,6 +42,17 @@
           display: none;
         }
 
+        &.priority-player {
+          .player {
+            .info {
+              .player-box {
+                background: #fcc;
+                border: 1px solid #c99;
+              }
+            }
+          }
+        }
+
         &.my-board {
           height: $my-board-height;
 
