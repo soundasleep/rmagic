@@ -9,6 +9,7 @@
   .turn {
     width: 60%;
     float: left;
+    display: inline-block;
 
     .turn-info {
       display: inline-block;
@@ -47,7 +48,7 @@
 
   .actions {
     width: 40%;
-    float: right;
+    display: inline-block;
     text-align: right;
     padding: 2px;
 

@@ -32,7 +32,7 @@ module.exports = Duel = Subscribed.createClass
     player2classes = @playerClassNames(this.state.player2_id)
 
     `<div className="duel">
-      <div className="boards">
+      <div className="duel-boards">
         <div className={player2classes}>
           <Player duel={this.state.id} player={this.state.player2_id} />
         </div>

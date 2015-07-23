@@ -1,0 +1,19 @@
+
+.logs {
+  width: 20%;
+  background: #eee;
+  border-radius: 10px;
+  float: right;
+  padding: 5px;
+
+  h2, h3 {
+    margin: 0 0 10px 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 80%;
+  }
+}

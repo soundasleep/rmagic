@@ -1,0 +1,13 @@
+.my-actions {
+  height: (100% - (2 * $my-board-height) - $turn-height);
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+    }
+  }
+}
