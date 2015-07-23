@@ -37,6 +37,12 @@
     .hand ul {
       display: block;
     }
+
+    // show our hovers aligned up vertically higher
+    .card-parent:hover .card .card-hover {
+      // adds to the top: without having to override with !important
+      margin-top: -100%;
+    }
   }
 
   .player {
