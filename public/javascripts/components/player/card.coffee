@@ -13,7 +13,7 @@ module.exports = Card = React.createClass
     if this.props.card.card_type.is_creature
       power = `<span className="power">({this.props.card.power} / {this.props.card.toughness})</span>`
 
-    classes = "card card-#{this.props.zone} #{this.props.zone}-#{this.props.card.id} metaverse-#{this.props.card.card_type.metaverse_id}"
+    classes = "card card-#{this.props.zone} #{this.props.zone}-#{this.props.id} metaverse-#{this.props.card.card_type.metaverse_id}"
     if this.props.card.is_tapped
       classes += " is-tapped"
     parent_classes = "card-parent #{classes}"
@@ -34,7 +34,7 @@ module.exports = Card = React.createClass
 
       <div className="card-text">
         <div className="card-title">
-          <a href={card_link}>{this.props.card.card_type.name}</a>
+          <a href={card_link}>{this.props.card.card_type.name}</a> {this.props.id}
         </div>
         <div className="card-power">
           {power}

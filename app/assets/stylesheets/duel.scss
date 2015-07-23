@@ -139,6 +139,23 @@
                     }
                   }
                 }
+
+                &.highlighted-source {
+                  box-shadow: 0px 0px 5px blue;
+                }
+                &.highlighted-target {
+                  border: 2px solid red;
+                  box-shadow: 0px 0px 5px red;
+                }
+
+                .card {
+                  &.highlighted-source {
+                    box-shadow: 0px 0px 5px blue;
+                  }
+                  &.highlighted-target {
+                    box-shadow: 0px 0px 5px red;
+                  }
+                }
               }
             }
           }
