@@ -151,7 +151,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
 
       context "after adding another creature" do
         before :each do
-          create_battlefield_cards Library::Metaverse1
+          create_battlefield_cards Library::BasicCreature
         end
 
         context "targeting the second creature" do

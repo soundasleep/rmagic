@@ -8,8 +8,8 @@ RSpec.describe SimpleAI, type: :ai do
   before :each do
     duel.mulligan_phase!
 
-    10.times { create_order_card player1.deck, Library::Metaverse1, player1.next_deck_order }
-    10.times { create_order_card player2.deck, Library::Metaverse1, player2.next_deck_order }
+    10.times { create_order_card player1.deck, Library::BasicCreature, player1.next_deck_order }
+    10.times { create_order_card player2.deck, Library::BasicCreature, player2.next_deck_order }
 
     player2.update! is_ai: true
   end

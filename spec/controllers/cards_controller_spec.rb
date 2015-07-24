@@ -4,7 +4,7 @@ RSpec.describe CardsController, type: :controller do
   render_views    # needed for response.body tests
 
   context "GET index" do
-    let(:forest) { Library::Metaverse1.new }
+    let(:forest) { Library::BasicCreature.new }
 
     before :each do
       get :index
@@ -20,7 +20,7 @@ RSpec.describe CardsController, type: :controller do
   end
 
   context "GET show/1" do
-    let(:card) { Library::Metaverse1.new }
+    let(:card) { Library::BasicCreature.new }
 
     before :each do
       get :show, id: card.metaverse_id

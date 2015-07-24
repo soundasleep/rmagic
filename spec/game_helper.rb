@@ -12,8 +12,8 @@ module GameHelper
     duel = Duel.create!(player1: player1, player2: player2)
 
     2.times do
-      create_order_card duel.player1.deck, Library::Metaverse1, duel.player1.next_deck_order
-      create_order_card duel.player2.deck, Library::Metaverse1, duel.player2.next_deck_order
+      create_order_card duel.player1.deck, Library::BasicCreature, duel.player1.next_deck_order
+      create_order_card duel.player2.deck, Library::BasicCreature, duel.player2.next_deck_order
     end
 
     3.times do
@@ -28,10 +28,10 @@ module GameHelper
 
   def create_creatures
     3.times do
-      create_card duel.player1.battlefield, Library::Metaverse1
+      create_card duel.player1.battlefield, Library::BasicCreature
     end
     2.times do
-      create_card duel.player2.battlefield, Library::Metaverse1
+      create_card duel.player2.battlefield, Library::BasicCreature
     end
   end
 

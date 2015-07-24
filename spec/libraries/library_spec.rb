@@ -21,15 +21,15 @@ RSpec.describe Library, type: :library do
 
   context "#duplicate_metaverses" do
     context "with duplicates" do
-      let(:duplicates) { [Library::Metaverse1, Library::Forest, Library::Metaverse1] }
+      let(:duplicates) { [Library::BasicCreature, Library::Forest, Library::BasicCreature] }
 
       it "returns a value" do
-        expect(library.duplicate_metaverses(duplicates)).to eq(Library::Metaverse1.metaverse_id)
+        expect(library.duplicate_metaverses(duplicates)).to eq(Library::BasicCreature.metaverse_id)
       end
     end
 
     context "with duplicates" do
-      let(:duplicates) { [Library::Metaverse1, Library::Forest] }
+      let(:duplicates) { [Library::BasicCreature, Library::Forest] }
 
       it "returns nil" do
         expect(library.duplicate_metaverses(duplicates)).to be(nil)

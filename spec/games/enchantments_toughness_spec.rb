@@ -6,7 +6,7 @@ RSpec.describe "Enchantments on card toughness", type: :game do
   let(:their_creature) { player2.battlefield_creatures.first.card }
 
   before :each do
-    create_battlefield_cards Library::Metaverse1
+    create_battlefield_cards Library::BasicCreature
     duel.playing_phase!
   end
 

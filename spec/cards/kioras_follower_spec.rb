@@ -5,7 +5,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
 
   before :each do
     create_hand_cards Library::KiorasFollower
-    create_battlefield_cards Library::Metaverse1
+    create_battlefield_cards Library::BasicCreature
     create_battlefield_cards Library::Island
     duel.playing_phase!
   end

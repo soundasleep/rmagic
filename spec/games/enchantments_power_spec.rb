@@ -5,7 +5,7 @@ RSpec.describe "Enchantments on card power", type: :game do
   let(:our_creature) { player1.battlefield_creatures.first.card }
   let(:their_creature) { player2.battlefield_creatures.first.card }
 
-  before { create_battlefield_cards Library::Metaverse1 }
+  before { create_battlefield_cards Library::BasicCreature }
 
   let(:our_enchantments) { our_creature.enchantments }
   let(:their_enchantments) { their_creature.enchantments }
