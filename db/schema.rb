@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715052106) do
+ActiveRecord::Schema.define(version: 20150724023039) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20150715052106) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "battlefields", ["card_id"], name: "index_battlefields_on_card_id"
+  add_index "battlefields", ["card_id"], name: "index_battlefields_on_card_id", unique: true
   add_index "battlefields", ["player_id"], name: "index_battlefields_on_player_id"
 
   create_table "cards", force: :cascade do |t|
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20150715052106) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "decks", ["card_id"], name: "index_decks_on_card_id"
+  add_index "decks", ["card_id"], name: "index_decks_on_card_id", unique: true
   add_index "decks", ["player_id"], name: "index_decks_on_player_id"
 
   create_table "declared_attackers", force: :cascade do |t|
@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20150715052106) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "graveyards", ["card_id"], name: "index_graveyards_on_card_id"
+  add_index "graveyards", ["card_id"], name: "index_graveyards_on_card_id", unique: true
   add_index "graveyards", ["player_id"], name: "index_graveyards_on_player_id"
 
   create_table "hands", force: :cascade do |t|
@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(version: 20150715052106) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "hands", ["card_id"], name: "index_hands_on_card_id"
+  add_index "hands", ["card_id"], name: "index_hands_on_card_id", unique: true
   add_index "hands", ["player_id"], name: "index_hands_on_player_id"
 
   create_table "players", force: :cascade do |t|
@@ -243,7 +243,7 @@ ActiveRecord::Schema.define(version: 20150715052106) do
     t.integer  "player_id"
   end
 
-  add_index "stacks", ["card_id"], name: "index_stacks_on_card_id"
+  add_index "stacks", ["card_id"], name: "index_stacks_on_card_id", unique: true
   add_index "stacks", ["duel_id"], name: "index_stacks_on_duel_id"
   add_index "stacks", ["player_id"], name: "index_stacks_on_player_id"
 
