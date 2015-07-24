@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724032341) do
+ActiveRecord::Schema.define(version: 20150724034303) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -159,15 +159,15 @@ ActiveRecord::Schema.define(version: 20150724032341) do
   create_table "players", force: :cascade do |t|
     t.string   "name",                              null: false
     t.boolean  "is_ai",             default: false, null: false
-    t.integer  "life",                              null: false
+    t.integer  "life",              default: 20,    null: false
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.integer  "mana_blue",                         null: false
-    t.integer  "mana_green",                        null: false
-    t.integer  "mana_red",                          null: false
-    t.integer  "mana_white",                        null: false
-    t.integer  "mana_black",                        null: false
-    t.integer  "mana_colourless",                   null: false
+    t.integer  "mana_blue",         default: 0,     null: false
+    t.integer  "mana_green",        default: 0,     null: false
+    t.integer  "mana_red",          default: 0,     null: false
+    t.integer  "mana_white",        default: 0,     null: false
+    t.integer  "mana_black",        default: 0,     null: false
+    t.integer  "mana_colourless",   default: 0,     null: false
     t.integer  "user_id"
     t.integer  "mulligans",         default: 0,     null: false
     t.boolean  "declared_mulligan", default: false, null: false
