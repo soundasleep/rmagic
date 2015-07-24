@@ -13,7 +13,6 @@ class ZoneCardPresenter < JSONPresenter
 
   def extra_json_attributes
     {
-      # TODO add tests for each presenter
       card: CardPresenter.new(zone_card.card).to_json
     }
   end
