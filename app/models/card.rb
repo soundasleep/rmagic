@@ -1,6 +1,6 @@
 class Card < ActiveRecord::Base
   has_many :effects, dependent: :destroy
-  has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id
+  has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id, dependent: :destroy
 
   has_many :battlefield, dependent: :destroy
   has_many :graveyard, dependent: :destroy

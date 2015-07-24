@@ -5,8 +5,7 @@ class Stack < ActiveRecord::Base
   belongs_to :card
   belongs_to :player
 
-  # do not dependent: :destroy - the references are needed when resolving the stack
-  # TODO add another explicit :destroy instead
+  # the references are needed when resolving the stack
   has_many :battlefield_targets, class_name: "StackBattlefieldTarget"
   has_many :graveyard_targets, class_name: "StackGraveyardTarget"
   has_many :player_targets, class_name: "StackPlayerTarget"
