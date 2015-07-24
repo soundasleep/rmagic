@@ -17,7 +17,7 @@ RSpec.describe "Damage", type: :game do
 
   it "no damage causes no effects" do
     card = first_creature
-    card.card.damage! 0
+    card.card.update! damage: 0
 
     pass_until_next_turn
 
@@ -27,7 +27,7 @@ RSpec.describe "Damage", type: :game do
   it "damage causes cards to be removed" do
     card = first_creature
     expect(duel.player1.battlefield).to include(card)
-    card.card.damage! 100
+    AddDamage.new(card: card.card, damage: 100).call
     MoveDestroyedCreaturesToGraveyard.new(duel: duel).call
     duel.reload
     expect(duel.player1.battlefield).to_not include(card)
@@ -37,7 +37,7 @@ RSpec.describe "Damage", type: :game do
 
   context "too much damage" do
     before :each do
-      creature.card.damage! 100
+      AddDamage.new(card: creature.card, damage: 100).call
     end
 
     it "causes cards to be removed at the next turn" do
@@ -52,13 +52,13 @@ RSpec.describe "Damage", type: :game do
 
   it "a card with little damage does not have the destroyed flag" do
     card = first_creature
-    card.card.damage! 0
+    card.card.update! damage: 0
     expect(card.card.is_destroyed?).to be(false)
   end
 
   it "a card with one damage does not have the destroyed flag" do
     card = first_creature
-    card.card.damage! 1
+    card.card.update! damage: 1
     expect(card.card.is_destroyed?).to be(false)
   end
 
@@ -66,7 +66,7 @@ RSpec.describe "Damage", type: :game do
     card = first_creature
     expect(duel.player1.graveyard.map { |b| b.card }).to_not include(card.card)
 
-    card.card.damage! 100
+    card.card.update! damage: 100
     pass_until_next_turn
 
     expect(duel.player1.graveyard.map { |b| b.card }).to include(card.card)
@@ -77,7 +77,7 @@ RSpec.describe "Damage", type: :game do
 
     expect(graveyard_actions(card.card)).to be_empty
 
-    card.card.damage! 100
+    card.card.update! damage: 100
     pass_until_next_turn
 
     expect(graveyard_actions(card.card).count).to eq(1)
@@ -86,7 +86,7 @@ RSpec.describe "Damage", type: :game do
   context "temporary damage" do
     before :each do
       expect(creature.card.card_type.toughness).to_not eq(1)
-      creature.card.damage! 1
+      creature.card.update! damage: 1
     end
 
     it "does not cause a card to be removed" do

@@ -33,6 +33,7 @@ class Card < ActiveRecord::Base
   end
 
   def card_type
+    # storing the CardUniverse in a class instance variable didn't make a performance impact
     @card ||= CardUniverse.new.find_metaverse(metaverse_id)
   end
 
@@ -66,11 +67,6 @@ class Card < ActiveRecord::Base
 
   def is_destroyed?
     card_type.is_creature? && remaining_health <= 0
-  end
-
-  # TODO consider moving into service (can introduce locking etc)
-  def damage!(n)
-    update! damage: damage + n
   end
 
   def power

@@ -218,7 +218,7 @@ RSpec.describe "Enchantments on card toughness", type: :game do
       end
 
       context "and applying one damage" do
-        before { our_creature.damage! 1 }
+        before { AddDamage.new(card: our_creature, damage: 1).call }
 
         it "the creature is marked as destroyed" do
           expect(our_creature.is_destroyed?).to be(true)
