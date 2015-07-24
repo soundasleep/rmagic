@@ -2,10 +2,10 @@ class Card < ActiveRecord::Base
   has_many :effects, dependent: :destroy
   has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id
 
-  has_many :battlefield
-  has_many :graveyard
-  has_many :deck
-  has_many :hand
+  has_many :battlefield, dependent: :destroy
+  has_many :graveyard, dependent: :destroy
+  has_many :deck, dependent: :destroy
+  has_many :hand, dependent: :destroy
 
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
