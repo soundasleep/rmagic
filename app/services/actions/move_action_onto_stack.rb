@@ -29,9 +29,6 @@ class MoveActionOntoStack
       end
     end
 
-    # It would be nice to get rid of this one day.
-    duel.reload
-
     true
   end
 
