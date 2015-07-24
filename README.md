@@ -48,6 +48,7 @@ We try to use as few model objects as possible.
 * Deployed onto a VPS somewhere
 * Display counters on cards on web interface
 * Token creatures
+* Look at [bullet](https://github.com/flyerhzm/bullet) or [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) to improve game performance
 
 ## Release 1 goals
 
