@@ -23,15 +23,15 @@ class ActionLogPresenter < JSONPresenter
   private
 
     def format_player(player)
-      PlayerPresenter.new(player).to_safe_json
+      PlayerPresenter.new(player).to_json
     end
 
     def format_card(card)
-      CardPresenter.new(card).to_safe_json
+      CardPresenter.new(card).to_json
     end
 
     def format_target(target)
-      ActionLogTargetPresenter.new(target).to_safe_json
+      ActionLogTargetPresenter.new(target).to_json
     end
 
 end

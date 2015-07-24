@@ -21,7 +21,7 @@ class DuelController < ApplicationController
 
   def show
     respond_to do |format|
-      format.json { render :json => DuelPresenter.new(duel).to_safe_json }
+      format.json { render :json => DuelPresenter.new(duel).to_json }
     end
   end
 
