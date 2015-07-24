@@ -52,7 +52,6 @@ class PlayerController < ApplicationController
       attackers = Battlefield.find(params[:attacker])
       DeclareAttackers.new(duel: duel, zone_cards: attackers).call
     end
-    duel.save!    # TODO remove
 
     # and then pass
     action = GameAction.new(
