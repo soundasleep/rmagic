@@ -13,7 +13,7 @@ class Library::InstantGraveyardTop < CardType
     Mana.new colourless: 1
   end
 
-  def can_instant?
+  def conditions_for_instant
     TextualConditions.new(
       "target is a card",
       "target is in their graveyard",
@@ -28,7 +28,7 @@ class Library::InstantGraveyardTop < CardType
     true
   end
 
-  def do_instant
+  def actions_for_instant
     TextualActions.new(
       "move the target graveyard card into the battlefield",
       "move this card onto the graveyard",

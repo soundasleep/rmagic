@@ -13,7 +13,7 @@ class Library::Negate < CardType
     mana_cost
   end
 
-  def can_counter?
+  def conditions_for_counter
     TextualConditions.new(
       "not targeted",
       "the stack is not empty",
@@ -26,7 +26,7 @@ class Library::Negate < CardType
     true
   end
 
-  def do_counter
+  def actions_for_counter
     TextualActions.new(
       "move the next card on the stack onto the graveyard",
       "move this card onto the graveyard",

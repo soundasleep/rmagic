@@ -21,7 +21,7 @@ class Library::Metaverse3 < CardType
     Mana.new green: 1
   end
 
-  def can_add_life?
+  def conditions_for_add_life
     TextualConditions.new(
       "not targeted",
       "we have priority",
@@ -33,7 +33,7 @@ class Library::Metaverse3 < CardType
     false
   end
 
-  def do_add_life
+  def actions_for_add_life
     TextualActions.new(
       "add 1 life to the owner of this card",
     )

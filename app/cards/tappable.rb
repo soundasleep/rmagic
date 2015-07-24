@@ -1,6 +1,6 @@
 module Tappable
 
-  def can_untap?
+  def conditions_for_untap
     TextualConditions.new(
       "never"
     )
@@ -14,7 +14,7 @@ module Tappable
     Mana.new
   end
 
-  def do_untap
+  def actions_for_untap
     TextualActions.new(
       "untap this card",
     )

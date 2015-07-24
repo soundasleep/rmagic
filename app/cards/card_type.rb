@@ -36,8 +36,8 @@ class CardType
     0
   end
 
-  def playing_goes_onto_stack?(key)
-    send("playing_#{key}_goes_onto_stack?")
+  def playing_goes_onto_stack?(action_key)
+    send("playing_#{action_key}_goes_onto_stack?")
   end
 
   def mana_cost
@@ -49,12 +49,11 @@ class CardType
   end
 
   def actions
-    methods.grep(/^(do)_/).map{ |m| m["do_".length..-1] } - ["action"]
+    methods.grep(/^(actions_for)_/).map{ |m| m["actions_for_".length..-1] }
   end
 
   def conditions_for(action_key)
-    # TODO should this be renamed to conditions_for_KEY?
-    send("can_#{action_key}?")
+    send("conditions_for_#{action_key}")
   end
 
   def can_do_action?(duel, action)
@@ -66,8 +65,7 @@ class CardType
   end
 
   def actions_for(action_key)
-    # TODO should this be renamed to actions_for_KEY?
-    send("do_#{action_key}")
+    send("actions_for_#{action_key}")
   end
 
   def do_action(duel, action)

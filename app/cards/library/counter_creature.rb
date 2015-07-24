@@ -13,7 +13,7 @@ class Library::CounterCreature < CardType
     mana_cost
   end
 
-  def can_counter_creature?
+  def conditions_for_counter_creature
     TextualConditions.new(
       "not targeted",
       "the stack is not empty",
@@ -26,7 +26,7 @@ class Library::CounterCreature < CardType
     true
   end
 
-  def do_counter_creature
+  def actions_for_counter_creature
     TextualActions.new(
       "move the next card on the stack onto the graveyard",
       "move this card onto the graveyard",

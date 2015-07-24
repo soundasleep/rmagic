@@ -13,7 +13,7 @@ class Library::Metaverse4 < CardType
     Mana.new colourless: 1
   end
 
-  def can_instant?
+  def conditions_for_instant
     TextualConditions.new(
       "not targeted",
       "we can play an instant",
@@ -24,7 +24,7 @@ class Library::Metaverse4 < CardType
     true
   end
 
-  def do_instant
+  def actions_for_instant
     TextualActions.new(
       "add 1 life to the owner of this card",
       "move this card onto the graveyard",

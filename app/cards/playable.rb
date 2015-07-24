@@ -4,7 +4,7 @@ module Playable
     mana_cost
   end
 
-  def can_play?
+  def conditions_for_play
     TextualConditions.new(
       "not targeted",
       "we have priority",
@@ -14,7 +14,7 @@ module Playable
   end
 
   # ability mana cost has already been consumed
-  def do_play
+  def actions_for_play
     TextualActions.new(
       "play this card",
     )
