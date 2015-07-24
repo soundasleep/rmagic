@@ -1,6 +1,6 @@
 require "rails_helper"
 
-# TODO maybe split this up into a number of smaller helpers
+# maybe split this up into a number of smaller helpers
 # e.g. GameHelper, CardHelper, TurnHelper, CardCreationHelper
 module GameHelper
 
@@ -197,7 +197,7 @@ module CreatePremadeDecks
 end
 
 RSpec.configure do |c|
-  # TODO can this be moved into individual specs instead?
+  # can this be moved into individual specs instead?
   # that way not every single game test has to load all of GameHelper every time?
   c.include GameHelper
 end
