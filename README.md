@@ -61,6 +61,7 @@ We try to use as few model objects as possible.
 * Maximum hand size
 * Devotion
 * Event triggers
+* Games can end, be won, be lost, be drawn
 
 ## Later goals
 

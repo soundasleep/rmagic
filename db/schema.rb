@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724023039) do
+ActiveRecord::Schema.define(version: 20150724032341) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(version: 20150724023039) do
   add_index "declared_defenders", ["target_id"], name: "index_declared_defenders_on_target_id"
 
   create_table "duel_requests", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "premade_deck_id"
+    t.integer  "user_id",         null: false
+    t.integer  "premade_deck_id", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 20150724023039) do
 
   create_table "players", force: :cascade do |t|
     t.string   "name",                              null: false
-    t.boolean  "is_ai"
+    t.boolean  "is_ai",             default: false, null: false
     t.integer  "life",                              null: false
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
@@ -204,8 +204,8 @@ ActiveRecord::Schema.define(version: 20150724023039) do
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "stack_battlefield_targets", force: :cascade do |t|
-    t.integer  "stack_id"
-    t.integer  "target_id"
+    t.integer  "stack_id",   null: false
+    t.integer  "target_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -214,8 +214,8 @@ ActiveRecord::Schema.define(version: 20150724023039) do
   add_index "stack_battlefield_targets", ["target_id"], name: "index_stack_battlefield_targets_on_target_id"
 
   create_table "stack_graveyard_targets", force: :cascade do |t|
-    t.integer  "stack_id"
-    t.integer  "target_id"
+    t.integer  "stack_id",   null: false
+    t.integer  "target_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -224,8 +224,8 @@ ActiveRecord::Schema.define(version: 20150724023039) do
   add_index "stack_graveyard_targets", ["target_id"], name: "index_stack_graveyard_targets_on_target_id"
 
   create_table "stack_player_targets", force: :cascade do |t|
-    t.integer  "stack_id"
-    t.integer  "target_id"
+    t.integer  "stack_id",   null: false
+    t.integer  "target_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -234,13 +234,13 @@ ActiveRecord::Schema.define(version: 20150724023039) do
   add_index "stack_player_targets", ["target_id"], name: "index_stack_player_targets_on_target_id"
 
   create_table "stacks", force: :cascade do |t|
-    t.integer  "duel_id"
-    t.integer  "card_id"
-    t.integer  "order"
+    t.integer  "duel_id",    null: false
+    t.integer  "card_id",    null: false
+    t.integer  "order",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "key"
-    t.integer  "player_id"
+    t.string   "key",        null: false
+    t.integer  "player_id",  null: false
   end
 
   add_index "stacks", ["card_id"], name: "index_stacks_on_card_id", unique: true
