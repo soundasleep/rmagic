@@ -13,7 +13,7 @@ create_card deck, Library::KiorasFollower, 3
 # create_card deck, Library::ThassasEmissary, 2
 # create_card deck, Library::PrognosticSphinx
 # create_card deck, Library::ProphetOfKruphix
-# create_card deck, Library::Vaporkin, 3
+create_card deck, Library::Vaporkin, 3
 
 # create_card deck, Library::Aetherspouts
 # create_card deck, Library::Divination, 2
