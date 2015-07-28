@@ -22,6 +22,8 @@ module.exports = DefendActions = React.createClass
       mouseOut = (event) ->
         resetHighlight()
 
+      # TODO bind onClick to onSubmit on the form instead
+      # TODO disable the form instead of the button?
       `<li key={i} className={class_name}>
         <form action={url} method="post">
           <input type="hidden" name="target" value={e.target_id} />

@@ -81,6 +81,7 @@ class ActionFinder
     def playable_cards_with_card_targets(player)
       # all hand cards which have an available ability (e.g. play, instant)
       # with a card target
+      # TODO use flat_map instead of map.flatten
       duel.players.map do |duel_player|
         duel_player.zones.map do |zone|
           zone.map do |zone_card|
@@ -96,6 +97,7 @@ class ActionFinder
           end.flatten(1)
         end.flatten(1)
       end.flatten(1)
+      # TODO duel.all_players.all_zones.all_hands.all_cards.all_actions?
     end
 
     def playable_cards_with_player_targets(player)

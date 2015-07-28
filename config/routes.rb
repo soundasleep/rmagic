@@ -13,6 +13,8 @@ Rails.application.routes.draw do
         get 'graveyard'
         post 'game_action'
         post 'declare_attackers'
+
+        # TODO resource :deck, only: [ :show ]
       end
 
       resources :hand, only: [ :show ] do

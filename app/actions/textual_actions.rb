@@ -1,3 +1,4 @@
+# TODO rename to CompositeAction?
 class TextualActions < Condition
   attr_reader :actions, :my_caller
 
@@ -31,9 +32,12 @@ class TextualActions < Condition
   end
 
   private
+  # TODO don't indent private
 
     def parse_actions
-      @parsed ||= actions.map do |string|
+      # TODO maybe move out into separate helper service thing so that the class is smaller
+      @parsed ||= actions.map do |string|   # TODO rename string -> subaction
+        # TODO if thing.responds_to?(:execute)
         if string.is_a? String
           parameters = {}
           resolved = string.tr(" ", "_").gsub(/([0-9]+)/) do |arg|

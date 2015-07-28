@@ -62,6 +62,7 @@ We try to use as few model objects as possible.
 * Devotion
 * Event triggers
 * Games can end, be won, be lost, be drawn
+* Prevent players from being jerks
 
 ## Later goals
 

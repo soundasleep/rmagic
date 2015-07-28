@@ -6,6 +6,7 @@ class Stack < ActiveRecord::Base
   belongs_to :player
 
   # the references are needed when resolving the stack, so no dependent: declarations here
+  # TODO destroy only deletes has_many and has_ones, so maybe this should be able to dependent: :destroy
   has_many :battlefield_targets, class_name: "StackBattlefieldTarget"
   has_many :graveyard_targets, class_name: "StackGraveyardTarget"
   has_many :player_targets, class_name: "StackPlayerTarget"
