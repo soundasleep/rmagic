@@ -56,6 +56,10 @@ class CardType
     send("conditions_for_#{action_key}")
   end
 
+  def can_attack?
+    is_creature?
+  end
+
   def can_do_action?(duel, action)
     conditions_for(action.key).send(:evaluate, duel, action)
   end

@@ -43,8 +43,8 @@ class ActionFinder
   def available_attackers(player)
     if duel.phase.can_declare_attackers? and duel.current_player == player and duel.priority_player == player
       return duel.priority_player.battlefield
-          .select{ |b| b.card.card_type.is_creature? }
-          .select{ |b| b.card.turn_played < duel.turn }   # summoning sickness
+          .select{ |b| b.card.card_type.can_attack? }
+          .select{ |b| b.card.card_type.can_do_action?(duel, AttackAction.new(source: b.card) )  }
     else
       []
     end
