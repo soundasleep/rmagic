@@ -90,8 +90,8 @@ class ActionLog < ActiveRecord::Base
 
   private
 
-  def self.generic_card_action(duel, player, card, key)
-    duel.action_logs.create! player: player, card: card, card_action: key
-  end
+    def self.generic_card_action(duel, player, card, key)
+      duel.action_logs.create! player: player, card: card, card_action: key
+    end
 
 end
