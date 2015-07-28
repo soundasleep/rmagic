@@ -17,6 +17,12 @@ class DuelPresenter < JSONPresenter
     }
   end
 
+  def stack_json
+    {
+      stack: duel.stack.map { |c| format_stack c }
+    }
+  end
+
   def self.safe_json_attributes
     [ :id, :current_player_number, :priority_player_number,
       :first_player_number, :turn, :phase_number, :player1_id, :player2_id ]
@@ -39,6 +45,10 @@ class DuelPresenter < JSONPresenter
 
     def format_player(player)
       PlayerPresenter.new(player).to_json
+    end
+
+    def format_stack(stack)
+      StackPresenter.new(stack).to_json
     end
 
 end

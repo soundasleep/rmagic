@@ -31,6 +31,12 @@ class DuelController < ApplicationController
     end
   end
 
+  def stack
+    respond_to do |format|
+      format.json { render :json => DuelPresenter.new(duel).stack_json }
+    end
+  end
+
   private
     def duel
       Duel.find(params[:duel_id] || params[:id])

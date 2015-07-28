@@ -6,6 +6,7 @@ Turn = require("./duel/turn")
 Player = require("./player")
 Actions = require("./actions")
 ActionLog = require("./action_log")
+Stack = require("./duel/stack")
 
 module.exports = Duel = Subscribed.createClass
   propTypes:
@@ -43,6 +44,9 @@ module.exports = Duel = Subscribed.createClass
         <div className={player1classes}>
           <Player duel={this.state.id} player={this.state.player1_id} />
         </div>
+      </div>
+      <div className="stack">
+        <Stack duel={this.state.id} />
       </div>
       <div className="logs">
         <ActionLog duel={this.state.id} />
