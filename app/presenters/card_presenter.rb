@@ -34,7 +34,7 @@ class CardPresenter < JSONPresenter
     end
 
     def format_player(player)
-      PlayerPresenter.new(player).to_json
+      player == nil ? nil : PlayerPresenter.new(player).to_json
     end
 
 end
