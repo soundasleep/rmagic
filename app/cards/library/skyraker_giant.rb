@@ -14,7 +14,6 @@ class Library::SkyrakerGiant < CardType
   end
 
   def tags
-    # TODO display the "reach" tag on the web interface/JSON
     super << "reach"
   end
 
