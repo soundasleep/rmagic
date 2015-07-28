@@ -17,7 +17,7 @@ RSpec.describe "Playable", type: :game do
   end
 
   def battlefield_creatures
-    duel.player1.battlefield_creatures.map{ |b| b.card }
+    duel.player1.battlefield_creatures.map(&:card)
   end
 
   it "we can set and compare phase directly" do
@@ -53,11 +53,11 @@ RSpec.describe "Playable", type: :game do
     end
 
     it "allows us to play a creature" do
-      expect(playable_cards(duel.player1).map { |h| h.source.card }).to eq([hand.first!.card])
+      expect(playable_cards(duel.player1).map(&:source).map(&:card)).to eq([hand.first!.card])
     end
 
     it "allows us to play a creature with the play action" do
-      expect(playable_cards(duel.player1).map { |h| h.key }).to eq(["play"])
+      expect(playable_cards(duel.player1).map(&:key)).to eq(["play"])
     end
 
     context "playing a creature" do
@@ -102,7 +102,7 @@ RSpec.describe "Playable", type: :game do
             pass_until_next_turn
 
             duel.attacking_phase!
-            expect(available_attackers.map{ |b| b.card }).to eq([@card.card])
+            expect(available_attackers.map(&:card)).to eq([@card.card])
           end
         end
       end
@@ -114,11 +114,11 @@ RSpec.describe "Playable", type: :game do
   end
 
   def battlefield_can_be_tapped
-    ability_cards(duel.player1).select{ |a| a.key == "tap" }.map{ |a| a.source.card }
+    ability_cards(duel.player1).select{ |a| a.key == "tap" }.map(&:source).map(&:card)
   end
 
   it "lands can be tapped" do
-    expect(battlefield_can_be_tapped).to eq(duel.player1.battlefield.map{ |b| b.card })
+    expect(battlefield_can_be_tapped).to eq(duel.player1.battlefield.map(&:card))
   end
 
   it "creatures cannot be tapped" do
@@ -131,7 +131,7 @@ RSpec.describe "Playable", type: :game do
     duel.current_player_number = 2
     duel.save!
 
-    expect(playable_cards(duel.player1).map { |h| h.card }).to be_empty
+    expect(playable_cards(duel.player1).map(&:card)).to be_empty
   end
 
   it "we can't play a creature if it's not our priority, even with tapping" do
@@ -140,7 +140,7 @@ RSpec.describe "Playable", type: :game do
 
     tap_all_lands
 
-    expect(playable_cards(duel.player1).map { |h| h.card }).to be_empty
+    expect(playable_cards(duel.player1).map(&:card)).to be_empty
   end
 
   it "we can't play a creature if it's not our turn, even with tapping" do
@@ -149,7 +149,7 @@ RSpec.describe "Playable", type: :game do
 
     tap_all_lands
 
-    expect(playable_cards(duel.player1).map { |h| h.card }).to be_empty
+    expect(playable_cards(duel.player1).map(&:card)).to be_empty
   end
 
 end

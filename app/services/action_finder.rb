@@ -26,7 +26,7 @@ class ActionFinder
     if duel.phase.can_declare_defenders? && duel.priority_player == player && duel.priority_player != duel.current_player
       # all cards on the battlefield that are not tapped and not already defending
       player.battlefield
-        .reject{ |b| duel.declared_defenders.map{ |d| d.source }.include?(b) }
+        .reject{ |b| duel.declared_defenders.map(&:source).include?(b) }
         .select{ |b| !b.card.is_tapped? and b.card.card_type.is_creature? }.map do |b|
           duel.declared_attackers.map do |a|
             DefenderAction.new(

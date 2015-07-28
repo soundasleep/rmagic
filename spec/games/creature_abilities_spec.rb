@@ -86,7 +86,7 @@ RSpec.describe "Creature abilities", type: :game do
       end
 
       it "creates an action" do
-        expect(add_life_actions(card).map{ |card| card.card }).to eq([card.card])
+        expect(add_life_actions(card).map(&:card)).to eq([card.card])
       end
 
       it "consumes mana" do

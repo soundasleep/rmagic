@@ -99,7 +99,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
         end
 
         it "adds our creature into the battlefield" do
-          expect(duel.player1.battlefield_creatures.map{|b| b.card}).to eq([targets.first.card])
+          expect(duel.player1.battlefield_creatures.map(&:card)).to eq([targets.first.card])
         end
       end
 
@@ -114,7 +114,7 @@ RSpec.describe "Instants returning any graveyard", type: :game do
         end
 
         it "adds our creature into the battlefield" do
-          expect(duel.player1.battlefield_creatures.map{|b| b.card}).to eq([targets.second.card])
+          expect(duel.player1.battlefield_creatures.map(&:card)).to eq([targets.second.card])
         end
       end
 

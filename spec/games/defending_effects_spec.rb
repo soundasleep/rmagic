@@ -45,7 +45,7 @@ RSpec.describe "Defending with effects", type: :game do
         end
 
         it "defending actions reference the defended attacker" do
-          expect(defended_actions(defender.source).first.targets.map{ |t| t.card }).to include(attacker.card)
+          expect(defended_actions(defender.source).first.targets.map(&:card)).to include(attacker.card)
         end
 
         it "destroys the defending creature" do

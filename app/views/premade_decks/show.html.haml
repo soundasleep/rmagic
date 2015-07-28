@@ -1,7 +1,7 @@
 %h1 #{@deck.name} Deck
 
-- cards = @deck.cards.map{ |card| card.card_type }
-- creatures = cards.select{ |card| card.is_creature? }
+- cards = @deck.cards.map(&:card_type)
+- creatures = cards.select(&:is_creature?)
 - spells = cards.select{ |card| card.is_spell? } - creatures
 - lands = cards.select{ |card| card.is_land? } - creatures - spells
 - others = cards - creatures - spells - lands

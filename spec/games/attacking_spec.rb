@@ -10,7 +10,7 @@ RSpec.describe "Attacking", type: :game do
   end
 
   def our_creatures
-    duel.player1.battlefield_creatures.map{ |b| b.card }
+    duel.player1.battlefield_creatures.map(&:card)
   end
 
   it "at the start of a duel, we have no declared attackers" do
@@ -18,14 +18,14 @@ RSpec.describe "Attacking", type: :game do
   end
 
   it "we can declare three attackers on our turn" do
-    expect(available_attackers.map{ |b| b.card }).to eq(our_creatures)
+    expect(available_attackers.map(&:card)).to eq(our_creatures)
   end
 
   it "we can't declare any attackers when its not our turn" do
     duel.current_player_number = 2
     duel.save!
 
-    available_attackers.map{ |b| b.card }.each do |e|
+    available_attackers.map(&:card).each do |e|
       expect(our_creatures).to_not include(e)
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe "Attacking", type: :game do
     end
 
     it "declared attackers are available through the duel" do
-      expect(duel.declared_attackers.map{ |a| a.card }).to eq(available_attackers.map{ |a| a.card })
+      expect(duel.declared_attackers.map(&:card)).to eq(available_attackers.map(&:card))
     end
 
     it "after declaring attackers, when we get to the next turn the attackers will be cleared" do

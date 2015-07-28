@@ -205,7 +205,7 @@ RSpec.describe "Instants effects", type: :game do
         end
 
         it "creates an action" do
-          expect(counter_actions(card).map{ |card| card.card }).to eq([card.card])
+          expect(counter_actions(card).map(&:card)).to eq([card.card])
         end
       end
 

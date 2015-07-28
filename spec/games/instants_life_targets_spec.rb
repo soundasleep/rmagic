@@ -171,7 +171,7 @@ RSpec.describe "Instants add life to targets", type: :game do
               end
 
               it "creates an action" do
-                expect(instant_player_actions(card).map{ |card| card.card }).to eq([card.card])
+                expect(instant_player_actions(card).map(&:card)).to eq([card.card])
               end
             end
 

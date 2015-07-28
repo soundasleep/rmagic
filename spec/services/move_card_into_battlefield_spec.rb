@@ -8,7 +8,7 @@ RSpec.describe MoveCardIntoBattlefield, type: :service do
   let(:player) { player1 }
 
   def cards(collection)
-    collection.map { |c| c.card }
+    collection.map(&:card)
   end
 
   context "a card in the battlefield" do

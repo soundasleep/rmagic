@@ -39,7 +39,7 @@ RSpec.describe "The stack", type: :game do
         end
 
         it "contains the card" do
-          expect(stack.map{ |s| s.card }).to eq([source.card])
+          expect(stack.map(&:card)).to eq([source.card])
         end
       end
 
@@ -51,7 +51,7 @@ RSpec.describe "The stack", type: :game do
           before { play_counter_spell.do duel }
 
           it "contains both cards" do
-            expect(stack.map{ |s| s.card }).to eq([source.card, counter_spell.card])
+            expect(stack.map(&:card)).to eq([source.card, counter_spell.card])
           end
 
           it "contains the cards in order" do

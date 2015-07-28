@@ -118,7 +118,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
         end
 
         it "creates an action" do
-          expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
+          expect(destroy_actions(card).map(&:card)).to eq([card.card])
         end
 
         it "consumes mana" do
@@ -141,7 +141,7 @@ RSpec.describe "Creatures with a destroy ability", type: :game do
         end
 
         it "creates an action" do
-          expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
+          expect(destroy_actions(card).map(&:card)).to eq([card.card])
         end
 
         it "consumes mana" do

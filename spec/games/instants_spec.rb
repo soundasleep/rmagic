@@ -128,7 +128,7 @@ RSpec.describe "Instants", type: :game do
       end
 
       it "creates an action" do
-        expect(instant_actions(source).map{ |card| card.card }).to eq([source.card])
+        expect(instant_actions(source).map(&:card)).to eq([source.card])
       end
 
       it "consumes mana" do

@@ -64,12 +64,12 @@ RSpec.describe "Damage", type: :game do
 
   it "a destroyed creature is moved onto the graveyard" do
     card = first_creature
-    expect(duel.player1.graveyard.map { |b| b.card }).to_not include(card.card)
+    expect(duel.player1.graveyard.map(&:card)).to_not include(card.card)
 
     card.card.update! damage: 100
     pass_until_next_turn
 
-    expect(duel.player1.graveyard.map { |b| b.card }).to include(card.card)
+    expect(duel.player1.graveyard.map(&:card)).to include(card.card)
   end
 
   it "actions are created when creatures are moved to the graveyard" do

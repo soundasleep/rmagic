@@ -96,7 +96,7 @@ class Card < ActiveRecord::Base
   private
 
     def enchantment_cards
-      enchantments.map { |c| c.card_type }
+      enchantments.map(&:card_type)
     end
 
 end

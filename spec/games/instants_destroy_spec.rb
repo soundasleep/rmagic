@@ -116,7 +116,7 @@ RSpec.describe "Instants destroy", type: :game do
         end
 
         it "creates an action" do
-          expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
+          expect(destroy_actions(card).map(&:card)).to eq([card.card])
         end
       end
 
@@ -136,7 +136,7 @@ RSpec.describe "Instants destroy", type: :game do
         end
 
         it "creates an action" do
-          expect(destroy_actions(card).map{ |card| card.card }).to eq([card.card])
+          expect(destroy_actions(card).map(&:card)).to eq([card.card])
         end
       end
 

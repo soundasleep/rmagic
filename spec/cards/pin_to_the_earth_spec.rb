@@ -74,7 +74,7 @@ RSpec.describe Library::PinToTheEarth, type: :card do
 
             context "our enchantment" do
               it "is not yet on the battlefield" do
-                expect(player1.battlefield.map { |c| c.card }).to_not include(card.card)
+                expect(player1.battlefield.map(&:card)).to_not include(card.card)
               end
             end
 
@@ -100,7 +100,7 @@ RSpec.describe Library::PinToTheEarth, type: :card do
 
               context "our enchantment" do
                 it "is on the battlefield" do
-                  expect(player1.battlefield.map { |c| c.card }).to include(card.card)
+                  expect(player1.battlefield.map(&:card)).to include(card.card)
                 end
               end
             end

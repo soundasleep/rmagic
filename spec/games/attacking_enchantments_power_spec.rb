@@ -35,7 +35,7 @@ RSpec.describe "Attacking with enchantments", type: :game do
     end
 
     it "we can define our creature as an attacker" do
-      expect(available_attackers.map{ |b| b.card }).to eq([our_creature])
+      expect(available_attackers.map(&:card)).to eq([our_creature])
     end
 
     context "after declaring attackers" do

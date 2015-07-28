@@ -119,15 +119,15 @@ RSpec.describe "Lands", type: :game do
       end
 
       it "adds a creature to the battlefield" do
-        expect(played_lands(duel.player1).map{ |c| c.card }).to eq([card.card])
+        expect(played_lands(duel.player1).map(&:card)).to eq([card.card])
       end
 
       it "does not add a creature for the other player" do
-        expect(played_lands(duel.player2).map{ |c| c.card }).to be_empty
+        expect(played_lands(duel.player2).map(&:card)).to be_empty
       end
 
       it "creates an action" do
-        expect(play_actions(card).map{ |card| card.card }).to eq([card.card])
+        expect(play_actions(card).map(&:card)).to eq([card.card])
       end
 
       it "removes the land from the hand" do

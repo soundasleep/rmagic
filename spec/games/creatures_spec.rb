@@ -102,15 +102,15 @@ RSpec.describe "Creatures", type: :game do
         before { pass_until_next_phase }
 
         it "adds a creature to the battlefield" do
-          expect(played_creatures(duel.player1).map{ |c| c.card }).to eq([card.card])
+          expect(played_creatures(duel.player1).map(&:card)).to eq([card.card])
         end
 
         it "does not add a creature for the other player" do
-          expect(played_creatures(duel.player2).map{ |c| c.card }).to be_empty
+          expect(played_creatures(duel.player2).map(&:card)).to be_empty
         end
 
         it "creates an action" do
-          expect(play_actions(card).map{ |card| card.card }).to eq([card.card])
+          expect(play_actions(card).map(&:card)).to eq([card.card])
         end
       end
 

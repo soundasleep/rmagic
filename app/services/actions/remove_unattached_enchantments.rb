@@ -18,7 +18,7 @@ class RemoveUnattachedEnchantments
   private
 
     def unattached_enchantments(player)
-      player.battlefield.map { |b| b.card }
+      player.battlefield.map(&:card)
         .select { |card| card.card_type.is_enchantment? && !card.card_type.is_creature? }
         .select { |card| !card.attached_to? }
     end
