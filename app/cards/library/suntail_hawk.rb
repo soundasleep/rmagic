@@ -14,6 +14,7 @@ class Library::SuntailHawk < CardType
   end
 
   def tags
+    # TODO display the "flying" tag on the web interface/JSON
     super << "flying"
   end
 
