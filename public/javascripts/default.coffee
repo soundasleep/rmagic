@@ -7,7 +7,12 @@ initialize_react = () ->
   if $("#app").length
     e = $("#app")[0]
 
-    React.render(React.createElement(App, e.dataset), e)
+    parsed = {
+      player: parseInt(e.dataset["player"], 10)
+      duel: parseInt(e.dataset["duel"], 10)
+    }
+
+    React.render(React.createElement(App, parsed), e)
 
 $(document).ready initialize_react
 $(document).on "page:load", initialize_react

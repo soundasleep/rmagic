@@ -4,7 +4,8 @@ API = require("../../api")
 
 module.exports = Deck = Subscribed.createClass
   propTypes:
-    duel: React.PropTypes.string
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
 
   load: ->
     API.getPlayerDeck(this.props.duel, this.props.player)

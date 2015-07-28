@@ -6,6 +6,8 @@ CardActions = require("./card_actions")
 module.exports = Card = React.createClass
   propTypes:
     zone: React.PropTypes.string
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
 
   capitalize: (s) ->
     s.charAt(0).toUpperCase() + s.slice(1)

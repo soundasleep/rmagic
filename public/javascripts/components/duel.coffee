@@ -9,7 +9,7 @@ ActionLog = require("./action_log")
 
 module.exports = Duel = Subscribed.createClass
   propTypes:
-    duel: React.PropTypes.string
+    duel: React.PropTypes.number
 
   load: ->
     API.getDuel(this.props.duel)

@@ -6,7 +6,8 @@ Card = require("./card")
 
 module.exports = Hand = Subscribed.createClass
   propTypes:
-    duel: React.PropTypes.string
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
 
   load: ->
     API.getPlayerHand(this.props.duel, this.props.player)

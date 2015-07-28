@@ -9,8 +9,8 @@ Battlefield = require("./player/battlefield")
 
 module.exports = Player = Subscribed.createClass
   propTypes:
-    duel: React.PropTypes.string
-    player: React.PropTypes.string
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
 
   load: ->
     API.getPlayer(this.props.duel, this.props.player)
