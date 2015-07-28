@@ -35,7 +35,18 @@ class TextualActions < Condition
     def parse_actions
       @parsed ||= actions.map do |string|
         if string.is_a? String
-          string.tr(" ", "_").camelize.constantize.new
+          parameters = {}
+          resolved = string.tr(" ", "_").gsub(/([0-9]+)/) do |arg|
+            # future work: add more than one parameter
+            parameters[:x] = arg
+            "x"
+          end
+
+          if parameters.any?
+            resolved.camelize.constantize.new(parameters)
+          else
+            resolved.camelize.constantize.new
+          end
         else
           string
         end
