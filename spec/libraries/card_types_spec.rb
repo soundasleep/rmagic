@@ -40,16 +40,16 @@ Library.new.card_types.each do |id, card_type|
 
     instance.actions.select{ |a| instance.playing_goes_onto_stack?(a) }.each do |action|
       context "defined stack action #{action}" do
-        it "has a #do_#{action} method" do
-          expect(methods).to include("do_#{action}")
+        it "has a #actions_for_#{action} method" do
+          expect(methods).to include("actions_for_#{action}")
         end
       end
     end
 
     instance.actions.reject{ |a| instance.playing_goes_onto_stack?(a) }.each do |action|
       context "defined non-stack action #{action}" do
-        it "has a #do_#{action} method" do
-          expect(methods).to include("do_#{action}")
+        it "has a #actions_for_#{action} method" do
+          expect(methods).to include("actions_for_#{action}")
         end
       end
     end

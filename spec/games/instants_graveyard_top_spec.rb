@@ -5,7 +5,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
   let(:card) { first_instant }
 
   before :each do
-    create_graveyard_cards Library::Metaverse1
+    create_graveyard_cards Library::BasicCreature
     create_hand_cards Library::InstantGraveyardTop
     duel.playing_phase!
   end
@@ -167,7 +167,7 @@ RSpec.describe "Instants returning the top of graveyard", type: :game do
       end
 
       it "are in increasing order based on time added" do
-        expect(order_classes).to eq([ Library::Metaverse3, Library::Metaverse1 ])
+        expect(order_classes).to eq([ Library::Metaverse3, Library::BasicCreature ])
       end
     end
 

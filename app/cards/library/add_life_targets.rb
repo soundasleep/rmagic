@@ -14,7 +14,7 @@ class Library::AddLifeTargets < CardType
   end
 
   # ignoring mana costs
-  def can_instant_player?
+  def conditions_for_instant_player
     TextualConditions.new(
       "target is a player",
       "we can play an instant",
@@ -25,7 +25,7 @@ class Library::AddLifeTargets < CardType
     true
   end
 
-  def do_instant_player
+  def actions_for_instant_player
     TextualActions.new(
       "add 1 life to the target player",
       "move this card onto the graveyard"
@@ -37,7 +37,7 @@ class Library::AddLifeTargets < CardType
   end
 
   # ignoring mana costs
-  def can_instant_creature?
+  def conditions_for_instant_creature
     TextualConditions.new(
       "target is a card",
       "target is in their battlefield",
@@ -50,7 +50,7 @@ class Library::AddLifeTargets < CardType
     true
   end
 
-  def do_instant_creature
+  def actions_for_instant_creature
     TextualActions.new(
       AddEffectToTheTargetBattlefieldCreature.new(Effects::AddOneToughness),
       "move this card onto the graveyard"

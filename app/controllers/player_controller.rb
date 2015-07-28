@@ -13,7 +13,7 @@ class PlayerController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => PlayerPresenter.new(player).to_safe_json }
+      format.json { render :json => PlayerPresenter.new(player).to_json }
     end
   end
 
@@ -52,7 +52,6 @@ class PlayerController < ApplicationController
       attackers = Battlefield.find(params[:attacker])
       DeclareAttackers.new(duel: duel, zone_cards: attackers).call
     end
-    duel.save!    # TODO remove
 
     # and then pass
     action = GameAction.new(

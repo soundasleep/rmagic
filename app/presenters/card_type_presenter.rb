@@ -5,7 +5,7 @@ class CardTypePresenter
     @card_type = card_type
   end
 
-  def to_safe_json
+  def to_json
     {
       name: card_type.name,
       metaverse_id: card_type.metaverse_id,

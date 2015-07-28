@@ -5,7 +5,7 @@ class GameActionPresenter
     @action = action
   end
 
-  def to_safe_json
+  def to_json
     {
       key: action.key,
       player_id: action.player.id,

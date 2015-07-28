@@ -5,7 +5,7 @@ RSpec.describe Library::PinToTheEarth, type: :card do
 
   before :each do
     create_hand_cards Library::PinToTheEarth
-    create_battlefield_cards Library::Metaverse1
+    create_battlefield_cards Library::BasicCreature
     create_battlefield_cards Library::Island
     duel.playing_phase!
   end

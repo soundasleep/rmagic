@@ -25,7 +25,7 @@ class Library::KiorasFollower < CardType
     Mana.new
   end
 
-  def can_ability?
+  def conditions_for_ability
     TextualConditions.new(
       "target is a card",
       "target is in their battlefield",
@@ -40,7 +40,7 @@ class Library::KiorasFollower < CardType
     false
   end
 
-  def do_ability
+  def actions_for_ability
     TextualActions.new(
       "tap this card",
       "untap the target card",

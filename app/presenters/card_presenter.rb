@@ -15,7 +15,7 @@ class CardPresenter < JSONPresenter
     fail "no card type for #{card}" unless card.card_type
 
     {
-      card_type: CardTypePresenter.new(card.card_type).to_safe_json,
+      card_type: CardTypePresenter.new(card.card_type).to_json,
       power: card.power,
       toughness: card.toughness,
       remaining_health: card.remaining_health,
@@ -27,11 +27,11 @@ class CardPresenter < JSONPresenter
   private
 
     def format_card(card)
-      CardPresenter.new(card).to_safe_json
+      CardPresenter.new(card).to_json
     end
 
     def format_player(player)
-      PlayerPresenter.new(player).to_safe_json
+      PlayerPresenter.new(player).to_json
     end
 
 end

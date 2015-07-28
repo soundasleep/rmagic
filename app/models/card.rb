@@ -1,11 +1,11 @@
 class Card < ActiveRecord::Base
   has_many :effects, dependent: :destroy
-  has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id
+  has_many :enchantments, class_name: "Card", foreign_key: :attached_to_id, dependent: :destroy
 
-  has_many :battlefield
-  has_many :graveyard
-  has_many :deck
-  has_many :hand
+  has_many :battlefield, dependent: :destroy
+  has_many :graveyard, dependent: :destroy
+  has_many :deck, dependent: :destroy
+  has_many :hand, dependent: :destroy
 
   validates :turn_played, presence: true
   validates :metaverse_id, presence: true
@@ -33,6 +33,7 @@ class Card < ActiveRecord::Base
   end
 
   def card_type
+    # storing the CardUniverse in a class instance variable didn't make a performance impact
     @card ||= CardUniverse.new.find_metaverse(metaverse_id)
   end
 
@@ -66,11 +67,6 @@ class Card < ActiveRecord::Base
 
   def is_destroyed?
     card_type.is_creature? && remaining_health <= 0
-  end
-
-  # TODO consider moving into service (can introduce locking etc)
-  def damage!(n)
-    update! damage: damage + n
   end
 
   def power

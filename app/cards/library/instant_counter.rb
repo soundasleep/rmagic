@@ -13,7 +13,7 @@ class Library::InstantCounter < CardType
     Mana.new colourless: 1
   end
 
-  def can_counter?
+  def conditions_for_counter
     TextualConditions.new(
       "target is a card",
       "target is in their battlefield",
@@ -26,7 +26,7 @@ class Library::InstantCounter < CardType
     true
   end
 
-  def do_counter
+  def actions_for_counter
     TextualActions.new(
       AddEffectToTheTargetBattlefieldCreature.new(Effects::TemporaryCounter),
       "move this card onto the graveyard"

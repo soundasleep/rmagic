@@ -5,7 +5,7 @@ RSpec.describe "Instants destroy", type: :game do
   let(:card) { first_destroy }
 
   before :each do
-    create_battlefield_cards Library::Metaverse1
+    create_battlefield_cards Library::BasicCreature
     create_hand_cards Library::Metaverse5
     duel.playing_phase!
   end

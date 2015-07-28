@@ -21,7 +21,7 @@ class Library::AddLifeActivated < CardType
     Mana.new green: 1
   end
 
-  def can_add_life?
+  def conditions_for_add_life
     TextualConditions.new(
       "not targeted",
       "this card does not have summoning sickness",
@@ -31,7 +31,7 @@ class Library::AddLifeActivated < CardType
     )
   end
 
-  def do_add_life
+  def actions_for_add_life
     TextualActions.new(
       "tap this card",
       "add 1 life to the owner of this card",

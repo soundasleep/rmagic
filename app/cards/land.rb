@@ -10,7 +10,7 @@ module Land
   end
 
   # ignoring mana costs
-  def can_play?
+  def conditions_for_play
     TextualConditions.new(
       "not targeted",
       "we have priority",
@@ -26,13 +26,13 @@ module Land
   end
 
   # ability mana cost has already been consumed
-  def do_play
+  def actions_for_play
     TextualActions.new(
       "play this card",
     )
   end
 
-  def can_tap?
+  def conditions_for_tap
     TextualConditions.new(
       "not targeted",
       "we have priority",
@@ -48,7 +48,7 @@ module Land
     Mana.new
   end
 
-  def do_tap
+  def actions_for_tap
     TextualActions.new(
       "tap this card",
       AddMana.new(mana_provided)

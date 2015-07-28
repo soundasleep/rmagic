@@ -13,7 +13,7 @@ class Library::Metaverse5 < CardType
     Mana.new colourless: 1
   end
 
-  def can_destroy?
+  def conditions_for_destroy
     TextualConditions.new(
       "target is a card",
       "target is in their battlefield",
@@ -26,7 +26,7 @@ class Library::Metaverse5 < CardType
     true
   end
 
-  def do_destroy
+  def actions_for_destroy
     TextualActions.new(
       "destroy the target battlefield card",
       "move this card onto the graveyard"

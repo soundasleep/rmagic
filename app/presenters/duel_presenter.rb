@@ -8,7 +8,7 @@ class DuelPresenter < JSONPresenter
   end
 
   def duel_json
-    to_safe_json
+    to_json
   end
 
   def action_logs_json
@@ -34,11 +34,11 @@ class DuelPresenter < JSONPresenter
   private
 
     def format_action_log(action)
-      ActionLogPresenter.new(action).to_safe_json
+      ActionLogPresenter.new(action).to_json
     end
 
     def format_player(player)
-      PlayerPresenter.new(player).to_safe_json
+      PlayerPresenter.new(player).to_json
     end
 
 end

@@ -5,7 +5,7 @@ class ActionPresenter
     @action = action
   end
 
-  def to_safe_json
+  def to_json
     {
       action_type: action.action_type,
       card_id: action.source.card.id,

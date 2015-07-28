@@ -13,7 +13,7 @@ class Library::PinToTheEarth < CardType
     mana_cost
   end
 
-  def can_enchant?
+  def conditions_for_enchant
     TextualConditions.new(
       "target is a card",
       "target is in their battlefield",
@@ -26,7 +26,7 @@ class Library::PinToTheEarth < CardType
     true
   end
 
-  def do_enchant
+  def actions_for_enchant
     TextualActions.new(
       "play this card",
       "attach this card to the target",

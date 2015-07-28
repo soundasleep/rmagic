@@ -9,7 +9,7 @@ RSpec.describe "Counterspells on creatures", type: :game do
   let(:stack) { duel.stack }
 
   before :each do
-    create_hand_cards Library::Metaverse1
+    create_hand_cards Library::BasicCreature
     create_hand_cards Library::CounterCreature
     create_hand_cards Library::CounterSpell
   end

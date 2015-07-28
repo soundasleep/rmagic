@@ -8,7 +8,7 @@ class PlayerPresenter < JSONPresenter
   end
 
   def player_json
-    to_safe_json
+    to_json
   end
 
   def deck_json
@@ -63,19 +63,19 @@ class PlayerPresenter < JSONPresenter
     end
 
     def format_card(card)
-      ZoneCardPresenter.new(card).to_safe_json
+      ZoneCardPresenter.new(card).to_json
     end
 
     def format_action(action)
-      ActionPresenter.new(action).to_safe_json
+      ActionPresenter.new(action).to_json
     end
 
     def format_defend_action(action)
-      DefendActionPresenter.new(action).to_safe_json
+      DefendActionPresenter.new(action).to_json
     end
 
     def format_game_action(action)
-      GameActionPresenter.new(action).to_safe_json
+      GameActionPresenter.new(action).to_json
     end
 
 end

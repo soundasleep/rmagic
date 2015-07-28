@@ -1,5 +1,4 @@
-# TODO rename to BasicCreature
-class Library::Metaverse1 < CardType
+class Library::BasicCreature < CardType
   include Creature
 
   def name
@@ -20,6 +19,10 @@ class Library::Metaverse1 < CardType
 
   def mana_cost
     Mana.new green: 1, colourless: 1
+  end
+
+  def self.metaverse_id
+    1
   end
 
 end

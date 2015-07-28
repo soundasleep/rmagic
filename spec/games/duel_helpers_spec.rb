@@ -20,7 +20,7 @@ RSpec.describe Duel, type: :game do
 
       context "adding a creature" do
         before :each do
-          create_battlefield_cards Library::Metaverse1
+          create_battlefield_cards Library::BasicCreature
         end
 
         it "contains four cards" do
@@ -52,7 +52,7 @@ RSpec.describe Duel, type: :game do
 
       context "adding a creature" do
         before :each do
-          create_hand_cards Library::Metaverse1
+          create_hand_cards Library::BasicCreature
         end
 
         it "contains one card" do

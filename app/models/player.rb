@@ -14,15 +14,7 @@ class Player < ActiveRecord::Base
   before_validation :init
 
   def init
-    self.life ||= 20
     self.name ||= "Player"
-    self.is_ai ||= false
-    self.mana_blue ||= 0
-    self.mana_green ||= 0
-    self.mana_red ||= 0
-    self.mana_white ||= 0
-    self.mana_black ||= 0
-    self.mana_colourless ||= 0
   end
 
   def zones

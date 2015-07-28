@@ -5,14 +5,14 @@ RSpec.describe CardUniverse, type: :service do
 
   context "#find_metaverse" do
     context "metaverse 1" do
-      let(:card) { service.find_metaverse(Library::Metaverse1.metaverse_id) }
+      let(:card) { service.find_metaverse(Library::BasicCreature.metaverse_id) }
 
       it "exists" do
         expect(card).to_not be(false)
       end
 
       it "has ID 1" do
-        expect(card.metaverse_id).to eq(Library::Metaverse1.metaverse_id)
+        expect(card.metaverse_id).to eq(Library::BasicCreature.metaverse_id)
       end
     end
 

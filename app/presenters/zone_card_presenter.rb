@@ -13,7 +13,7 @@ class ZoneCardPresenter < JSONPresenter
 
   def extra_json_attributes
     {
-      card: CardPresenter.new(zone_card.card).to_safe_json
+      card: CardPresenter.new(zone_card.card).to_json
     }
   end
 

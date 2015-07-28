@@ -6,7 +6,6 @@ class Graveyard < ActiveRecord::Base
 
   validates :order, presence: true
   validates :player, :card, presence: true
-  # TODO add uniqueness constraint to schema.rb
   validates :card, uniqueness: true
 
   def zone
