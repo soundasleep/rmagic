@@ -5,7 +5,7 @@ deck = system.premade_decks.create! name: "Fury"
 
 # create_card deck, Library::ArborColossus
 # create_card deck, Library::CourserOfKruphix
-# create_card deck, Library::ElvishMystic, 4
+create_card deck, Library::ElvishMystic, 4
 # create_card deck, Library::GeneratorServant, 2
 # create_card deck, Library::GenesisHydra
 # create_card deck, Library::HydraBroodmother

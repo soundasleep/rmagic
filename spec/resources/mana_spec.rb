@@ -28,6 +28,16 @@ RSpec.describe Mana, type: :resource do
     end
   end
 
+  describe "#empty?" do
+    it "returns true for an empty pool" do
+      expect(Mana.new()).to be_empty
+    end
+
+    it "returns false for a non-empty pool" do
+      expect(Mana.new(green: 1)).to_not be_empty
+    end
+  end
+
   describe "#==" do
     it "equals two identical objects" do
       o = Mana.new(green: 1)

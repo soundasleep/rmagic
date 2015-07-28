@@ -93,4 +93,8 @@ class Mana
     target.is_a?(Mana) && to_hash == target.to_hash
   end
 
+  def empty?
+    green == 0 && blue == 0 && red == 0 && white == 0 && black == 0 && colourless == 0
+  end
+
 end

@@ -52,7 +52,7 @@ class Player < ActiveRecord::Base
   end
 
   def has_mana?(cost)
-    mana_pool.use(cost).present?
+    mana_pool.use(cost) != false
   end
 
   def use_mana!(cost)

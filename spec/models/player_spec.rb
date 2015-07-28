@@ -67,6 +67,21 @@ RSpec.describe Player, type: :model do
     expect(player.mana_colourless).to eq(1)
   end
 
+  it "zero mana can pay for zero mana" do
+    player = Player.create!( )
+    expect(player.has_mana?( Mana.new )).to be(true)
+  end
+
+  it "colourless mana can pay for zero mana" do
+    player = Player.create!( mana_colourless: 2 )
+    expect(player.has_mana?( Mana.new )).to be(true)
+  end
+
+  it "zero mana cannot pay for colourless mana" do
+    player = Player.create!( )
+    expect(player.has_mana?( Mana.new(colourless: 1) )).to be(false)
+  end
+
   context "a new player" do
     before :each do
       @player = Player.create!
