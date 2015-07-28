@@ -22,7 +22,7 @@ create_card deck, Library::NessianCourser
 # create_card deck, Library::FatedIntervention
 # create_card deck, Library::FontOfFertility
 create_card deck, Library::LightningStrike, 2
-# create_card deck, Library::Plummet, 2
+create_card deck, Library::Plummet, 2
 
 create_card deck, Library::Forest, 15
 create_card deck, Library::Mountain, 9

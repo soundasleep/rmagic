@@ -25,7 +25,7 @@ RSpec.describe Library::KiorasFollower, type: :card do
     context "when tapped" do
       before { creature.card.tap_card! }
 
-      context "our card" do
+      context "our instant" do
 
         context "without a target" do
           let(:play) { PlayAction.new(source: card, key: "ability") }
