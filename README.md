@@ -41,8 +41,6 @@ We try to use as few model objects as possible.
 
 * Support more game phases correctly
 * Summoning sickness for activated abilities
-* Render the cards on the stack in the web interface
-* Render attached enchantments in the web interface
 * Sorceries
 * Tests for controllers
 * Look into Cucumber or Capybara for integration testing
@@ -53,6 +51,7 @@ We try to use as few model objects as possible.
 
 ## Release 0 goals
 
+* Render the cards on the stack in the web interface
 * Games can end, be won, be lost, be drawn
 * Prevent players from being jerks
 
