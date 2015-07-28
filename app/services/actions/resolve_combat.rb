@@ -45,7 +45,9 @@ class ResolveCombat
       action = ActionLog.attack_card_action(duel, attacker.player, attacker)
 
       duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
-        remaining_damage = apply_damage_to action, remaining_damage, d.source
+        apply_damage_to action, remaining_damage, d.source
+        # chump blocking
+        remaining_damage = 0
       end
 
       if remaining_damage > 0

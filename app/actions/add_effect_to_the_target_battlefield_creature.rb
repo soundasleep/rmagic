@@ -1,3 +1,5 @@
+# TODO maybe Actions::AddEffectToThe... or put into a subfolder?
+# or put actions into subfolders? (e.g. for players, for cards, ...)
 class AddEffectToTheTargetBattlefieldCreature < Action
 
   attr_reader :effect

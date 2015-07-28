@@ -179,6 +179,13 @@ module GameHelper
   def action_finder
     @action_finder ||= ActionFinder.new(duel)
   end
+
+  # helper method to print out action log
+  def print_log
+    duel.action_logs.each do |log|
+      puts "- #{log.player.name} #{log.action_text}"
+    end
+  end
 end
 
 module CreatePremadeDecks

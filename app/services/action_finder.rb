@@ -26,14 +26,15 @@ class ActionFinder
     if duel.phase.can_declare_defenders? && duel.priority_player == player && duel.priority_player != duel.current_player
       # all cards on the battlefield that are not tapped and not already defending
       player.battlefield
+        .select{ |b| b.card.card_type.can_defend? }
         .reject{ |b| duel.declared_defenders.map(&:source).include?(b) }
-        .select{ |b| !b.card.is_tapped? and b.card.card_type.is_creature? }.map do |b|
+        .map do |b|
           duel.declared_attackers.map do |a|
             DefenderAction.new(
               source: b,
               target: a
             )
-          end
+          end.select{ |action| action.can_do?(duel) }
         end.flatten(1)
     else
       []
@@ -43,8 +44,8 @@ class ActionFinder
   def available_attackers(player)
     if duel.phase.can_declare_attackers? and duel.current_player == player and duel.priority_player == player
       return duel.priority_player.battlefield
-          .select{ |b| b.card.card_type.is_creature? }
-          .select{ |b| b.card.turn_played < duel.turn }   # summoning sickness
+          .select{ |b| b.card.card_type.can_attack? }
+          .select{ |b| b.card.card_type.can_do_action?(duel, AttackAction.new(source: b.card) )  }
     else
       []
     end
@@ -80,6 +81,7 @@ class ActionFinder
     def playable_cards_with_card_targets(player)
       # all hand cards which have an available ability (e.g. play, instant)
       # with a card target
+      # TODO use flat_map instead of map.flatten
       duel.players.map do |duel_player|
         duel_player.zones.map do |zone|
           zone.map do |zone_card|
@@ -95,6 +97,7 @@ class ActionFinder
           end.flatten(1)
         end.flatten(1)
       end.flatten(1)
+      # TODO duel.all_players.all_zones.all_hands.all_cards.all_actions?
     end
 
     def playable_cards_with_player_targets(player)

@@ -36,6 +36,10 @@ class CardType
     0
   end
 
+  def tags
+    []
+  end
+
   def playing_goes_onto_stack?(action_key)
     send("playing_#{action_key}_goes_onto_stack?")
   end
@@ -54,6 +58,14 @@ class CardType
 
   def conditions_for(action_key)
     send("conditions_for_#{action_key}")
+  end
+
+  def can_attack?
+    is_creature?
+  end
+
+  def can_defend?
+    is_creature?
   end
 
   def can_do_action?(duel, action)

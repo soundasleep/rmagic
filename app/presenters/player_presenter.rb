@@ -1,6 +1,8 @@
+# TODO could this be a Serializer instead?
 class PlayerPresenter < JSONPresenter
+  # TODO should be able to remove this
   def initialize(player)
-    super(player)
+    super(player)     # TODO could just be `super` (passes args)
   end
 
   def player
@@ -63,6 +65,7 @@ class PlayerPresenter < JSONPresenter
     end
 
     def format_card(card)
+      # TODO rename to_json to as_json (same semantics)
       ZoneCardPresenter.new(card).to_json
     end
 

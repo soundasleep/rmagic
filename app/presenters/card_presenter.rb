@@ -7,6 +7,8 @@ class CardPresenter < JSONPresenter
     object
   end
 
+  # TODO rename to json_attributes
+  # TODO make instance method
   def self.safe_json_attributes
     [ :id, :is_tapped, :damage ]
   end
@@ -20,6 +22,7 @@ class CardPresenter < JSONPresenter
       toughness: card.toughness,
       remaining_health: card.remaining_health,
       controller: format_player(card.controller),
+      tags: card.tags,
       enchantments: card.enchantments.map { |c| format_card c }
     }
   end

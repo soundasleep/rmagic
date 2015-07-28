@@ -13,6 +13,9 @@ class Duel < ActiveRecord::Base
 
   enum phase_number: [ :mulligan_phase, :completed_mulligans_phase, :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
 
+  # TODO use on_create instead
+  # TODO make this method private
+  # TODO rename :init to :set_default_phase
   before_validation :init
 
   def init
@@ -56,6 +59,7 @@ class Duel < ActiveRecord::Base
     phase.enter_phase_service.new(duel: self).call
   end
 
+  # TODO rename order to position/etc
   def next_stack_order
     return 1 if stack.empty?
     stack.map(&:order).max + 1
@@ -69,10 +73,12 @@ class Duel < ActiveRecord::Base
     [ stack ]
   end
 
+  # TODO move to top
   after_update :update_duel_channels
 
+  # TODO move servicey methods to the top
+  # TODO look at moving this out of all models, and instead doing it all in the services?
   def update_duel_channels
     UpdateDuelChannels.new(duel: self).call
   end
-
 end

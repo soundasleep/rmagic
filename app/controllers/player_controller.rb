@@ -24,6 +24,8 @@ class PlayerController < ApplicationController
   end
 
   def deck
+    # TODO can this be a /duel/1/player/1/deck.json singular resource
+    # (this would be a DecksController#show)
     respond_to do |format|
       format.json { render :json => PlayerPresenter.new(player).deck_json }
     end

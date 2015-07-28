@@ -5,6 +5,10 @@ module Land
     true
   end
 
+  def tags
+    super << "land"
+  end
+
   def play_cost
     mana_cost
   end

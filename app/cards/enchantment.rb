@@ -17,4 +17,8 @@ module Enchantment
     n
   end
 
+  def modify_tags(tags)
+    tags
+  end
+
 end
