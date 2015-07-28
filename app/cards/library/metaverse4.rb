@@ -10,7 +10,7 @@ class Library::Metaverse4 < CardType
   end
 
   def instant_cost
-    Mana.new colourless: 1
+    mana_cost
   end
 
   def conditions_for_instant

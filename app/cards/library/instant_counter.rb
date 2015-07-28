@@ -10,7 +10,7 @@ class Library::InstantCounter < CardType
   end
 
   def counter_cost
-    Mana.new colourless: 1
+    mana_cost
   end
 
   def conditions_for_counter
