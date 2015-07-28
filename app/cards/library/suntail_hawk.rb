@@ -13,6 +13,10 @@ class Library::SuntailHawk < CardType
     1
   end
 
+  def tags
+    super << "flying"
+  end
+
   def mana_cost
     Mana.new white: 1
   end

@@ -17,6 +17,6 @@ class Effect < ActiveRecord::Base
     @effect ||= EffectUniverse.new.find_effect(effect_id)
   end
 
-  delegate :to_text, :modify_power, :modify_toughness, to: :effect_type
+  delegate :to_text, :modify_power, :modify_toughness, :modify_tags, to: :effect_type
 
 end

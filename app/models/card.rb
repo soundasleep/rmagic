@@ -77,6 +77,14 @@ class Card < ActiveRecord::Base
     (effects + enchantment_cards).inject(card_type.toughness) { |n, effect| effect.modify_toughness(n) }
   end
 
+  def tags
+    (effects + enchantment_cards).inject(card_type.tags) { |n, effect| effect.modify_tags(n) }
+  end
+
+  def has_tag?(tag)
+    tags.include?(tag)
+  end
+
   def next_effect_order
     return 1 if effects.empty?
     effects.map(&:order).max + 1

@@ -13,6 +13,18 @@ RSpec.describe "Flyers", type: :game do
     expect(player2.life).to eq(20)
   end
 
+  context "the card" do
+    let(:card) { player1.battlefield_creatures.first }
+
+    it "has the flying tag" do
+      expect(card.card.has_tag?("flying")).to be(true)
+    end
+
+    it "does not have the reach tag" do
+      expect(card.card.has_tag?("reach")).to be(false)
+    end
+  end
+
   context "in attacking phase" do
     before { duel.attacking_phase! }
 
@@ -84,6 +96,18 @@ RSpec.describe "Flyers", type: :game do
 
         context "if player 2 has a basic creature" do
           before { create_card player2.battlefield, Library::BasicCreature }
+
+          context "the card" do
+            let(:card) { player2.battlefield_creatures.first }
+
+            it "does not have flying tag" do
+              expect(card.card.has_tag?("flying")).to be(false)
+            end
+
+            it "does not have the reach tag" do
+              expect(card.card.has_tag?("reach")).to be(false)
+            end
+          end
 
           context "after passing priority" do
             before { pass_priority }

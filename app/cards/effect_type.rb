@@ -12,6 +12,10 @@ class EffectType
     n
   end
 
+  def modify_tags(tags)
+    tags
+  end
+
   def until_end_of_turn?
     true
   end
