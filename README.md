@@ -23,6 +23,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Basic multiplayer interface with OAuth2 login
 * Javascript REST-driven to enable a rich user experience
 * Card graphics
+* Flying, reach
 
 ## ActiveRecord concepts
 
@@ -50,10 +51,14 @@ We try to use as few model objects as possible.
 * Token creatures
 * Look at [bullet](https://github.com/flyerhzm/bullet) or [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) to improve game performance
 
+## Release 0 goals
+
+* Games can end, be won, be lost, be drawn
+* Prevent players from being jerks
+
 ## Release 1 goals
 
 * Supports [Fate vs Fury](http://sales.starcitygames.com/carddisplay.php?product=695013) deck
-* Flying, reach
 * Scry
 * Distribute damage
 * Search through library
@@ -61,8 +66,6 @@ We try to use as few model objects as possible.
 * Maximum hand size
 * Devotion
 * Event triggers
-* Games can end, be won, be lost, be drawn
-* Prevent players from being jerks
 
 ## Later goals
 
