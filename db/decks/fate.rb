@@ -19,7 +19,7 @@ create_card deck, Library::KiorasFollower, 3
 # create_card deck, Library::Divination, 2
 # create_card deck, Library::CurseOfTheSwine
 # create_card deck, Library::Griptide, 2
-# create_card deck, Library::JacesIngenuity, 2
+create_card deck, Library::JacesIngenuity, 2
 create_card deck, Library::Negate, 2
 create_card deck, Library::PinToTheEarth, 2
 # create_card deck, Library::VoyagesEnd

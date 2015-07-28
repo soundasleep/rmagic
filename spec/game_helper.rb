@@ -60,6 +60,11 @@ module GameHelper
     create_order_card duel.player2.graveyard, card_type, duel.player2.next_graveyard_order
   end
 
+  def create_deck_cards(card_type)
+    create_order_card duel.player1.deck, card_type, duel.player1.next_deck_order
+    create_order_card duel.player2.deck, card_type, duel.player2.next_deck_order
+  end
+
   def available_attackers
     action_finder.available_attackers(duel.current_player)
   end
