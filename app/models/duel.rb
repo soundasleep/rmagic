@@ -16,10 +16,6 @@ class Duel < ActiveRecord::Base
   before_validation :init
 
   def init
-    self.turn ||= 1
-    self.first_player_number ||= 1
-    self.current_player_number ||= 1
-    self.priority_player_number ||= 1
     self.phase_number ||= :mulligan_phase
   end
 
