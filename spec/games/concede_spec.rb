@@ -3,8 +3,10 @@ require "game_helper"
 RSpec.describe "Conceding games", type: :game do
   let(:duel) { create_game }
   let(:game_actions) { action_finder.game_actions(player) }
+  let(:concede_logs) { duel.action_logs.where(global_action: "concede") }
+  let(:won_logs) { duel.action_logs.where(global_action: "won") }
 
-  context "the game" do
+  context "the duel" do
     it "is not finished yet" do
       expect(duel.is_finished?).to be(false)
     end
@@ -23,6 +25,14 @@ RSpec.describe "Conceding games", type: :game do
 
     it "has nil drawers" do
       expect(duel.drawers).to be_nil
+    end
+
+    it "has no concede logs" do
+      expect(concede_logs).to be_empty
+    end
+
+    it "has no won logs" do
+      expect(won_logs).to be_empty
     end
   end
 
@@ -48,7 +58,7 @@ RSpec.describe "Conceding games", type: :game do
 
     before { action.do(duel) }
 
-    context "the game" do
+    context "the duel" do
       it "is finished" do
         expect(duel.is_finished?).to be(true)
       end
@@ -57,12 +67,32 @@ RSpec.describe "Conceding games", type: :game do
         expect(duel.finished_phase?).to be(true)
       end
 
+      it "has one concede logs" do
+        expect(concede_logs.length).to eq(1)
+      end
+
+      it "has one concede logs for player 1" do
+        expect(concede_logs.first.player).to eq(player1)
+      end
+
+      it "has one won logs" do
+        expect(won_logs.length).to eq(1)
+      end
+
+      it "has one won log for player 2" do
+        expect(won_logs.first.player).to eq(player2)
+      end
+
       it "has one winner" do
         expect(duel.winners).to eq([player2])
       end
 
       it "has one loser" do
         expect(duel.losers).to eq([player1])
+      end
+
+      it "has no drawers" do
+        expect(duel.drawers).to be_empty
       end
 
       context "player 1" do
@@ -91,10 +121,6 @@ RSpec.describe "Conceding games", type: :game do
         it "has not drawn" do
           expect(player2).to_not be_drawn
         end
-      end
-
-      it "has no drawers" do
-        expect(duel.drawers).to be_empty
       end
     end
 

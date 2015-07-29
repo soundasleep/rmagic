@@ -3,6 +3,8 @@ require "game_helper"
 RSpec.describe "Ending games", type: :game do
   let(:duel) { create_game }
   let(:game_actions) { action_finder.game_actions(player) }
+  let(:won_logs) { duel.action_logs.where(global_action: "won") }
+  let(:lost_logs) { duel.action_logs.where(global_action: "lost") }
 
   context "the game" do
     it "is not finished yet" do
@@ -31,6 +33,14 @@ RSpec.describe "Ending games", type: :game do
 
     it "player 2 has less than 5 cards in their deck" do
       expect(player2.deck.length).to be <= 5
+    end
+
+    it "has no won logs" do
+      expect(won_logs).to be_empty
+    end
+
+    it "has no lost logs" do
+      expect(lost_logs).to be_empty
     end
   end
 
@@ -103,6 +113,23 @@ RSpec.describe "Ending games", type: :game do
         it "has no drawers" do
           expect(duel.drawers).to be_empty
         end
+
+        it "has one won logs" do
+          expect(won_logs.length).to eq(1)
+        end
+
+        it "has one won log for player 2" do
+          expect(won_logs.first.player).to eq(player2)
+        end
+
+        it "has one lost logs" do
+          expect(lost_logs.length).to eq(1)
+        end
+
+        it "has one won log for player 1" do
+          expect(lost_logs.first.player).to eq(player1)
+        end
+
       end
 
       context "player 1" do
@@ -173,6 +200,22 @@ RSpec.describe "Ending games", type: :game do
 
           it "has two drawers" do
             expect(duel.drawers).to eq([player1, player2])
+          end
+
+          it "has no won logs" do
+            expect(won_logs).to be_empty
+          end
+
+          it "has two lost logs" do
+            expect(lost_logs.length).to eq(2)
+          end
+
+          it "has one won log for player 2" do
+            expect(lost_logs.first.player).to eq(player2)
+          end
+
+          it "has one won log for player 1" do
+            expect(lost_logs.second.player).to eq(player1)
           end
         end
       end

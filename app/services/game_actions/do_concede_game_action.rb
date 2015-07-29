@@ -10,12 +10,10 @@ class DoConcedeGameAction
     # update the player as lost
     player.update! lost: true
 
-    # if there is only one player left, that player has won, and the game has ended
-    remaining = duel.players.reject{ |p| p == player }.select{ |p| p.in_game? }
-    if remaining.length == 1
-      remaining.first.update! won: true
-      duel.finished_phase!
-    end
+    # add an action log
+    duel.action_logs.create! global_action: "concede", player: player
+
+    CheckGameForWinners.new(duel: duel).call
   end
 
 end
