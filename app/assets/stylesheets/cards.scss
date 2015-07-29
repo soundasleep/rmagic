@@ -1,0 +1,17 @@
+@import "variables";
+
+.card-preview {
+  width: $card-width * $card-preview-ratio;
+  height: $card-width * $card-height-ratio * $card-preview-ratio;
+  display: block;
+  float: right;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.card {
+  background-repeat: none;
+  background-size: cover;
+  border-radius: 5%;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}

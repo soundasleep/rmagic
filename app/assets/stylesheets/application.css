@@ -13,5 +13,6 @@
  * require_tree .
  *= require "_reset"
  *= require "duel"
+ *= require "cards"
  *= require_self
  */

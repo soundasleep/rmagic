@@ -1,8 +1,11 @@
 %h1 #{@card.name}
 
+%a{ href: "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=#{@card.metaverse_id}" }
+  %div{ class: "card-preview card-parent card metaverse-#{@card.metaverse_id}" }
+
 %dl
   %dt Metaverse ID
-  %dd= @card.metaverse_id
+  %dd= link_to(@card.metaverse_id, "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=#{@card.metaverse_id}")
 
   %dt Is creature?
   %dd= @card.is_creature?.to_s

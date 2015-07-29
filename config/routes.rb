@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
   resources :cards, only: [ :index, :show ]
 
+  get "/card-styles" => "cards#styles"
+
   get "/auth/google_login/callback" => "sessions#create"
   get "/logout" => "sessions#destroy", :as => :logout
 

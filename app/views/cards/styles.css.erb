@@ -1,0 +1,5 @@
+<% @cards.each do |card| %>
+  .card.metaverse-<%= card.metaverse_id %> {
+    background-image: url('http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=<%= card.metaverse_id %>&type=card');
+  }
+<% end %>
