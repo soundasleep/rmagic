@@ -45,7 +45,7 @@ class Player < ActiveRecord::Base
       green: mana_green,
       blue: mana_blue,
       red: mana_red,
-      white: mana_red,
+      white: mana_white,
       black: mana_black,
       colourless: mana_colourless
     })
