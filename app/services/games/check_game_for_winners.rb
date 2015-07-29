@@ -15,6 +15,15 @@ class CheckGameForWinners
       duel.action_logs.create! global_action: "won", player: remaining.first
 
       duel.finished_phase!
+
+    elsif remaining.empty?
+      # everyone on this turn has drawn
+      duel.players
+          .select { |p| p.final_turn == duel.turn }
+          .each{ |p| p.update! won: false, lost: false, drawn: true }
+
+      duel.finished_phase!
+
     end
 
     true

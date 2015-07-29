@@ -126,7 +126,7 @@ RSpec.describe "Ending games", type: :game do
           expect(lost_logs.length).to eq(1)
         end
 
-        it "has one won log for player 1" do
+        it "has one lost log for player 1" do
           expect(lost_logs.first.player).to eq(player1)
         end
 
@@ -153,7 +153,7 @@ RSpec.describe "Ending games", type: :game do
     # the game is a draw.
     context "when the second player also draws five cards" do
       before :each do
-        5.times { DrawCard.new(duel: duel, player: player1).call }
+        5.times { DrawCard.new(duel: duel, player: player2).call }
       end
 
       it "player 2 has an empty deck" do
@@ -210,12 +210,12 @@ RSpec.describe "Ending games", type: :game do
             expect(lost_logs.length).to eq(2)
           end
 
-          it "has one won log for player 2" do
-            expect(lost_logs.first.player).to eq(player2)
+          it "has a lost log for player 2" do
+            expect(lost_logs.map(&:player)).to include(player2)
           end
 
-          it "has one won log for player 1" do
-            expect(lost_logs.second.player).to eq(player1)
+          it "has a lost log for player 1" do
+            expect(lost_logs.map(&:player)).to include(player1)
           end
         end
       end

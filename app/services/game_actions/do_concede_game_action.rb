@@ -8,7 +8,7 @@ class DoConcedeGameAction
 
   def call
     # update the player as lost
-    player.update! lost: true
+    player.update! lost: true, final_turn: duel.turn
 
     # add an action log
     duel.action_logs.create! global_action: "concede", player: player

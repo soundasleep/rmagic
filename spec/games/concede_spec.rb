@@ -107,6 +107,10 @@ RSpec.describe "Conceding games", type: :game do
         it "has not drawn" do
           expect(player1).to_not be_drawn
         end
+
+        it "finished on this turn" do
+          expect(player1.final_turn).to eq(duel.turn)
+        end
       end
 
       context "player 2" do
@@ -120,6 +124,10 @@ RSpec.describe "Conceding games", type: :game do
 
         it "has not drawn" do
           expect(player2).to_not be_drawn
+        end
+
+        it "does not have a finished turn" do
+          expect(player2.final_turn).to be_nil
         end
       end
     end

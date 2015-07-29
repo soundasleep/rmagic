@@ -6,6 +6,14 @@ class PassPriority
   end
 
   def call
+    # check for winners when entering a phase
+    CheckGameForWinners.new(duel: duel).call
+
+    if duel.is_finished?
+      # nothing left to do
+      return true
+    end
+
     # The current player has passed the turn; move the priority to the next player if necessary
     previous_phase = duel.phase
 
