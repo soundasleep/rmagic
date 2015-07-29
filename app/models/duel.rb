@@ -11,7 +11,7 @@ class Duel < ActiveRecord::Base
       :current_player_number, :priority_player_number,
       :phase_number, presence: true
 
-  enum phase_number: [ :mulligan_phase, :completed_mulligans_phase, :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase ]
+  enum phase_number: [ :mulligan_phase, :completed_mulligans_phase, :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase, :finished_phase ]
 
   # TODO use on_create instead
   # TODO make this method private
@@ -71,6 +71,34 @@ class Duel < ActiveRecord::Base
 
   def zones
     [ stack ]
+  end
+
+  def is_finished?
+    finished_phase?
+  end
+
+  def winners
+    if is_finished?
+      players.select{ |p| p.won? }
+    else
+      nil
+    end
+  end
+
+  def losers
+    if is_finished?
+      players.select{ |p| p.lost? }
+    else
+      nil
+    end
+  end
+
+  def drawers
+    if is_finished?
+      players.select{ |p| !(p.won? || p.lost?) }
+    else
+      nil
+    end
   end
 
   # TODO move to top

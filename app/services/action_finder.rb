@@ -53,10 +53,13 @@ class ActionFinder
 
   def game_actions(player)
     result = []
-    if duel.priority_player == player
-      result << GameAction.new(player: player, key: "pass")
-      if duel.mulligan_phase?
-        result << GameAction.new(player: player, key: "mulligan")
+    if !duel.is_finished?
+      result << GameAction.new(player: player, key: "concede")
+      if duel.priority_player == player
+        result << GameAction.new(player: player, key: "pass")
+        if duel.mulligan_phase?
+          result << GameAction.new(player: player, key: "mulligan")
+        end
       end
     end
     # TODO end game actions - e.g. concede?
