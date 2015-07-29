@@ -24,6 +24,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Javascript REST-driven to enable a rich user experience
 * Card graphics
 * Flying, reach
+* Games can end, be won, be lost, be drawn
 
 ## ActiveRecord concepts
 
@@ -51,8 +52,8 @@ We try to use as few model objects as possible.
 
 ## Release 0 goals
 
-* Games can end, be won, be lost, be drawn
 * Prevent players from being jerks
+* Render full card on /cards web interface
 
 ## Release 1 goals
 
