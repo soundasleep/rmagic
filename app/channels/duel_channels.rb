@@ -6,7 +6,7 @@ class DuelChannels < Channels
   end
 
   def channels
-    ["duel", "action_logs"]
+    ["duel", "action_logs", "stack"]
   end
 
   def channel_id
