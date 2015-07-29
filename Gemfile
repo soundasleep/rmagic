@@ -68,3 +68,7 @@ group :development do
   gem "rack-livereload"
   gem "rb-fsevent",              :require => false
 end
+
+# Profiling
+gem "bullet", :group => ["development", "test"]
+
