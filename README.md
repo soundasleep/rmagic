@@ -53,7 +53,6 @@ We try to use as few model objects as possible.
 ## Release 0 goals
 
 * Prevent players from being jerks
-* Render full card on /cards web interface
 
 ## Release 1 goals
 
