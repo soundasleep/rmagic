@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Player, type: :model do
+  # TODO use let(:player) syntax instead
   it "a player can have a mana pool" do
     player = Player.create!( mana_green: 1 )
     expect(player.mana_pool.to_hash).to eq( green: 1, blue: 0, red: 0, white: 0, black: 0, colourless: 0 )
@@ -130,6 +131,20 @@ RSpec.describe Player, type: :model do
         it "provides two mana" do
           expect(@player.has_mana?( Mana.new(green: 2) )).to be(true)
         end
+      end
+    end
+
+    context "adding red mana" do
+      before :each do
+        @player.add_mana! Mana.new(red: 1)
+      end
+
+      it "the player has 1 red mana" do
+        expect(@player.mana).to eq("{r}")
+      end
+
+      it "the player has 1 red mana" do
+        expect(@player.mana_pool).to eq(Mana.new(red: 1))
       end
     end
   end

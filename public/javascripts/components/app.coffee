@@ -5,8 +5,8 @@ Duel = require("./duel")
 
 module.exports = App = React.createClass
   propTypes:
-    duel: React.PropTypes.string
-    player: React.PropTypes.string
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
 
   render: ->
     return `(

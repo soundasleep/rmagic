@@ -6,7 +6,8 @@ Card = require("./card")
 
 module.exports = Battlefield = Subscribed.createClass
   propTypes:
-    duel: React.PropTypes.string
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
 
   load: ->
     API.getPlayerBattlefield(this.props.duel, this.props.player)

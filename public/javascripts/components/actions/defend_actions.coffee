@@ -3,6 +3,10 @@ React = require("react")
 FormSubmitter = require("../../form-submitter")
 
 module.exports = DefendActions = React.createClass
+  propTypes:
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
+
   render: ->
     actions = this.props.defend.map (e, i) =>
       url = "/duel/#{this.props.duel}/player/#{this.props.player}/battlefield/#{e.source_id}/defend.json"

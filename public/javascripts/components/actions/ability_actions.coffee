@@ -3,6 +3,10 @@ React = require("react")
 FormSubmitter = require("../../form-submitter")
 
 module.exports = AbilityActions = React.createClass
+  propTypes:
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
+
   render: ->
     actions = this.props.ability.map (e, i) =>
       url = "/duel/#{this.props.duel}/player/#{this.props.player}/battlefield/#{e.source_id}/ability.json"

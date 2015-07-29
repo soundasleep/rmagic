@@ -10,8 +10,8 @@ DefendActions = require("./actions/defend_actions")
 
 module.exports = Actions = Subscribed.createClass
   propTypes:
-    duel: React.PropTypes.string
-    player: React.PropTypes.string
+    duel: React.PropTypes.number
+    player: React.PropTypes.number
 
   load: ->
     API.getActions(this.props.duel, this.props.player)

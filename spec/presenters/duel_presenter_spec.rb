@@ -5,7 +5,7 @@ RSpec.describe DuelPresenter, type: :presenter do
   let(:presenter) { DuelPresenter.new(duel) }
   let(:parsed) { json.to_json }
 
-  ["duel_json", "action_logs_json"].each do |method|
+  ["duel_json", "action_logs_json", "stack_json"].each do |method|
     context "##{method}" do
       let(:json) { presenter.send(method) }
 

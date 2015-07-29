@@ -10,6 +10,14 @@ RSpec.describe Mana, type: :resource do
       expect(Mana.new(green: 1, colourless: 1).to_s).to eq("{1g}")
     end
 
+    it "formats mana costs of one red and one green" do
+      expect(Mana.new(red: 1, green: 1).to_s).to eq("{gr}")
+    end
+
+    it "formats mana costs of one red and one white" do
+      expect(Mana.new(red: 1, white: 1).to_s).to eq("{rw}")
+    end
+
     it "formats empty mana costs" do
       expect(Mana.new().to_s).to eq("{0}")
     end
