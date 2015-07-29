@@ -19,6 +19,17 @@
   %dt Converted mana cost
   %dd= @card.cost_string
 
+  - if @card.is_creature?
+    %dt Base power/toughness
+    %dd #{@card.power} / #{@card.toughness}
+
+  %dt Base tags
+  %dd
+    - if @card.tags.empty?
+      %i (none)
+    - else
+      =@card.tags.join(", ")
+
   %dt Actions
   %dd
     %ul
