@@ -11,19 +11,53 @@ module GameHelper
 
     duel = Duel.create!(player1: player1, player2: player2)
 
-    2.times do
-      create_order_card duel.player1.deck, Library::BasicCreature, duel.player1.next_deck_order
-      create_order_card duel.player2.deck, Library::BasicCreature, duel.player2.next_deck_order
+    2.times do |i|
+      create_order_card player1.deck, Library::BasicCreature, i # player1.next_deck_order
+      create_order_card player2.deck, Library::BasicCreature, i # player2.next_deck_order
     end
 
     3.times do
-      create_card duel.player1.battlefield, Library::Forest
-      create_card duel.player2.battlefield, Library::Forest
+      create_card player1.battlefield, Library::Forest
+      create_card player2.battlefield, Library::Forest
     end
 
     duel.drawing_phase!
 
-    duel
+    # Duel.where(duel.id).includes(player1: [:deck], player2: [:deck]).first
+    # TODO we could move this into a scope e.g. Duel.find_with_preloads(id)
+    # but currently this doesn't provide any performance improvement
+    includes = [
+      player1: [
+        battlefield: [
+          card: [:effects, :enchantments]
+        ],
+        graveyard: [
+          card: [:effects, :enchantments]
+        ],
+        deck: [
+          card: [:effects, :enchantments]
+        ],
+        hand: [
+          card: [:effects, :enchantments]
+        ],
+      ],
+      player2: [
+        battlefield: [
+          card: [:effects, :enchantments]
+        ],
+        graveyard: [
+          card: [:effects, :enchantments]
+        ],
+        deck: [
+          card: [:effects, :enchantments]
+        ],
+        hand: [
+          card: [:effects, :enchantments]
+        ],
+      ]
+    ]
+    Duel.where(duel.id).includes(includes).first
+    # duel
   end
 
   def create_creatures
