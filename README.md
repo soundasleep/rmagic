@@ -51,7 +51,6 @@ We try to use as few model objects as possible.
 
 ## Release 0 goals
 
-* Render the cards on the stack in the web interface
 * Games can end, be won, be lost, be drawn
 * Prevent players from being jerks
 
