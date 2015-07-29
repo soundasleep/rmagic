@@ -37,7 +37,13 @@ class CardType
   end
 
   def tags
-    []
+    tags = []
+    tags << "creature" if is_creature?
+    tags << "land" if is_land?
+    tags << "spell" if is_spell?
+    tags << "instant" if is_instant?
+    tags << "enchantment" if is_enchantment?
+    tags.uniq
   end
 
   def playing_goes_onto_stack?(action_key)
