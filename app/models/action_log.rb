@@ -23,6 +23,12 @@ class ActionLog < ActiveRecord::Base
         "draws a card"
       when "play"
         "plays #{card.to_text}"
+      when "lost"
+        "lost"
+      when "concede"
+        "concedes"
+      when "won"
+        "won"
       when nil
         "used #{card.action_text card_action} of #{card.to_text}"
       else

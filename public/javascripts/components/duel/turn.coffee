@@ -13,12 +13,13 @@ module.exports = Turn = React.createClass
       when "playing_phase" then "Main"
       when "attacking_phase" then "Combat"
       when "cleanup_phase" then "Cleanup"
+      when "finished_phase" then "End"
       else "(unknown phase)"
 
   render: ->
     classNames = "turn turn-#{this.props.phase}"
 
-    phases = ["mulligan_phase", "drawing_phase", "playing_phase", "attacking_phase", "cleanup_phase"]
+    phases = ["mulligan_phase", "drawing_phase", "playing_phase", "attacking_phase", "cleanup_phase", "finished_phase"]
     phaseList = phases.map (phase) =>
       phaseName = @phaseName(phase)
       classes = @turnClassNames(phase)
