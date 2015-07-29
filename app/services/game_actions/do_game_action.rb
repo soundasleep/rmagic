@@ -15,6 +15,9 @@ class DoGameAction
       when "mulligan"
         DoMulliganGameAction.new(duel: duel, player: player).call
 
+      when "concede"
+        DoConcedeGameAction.new(duel: duel, player: player).call
+
       else
         fail "Unknown game action '#{key}'"
     end

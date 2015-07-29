@@ -65,20 +65,52 @@ RSpec.describe "Conceding games", type: :game do
         expect(duel.losers).to eq([player1])
       end
 
+      context "player 1" do
+        it "has lost" do
+          expect(player1).to be_lost
+        end
+
+        it "has not won" do
+          expect(player1).to_not be_won
+        end
+
+        it "has not drawn" do
+          expect(player1).to_not be_drawn
+        end
+      end
+
+      context "player 2" do
+        it "has won" do
+          expect(player2).to be_won
+        end
+
+        it "has not lost" do
+          expect(player2).to_not be_lost
+        end
+
+        it "has not drawn" do
+          expect(player2).to_not be_drawn
+        end
+      end
+
       it "has no drawers" do
         expect(duel.drawers).to be_empty
       end
     end
 
     context "player 1" do
+      let(:refreshed_game_actions) { action_finder.game_actions(player) }
+
       it "has no available game actions" do
-        expect(game_actions).to be_empty
+        expect(refreshed_game_actions).to be_empty
       end
     end
 
     context "player 2" do
+      let(:refreshed_game_actions) { action_finder.game_actions(player2) }
+
       it "has no available game actions" do
-        expect(action_finder.game_actions(player2)).to be_empty
+        expect(refreshed_game_actions).to be_empty
       end
     end
   end

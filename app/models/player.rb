@@ -134,6 +134,10 @@ class Player < ActiveRecord::Base
     false
   end
 
+  def in_game?
+    !(won? || lost? || drawn?)
+  end
+
   def duel
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
   end

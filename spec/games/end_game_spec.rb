@@ -26,11 +26,11 @@ RSpec.describe "Ending games", type: :game do
     end
 
     it "player 1 has less than 5 cards in their deck" do
-      expect(player1.deck.length).to_be <= 5
+      expect(player1.deck.length).to be <= 5
     end
 
     it "player 2 has less than 5 cards in their deck" do
-      expect(player2.deck.length).to_be <= 5
+      expect(player2.deck.length).to be <= 5
     end
   end
 
