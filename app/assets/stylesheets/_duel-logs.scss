@@ -1,10 +1,10 @@
-
 .logs {
-  width: 20%;
+  width: $log-width;
   background: #eee;
   border-radius: 10px;
   float: right;
   padding: 5px;
+  height: (100% - $stack-height);
 
   h2, h3 {
     margin: 0 0 10px 0;

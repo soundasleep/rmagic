@@ -1,0 +1,37 @@
+.stack {
+  width: $log-width;
+  float: right;
+  height: $stack-height;
+
+  .stack-list {
+    height: 100%;
+
+    ul {
+      position: relative;
+      text-align: center;
+
+      $base-stack-margin-top: 10px;
+      $base-stack-margin-left: -40px;
+
+      li.card-parent {
+        position: absolute;
+        top: 0;
+        margin-top: $base-stack-margin-top;
+        margin-left: $base-stack-margin-left;
+
+        @each $number in 0, 1, 2, 3, 4 {
+          &:nth-child(#{$number + 1}) {
+            margin-left: ($base-stack-margin-left + ($number * 10px));
+            margin-top: ($base-stack-margin-top + ($number * -10px));
+          }
+        }
+      }
+    }
+
+    // show our hovers aligned more left
+    .card-parent:hover .card .card-hover {
+      // adds to the top: without having to override with !important
+      margin-left: -100%;
+    }
+  }
+}

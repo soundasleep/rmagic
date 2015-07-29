@@ -17,7 +17,7 @@ module.exports = Stack = Subscribed.createClass
   renderLoaded: ->
     stack = this.state.stack.map (e) =>
       me = @
-      `<Card zone="stack" key={e.id} duel={me.props.duel} {...e} player={e.player.id} />`
+      `<Card zone="stack" {...e} key={e.order} duel={me.props.duel} player={e.player.id} />`
 
     `<div className="stack-list">
       <h3>Stack ({this.state.stack.length} cards)</h3>
