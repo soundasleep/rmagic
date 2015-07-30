@@ -1,4 +1,6 @@
 class ActionLog < ActiveRecord::Base
+  include Phases
+
   belongs_to :card
   belongs_to :player
   belongs_to :duel
@@ -31,6 +33,8 @@ class ActionLog < ActiveRecord::Base
         "won"
       when "request_pass"
         "requested a pass"
+      when "enter_phase"
+        "Entered #{phase.name}"
       when nil
         "used #{card.action_text card_action} of #{card.to_text}"
       else

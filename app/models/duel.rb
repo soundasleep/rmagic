@@ -1,4 +1,6 @@
 class Duel < ActiveRecord::Base
+  include Phases
+
   belongs_to :player1, class_name: "Player"
   belongs_to :player2, class_name: "Player"
 
@@ -10,8 +12,6 @@ class Duel < ActiveRecord::Base
   validates :player1, :player2, :turn, :first_player_number,
       :current_player_number, :priority_player_number,
       :phase_number, presence: true
-
-  enum phase_number: [ :mulligan_phase, :completed_mulligans_phase, :drawing_phase, :playing_phase, :attacking_phase, :cleanup_phase, :finished_phase ]
 
   # TODO use on_create instead
   # TODO make this method private
@@ -44,10 +44,6 @@ class Duel < ActiveRecord::Base
 
   def reset_priority!
     update! priority_player_number: current_player_number
-  end
-
-  def phase
-    phase_number.classify.constantize.new
   end
 
   def next_phase!

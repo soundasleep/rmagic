@@ -53,6 +53,9 @@ class PassPriority
     RemoveUnattachedEnchantments.new(duel: duel).call
 
     if duel.phase != previous_phase
+      # TODO maybe move this (enter_phase!) into a service
+      duel.action_logs.create! global_action: "enter_phase", phase_number: duel.phase.to_sym
+
       duel.enter_phase!
     end
 
