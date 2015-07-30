@@ -25,6 +25,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Card graphics
 * Flying, reach
 * Games can end, be won, be lost, be drawn
+* After a period of inactivity, passes can be requested
 
 ## ActiveRecord concepts
 
@@ -49,10 +50,6 @@ We try to use as few model objects as possible.
 * Display counters on cards on web interface
 * Token creatures
 * Look at [bullet](https://github.com/flyerhzm/bullet) or [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) to improve game performance
-
-## Release 0 goals
-
-* Prevent players from being jerks
 
 ## Release 1 goals
 
