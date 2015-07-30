@@ -94,8 +94,15 @@ class Card < ActiveRecord::Base
     self
   end
 
-  def controller
+  def owner
     [battlefield, graveyard, hand, deck].each do |zone|
+      return zone.first.player if zone.any?
+    end
+    nil
+  end
+
+  def controller
+    [battlefield].each do |zone|
       return zone.first.player if zone.any?
     end
     nil

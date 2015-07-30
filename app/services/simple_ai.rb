@@ -10,8 +10,7 @@ class SimpleAI
     while playable_cards.any? || ability_cards.any? do
       if playable_cards.any?
         playable_cards.first.do duel
-      end
-      if ability_cards.any?
+      elsif ability_cards.any?
         ability_cards.first.do duel
       end
     end

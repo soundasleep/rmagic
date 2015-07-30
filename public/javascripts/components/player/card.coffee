@@ -24,37 +24,32 @@ module.exports = Card = React.createClass
     tag == "flying" || tag == "reach"
 
   render: ->
-    card_link = "/cards/#{this.props.card.card_type.metaverse_id}"
-    power = ""
-    if this.props.card.card_type.is_creature
-      power = `<span className="power">{this.props.card.power}/{this.props.card.toughness}</span>`
-
-    classes = "card card-#{this.props.zone} card-#{this.props.card.id} #{this.props.zone}-#{this.props.id} metaverse-#{this.props.card.card_type.metaverse_id}"
-    if this.props.card.is_tapped
-      classes += " is-tapped"
-    if this.props.card.card_type.is_creature
-      classes += " is-creature"
-
     parent_classes = "card-parent"
-    if this.props.card.is_tapped
+    if this.props.is_tapped
       parent_classes += " is-tapped"
-    if this.props.card.enchantments.length > 0
-      parent_classes += " has-enchantments"
 
     enchantments = ""
-    if this.props.card.enchantments.length > 0
+    if this.props.visible
+      if this.props.card.enchantments.length > 0
+        parent_classes += " has-enchantments"
+
       enchantments = this.props.card.enchantments.map (e, i) =>
         me = @
         `<Card key={i} zone={me.props.zone} duel={me.props.duel} player={me.props.player} card={e} />`
 
-    `<li className={parent_classes} key={this.props.id}>
-      <ul className="enchantments">
-        {enchantments}
-      </ul>
+    if this.props.visible
+      card_link = "/cards/#{this.props.card.card_type.metaverse_id}"
+      power = ""
+      if this.props.card.card_type.is_creature
+        power = `<span className="power">{this.props.card.power}/{this.props.card.toughness}</span>`
 
-      <div className={classes}>
-        <div className="card-hover">
-          <div className={classes}>
+      classes = "card card-#{this.props.zone} card-#{this.props.card.id} #{this.props.zone}-#{this.props.id} metaverse-#{this.props.card.card_type.metaverse_id}"
+      if this.props.is_tapped
+        classes += " is-tapped"
+      if this.props.card.card_type.is_creature
+        classes += " is-creature"
+
+      hover_html = `<div className={classes}>
             <div className="card-power-hover">
               {power}
             </div>
@@ -69,7 +64,11 @@ module.exports = Card = React.createClass
                 </div>
               </div>
             </div>
-          </div>
+          </div>`
+
+      card_html = `<div className={classes}>
+        <div className="card-hover">
+          {hover_html}
         </div>
 
         <div className="card-text">
@@ -85,5 +84,15 @@ module.exports = Card = React.createClass
         <div className="card-power">
           {power}
         </div>
-      </div>
+      </div>`
+
+    else
+      card_html = `<div className="hidden-card">hidden</div>`
+
+    `<li className={parent_classes} key={this.props.id}>
+      <ul className="enchantments">
+        {enchantments}
+      </ul>
+
+      {card_html}
     </li>`

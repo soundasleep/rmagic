@@ -28,7 +28,7 @@ class DuelPresenter < JSONPresenter
       :first_player_number, :turn, :phase_number, :player1_id, :player2_id ]
   end
 
-  def extra_json_attributes
+  def extra_json_attributes(context = nil)
     {
       phase: duel.phase_number,
       last_pass: duel.last_pass,

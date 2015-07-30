@@ -1,10 +1,11 @@
+$ = require("jquery")
 React = require("react")
-Subscribed = require("../../subscribed")
+SubscribedPrivate = require("../../subscribed_private")
 API = require("../../api")
 
 Card = require("./card")
 
-module.exports = Hand = Subscribed.createClass
+module.exports = Hand = SubscribedPrivate.createClass
   propTypes:
     duel: React.PropTypes.number
     player: React.PropTypes.number
@@ -12,7 +13,7 @@ module.exports = Hand = Subscribed.createClass
   load: ->
     API.getPlayerHand(this.props.duel, this.props.player)
 
-  channel: ->
+  publicChannel: ->
     "hand/#{this.props.player}"
 
   renderLoaded: ->

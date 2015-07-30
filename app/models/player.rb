@@ -5,7 +5,7 @@ class Player < ActiveRecord::Base
   has_many :battlefield, dependent: :destroy
   has_many :graveyard, -> { order(order: :desc) }, dependent: :destroy
 
-  has_one :user
+  belongs_to :user
 
   validates :life, :name, :mana_blue, :mana_green,
       :mana_red, :mana_white, :mana_black,
@@ -140,6 +140,10 @@ class Player < ActiveRecord::Base
 
   def duel
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
+  end
+
+  def channel_hash
+    Digest::MD5.hexdigest(Rails.application.secrets.secret_key_base + id.to_s)
   end
 
   after_update :update_player_channels

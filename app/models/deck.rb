@@ -11,4 +11,8 @@ class Deck < ActiveRecord::Base
     DeckZone.new
   end
 
+  def is_visible_to?(player)
+    false
+  end
+
 end

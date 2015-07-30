@@ -11,10 +11,19 @@ class ZoneCardPresenter < JSONPresenter
     [:id, :card_id ]
   end
 
-  def extra_json_attributes
-    {
-      card: CardPresenter.new(zone_card.card).to_json
-    }
+  def extra_json_attributes(context = nil)
+    if zone_card.is_visible_to?(context)
+      {
+        visible: true,
+        is_tapped: zone_card.card.is_tapped,
+        card: CardPresenter.new(zone_card.card).to_json(context),
+      }
+    else
+      {
+        visible: false,
+        is_tapped: zone_card.card.is_tapped,
+      }
+    end
   end
 
 end

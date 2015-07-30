@@ -11,7 +11,7 @@ class ActionLogPresenter < JSONPresenter
     [ :id, :global_action, :card_action, :created_at ]
   end
 
-  def extra_json_attributes
+  def extra_json_attributes(context = nil)
     {
       action_text: action_log.action_text,
       player: action_log.player ? format_player(action_log.player) : nil,

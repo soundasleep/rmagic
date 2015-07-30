@@ -12,4 +12,8 @@ class Graveyard < ActiveRecord::Base
     GraveyardZone.new
   end
 
+  def is_visible_to?(player)
+    true
+  end
+
 end

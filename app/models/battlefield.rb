@@ -14,4 +14,8 @@ class Battlefield < ActiveRecord::Base
   # we can't use scopes; they do not clear caches when the underlying
   # model is reloaded :(
 
+  def is_visible_to?(player)
+    true
+  end
+
 end

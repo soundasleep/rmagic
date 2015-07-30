@@ -1,5 +1,5 @@
 React = require("react")
-Subscribed = require("../../subscribed")
+SubscribedPrivate = require("../../subscribed_private")
 API = require("../../api")
 
 GameActions = require("../actions/game_actions")
@@ -8,7 +8,7 @@ AbilityActions = require("../actions/ability_actions")
 AttackActions = require("../actions/attack_actions")
 DefendActions = require("../actions/defend_actions")
 
-module.exports = CardActions = Subscribed.createClass
+module.exports = CardActions = SubscribedPrivate.createClass
   propTypes:
     card: React.PropTypes.number
     duel: React.PropTypes.number
@@ -17,7 +17,7 @@ module.exports = CardActions = Subscribed.createClass
   load: ->
     API.getActions(this.props.duel, this.props.player)
 
-  channel: ->
+  publicChannel: ->
     "actions/#{this.props.player}"
 
   # we filter here instead of in the API
@@ -32,12 +32,15 @@ module.exports = CardActions = Subscribed.createClass
       defend: []
     }
 
-    result.play.forEach (e, i) ->
-      output.play.push e if e.card_id == card
-    result.ability.forEach (e, i) ->
-      output.ability.push e if e.card_id == card
-    result.defend.forEach (e, i) ->
-      output.defend.push e if e.card_id == card
+    if result.play?
+      result.play.forEach (e, i) ->
+        output.play.push e if e.card_id == card
+    if result.ability?
+      result.ability.forEach (e, i) ->
+        output.ability.push e if e.card_id == card
+    if result.defend?
+      result.defend.forEach (e, i) ->
+        output.defend.push e if e.card_id == card
 
     output
 
