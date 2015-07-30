@@ -16,6 +16,7 @@ class ActionLog < ActiveRecord::Base
   end
 
   def action_text
+    # TODO consider making this an enum and use symbols across the app?
     case global_action
       when "pass"
         "passes"
@@ -35,6 +36,8 @@ class ActionLog < ActiveRecord::Base
         "requested a pass"
       when "enter_phase"
         "Entered #{phase.name}"
+      when "current_player"
+        "became the active player"
       when nil
         "used #{card.action_text card_action} of #{card.to_text}"
       else
