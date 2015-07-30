@@ -1,8 +1,8 @@
 React = require("react")
-Subscribed = require("../../subscribed")
+SubscribedPrivate = require("../../subscribed_private")
 API = require("../../api")
 
-module.exports = Graveyard = Subscribed.createClass
+module.exports = Graveyard = SubscribedPrivate.createClass
   propTypes:
     duel: React.PropTypes.number
     player: React.PropTypes.number
@@ -10,7 +10,7 @@ module.exports = Graveyard = Subscribed.createClass
   load: ->
     API.getPlayerGraveyard(this.props.duel, this.props.player)
 
-  channel: ->
+  publicChannel: ->
     "graveyard/#{this.props.player}"
 
   renderLoaded: ->

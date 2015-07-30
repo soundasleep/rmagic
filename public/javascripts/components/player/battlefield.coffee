@@ -1,10 +1,10 @@
 React = require("react")
-Subscribed = require("../../subscribed")
+SubscribedPrivate = require("../../subscribed_private")
 API = require("../../api")
 
 Card = require("./card")
 
-module.exports = Battlefield = Subscribed.createClass
+module.exports = Battlefield = SubscribedPrivate.createClass
   propTypes:
     duel: React.PropTypes.number
     player: React.PropTypes.number
@@ -12,7 +12,7 @@ module.exports = Battlefield = Subscribed.createClass
   load: ->
     API.getPlayerBattlefield(this.props.duel, this.props.player)
 
-  channel: ->
+  publicChannel: ->
     "battlefield/#{this.props.player}"
 
   renderLoaded: ->

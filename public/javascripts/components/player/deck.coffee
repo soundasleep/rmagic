@@ -1,8 +1,8 @@
 React = require("react")
-Subscribed = require("../../subscribed")
+SubscribedPrivate = require("../../subscribed_private")
 API = require("../../api")
 
-module.exports = Deck = Subscribed.createClass
+module.exports = Deck = SubscribedPrivate.createClass
   propTypes:
     duel: React.PropTypes.number
     player: React.PropTypes.number
@@ -10,7 +10,7 @@ module.exports = Deck = Subscribed.createClass
   load: ->
     API.getPlayerDeck(this.props.duel, this.props.player)
 
-  channel: ->
+  publicChannel: ->
     "deck/#{this.props.player}"
 
   renderLoaded: ->

@@ -38,13 +38,17 @@ class PlayerPresenter < JSONPresenter
   end
 
   def actions_json(context = nil)
-    {
-      play: action_finder.playable_cards(player).map { |a| format_action a },
-      ability: action_finder.ability_cards(player).map { |a| format_action a },
-      defend: action_finder.defendable_cards(player).map { |a| format_defend_action a },
-      attack: action_finder.available_attackers(player).map { |a| format_card a },
-      game: action_finder.game_actions(player).map { |a| format_game_action a }
-    }
+    if context == player
+      {
+        play: action_finder.playable_cards(player).map { |a| format_action a },
+        ability: action_finder.ability_cards(player).map { |a| format_action a },
+        defend: action_finder.defendable_cards(player).map { |a| format_defend_action a },
+        attack: action_finder.available_attackers(player).map { |a| format_card a },
+        game: action_finder.game_actions(player).map { |a| format_game_action a }
+      }
+    else
+      {}
+    end
   end
 
   def self.safe_json_attributes
