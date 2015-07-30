@@ -43,6 +43,9 @@ class PassPriority
       end
     end
 
+    # update the last time somebody passed
+    duel.update last_pass: Time.now
+
     # apply changes to reduce duel.after_update callbacks
     duel.save!
 

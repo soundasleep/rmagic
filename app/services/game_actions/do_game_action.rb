@@ -8,6 +8,8 @@ class DoGameAction
   end
 
   def call
+    player.update! last_action: Time.now
+
     case key
       when "pass"
         PassPriority.new(duel: duel).call

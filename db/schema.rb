@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729034055) do
+ActiveRecord::Schema.define(version: 20150729235452) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 20150729034055) do
     t.integer  "priority_player_number", default: 1, null: false
     t.integer  "turn",                   default: 1, null: false
     t.integer  "first_player_number",    default: 1, null: false
+    t.datetime "last_pass"
   end
 
   add_index "duels", ["player1_id"], name: "index_duels_on_player1_id"
@@ -175,6 +176,7 @@ ActiveRecord::Schema.define(version: 20150729034055) do
     t.boolean  "lost",              default: false, null: false
     t.boolean  "drawn",             default: false, null: false
     t.decimal  "final_turn"
+    t.datetime "last_action"
   end
 
   add_index "players", ["user_id"], name: "index_players_on_user_id"

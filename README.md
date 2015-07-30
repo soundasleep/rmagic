@@ -45,7 +45,7 @@ We try to use as few model objects as possible.
 * Sorceries
 * Tests for controllers
 * Look into Cucumber or Capybara for integration testing
-* Deployed onto a VPS somewhere
+* Deployed onto a VPS somewhere using Capistrano
 * Display counters on cards on web interface
 * Token creatures
 * Look at [bullet](https://github.com/flyerhzm/bullet) or [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) to improve game performance

@@ -4,6 +4,9 @@ RSpec.describe "Requesting passes", type: :game do
   let(:duel) { create_game }
   let(:logs) { duel.action_logs.select{ |log| log.global_action == "request_pass" } }
 
+  # make sure we have the duel created *before* we time travel
+  before { duel.save! }
+
   context "the game" do
     it "is player 1's priority" do
       expect(duel.priority_player).to eq(player1)
@@ -74,17 +77,17 @@ RSpec.describe "Requesting passes", type: :game do
         let(:card) { player1.battlefield.select{ |c| c.card.card_type.is_land? }.first }
         let(:action) { AbilityAction.new(source: card, key: "tap") }
 
-        before { action.do duel }
+        before { DoAction.new(duel: duel, action: action).call }
 
         it "it is player 1's priority" do
           expect(duel.priority_player).to eq(player1)
         end
 
-        context "after a pass is requested" do
+        context "after a pass is immediately requested" do
           before { RequestPass.new(duel: duel).call }
 
           it "it is player 1's priority" do
-            expect(duel.priority_player).to eq(player2)
+            expect(duel.priority_player).to eq(player1)
           end
         end
 
