@@ -17,7 +17,7 @@ module ZoneCard
   end
 
   def is_visible_to?(player)
-    self.player == player
+    player != nil && self.player == player
   end
 
 end

@@ -11,11 +11,11 @@ module.exports = SubscribedPrivate =
       propTypes:
         player: React.PropTypes.number
 
-      getChannelName: ->
+      channel: ->
         if @currentPlayer() == this.props.player
-          "#{@channel()}/private/#{this.props.player}"
+          "#{@publicChannel()}/private/#{this.props.player}"
         else
-          @channel()
+          @publicChannel()
 
       currentPlayer: ->
         parseInt($("#app")[0].dataset["player"], 10)

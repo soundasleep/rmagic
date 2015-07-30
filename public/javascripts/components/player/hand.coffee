@@ -13,11 +13,8 @@ module.exports = Hand = SubscribedPrivate.createClass
   load: ->
     API.getPlayerHand(this.props.duel, this.props.player)
 
-  channel: ->
-    if @currentPlayer() == this.props.player
-      "hand/#{this.props.player}/private/#{this.props.player}"
-    else
-      "hand/#{this.props.player}"
+  publicChannel: ->
+    "hand/#{this.props.player}"
 
   renderLoaded: ->
     hand = this.state.hand.map (e) =>

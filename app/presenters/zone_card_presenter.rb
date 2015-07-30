@@ -12,7 +12,7 @@ class ZoneCardPresenter < JSONPresenter
   end
 
   def extra_json_attributes(context = nil)
-    if context != nil && zone_card.is_visible_to?(context)
+    if zone_card.is_visible_to?(context)
       {
         visible: true,
         is_tapped: zone_card.card.is_tapped,
