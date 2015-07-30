@@ -31,6 +31,8 @@ class DuelPresenter < JSONPresenter
   def extra_json_attributes
     {
       phase: duel.phase_number,
+      last_pass: duel.last_pass,
+      last_action: duel.priority_player.last_action,
       first_player: format_player(duel.first_player),
       current_player: format_player(duel.current_player),
       priority_player: format_player(duel.priority_player)

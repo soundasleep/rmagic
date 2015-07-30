@@ -27,7 +27,7 @@ RSpec.describe "Requesting passes", type: :game do
       end
 
       context "after a pass is requested" do
-        before { RequestPass.new(duel: duel).call }
+        before { RequestPass.new(duel: duel, player: player2).call }
 
         it "it is player 1's priority" do
           expect(duel.priority_player).to eq(player1)
@@ -39,8 +39,8 @@ RSpec.describe "Requesting passes", type: :game do
       end
     end
 
-    context "after 1 minute" do
-      let(:diff) { 1.minutes }
+    context "after 5 minutes" do
+      let(:diff) { 5.minutes }
 
       before { Timecop.freeze(Time.now + diff) }
       after { Timecop.return }
@@ -50,7 +50,7 @@ RSpec.describe "Requesting passes", type: :game do
       end
 
       context "after a pass is requested" do
-        before { RequestPass.new(duel: duel).call }
+        before { RequestPass.new(duel: duel, player: player2).call }
 
         it "it is player 2's priority" do
           expect(duel.priority_player).to eq(player2)
@@ -61,7 +61,7 @@ RSpec.describe "Requesting passes", type: :game do
         end
 
         context "after a pass is immediately requested" do
-          before { RequestPass.new(duel: duel).call }
+          before { RequestPass.new(duel: duel, player: player2).call }
 
           it "it is player 2's priority" do
             expect(duel.priority_player).to eq(player2)
@@ -84,7 +84,7 @@ RSpec.describe "Requesting passes", type: :game do
         end
 
         context "after a pass is immediately requested" do
-          before { RequestPass.new(duel: duel).call }
+          before { RequestPass.new(duel: duel, player: player2).call }
 
           it "it is player 1's priority" do
             expect(duel.priority_player).to eq(player1)
@@ -102,7 +102,7 @@ RSpec.describe "Requesting passes", type: :game do
           end
 
           context "after a pass is requested" do
-            before { RequestPass.new(duel: duel).call }
+            before { RequestPass.new(duel: duel, player: player2).call }
 
             it "it is player 1's priority" do
               expect(duel.priority_player).to eq(player1)
@@ -110,8 +110,8 @@ RSpec.describe "Requesting passes", type: :game do
           end
         end
 
-        context "after 1 minute" do
-          let(:diff2) { 1.minute }
+        context "after 5 minutes" do
+          let(:diff2) { 5.minute }
 
           before { Timecop.freeze(Time.now + diff2) }
           after { Timecop.return }
@@ -121,7 +121,7 @@ RSpec.describe "Requesting passes", type: :game do
           end
 
           context "after a pass is requested" do
-            before { RequestPass.new(duel: duel).call }
+            before { RequestPass.new(duel: duel, player: player2).call }
 
             it "it is player 2's priority" do
               expect(duel.priority_player).to eq(player2)

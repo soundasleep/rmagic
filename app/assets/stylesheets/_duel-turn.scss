@@ -4,9 +4,10 @@
   height: $turn-height;
   padding: 3px;
   background: #eee;
+  vertical-align: bottom;
 
   .turn {
-    width: 60%;
+    width: 50%;
     float: left;
     font-style: italic;
     display: inline-block;
@@ -18,7 +19,7 @@
     }
 
     ul.turn-list {
-      display: inline-block;
+      display: block;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -46,8 +47,16 @@
     }
   }
 
+  .request-pass {
+    width: 15%;
+    float: left;
+    font-size: 80%;
+    text-align: center;
+    margin: 2px 0;
+  }
+
   .actions {
-    width: 40%;
+    width: 35%;
     display: inline-block;
     text-align: right;
     padding: 2px;
