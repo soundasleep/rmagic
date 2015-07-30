@@ -9,7 +9,8 @@ module.exports = RequestPass = React.createClass
     player: React.PropTypes.number
 
   lastAction: ->
-    Moment.max(Moment(this.props.last_action), Moment(this.props.last_pass))
+    never = "1999-01-01"
+    Moment.max(Moment(this.props.last_action || never), Moment(this.props.last_pass || never), Moment(this.props.created_at || never))
 
   enableForm: ->
     $(".request-pass form:not(.submitting) input").prop("disabled", false)

@@ -3,6 +3,13 @@
 %h2 Your open games
 
 %ul
-  - @user.players.each do |player|
+  - @user.players.reject{ |p| p.duel.is_finished? }.each do |player|
+    %li
+      = link_to player.duel.title, duel_player_path(player.duel, player)
+
+%h2 Your finished games
+
+%ul
+  - @user.players.select{ |p| p.duel.is_finished? }.each do |player|
     %li
       = link_to player.duel.title, duel_player_path(player.duel, player)
