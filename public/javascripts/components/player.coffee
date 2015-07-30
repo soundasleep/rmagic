@@ -19,7 +19,9 @@ module.exports = Player = Subscribed.createClass
     "player/#{this.props.player}"
 
   renderLoaded: ->
-    `<div className="player">
+    playerClasses = "player player-#{this.props.player}"
+
+    `<div className={playerClasses}>
       <div className="info">
         <div className="player-box">
           <h2>

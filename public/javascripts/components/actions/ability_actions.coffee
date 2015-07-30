@@ -18,11 +18,13 @@ module.exports = AbilityActions = React.createClass
       resetHighlight = ->
         $(".card").removeClass("highlighted-source")
         $(".card").removeClass("highlighted-target")
+        $(".player").removeClass("highlighted-target")
 
       mouseOver = (event) ->
         resetHighlight()
         $(".card.card-battlefield.battlefield-#{e.source_id}").addClass("highlighted-source")
         $(".card.card-#{e.target_type}.#{e.target_type}-#{e.target_id}").addClass("highlighted-target")
+        $(".player.#{e.target_type}-#{e.target_id}").addClass("highlighted-target")
 
       mouseOut = (event) ->
         resetHighlight()
