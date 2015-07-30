@@ -12,7 +12,8 @@ class EnterDrawingPhase
     # untap all tapped cards for the current player
     if duel.current_player == duel.priority_player
       duel.priority_player.battlefield.select { |battlefield| battlefield.card.is_tapped? }.each do |battlefield|
-        AbilityAction.new(source: battlefield, key: "untap").do(duel)
+        # untap it, but do not add it to the action log
+        battlefield.card.untap_card!
       end
 
       if player_should_draw_a_card?
