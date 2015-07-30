@@ -13,7 +13,9 @@ class CardPresenter < JSONPresenter
     [ :id, :is_tapped, :damage ]
   end
 
-  def extra_json_attributes
+  def extra_json_attributes(context = nil)
+    return to_public_json if !context
+
     fail "no card type for #{card}" unless card.card_type
 
     {
@@ -27,20 +29,20 @@ class CardPresenter < JSONPresenter
     }
   end
 
-  def to_hidden_json
+  def to_public_json(context = nil)
     {
       id: card.id,
       is_tapped: card.is_tapped,
       damage: card.damage,
       controller: format_player(card.controller),
-      enchantments: card.enchantments.map { |c| format_card c }
+      enchantments: card.enchantments.map { |c| format_card c, context }
     }
   end
 
   private
 
-    def format_card(card)
-      CardPresenter.new(card).to_json
+    def format_card(card, context = nil)
+      CardPresenter.new(card).to_json(context)
     end
 
     def format_player(player)

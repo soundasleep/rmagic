@@ -9,8 +9,16 @@ class PlayerChannels < Channels
     ["player", "deck", "battlefield", "hand", "graveyard", "actions"]
   end
 
+  def private_channels
+    ["deck", "battlefield", "hand", "graveyard", "action"]
+  end
+
   def channel_id
     player.id
+  end
+
+  def channel_hash
+    player.id     # TODO use a secure hash function instead
   end
 
   def presenter

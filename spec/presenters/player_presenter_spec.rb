@@ -15,4 +15,16 @@ RSpec.describe PlayerPresenter, type: :presenter do
     end
   end
 
+  let(:context) { player1 }
+
+  ["deck_json", "battlefield_json", "hand_json", "graveyard_json", "actions_json"].each do |method|
+    context "##{method}(context)" do
+      let(:json) { presenter.send(method, context) }
+
+      it "is valid json" do
+        expect(parsed).to_not be_empty
+      end
+    end
+  end
+
 end

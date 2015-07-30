@@ -33,7 +33,7 @@ module.exports = Subscribed =
         }
 
       componentDidMount: ->
-        @subscribeToPromise(@, @channel()).then (result) =>
+        @subscribeToPromise(@, @getChannelName()).then (result) =>
           @setState
             isLoaded: true
 
@@ -54,3 +54,5 @@ module.exports = Subscribed =
         else
           data
 
+      getChannelName: ->
+        @channel()

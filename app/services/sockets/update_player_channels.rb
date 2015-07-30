@@ -6,9 +6,22 @@ class UpdatePlayerChannels
   end
 
   def call
-    PlayerChannels.new(player).update_all
+    PlayerChannels.new(player).update_all(context)
 
     true
   end
+
+  def channel_hash
+    player.id
+  end
+
+  def channel_context
+    player
+  end
+
+  private
+    def context
+      self
+    end
 
 end

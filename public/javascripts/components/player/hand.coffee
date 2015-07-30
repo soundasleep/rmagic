@@ -1,10 +1,11 @@
+$ = require("jquery")
 React = require("react")
-Subscribed = require("../../subscribed")
+SubscribedPrivate = require("../../subscribed_private")
 API = require("../../api")
 
 Card = require("./card")
 
-module.exports = Hand = Subscribed.createClass
+module.exports = Hand = SubscribedPrivate.createClass
   propTypes:
     duel: React.PropTypes.number
     player: React.PropTypes.number
@@ -13,7 +14,10 @@ module.exports = Hand = Subscribed.createClass
     API.getPlayerHand(this.props.duel, this.props.player)
 
   channel: ->
-    "hand/#{this.props.player}"
+    if @currentPlayer() == this.props.player
+      "hand/#{this.props.player}/private/#{this.props.player}"
+    else
+      "hand/#{this.props.player}"
 
   renderLoaded: ->
     hand = this.state.hand.map (e) =>

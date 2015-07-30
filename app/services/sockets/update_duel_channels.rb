@@ -6,9 +6,22 @@ class UpdateDuelChannels
   end
 
   def call
-    DuelChannels.new(duel).update_all
+    DuelChannels.new(duel).update_all(context)
 
     true
   end
+
+  def channel_hash
+    duel.id
+  end
+
+  def channel_context
+    duel
+  end
+
+  private
+    def context
+      self
+    end
 
 end

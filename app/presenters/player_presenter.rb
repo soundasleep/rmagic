@@ -13,31 +13,31 @@ class PlayerPresenter < JSONPresenter
     to_json
   end
 
-  def deck_json
+  def deck_json(context = nil)
     {
-      deck: player.deck.map { |c| format_card c }
+      deck: player.deck.map { |c| format_card c, context }
     }
   end
 
-  def battlefield_json
+  def battlefield_json(context = nil)
     {
-      battlefield: player.battlefield.map { |c| format_card c }
+      battlefield: player.battlefield.map { |c| format_card c, context }
     }
   end
 
-  def hand_json
+  def hand_json(context = nil)
     {
-      hand: player.hand.map { |c| format_card c }
+      hand: player.hand.map { |c| format_card c, context }
     }
   end
 
-  def graveyard_json
+  def graveyard_json(context = nil)
     {
-      graveyard: player.graveyard.map { |c| format_card c }
+      graveyard: player.graveyard.map { |c| format_card c, context }
     }
   end
 
-  def actions_json
+  def actions_json(context = nil)
     {
       play: action_finder.playable_cards(player).map { |a| format_action a },
       ability: action_finder.ability_cards(player).map { |a| format_action a },
@@ -51,7 +51,7 @@ class PlayerPresenter < JSONPresenter
     [ :id, :name, :mana, :life ]
   end
 
-  def extra_json_attributes
+  def extra_json_attributes(context = nil)
     {
       mana: player.mana_pool.to_hash,
       mana_string: player.mana
@@ -64,13 +64,9 @@ class PlayerPresenter < JSONPresenter
       ActionFinder.new(player.duel)
     end
 
-    def format_card(card)
+    def format_card(card, context = nil)
       # TODO rename to_json to as_json (same semantics)
-      if card.is_visible_to?(card.player)
-        ZoneCardPresenter.new(card).to_json
-      else
-        ZoneCardPresenter.new(card).to_hidden_json
-      end
+      ZoneCardPresenter.new(card).to_json(context)
     end
 
     def format_action(action)

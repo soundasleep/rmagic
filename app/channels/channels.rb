@@ -20,12 +20,24 @@ class Channels
     WrappedChannel.new(name)
   end
 
-  def update_all
+  def private_channels
+    []
+  end
+
+  def update_all(context)
     channels.each do |name|
       channel = get_channel("#{name}/#{channel_id}")
       if channel.needs_update?
         method = "#{name}_json"
         channel.update presenter.send(method)
+      end
+    end
+
+    private_channels.each do |name|
+      channel = get_channel("#{name}/#{channel_id}/private/#{context.channel_hash}")
+      if channel.needs_update?
+        method = "#{name}_json"
+        channel.update presenter.send(method, context.channel_context)
       end
     end
   end

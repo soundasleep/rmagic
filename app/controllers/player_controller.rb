@@ -13,13 +13,13 @@ class PlayerController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => PlayerPresenter.new(player).to_json }
+      format.json { render :json => PlayerPresenter.new(player).to_json(context) }
     end
   end
 
   def actions
     respond_to do |format|
-      format.json { render :json => PlayerPresenter.new(player).actions_json }
+      format.json { render :json => PlayerPresenter.new(player).actions_json(context) }
     end
   end
 
@@ -27,25 +27,25 @@ class PlayerController < ApplicationController
     # TODO can this be a /duel/1/player/1/deck.json singular resource
     # (this would be a DecksController#show)
     respond_to do |format|
-      format.json { render :json => PlayerPresenter.new(player).deck_json }
+      format.json { render :json => PlayerPresenter.new(player).deck_json(context) }
     end
   end
 
   def battlefield
     respond_to do |format|
-      format.json { render :json => PlayerPresenter.new(player).battlefield_json }
+      format.json { render :json => PlayerPresenter.new(player).battlefield_json(context) }
     end
   end
 
   def hand
     respond_to do |format|
-      format.json { render :json => PlayerPresenter.new(player).hand_json }
+      format.json { render :json => PlayerPresenter.new(player).hand_json(context) }
     end
   end
 
   def graveyard
     respond_to do |format|
-      format.json { render :json => PlayerPresenter.new(player).graveyard_json }
+      format.json { render :json => PlayerPresenter.new(player).graveyard_json(context) }
     end
   end
 
@@ -102,6 +102,14 @@ class PlayerController < ApplicationController
 
     def action_finder
       @action_finder ||= ActionFinder.new(duel)
+    end
+
+    def current_player
+      duel.players.select{ |p| p.user == current_user }.first
+    end
+
+    def context
+      current_player
     end
 
 end

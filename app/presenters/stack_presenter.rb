@@ -21,7 +21,7 @@ class StackPresenter < JSONPresenter
     [ :order, :key, :player_id, :card_id ]
   end
 
-  def extra_json_attributes
+  def extra_json_attributes(context = nil)
     {
       player: format_player(stack.player),
       card: format_card(stack.card),
