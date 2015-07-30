@@ -53,8 +53,6 @@ We try to use as few model objects as possible.
 
 ## Release 0 goals
 
-* Players can't see other player's hands or what they draw
-
 ## Release 1 goals
 
 * Supports [Fate vs Fury](http://sales.starcitygames.com/carddisplay.php?product=695013) deck
