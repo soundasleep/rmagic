@@ -19,7 +19,7 @@ module.exports = Battlefield = Subscribed.createClass
     battlefield = this.state.battlefield.map (e) =>
       me = @
 
-      if !e.card.card_type.is_enchantment
+      if !(e.visible && e.card.card_type.is_enchantment)
         `<Card zone="battlefield" key={e.id} duel={me.props.duel} player={me.props.player} {...e} />`
 
     `<div className="battlefield">

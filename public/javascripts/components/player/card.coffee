@@ -25,13 +25,14 @@ module.exports = Card = React.createClass
 
   render: ->
     parent_classes = "card-parent"
-    if this.props.card.is_tapped
+    if this.props.is_tapped
       parent_classes += " is-tapped"
-    if this.props.card.enchantments.length > 0
-      parent_classes += " has-enchantments"
 
     enchantments = ""
-    if this.props.card.enchantments.length > 0
+    if this.props.visible
+      if this.props.card.enchantments.length > 0
+        parent_classes += " has-enchantments"
+
       enchantments = this.props.card.enchantments.map (e, i) =>
         me = @
         `<Card key={i} zone={me.props.zone} duel={me.props.duel} player={me.props.player} card={e} />`
@@ -43,7 +44,7 @@ module.exports = Card = React.createClass
         power = `<span className="power">{this.props.card.power}/{this.props.card.toughness}</span>`
 
       classes = "card card-#{this.props.zone} card-#{this.props.card.id} #{this.props.zone}-#{this.props.id} metaverse-#{this.props.card.card_type.metaverse_id}"
-      if this.props.card.is_tapped
+      if this.props.is_tapped
         classes += " is-tapped"
       if this.props.card.card_type.is_creature
         classes += " is-creature"

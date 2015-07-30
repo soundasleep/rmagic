@@ -14,15 +14,14 @@ class ZoneCardPresenter < JSONPresenter
   def extra_json_attributes(context = nil)
     if context != nil && zone_card.is_visible_to?(context)
       {
-        id: zone_card.id,
-        card_id: zone_card.card_id,
         visible: true,
+        is_tapped: zone_card.card.is_tapped,
         card: CardPresenter.new(zone_card.card).to_json(context),
       }
     else
       {
         visible: false,
-        card: CardPresenter.new(zone_card.card).to_public_json(context),
+        is_tapped: zone_card.card.is_tapped,
       }
     end
   end

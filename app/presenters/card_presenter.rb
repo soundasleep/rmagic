@@ -10,12 +10,10 @@ class CardPresenter < JSONPresenter
   # TODO rename to json_attributes
   # TODO make instance method
   def self.safe_json_attributes
-    [ :id, :is_tapped, :damage ]
+    [ :id, :damage ]
   end
 
   def extra_json_attributes(context = nil)
-    return to_public_json if !context
-
     fail "no card type for #{card}" unless card.card_type
 
     {
@@ -25,16 +23,6 @@ class CardPresenter < JSONPresenter
       remaining_health: card.remaining_health,
       controller: format_player(card.controller),
       tags: card.tags,
-      enchantments: card.enchantments.map { |c| format_card c }
-    }
-  end
-
-  def to_public_json(context = nil)
-    {
-      id: card.id,
-      is_tapped: card.is_tapped,
-      damage: card.damage,
-      controller: format_player(card.controller),
       enchantments: card.enchantments.map { |c| format_card c, context }
     }
   end
