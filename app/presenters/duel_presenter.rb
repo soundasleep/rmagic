@@ -13,7 +13,7 @@ class DuelPresenter < JSONPresenter
 
   def action_logs_json
     {
-      logs: duel.action_logs.order(created_at: :desc).limit(10).map { |c| format_action_log c }
+      logs: duel.action_logs.order(created_at: :desc).limit(20).map { |c| format_action_log c }
     }
   end
 
@@ -24,16 +24,19 @@ class DuelPresenter < JSONPresenter
   end
 
   def self.safe_json_attributes
-    [ :id, :current_player_number, :priority_player_number,
+    [ :id, :created_at, :current_player_number, :priority_player_number,
       :first_player_number, :turn, :phase_number, :player1_id, :player2_id ]
   end
 
   def extra_json_attributes
     {
       phase: duel.phase_number,
+      last_pass: duel.last_pass,
+      last_action: duel.priority_player.last_action,
       first_player: format_player(duel.first_player),
       current_player: format_player(duel.current_player),
-      priority_player: format_player(duel.priority_player)
+      priority_player: format_player(duel.priority_player),
+      is_finished: duel.is_finished?,
     }
   end
 

@@ -29,6 +29,8 @@ class ActionLog < ActiveRecord::Base
         "concedes"
       when "won"
         "won"
+      when "request_pass"
+        "requested a pass"
       when nil
         "used #{card.action_text card_action} of #{card.to_text}"
       else

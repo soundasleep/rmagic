@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         get 'graveyard'
         post 'game_action'
         post 'declare_attackers'
+        post 'request_pass'
 
         # TODO resource :deck, only: [ :show ]
       end

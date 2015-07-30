@@ -1,3 +1,4 @@
+# TODO rename to form_submitter.coffee
 $ = require("jquery")
 
 module.exports = FormSubmitter =
@@ -7,6 +8,7 @@ module.exports = FormSubmitter =
 
     # find the button and disable it immediately for feedback
     $(form.find("input[type=button]")).prop("disabled", true)
+    $(form).addClass("submitting")
 
     # construct the query
     form_url = form.attr("action")
@@ -23,8 +25,10 @@ module.exports = FormSubmitter =
         xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')
       success: ->
         $(form.find("input[type=button]")).prop("disabled", false)
+        $(form).removeClass("submitting")
       error: (xhr, text, error) ->
         $(form.find("input[type=button]")).prop("disabled", false)
+        $(form).removeClass("submitting")
         console.log error
 
     e.stopPropagation()

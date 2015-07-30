@@ -81,7 +81,17 @@ class PlayerController < ApplicationController
     end
   end
 
+  def request_pass
+    RequestPass.new(duel: duel, player: player).call
+
+    respond_to do |format|
+      format.html { redirect_to duel_player_path duel, player }
+      format.json { render :json => {success: true} }
+    end
+  end
+
   private
+
     def duel
       Duel.find(params[:duel_id])
     end

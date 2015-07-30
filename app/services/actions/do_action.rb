@@ -15,6 +15,9 @@ class DoAction
       fail "Player #{player.to_json} can not pay for #{cost} with #{player.mana}"
     end
 
+    # update last action
+    player.update! last_action: Time.now
+
     # use mana
     player.use_mana! cost
 
