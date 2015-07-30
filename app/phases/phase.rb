@@ -38,4 +38,9 @@ class Phase
   def ==(phase)
     phase.is_a?(Phase) && phase.class.name == self.class.name
   end
+
+  def name
+    self.class.name.underscore.tr("_", " ")
+  end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729235452) do
+ActiveRecord::Schema.define(version: 20150730053235) do
 
   create_table "action_log_targets", force: :cascade do |t|
     t.integer  "card_id",       null: false
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20150729235452) do
     t.integer  "duel_id",       null: false
     t.string   "global_action"
     t.integer  "argument"
+    t.integer  "phase_number"
   end
 
   add_index "action_logs", ["card_id"], name: "index_action_logs_on_card_id"

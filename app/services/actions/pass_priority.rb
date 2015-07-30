@@ -33,6 +33,9 @@ class PassPriority
           duel.update priority_player_number: duel.current_player_number
         end
 
+        # TODO maybe move this into a service (current player has changed/increment current player)
+        duel.action_logs.create! global_action: "current_player", player: duel.current_player
+
         if duel.phase.increments_turn? && duel.current_player_number == duel.first_player_number
           # next turn
           duel.update turn: duel.turn + 1
@@ -53,6 +56,9 @@ class PassPriority
     RemoveUnattachedEnchantments.new(duel: duel).call
 
     if duel.phase != previous_phase
+      # TODO maybe move this (enter_phase!) into a service
+      duel.action_logs.create! global_action: "enter_phase", phase_number: duel.phase.to_sym
+
       duel.enter_phase!
     end
 
