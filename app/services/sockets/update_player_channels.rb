@@ -12,7 +12,7 @@ class UpdatePlayerChannels
   end
 
   def channel_hash
-    player.id
+    player.channel_hash
   end
 
   def channel_context

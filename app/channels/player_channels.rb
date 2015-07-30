@@ -10,7 +10,7 @@ class PlayerChannels < Channels
   end
 
   def private_channels
-    ["deck", "battlefield", "hand", "graveyard", "action"]
+    ["deck", "battlefield", "hand", "graveyard", "actions"]
   end
 
   def channel_id

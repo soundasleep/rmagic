@@ -142,6 +142,10 @@ class Player < ActiveRecord::Base
     Duel.where("player1_id=? OR player2_id=?", id, id).first!
   end
 
+  def channel_hash
+    Digest::MD5.hexdigest(Rails.application.secrets.secret_key_base + id.to_s)
+  end
+
   after_update :update_player_channels
 
   def update_player_channels

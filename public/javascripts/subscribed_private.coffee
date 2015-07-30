@@ -13,9 +13,12 @@ module.exports = SubscribedPrivate =
 
       channel: ->
         if @currentPlayer() == this.props.player
-          "#{@publicChannel()}/private/#{this.props.player}"
+          "#{@publicChannel()}/private/#{@playerHash()}"
         else
           @publicChannel()
 
       currentPlayer: ->
         parseInt($("#app")[0].dataset["player"], 10)
+
+      playerHash: ->
+        $("#app")[0].dataset["playerHash"]
