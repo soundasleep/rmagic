@@ -28,6 +28,7 @@ class StackPresenter < JSONPresenter
       battlefield_targets: stack.battlefield_targets.map { |c| format_target c },
       graveyard_targets: stack.graveyard_targets.map { |c| format_target c },
       player_targets: stack.player_targets.map { |c| format_target c },
+      visible: true,
     }
   end
 

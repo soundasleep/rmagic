@@ -66,7 +66,11 @@ class PlayerPresenter < JSONPresenter
 
     def format_card(card)
       # TODO rename to_json to as_json (same semantics)
-      ZoneCardPresenter.new(card).to_json
+      if card.is_visible_to?(card.player)
+        ZoneCardPresenter.new(card).to_json
+      else
+        ZoneCardPresenter.new(card).to_hidden_json
+      end
     end
 
     def format_action(action)

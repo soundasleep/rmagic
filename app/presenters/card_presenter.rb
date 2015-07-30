@@ -27,6 +27,16 @@ class CardPresenter < JSONPresenter
     }
   end
 
+  def to_hidden_json
+    {
+      id: card.id,
+      is_tapped: card.is_tapped,
+      damage: card.damage,
+      controller: format_player(card.controller),
+      enchantments: card.enchantments.map { |c| format_card c }
+    }
+  end
+
   private
 
     def format_card(card)

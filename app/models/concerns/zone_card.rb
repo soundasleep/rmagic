@@ -16,4 +16,8 @@ module ZoneCard
     true
   end
 
+  def is_visible_to?(player)
+    self.player == player
+  end
+
 end

@@ -24,4 +24,8 @@ class Stack < ActiveRecord::Base
     card
   end
 
+  def is_visible_to?(player)
+    true
+  end
+
 end
