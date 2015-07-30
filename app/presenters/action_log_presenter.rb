@@ -8,7 +8,7 @@ class ActionLogPresenter < JSONPresenter
   end
 
   def self.safe_json_attributes
-    [ :id, :global_action, :card_action ]
+    [ :id, :global_action, :card_action, :created_at ]
   end
 
   def extra_json_attributes

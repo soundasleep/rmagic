@@ -13,7 +13,7 @@ class DuelPresenter < JSONPresenter
 
   def action_logs_json
     {
-      logs: duel.action_logs.order(created_at: :desc).limit(10).map { |c| format_action_log c }
+      logs: duel.action_logs.order(created_at: :desc).limit(20).map { |c| format_action_log c }
     }
   end
 
@@ -35,7 +35,8 @@ class DuelPresenter < JSONPresenter
       last_action: duel.priority_player.last_action,
       first_player: format_player(duel.first_player),
       current_player: format_player(duel.current_player),
-      priority_player: format_player(duel.priority_player)
+      priority_player: format_player(duel.priority_player),
+      is_finished: duel.is_finished?,
     }
   end
 

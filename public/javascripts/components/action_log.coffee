@@ -1,6 +1,7 @@
 $ = require('jquery')
 React = require("react")
 Subscribed = require("../subscribed")
+Moment = require("moment")
 API = require("../api")
 
 module.exports = ActionLog = Subscribed.createClass
@@ -19,7 +20,7 @@ module.exports = ActionLog = Subscribed.createClass
       player_name = ""
       if e.player? and e.player.name?
         player_name = e.player.name
-      `<li key={e.id}>[{duel}.{e.id}] {player_name} {e.action_text}</li>`
+      `<li key={e.id}><span className="timestamp">[{Moment(e.created_at).format("HH:mm")}]</span> {player_name} {e.action_text}</li>`
 
     `<div className="action-log">
       <h3>Action log</h3>

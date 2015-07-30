@@ -33,6 +33,10 @@ module.exports = Duel = Subscribed.createClass
     player1classes = @playerClassNames(this.state.player1_id) + " my-board"
     player2classes = @playerClassNames(this.state.player2_id)
 
+    request_pass = ""
+    if !this.state.is_finished
+      request_pass = `<RequestPass duel={this.state.id} player={this.props.player} {...this.state} />`
+
     `<div className="duel">
       <div className="duel-boards">
         <div className={player2classes}>
@@ -40,7 +44,7 @@ module.exports = Duel = Subscribed.createClass
         </div>
         <div className="turn">
           <Turn {...this.state} />
-          <RequestPass duel={this.state.id} player={this.props.player} {...this.state} />
+          {request_pass}
           <Actions duel={this.state.id} player={this.props.player} />
         </div>
         <div className={player1classes}>
