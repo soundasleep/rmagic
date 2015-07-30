@@ -98,6 +98,18 @@ RSpec.describe "Creatures", type: :game do
         PlayAction.new(source: card, key: "play").do duel
       end
 
+      it "there are no available play actions" do
+        expect(first_creature_available_play_actions).to be_empty
+      end
+
+      it "we have no playable cards" do
+        expect(playable_cards(player1)).to be_empty
+      end
+
+      it "we have no ability cards" do
+        expect(ability_cards(player1)).to be_empty
+      end
+
       context "after passing to the next phase" do
         before { pass_until_next_phase }
 
