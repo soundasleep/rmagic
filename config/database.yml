@@ -10,7 +10,6 @@ default: &default
   pool: 5
   username: <%= ENV['MYSQL_USERNAME'] || "root" %>
   password: <%= ENV['MYSQL_PASSWORD'] || "" %>
-  socket: /tmp/mysql.sock
 
 development:
   <<: *default
