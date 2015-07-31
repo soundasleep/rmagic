@@ -60,6 +60,34 @@ namespace :deploy do
     end
   end
 
+  desc 'Stop websocket daemon'
+  task :stop_daemons do
+    on roles(:app), in: :sequence, wait: 5 do
+      within current_path do
+        websocket_pid = current_path.join('tmp/pids/websocket_rails.pid')
+        if test("[ -f #{websocket_pid} ]") then
+          with rails_env: :production do
+            rake 'websocket_rails:stop_server'
+          end
+        else
+          info "WebsocketRails is not running, not need to be stopped."
+        end
+      end
+    end
+  end
+
+  desc 'Start websocket daemon'
+  task :start_daemons do
+    on roles(:app), in: :sequence, wait: 5 do
+      within current_path do
+        with rails_env: :production do
+          info 'Start WebsocketRails server'
+          rake 'websocket_rails:start_server'
+        end
+      end
+    end
+  end
+
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
@@ -76,9 +104,11 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
+  before :starting,     :stop_daemons
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
+  after  :finishing,    :start_daemons
 end
 
 # run Grunt on deploy
