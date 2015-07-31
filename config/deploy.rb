@@ -1,3 +1,6 @@
+require 'dotenv'
+Dotenv.load
+
 server ENV['REMOTE_IP'], port: ENV['REMOTE_PORT'], roles: [:web, :app, :db], primary: true
 
 set :repo_url,        "git@github.com:soundasleep/rmagic.git"
