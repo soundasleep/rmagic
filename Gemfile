@@ -52,6 +52,7 @@ group :development do
   gem 'capistrano3-puma',   require: false
 
   # Allow Grunt to be run from capistrano
+  gem 'capistrano-npm'
   gem 'capistrano-grunt'
 end
 
