@@ -95,6 +95,34 @@ When developing, you'll want three terminals running each of:
 * `grunt serve` - to catch changes in the React app
 * `guard` - to enable [LiveReload](https://mattbrictson.com/lightning-fast-sass-reloading-in-rails)
 
+## Deployment
+
+* `sudo apt-get install ruby-sass php5-cli`
+* Install [NodeJS](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+* `npm install -g grunt grunt-cli`
+* Install composer [as well](https://getcomposer.org/doc/00-intro.md)
+* Install Redis [as a service](http://redis.io/topics/quickstart) as well
+
+If using a user `deploy`, you can deploy [with Capistrano](https://www.digitalocean.com/community/tutorials/deploying-a-rails-app-on-ubuntu-14-04-with-capistrano-nginx-and-puma) by running `cap production deploy`.
+
+Edit `/env/environment` to set up your environment variables.
+Make sure to run `cap puma:stop` and `cap puma:start` for Puma to pick up updated environment.
+
+### Sample `/env/environment`
+
+```
+MYSQL_USERNAME="xxx"
+MYSQL_PASSWORD="yyy"
+SECRET_KEY_BASE="zzz"
+SECRET_TOKEN="abc"
+OAUTH_CLIENT_ID="123.google.com"
+OAUTH_CLIENT_SECRET="abc123"
+APPLICATION_CONFIG_SECRET_TOKEN="abc123"
+WEBSOCKET_LOCATION="your.host:3001/websocket"
+```
+
+* [Google OAuth2 parameters](http://www.jevon.org/wiki/Google_OAuth2_with_Ruby_on_Rails)
+
 ## Tests
 
 ```

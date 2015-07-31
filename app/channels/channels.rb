@@ -8,7 +8,9 @@ class Channels
     end
 
     def needs_update?
-      WebsocketRails[name].subscribers.any?
+      # on Production, we don't have any way to see the subscribers to a channel
+      # which is super frustrating and makes things slow
+      Rails.env.production? || WebsocketRails[name].subscribers.any?
     end
 
     def update(json)
