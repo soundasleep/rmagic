@@ -45,11 +45,14 @@ gem 'websocket-rails'
 
 # Use Capistrano for deployment
 group :development do
-    gem 'capistrano',         require: false
-    gem 'capistrano-rvm',     require: false
-    gem 'capistrano-rails',   require: false
-    gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
+  gem 'capistrano',         require: false
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
+
+  # Allow Grunt to be run from capistrano
+  gem 'capistrano-grunt'
 end
 
 gem 'puma'
