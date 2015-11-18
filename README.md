@@ -80,6 +80,14 @@ We try to use as few model objects as possible.
 
 ## Development
 
+When developing, you'll want three terminals running each of:
+
+* `rails server` - to catch changes in the Rails app
+* `grunt serve` - to catch changes in the React app
+* `guard` - to enable [LiveReload](https://mattbrictson.com/lightning-fast-sass-reloading-in-rails)
+
+### Ubuntu
+
 [Install MySQL as necessary](https://www.digitalocean.com/community/tutorials/how-to-use-mysql-with-your-ruby-on-rails-application-on-ubuntu-14-04) before running `bundle`:
 
 ```
@@ -89,11 +97,9 @@ sudo mysql_install_d
 sudo mysql_secure_installation
 ```
 
-When developing, you'll want three terminals running each of:
+### Mac OS X
 
-* `rails server` - to catch changes in the Rails app
-* `grunt serve` - to catch changes in the React app
-* `guard` - to enable [LiveReload](https://mattbrictson.com/lightning-fast-sass-reloading-in-rails)
+If running El Capitan, you may need to `brew link openssl --force`.
 
 ## Deployment
 
