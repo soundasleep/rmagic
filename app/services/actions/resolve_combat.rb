@@ -53,6 +53,10 @@ class ResolveCombat
       if remaining_damage > 0
         attacker.target_player.remove_life! remaining_damage
       end
+
+      if attacker.card.tags.include? "lifelink"
+        apply_lifelink(attacker)
+      end
     end
 
     def apply_defend_damage(defender)
@@ -74,6 +78,16 @@ class ResolveCombat
       duel.declared_defenders.each do |d|
         apply_defend_damage d
       end
+    end
+
+    def apply_lifelink(attacker)
+      life = attacker.card.power
+
+      # TODO rename to gain_life!
+      attacker.card.controller.add_life! life
+
+      # TODO it would be nice to get rid of this one day
+      duel.reload
     end
 
 end

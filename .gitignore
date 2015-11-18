@@ -18,6 +18,7 @@
 
 # Ignore private config
 .env
+config/local.rb
 
 # Silly Mac OS X
 .DS_Store

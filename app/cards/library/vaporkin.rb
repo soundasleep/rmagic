@@ -18,7 +18,7 @@ class Library::Vaporkin < CardType
   end
 
   def mana_cost
-    Mana.new white: 1, blue: 1
+    Mana.new colourless: 1, blue: 1
   end
 
   def self.metaverse_id

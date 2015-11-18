@@ -12,7 +12,8 @@ def create_card(deck, card, count = 1)
   end
 end
 
-system = User.create! name: "System"
+User.create! name: "System"
 
 require_relative 'decks/fate'
 require_relative 'decks/fury'
+require_relative 'decks/mono_white'
