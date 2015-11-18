@@ -53,6 +53,10 @@ class ResolveCombat
       if remaining_damage > 0
         attacker.target_player.remove_life! remaining_damage
       end
+
+      if attacker.card.tags.include? "lifelink"
+        apply_lifelink(attacker.card)
+      end
     end
 
     def apply_defend_damage(defender)
@@ -62,6 +66,10 @@ class ResolveCombat
 
       # any overkill damage is ignored
       apply_damage_to action, damage, defender.target
+
+      if defender.source.card.tags.include? "lifelink"
+        apply_lifelink(defender.source.card)
+      end
     end
 
     def apply_attack_damages
@@ -74,6 +82,14 @@ class ResolveCombat
       duel.declared_defenders.each do |d|
         apply_defend_damage d
       end
+    end
+
+    def apply_lifelink(card)
+      # TODO rename to gain_life!
+      card.controller.add_life! card.power
+
+      # TODO it would be nice to get rid of this one day
+      duel.reload
     end
 
 end

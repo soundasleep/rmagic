@@ -68,10 +68,12 @@ class Player < ActiveRecord::Base
     set_mana! result
   end
 
+  # TODO rename to gain_life!
   def add_life!(n)
     update! life: life + n
   end
 
+  # TODO rename to lose_life!
   def remove_life!(n)
     update! life: life - n
   end

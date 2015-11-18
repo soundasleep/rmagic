@@ -31,3 +31,6 @@ module Rmagic
     config.paths.add "app/services", eager_load: true, glob: "*"
   end
 end
+
+local_config = File.join(File.dirname(__FILE__), "local.rb")
+require(local_config) if File.exist?(local_config)

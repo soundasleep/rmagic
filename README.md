@@ -23,7 +23,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Basic multiplayer interface with OAuth2 login
 * Javascript REST-driven to enable a rich user experience
 * Card graphics
-* Flying, reach
+* Flying, reach, lifelink
 * Games can end, be won, be lost, be drawn
 * After a period of inactivity, passes can be requested
 
