@@ -2,12 +2,12 @@ require "game_helper"
 
 RSpec.describe Library::AjanisSunstriker, type: :card do
   let(:duel) { create_game }
-  let(:card) { player1.battlefield.select { |c| c.card.card_type.is_creature? }.first }
+  let(:card) { player1.battlefield_creatures.first }
   let(:attacker) { available_attackers.first }
   let(:defenders) { action_finder.defendable_cards(player2) }
 
   before :each do
-    create_card duel.player1.battlefield, Library::AjanisSunstriker
+    create_card player1.battlefield, Library::AjanisSunstriker
   end
 
   context "our card" do
@@ -77,9 +77,61 @@ RSpec.describe Library::AjanisSunstriker, type: :card do
               expect(player2.life).to eq(18)
             end
           end
-        end
 
-        # TODO when it is blocked by a creature
+          context "when there is a creature to block" do
+            before { create_card player2.battlefield, Library::AjanisSunstriker }
+
+            it "we have one available defender" do
+              expect(defenders.length).to eq(1)
+            end
+
+            it "player 1's graveyard is empty" do
+              expect(player1.graveyard).to be_empty
+            end
+
+            it "player 2's graveyard is empty" do
+              expect(player2.graveyard).to be_empty
+            end
+
+            let(:defender) { defenders.first }
+
+            context "and the creature declares as a defender" do
+              before { defender.declare duel }
+
+              context "after passing priority" do
+                before { pass_priority }
+
+                it "is player 1's turn" do
+                  expect(duel.priority_player).to eq(player1)
+                end
+
+                it "we have 22 life" do
+                  expect(player1.life).to eq(22)
+                end
+
+                it "player 2 has 22 life" do
+                  expect(player2.life).to eq(22)
+                end
+
+                it "player 1 has no creatures" do
+                  expect(player1.battlefield_creatures).to be_empty
+                end
+
+                it "player 2 has no creatures" do
+                  expect(player2.battlefield_creatures).to be_empty
+                end
+
+                it "player 1's graveyard is not empty" do
+                  expect(player1.graveyard).to_not be_empty
+                end
+
+                it "player 2's graveyard is not empty" do
+                  expect(player2.graveyard).to_not be_empty
+                end
+              end
+            end
+          end
+        end
       end
     end
   end

@@ -14,5 +14,4 @@ class Effects::TemporaryCounter < EffectType
   def self.effect_id
     1
   end
-
 end

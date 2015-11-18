@@ -55,7 +55,7 @@ class ResolveCombat
       end
 
       if attacker.card.tags.include? "lifelink"
-        apply_lifelink(attacker)
+        apply_lifelink(attacker.card)
       end
     end
 
@@ -66,6 +66,10 @@ class ResolveCombat
 
       # any overkill damage is ignored
       apply_damage_to action, damage, defender.target
+
+      if defender.source.card.tags.include? "lifelink"
+        apply_lifelink(defender.source.card)
+      end
     end
 
     def apply_attack_damages
@@ -80,11 +84,9 @@ class ResolveCombat
       end
     end
 
-    def apply_lifelink(attacker)
-      life = attacker.card.power
-
+    def apply_lifelink(card)
       # TODO rename to gain_life!
-      attacker.card.controller.add_life! life
+      card.controller.add_life! card.power
 
       # TODO it would be nice to get rid of this one day
       duel.reload
