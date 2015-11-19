@@ -45,7 +45,7 @@ class Card < ActiveRecord::Base
     end
   end
 
-  delegate :action_text, to: :card_type
+  delegate :name, :action_text, to: :card_type
 
   def attached_to?
     attached_to_id?

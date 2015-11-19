@@ -1,6 +1,6 @@
 Feature: Ajani's Sunstriker
   Scenario: We attack with an Ajani's Sunstriker
-    Given we have one "Ajani's Sunstriker" on the battlefield
+    Given we add one "Ajani's Sunstriker" to our battlefield
     And it is the attack phase
     And we have 20 life
     And our opponent has 20 life
@@ -14,8 +14,8 @@ Feature: Ajani's Sunstriker
     And we have 22 life
 
   Scenario: When two Ajani's Sunstrikers attack and block each other
-    Given we have one "Ajani's Sunstriker" on the battlefield
-    And our opponent has one "Ajani's Sunstriker" on the battlefield
+    Given we add one "Ajani's Sunstriker" to our battlefield
+    And our opponent adds one "Ajani's Sunstriker" to their battlefield
 
     And it is the attack phase
     And we have 20 life
