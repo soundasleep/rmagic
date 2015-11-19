@@ -2,11 +2,11 @@ Given(/^we have a game$/) do
   expect(duel).to_not be_nil
 end
 
-Given(/^it is the attack phase$/) do
-  step "And it is the attacking phase"
+When(/^it is the attack phase$/) do
+  duel.attacking_phase!
 end
 
-Given(/^it is the ([^ ]+ing) phase$/) do |phase|
+When(/^it is the ([^ ]+ing) phase$/) do |phase|
   duel.send("#{phase}_phase!")
 end
 

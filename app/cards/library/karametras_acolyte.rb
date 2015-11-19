@@ -40,7 +40,7 @@ class Library::KarametrasAcolyte < CardType
   def actions_for_ability
     TextualActions.new(
       "tap this card",
-      "add 1 green mana to the owner of this card",
+      "add our devotion to green as green mana to the owner of this card",
     )
   end
 end
