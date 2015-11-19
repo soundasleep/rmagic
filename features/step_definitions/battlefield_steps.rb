@@ -1,13 +1,28 @@
-Given(/^we add one "([^"]*)" to our battlefield$/) do |card|
-  card = Library.new.find_card(card)
-
-  game_driver.create_card player1.battlefield, card
+def string_to_i(s)
+  case s
+  when "one"
+    1
+  when "two"
+    2
+  else
+    raise "I don't know how many are in #{s}"
+  end
 end
 
-Given(/^our opponent adds one "([^"]*)" to their battlefield$/) do |card|
+Given(/^we add ([^ ]+) "([^"]*)" to our battlefield$/) do |count, card|
   card = Library.new.find_card(card)
 
-  game_driver.create_card player2.battlefield, card
+  string_to_i(count).times do
+    game_driver.create_card player1.battlefield, card
+  end
+end
+
+Given(/^our opponent adds ([^ ]+) "([^"]*)" to their battlefield$/) do |count, card|
+  card = Library.new.find_card(card)
+
+  string_to_i(count).times do
+    game_driver.create_card player2.battlefield, card
+  end
 end
 
 When(/^our opponent declares "([^"]*)" as a blocker for our "([^"]*)"$/) do |card1, card2|

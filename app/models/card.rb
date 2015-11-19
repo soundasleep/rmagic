@@ -61,6 +61,10 @@ class Card < ActiveRecord::Base
     update! is_tapped: false
   end
 
+  def tapped?
+    is_tapped
+  end
+
   def remaining_health
     toughness - damage
   end

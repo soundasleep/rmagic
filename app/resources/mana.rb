@@ -32,6 +32,10 @@ class Mana
     result
   end
 
+  def converted_cost
+    green + blue + red + white + black + colourless
+  end
+
   def add(cost)
     result = {}
     self.class.colours.each do |c|

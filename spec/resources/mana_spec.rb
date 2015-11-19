@@ -23,6 +23,28 @@ RSpec.describe Mana, type: :resource do
     end
   end
 
+  describe "#converted_cost" do
+    it "converts mana costs of one green" do
+      expect(Mana.new(green: 1).converted_cost).to eq(1)
+    end
+
+    it "converts mana costs of one green and one uncoloured" do
+      expect(Mana.new(green: 1, colourless: 1).converted_cost).to eq(2)
+    end
+
+    it "converts mana costs of one red and one green" do
+      expect(Mana.new(red: 1, green: 1).converted_cost).to eq(2)
+    end
+
+    it "converts mana costs of one red and one white" do
+      expect(Mana.new(red: 1, white: 1).converted_cost).to eq(2)
+    end
+
+    it "converts empty mana costs" do
+      expect(Mana.new().converted_cost).to eq(0)
+    end
+  end
+
   describe "#to_hash" do
     it "formats mana costs of one green" do
       expect(Mana.new(green: 1).to_hash).to eq({
