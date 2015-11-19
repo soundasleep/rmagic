@@ -1,3 +1,6 @@
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 require File.expand_path('../../../config/environment', __FILE__)
 require 'rspec/rails'
 require File.expand_path('../../../spec/game_helpers', __FILE__)
