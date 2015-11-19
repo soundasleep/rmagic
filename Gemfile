@@ -70,6 +70,8 @@ group :development, :test do
 
   # Allow time travel
   gem 'timecop'
+
+  gem 'cucumber'
 end
 
 group :test do
