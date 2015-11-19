@@ -38,17 +38,7 @@ RSpec.describe "Gang Block", type: :game do
   end
 
   it "overdefending will kill the first 2 defenders" do
-    # p "before pass"
-    # p "first defender source: #{defenders[0].source.card.damage}"
-    # p "second defender source: #{defenders[1].source.card.damage}"
-    # p "third defender source: #{defenders[2].source.card.damage}"
-
     pass_until_next_turn
-    # p "after pass"
-    # p "attacker power: #{attacker.card.power}"
-    # p "first defender source: #{defenders[0].source.card.damage}"
-    # p "second defender source: #{defenders[1].source.card.damage}"
-    # p "third defender source: #{defenders[2].source.card.damage}"
     
     expect(duel.player2.battlefield).to_not include(defenders[0].source)
     expect(duel.player2.battlefield).to_not include(defenders[1].source)
@@ -78,4 +68,5 @@ RSpec.describe "Gang Block", type: :game do
 
     expect(graveyard_actions(attacker.card).count).to eq(1)
   end
+  
 end

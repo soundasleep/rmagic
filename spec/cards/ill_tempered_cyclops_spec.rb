@@ -223,4 +223,5 @@ RSpec.describe Library::IllTemperedCyclops, type: :card do
       end
     end
   end
+  
 end
