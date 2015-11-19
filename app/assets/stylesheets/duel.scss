@@ -15,9 +15,20 @@
   .root { height: 100%; }
   .duel { height: 100%; }
   .loadingWrapper { height: 100%; }
+  .loadingWrapper:first-child { height: auto; }
 
   nav {
     display: none;
+
+    &.websocket-status {
+      // display: block;
+      background: red;
+      padding: 10px;
+
+      &.loaded {
+        display: none;
+      }
+    }
   }
 
   .duel {
