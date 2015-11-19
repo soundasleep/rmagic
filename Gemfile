@@ -37,6 +37,10 @@ gem 'activerecord-session_store'
 # Websockets magic
 gem 'websocket-rails'
 
+# Fix a bug within a websocket-rails dependency
+# https://github.com/websocket-rails/websocket-rails/issues/379
+gem 'faye-websocket', '0.10.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

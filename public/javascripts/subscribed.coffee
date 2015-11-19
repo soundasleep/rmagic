@@ -22,6 +22,8 @@ module.exports = Subscribed =
             console.log result
             obj.setState obj.possiblyFilter(result)
 
+            $(".websocket-status").addClass("loaded")
+
           if typeof window.subscribedChannels[channel] == 'undefined'
             window.subscribedChannels[channel] = []
 
