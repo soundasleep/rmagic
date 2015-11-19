@@ -24,11 +24,15 @@ class ResolveCombat
     def apply_damage_to(action, remaining_damage, battlefield)
       if remaining_damage > 0
         if remaining_damage > battlefield.card.remaining_health
-          AddDamage.new(card: battlefield.card, damage: battlefield.card.remaining_health).call
-          remaining_damage -= battlefield.card.remaining_health
+          remaining_health_before_damage = battlefield.card.remaining_health
+
+          if AddDamage.new(card: battlefield.card, damage: battlefield.card.remaining_health).call
+            remaining_damage -= remaining_health_before_damage
+          end
         else
-          AddDamage.new(card: battlefield.card, damage: remaining_damage).call
-          remaining_damage = 0
+          if AddDamage.new(card: battlefield.card, damage: remaining_damage).call
+            remaining_damage = 0
+          end
         end
 
         # link the defender

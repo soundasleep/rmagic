@@ -179,7 +179,7 @@ RSpec.describe Library::IllTemperedCyclops, type: :card do
             before do
               player2.battlefield.destroy_all
               create_card player2.battlefield, Library::ElvishMystic
-              create_card player2.battlefield, Library::Vaporkin
+              create_card player2.battlefield, Library::ReclamationSage
             end
 
             before do 
