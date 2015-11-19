@@ -222,5 +222,14 @@ RSpec.describe Library::IllTemperedCyclops, type: :card do
         end
       end
     end
+
+    context "is not monstrous" do
+      let(:activate_monstrous) { AbilityAction.new(source: card, key: "ability") }
+      context "player has 6 untapped red sources " do
+        before { 6.times { create_card player1.battlefield, Library::Mountain } }
+
+
+      end
+    end
   end
 end
