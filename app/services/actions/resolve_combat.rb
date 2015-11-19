@@ -45,10 +45,11 @@ class ResolveCombat
       action = ActionLog.attack_card_action(duel, attacker.player, attacker)
 
       declared_defenders(attacker).each do |d|
-        apply_damage_to action, remaining_damage, d.source
+        remaining_damage = apply_damage_to action, remaining_damage, d.source
         # chump blocking
-        remaining_damage = 0
       end
+
+      remaining_damage = 0 if declared_defenders(attacker).any?
 
       if remaining_damage > 0
         attacker.target_player.remove_life! remaining_damage
@@ -58,8 +59,8 @@ class ResolveCombat
         apply_lifelink(attacker.card)
       end
 
-      if attacker.card.tags.include? "trample"
-        apply_trample(attacker.card)
+      if attacker.card.tags.include?("trample") && declared_defenders(attacker).any?
+        apply_trample(attacker)
       end
     end
 
@@ -97,7 +98,11 @@ class ResolveCombat
     end
 
     def apply_trample(attacker)
-      defenders = declared_defenders(attacker)
+      total_toughness = declared_defenders(attacker).map{ |defender| defender.source.card.toughness}.inject(:+)
+
+      trample_over_damage = attacker.card.power - total_toughness
+
+      attacker.target_player.remove_life! trample_over_damage if trample_over_damage > 0
     end
 
     def declared_defenders(attacker)
