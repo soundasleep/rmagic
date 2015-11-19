@@ -135,4 +135,5 @@ RSpec.describe Library::AjanisSunstriker, type: :card do
       end
     end
   end
+  
 end

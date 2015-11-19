@@ -50,4 +50,5 @@ RSpec.describe "Defending Groups", type: :game do
 
     expect(graveyard_actions(attacker.card).count).to eq(1)
   end
+  
 end
