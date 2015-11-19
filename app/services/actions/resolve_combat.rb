@@ -44,7 +44,7 @@ class ResolveCombat
 
       action = ActionLog.attack_card_action(duel, attacker.player, attacker)
 
-      duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
+      declared_defenders(attacker).each do |d|
         apply_damage_to action, remaining_damage, d.source
         # chump blocking
         remaining_damage = 0
@@ -56,6 +56,10 @@ class ResolveCombat
 
       if attacker.card.tags.include? "lifelink"
         apply_lifelink(attacker.card)
+      end
+
+      if attacker.card.tags.include? "trample"
+        apply_trample(attacker.card)
       end
     end
 
@@ -90,6 +94,14 @@ class ResolveCombat
 
       # TODO it would be nice to get rid of this one day
       duel.reload
+    end
+
+    def apply_trample(attacker)
+      defenders = declared_defenders(attacker)
+    end
+
+    def declared_defenders(attacker)
+      duel.declared_defenders.select { |d| d.target == attacker }
     end
 
 end
