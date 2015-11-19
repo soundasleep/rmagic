@@ -1,6 +1,8 @@
 React = require("react")
+Subscribed = require("../subscribed")
+API = require("../api")
 
-module.exports = React.createClass
+module.exports = Header = React.createClass
   render: ->
-    `<nav>Rmagic web interface</nav>`
+    `<nav className="websocket-status">Rmagic web interface connecting to websocket...</nav>`
 

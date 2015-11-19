@@ -80,6 +80,14 @@ We try to use as few model objects as possible.
 
 ## Development
 
+When developing, you'll want three terminals running each of:
+
+* `rails server` - to catch changes in the Rails app
+* `grunt serve` - to catch changes in the React app
+* `guard` - to enable [LiveReload](https://mattbrictson.com/lightning-fast-sass-reloading-in-rails)
+
+### Ubuntu
+
 [Install MySQL as necessary](https://www.digitalocean.com/community/tutorials/how-to-use-mysql-with-your-ruby-on-rails-application-on-ubuntu-14-04) before running `bundle`:
 
 ```
@@ -89,11 +97,9 @@ sudo mysql_install_d
 sudo mysql_secure_installation
 ```
 
-When developing, you'll want three terminals running each of:
+### Mac OS X
 
-* `rails server` - to catch changes in the Rails app
-* `grunt serve` - to catch changes in the React app
-* `guard` - to enable [LiveReload](https://mattbrictson.com/lightning-fast-sass-reloading-in-rails)
+If running El Capitan, you may need to `brew link openssl --force`.
 
 ## Deployment
 
@@ -105,10 +111,10 @@ When developing, you'll want three terminals running each of:
 
 If using a user `deploy`, you can deploy [with Capistrano](https://www.digitalocean.com/community/tutorials/deploying-a-rails-app-on-ubuntu-14-04-with-capistrano-nginx-and-puma) by running `cap production deploy`.
 
-Edit `/env/environment` to set up your environment variables.
+Edit `/env/environment` or `.env` to set up your environment variables.
 Make sure to run `cap puma:stop` and `cap puma:start` for Puma to pick up updated environment.
 
-### Sample `/env/environment`
+### Sample `/env/environment` or `.env`
 
 ```
 MYSQL_USERNAME="xxx"
@@ -121,7 +127,7 @@ APPLICATION_CONFIG_SECRET_TOKEN="abc123"
 WEBSOCKET_LOCATION="your.host:3001/websocket"
 ```
 
-* [Google OAuth2 parameters](http://www.jevon.org/wiki/Google_OAuth2_with_Ruby_on_Rails)
+* For `OAUTH_CLIENT_*` variables, get these from your [Google OAuth2 parameters](http://www.jevon.org/wiki/Google_OAuth2_with_Ruby_on_Rails) (step 5)
 
 ## Tests
 
