@@ -1,0 +1,29 @@
+.interface {
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 2.5%;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+
+  position: absolute;
+  min-width: 90%;
+  min-height: 50%;
+  z-index: 100;
+
+  &.mulligan {
+    form {
+      display: inline-block;
+
+      input[type=button] {
+        font-size: 150%;
+        margin: 0 5px;
+      }
+    }
+  }
+
+  &.not-displayed {
+    display: none;
+  }
+}

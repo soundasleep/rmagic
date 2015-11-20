@@ -90,6 +90,14 @@ class PlayerController < ApplicationController
     end
   end
 
+  def ping
+    RequestPing.new(duel: duel, player: player).call
+
+    respond_to do |format|
+      format.json { render :json => {success: true} }
+    end
+  end
+
   private
 
     def duel

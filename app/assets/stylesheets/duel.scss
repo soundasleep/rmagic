@@ -21,7 +21,7 @@
     display: none;
 
     &.websocket-status {
-      // display: block;
+      display: block;
       background: red;
       padding: 10px;
 
@@ -51,6 +51,7 @@
     @import "duel-logs";
     @import "duel-cards";
     @import "duel-stack";
+    @import "duel-interface";
 
   }
 }

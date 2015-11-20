@@ -9,6 +9,8 @@ Actions = require("./actions")
 ActionLog = require("./action_log")
 Stack = require("./duel/stack")
 
+MulliganInterface = require("./interface/mulligan")
+
 module.exports = Duel = Subscribed.createClass
   propTypes:
     duel: React.PropTypes.number
@@ -38,6 +40,7 @@ module.exports = Duel = Subscribed.createClass
       request_pass = `<RequestPass duel={this.state.id} player={this.props.player} {...this.state} />`
 
     `<div className="duel">
+      <MulliganInterface {...this.state} duel={this.state.id} player={this.state.player1_id} />
       <div className="duel-boards">
         <div className={player2classes}>
           <Player duel={this.state.id} player={this.state.player2_id} />

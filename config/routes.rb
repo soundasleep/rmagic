@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         post 'game_action'
         post 'declare_attackers'
         post 'request_pass'
+        post 'ping'
 
         # TODO resource :deck, only: [ :show ]
       end
@@ -47,5 +48,6 @@ Rails.application.routes.draw do
   get "/auth/google_login/callback" => "sessions#create"
   get "/logout" => "sessions#destroy", :as => :logout
 
-  get 'sessions/new', :as => :login
+  get "sessions/new", :as => :login
+  post "sessions/emulated_login"
 end
