@@ -3,7 +3,7 @@ rmagic [![Build Status](https://travis-ci.org/soundasleep/rmagic.svg?branch=mast
 
 *rmagic* is a Ruby on Rails implementation of Magic the Gathering.
 
-The engine barely supports anything at the moment, but it's a start.
+The engine supports [only a few cards so far](app/cards/library/), but it's a start.
 
 ## Features
 
