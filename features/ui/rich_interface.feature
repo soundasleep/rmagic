@@ -5,6 +5,7 @@ Feature: A gorgeous web interface
     Then I should see "Logged in as"
     And I should see "Log out"
 
+  @broken-on-travis
   @javascript
   Scenario: Creating a new duel with premade decks loads the rich web interface
     When I log in
@@ -17,6 +18,7 @@ Feature: A gorgeous web interface
     And I should see "20 life"
     And I should see "AI"
 
+  @broken-on-travis
   @javascript
   Scenario: The web interface uses websockets and pings to make sure the connection is working
     When I log in
@@ -24,6 +26,7 @@ Feature: A gorgeous web interface
     And I wait until I no longer see "connecting to websocket..."
     Then I should not see "connecting to websocket..."
 
+  @broken-on-travis
   @javascript
   Scenario: I can start a new game with the rich web interface
     When I log in

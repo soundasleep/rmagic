@@ -1,4 +1,5 @@
 Feature: The web interface helps us through the mulligan concept
+  @broken-on-travis
   @javascript
   Scenario: We can mulligan using yes/no buttons
     When I log in
