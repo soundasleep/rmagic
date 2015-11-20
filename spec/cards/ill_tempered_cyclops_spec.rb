@@ -222,6 +222,73 @@ RSpec.describe Library::IllTemperedCyclops, type: :card do
         end
       end
     end
+
+    context "is not monstrous" do
+      let(:card) { player1.battlefield.select { |c| c.card.card_type.actions.include?("ability") }.first }
+      let(:activate_monstrous) { AbilityAction.new(source: card, key: "ability") }
+
+      it "the card is 3 power 3 toughness" do
+        expect(card.card.power).to eq 3
+        expect(card.card.toughness).to eq 3
+      end
+
+      context "player has 6 untapped red sources " do
+        before do
+          6.times { create_card player1.battlefield, Library::Mountain }
+          duel.playing_phase!
+          tap_all_lands
+        end
+
+        it "can be made monstrous" do
+          expect(card.card.has_tag?('monstrous')).to be false
+        end
+
+        context "when activated" do
+          before do 
+            activate_monstrous.do(duel)
+            # pass_priority # TODO
+          end
+
+          it "the card is now monstrous" do
+            expect(card.card.has_tag?('monstrous')).to be true
+          end
+
+          it "the card is now 6 power 6 toughness" do
+            expect(card.card.power).to eq 6
+            expect(card.card.toughness).to eq 6
+          end
+        end
+      end
+    end
+
+    context "is monstrous" do
+      let(:card) { player1.battlefield.select { |c| c.card.card_type.actions.include?("ability") }.first }
+      let(:activate_monstrous) { AbilityAction.new(source: card, key: "ability") }
+      
+      context "player has 6 untapped red sources " do
+        before do
+          12.times { create_card player1.battlefield, Library::Mountain }
+          duel.playing_phase!
+          tap_all_lands
+          activate_monstrous.do(duel) 
+        end
+
+        it "the card is 6 power 6 toughness" do
+          expect(card.card.power).to eq 6
+          expect(card.card.toughness).to eq 6
+        end
+
+        it "can not be made monstrous" do
+          expect(card.card.has_tag?('monstrous')).to be true
+        end
+
+        context "when activated a second time" do
+          it "the card is already monstrous" do
+            expect(activate_monstrous.can_do?(duel)).to be false
+          end
+        end
+      end
+    end
   end
   
 end

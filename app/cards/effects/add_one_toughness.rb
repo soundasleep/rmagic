@@ -14,4 +14,5 @@ class Effects::AddOneToughness < EffectType
   def until_end_of_turn?
     false
   end
+
 end
