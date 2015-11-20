@@ -50,7 +50,7 @@ RSpec.describe Library::AjanisSunstriker, type: :card do
         context "after passing priority" do
           before { pass_priority }
 
-          it "is player 2's turn" do
+          it "is player 2's priority" do
             expect(duel.priority_player).to eq(player2)
           end
 
@@ -135,4 +135,5 @@ RSpec.describe Library::AjanisSunstriker, type: :card do
       end
     end
   end
+  
 end

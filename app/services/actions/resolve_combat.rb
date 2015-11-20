@@ -24,10 +24,14 @@ class ResolveCombat
     def apply_damage_to(action, remaining_damage, battlefield)
       if remaining_damage > 0
         if remaining_damage > battlefield.card.remaining_health
+          remaining_health_before_damage = battlefield.card.remaining_health
+
           AddDamage.new(card: battlefield.card, damage: battlefield.card.remaining_health).call
-          remaining_damage -= battlefield.card.remaining_health
+          
+          remaining_damage -= remaining_health_before_damage
         else
           AddDamage.new(card: battlefield.card, damage: remaining_damage).call
+          
           remaining_damage = 0
         end
 
@@ -44,11 +48,12 @@ class ResolveCombat
 
       action = ActionLog.attack_card_action(duel, attacker.player, attacker)
 
-      duel.declared_defenders.select { |d| d.target == attacker }.each do |d|
-        apply_damage_to action, remaining_damage, d.source
+      declared_defenders(attacker).each do |d|
+        remaining_damage = apply_damage_to action, remaining_damage, d.source
         # chump blocking
-        remaining_damage = 0
       end
+
+      remaining_damage = 0 if declared_defenders(attacker).any?
 
       if remaining_damage > 0
         attacker.target_player.remove_life! remaining_damage
@@ -56,6 +61,10 @@ class ResolveCombat
 
       if attacker.card.tags.include? "lifelink"
         apply_lifelink(attacker.card)
+      end
+
+      if attacker.card.tags.include?("trample") && declared_defenders(attacker).any?
+        apply_trample(attacker)
       end
     end
 
@@ -90,6 +99,18 @@ class ResolveCombat
 
       # TODO it would be nice to get rid of this one day
       duel.reload
+    end
+
+    def apply_trample(attacker)
+      total_toughness = declared_defenders(attacker).map{ |defender| defender.source.card.toughness}.inject(:+)
+
+      trample_over_damage = attacker.card.power - total_toughness
+
+      attacker.target_player.remove_life! trample_over_damage if trample_over_damage > 0
+    end
+
+    def declared_defenders(attacker)
+      duel.declared_defenders.select { |d| d.target == attacker }
     end
 
 end

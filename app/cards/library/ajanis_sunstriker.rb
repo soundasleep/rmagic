@@ -24,5 +24,5 @@ class Library::AjanisSunstriker < CardType
   def tags
     super << "lifelink"
   end
-
+  
 end
