@@ -10,6 +10,29 @@ class SessionsController < ApplicationController
       :expires => auth["credentials"]["expires_at"],
       :name => auth["info"]["name"],
     )
+
+    do_login user
+  end
+
+  def destroy
+    session[:user_id] = nil
+    redirect_to root_url, :notice => "Signed out!"
+  end
+
+  def emulated_login
+    user = User.create!
+    do_login user
+  end
+
+  helper_method :can_emulate_oauth2?
+
+  private
+
+  def can_emulate_oauth2?
+    Rails.env.test? || Rails.env.development?
+  end
+
+  def do_login(user)
     url = session[:return_to] || root_path
     session[:return_to] = nil
     url = root_path if url.eql?('/logout')
@@ -22,10 +45,5 @@ class SessionsController < ApplicationController
     else
       raise "Failed to login"
     end
-  end
-
-  def destroy
-    session[:user_id] = nil
-    redirect_to root_url, :notice => "Signed out!"
   end
 end

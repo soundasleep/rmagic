@@ -75,7 +75,10 @@ group :development, :test do
   # Allow time travel
   gem 'timecop'
 
+  # Features and webtesting
   gem 'cucumber'
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 group :test do
