@@ -7,7 +7,7 @@ The engine barely supports anything at the moment, but it's a start.
 
 ## Features
 
-* [Lots of tests](spec/games/) and [cucumber features](features/)
+* [Lots of tests](spec/games/) and [cucumber features](features/) and [Capybara](features/ui/)
 * (Hopefully) amazingly clean code
 * Declare attackers and defenders
 * Tapping cards for mana
@@ -23,7 +23,7 @@ The engine barely supports anything at the moment, but it's a start.
 * Basic multiplayer interface with OAuth2 login
 * Javascript REST-driven to enable a rich user experience
 * Card graphics
-* Flying, reach, lifelink
+* Flying, reach, devotion, lifelink, trample, monstrous
 * Games can end, be won, be lost, be drawn
 * After a period of inactivity, passes can be requested
 
@@ -41,10 +41,10 @@ We try to use as few model objects as possible.
 
 ## TODO
 
+* Activated abilities actually go on the stack
 * Support more game phases correctly
 * Summoning sickness for activated abilities
 * Sorceries
-* Tests for controllers
 * Display counters on cards on web interface
 * Token creatures
 * Look at [bullet](https://github.com/flyerhzm/bullet) or [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) to improve game performance
@@ -55,11 +55,10 @@ We try to use as few model objects as possible.
 
 * Supports [Fate vs Fury](http://sales.starcitygames.com/carddisplay.php?product=695013) deck
 * Scry
-* Distribute damage
+* User-assigned damage distribution
 * Search through library
 * Discard a card
 * Maximum hand size
-* Devotion
 * Event triggers
 
 ## Later goals
