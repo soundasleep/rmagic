@@ -1,4 +1,6 @@
 class Library
+  class NoSuchCardError < StandardError; end
+
   def card_types
     @card_types ||= load_card_types
   end
@@ -16,6 +18,13 @@ class Library
     fail("Found duplicate card type ID #{duplicates(cards)}") if duplicates(cards)
 
     Hash[cards.map { |card| [card.metaverse_id, card] }]
+  end
+
+  def find_card(name)
+    card_types.values.each do |card_type|
+      return card_type if card_type.new.name == name
+    end
+    raise NoSuchCardError, "Could not find any card called '#{name}'"
   end
 
   def effect_types

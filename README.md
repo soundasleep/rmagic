@@ -7,7 +7,7 @@ The engine barely supports anything at the moment, but it's a start.
 
 ## Features
 
-* [Lots of tests](spec/games/)
+* [Lots of tests](spec/games/) and [cucumber features](features/)
 * (Hopefully) amazingly clean code
 * Declare attackers and defenders
 * Tapping cards for mana
@@ -45,8 +45,6 @@ We try to use as few model objects as possible.
 * Summoning sickness for activated abilities
 * Sorceries
 * Tests for controllers
-* Look into Cucumber or Capybara for integration testing
-* Deployed onto a VPS somewhere using Capistrano
 * Display counters on cards on web interface
 * Token creatures
 * Look at [bullet](https://github.com/flyerhzm/bullet) or [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) to improve game performance

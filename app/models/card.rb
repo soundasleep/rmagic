@@ -45,7 +45,7 @@ class Card < ActiveRecord::Base
     end
   end
 
-  delegate :action_text, to: :card_type
+  delegate :name, :action_text, to: :card_type
 
   def attached_to?
     attached_to_id?
@@ -59,6 +59,10 @@ class Card < ActiveRecord::Base
   def untap_card!
     fail "card is already untapped" if !is_tapped?
     update! is_tapped: false
+  end
+
+  def tapped?
+    is_tapped
   end
 
   def remaining_health

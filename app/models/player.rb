@@ -78,6 +78,10 @@ class Player < ActiveRecord::Base
     update! life: life - n
   end
 
+  def devotion
+    Devotion.new(self).call
+  end
+
   def battlefield_creatures
     select_creatures battlefield
   end
