@@ -130,4 +130,5 @@ WEBSOCKET_LOCATION="your.host:3001/websocket"
 
 ```
 rake spec
+cucumber
 ```
