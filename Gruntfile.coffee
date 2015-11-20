@@ -63,8 +63,10 @@ module.exports = (grunt) ->
     'browserify',
     'spritify'
   ]
+  grunt.registerTask 'build', ['default']
 
   grunt.registerTask 'serve', [
     'default',
     'watch'
   ]
+  grunt.registerTask 's', ['serve']
